@@ -5,7 +5,7 @@ ALSound is an audio library designed to provide an easy way to play, capture and
 It is based on OpenAL-Soft and Libsndfile.
 OpenAL-Soft is an improved software implementation of OpenAL, actively maintained by Christopher Robinson (https://github.com/kcat/openal-soft).
 LibSndFile is a C library for reading and writing audio files (https://github.com/libsndfile/libsndfile).
-You hardly have to know these libraries to use ALSound
+You hardly have to know these libraries to use ALSound.
 
 ALSound is also compatible with old version of OpenAL but advanced features may not work.
 If a feature is not available, the requested action is simply ignored and in some cases, an error message is returned (like the design of OpenAL).
@@ -24,7 +24,7 @@ Contents
 
 'example' -> contains some examples to show how to integrate ALSound in your FreePascal/Lazarus programs.
 
-'docs' -> contains a copy of OpenAL documentation, Effect Extension Guide,
+'docs' -> In progress. Contains also a copy of OpenAL documentation.
 
 'binary' -> contains sub-folder for each actual supported platforms. The compiled binaries of OpenAL-Soft and LibSndFile are provided for Windows and Linux both i386 and x86-64 and can be found in their respective sub-folder. If you prefers to compile these libraries by yourself, please go to their respective github repository and follow the guideline.
 After compilation, all example's executables are placed in the appropriate sub-folder by Lazarus.
