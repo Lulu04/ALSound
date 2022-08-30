@@ -1,0 +1,102 @@
+object Form2: TForm2
+  Left = 317
+  Height = 187
+  Top = 127
+  Width = 501
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Playback'
+  ClientHeight = 187
+  ClientWidth = 501
+  Color = 11590399
+  Font.Height = 20
+  Position = poMainFormCenter
+  LCLVersion = '2.0.12.0'
+  object Shape1: TShape
+    Left = 0
+    Height = 187
+    Top = 0
+    Width = 501
+    Align = alClient
+    Brush.Style = bsClear
+    Pen.Color = 16505
+    Pen.Width = 5
+  end
+  object Label1: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 20
+    Height = 20
+    Top = 20
+    Width = 461
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    BorderSpacing.Right = 20
+    Caption = 'filename'
+    ParentColor = False
+    WordWrap = True
+  end
+  object ProgressBar1: TProgressBar
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Label2
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 30
+    Height = 18
+    Top = 80
+    Width = 441
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 30
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 30
+    Step = 1
+    TabOrder = 0
+  end
+  object SpeedButton1: TSpeedButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = ProgressBar1
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Cursor = crHandPoint
+    Left = 167
+    Height = 29
+    Top = 138
+    Width = 166
+    Anchors = [akLeft, akBottom]
+    BorderSpacing.Top = 30
+    BorderSpacing.Bottom = 20
+    Caption = 'CLOSE'
+    OnClick = SpeedButton1Click
+  end
+  object Label2: TLabel
+    AnchorSideLeft.Control = Label1
+    AnchorSideTop.Control = Label1
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Label1
+    AnchorSideRight.Side = asrBottom
+    Left = 20
+    Height = 20
+    Top = 50
+    Width = 461
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    Caption = 'infos'
+    ParentColor = False
+    WordWrap = True
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = Timer1Timer
+    Left = 384
+    Top = 112
+  end
+end

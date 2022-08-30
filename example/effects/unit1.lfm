@@ -1,0 +1,1976 @@
+object Form1: TForm1
+  Left = 211
+  Height = 770
+  Top = 85
+  Width = 1039
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'ALSound  -  Effects in parallel on auxiliary send demo'
+  ClientHeight = 770
+  ClientWidth = 1039
+  Color = 14807551
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '2.0.12.0'
+  object Panel4: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Panel6
+    AnchorSideRight.Side = asrBottom
+    Left = 0
+    Height = 512
+    Top = 0
+    Width = 752
+    ClientHeight = 512
+    ClientWidth = 752
+    Color = 13034495
+    ParentColor = False
+    TabOrder = 0
+    object Label11: TLabel
+      AnchorSideLeft.Control = Panel4
+      AnchorSideTop.Control = BLoad
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = BLoad
+      Left = 11
+      Height = 15
+      Top = 7
+      Width = 658
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      BorderSpacing.Left = 10
+      Caption = 'PLEASE, LOAD A SOUND  >>>>>>>>>>>>>>>>>>>>>>>>>>'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label15: TLabel
+      AnchorSideLeft.Control = Panel4
+      AnchorSideTop.Control = Label11
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = BLoad
+      Left = 11
+      Height = 15
+      Top = 22
+      Width = 658
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      BorderSpacing.Left = 10
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label17: TLabel
+      AnchorSideLeft.Control = Panel4
+      AnchorSideTop.Control = Label15
+      AnchorSideTop.Side = asrBottom
+      Left = 11
+      Height = 15
+      Top = 37
+      Width = 1016
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = False
+      BorderSpacing.Left = 10
+      ParentColor = False
+      ParentFont = False
+    end
+    object BLoad: TBitBtn
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel4
+      AnchorSideRight.Control = Panel4
+      AnchorSideRight.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 669
+      Height = 26
+      Top = 1
+      Width = 77
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Right = 5
+      Caption = 'LOAD'
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        20000000000000040000640000006400000000000000000000002C86D8D12D88
+        D8F72D87D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88D8F72D88
+        D8F72D88D8F72D87D8F72D88D8F72C86D8D1FFFFFF00FFFFFF00338ED9FBDCF0
+        FAFF98E1F6FF95E0F6FF92DFF6FF8EDEF5FF89DCF5FF85DAF4FF80D9F4FF7AD7
+        F3FF74D5F3FF70D3F2FFC2EAF8FF3594DAFFFFFFFF00FFFFFF003594DAF7EFFA
+        FEFF93E5F8FF8FE4F8FF89E3F8FF82E1F7FF7ADFF7FF71DEF6FF67DBF5FF5BD8
+        F4FF4DD4F3FF40D1F2FFCAF2FBFF3594DAFFFFFFFF00FFFFFF00369ADAF8F2FA
+        FDFF94E6F8FF92E5F8FF90E5F8FF8BE3F8FF86E2F7FF7FE1F7FF77DEF6FF6CDC
+        F6FF5ED9F4FF4FD5F3FFCCF2FBFF3594DAFFFFFFFF00FFFFFF0036A1DAF9F6FC
+        FEFF94E5F8FF93E5F8FF93E5F8FF91E5F8FF93DBE9FF93D7E3FF93D2DCFF90CE
+        D7FF8CC8CFFF86C1C6FFC9D8D6FF3594DAFFC57444E8CA7F53F137A6DAFAFEFF
+        FFFFF8FDFFFFF6FDFFFFF5FCFFFFF3FCFEFF9AE4F4FF9AE6F7FF9BE6F6FF9DE5
+        F5FF9EE5F5FF9FE5F4FFDAF3F8FF3594DAFFFDF4EEFFCA8054F935ABDAFAE8F6
+        FBFF70BCE7FF55AAE2FF4DA5E0FF91C9EBFFFAF3EFFFFDFEFDFFFFFDFCFFFFFD
+        FCFFFEFDFCFFFEFCFBFFFEFEFDFF3594DAFFEFF2E8FFCE8156FF36AADAF2F1FA
+        FDFF94DEF5FF93DCF4FF64BCE9FF3594DAFF3594DAFF3594DAFF3594DAFF3594
+        DAFF3594DAFF3594DAFF3594DAFF3594DAFFFBF6EFFFCC8355FE35AFDAF0F7FC
+        FEFF8EE4F8FF91DEF5FF9FE0F5FFACE1F6FFCA8452FFFFF7F1FFFFE9D9FFFFEA
+        DBFFFFE9D9FFFFE7D7FFFFE5D2FFFFE2CBFFFFF7F1FFCB8555FE36B3DAF8FDFE
+        FEFFFEFFFFFFFEFEFFFFFDFEFFFFFEFFFFFFE4BA91FFFFF7F0FFFFE7D5FFFDE7
+        D6FFFDE6D4FFFCE4D0FFFBE3CBFFFADCC2FFFEF3E8FFCC8656FE34B4D9D05EC2
+        E1FA60C3E2FA60C3E2FA60C3E2FA5FC3E2FAE4BB91FFFFF7F2FFFEE7D5FFFEE7
+        D5FFFDE5D1FFFAE0CAFFF9DEC4FFF7D9BCFFFDF2E7FFCC8757FEFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00E4BB92FFFEF7F1FFFCE5D2FFFCE4
+        D1FFFBE2CCFFF9DDC4FFF6D7BBFFF3D1AFFFFAEFE4FFCC8758FEFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00E4BB92FFFEF6F0FFFCE2CDFFFCE3
+        CDFFFADFC8FFF7D9BCFFF5E9DDFFFAF3EBFFFBF8F3FFCA8353FEFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00E4BB93FFFEF5EDFFFCDEC5FFFBE0
+        C7FFF9DCC2FFF5D3B4FFFEF9F3FFFAE2C4FFECC193FFC37D4893FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00E5BE96FFFFFFFEFFFDF3E9FFFDF3
+        EAFFFCF2E8FFFAEFE3FFFAF2E7FFEABB88FFCF8555B3B4693D0CFFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00EAC39DFFE6BF96FFE4BB92FFE4BB
+        92FFD1A06CF5D09E6DF6CC965FDAC479427EB2673C09FFFFFF00
+      }
+      OnClick = BLoadClick
+      ParentFont = False
+      TabOrder = 0
+    end
+    object Label4: TLabel
+      AnchorSideLeft.Control = Label17
+      AnchorSideTop.Control = Label17
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = Panel1
+      Left = 11
+      Height = 15
+      Top = 52
+      Width = 35
+      Caption = 'State : '
+      Font.Color = clBlack
+      ParentColor = False
+      ParentFont = False
+    end
+    object CheckBox1: TCheckBox
+      AnchorSideLeft.Control = Label11
+      AnchorSideBottom.Control = BPlay
+      AnchorSideBottom.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 11
+      Height = 19
+      Top = 89
+      Width = 47
+      Anchors = [akLeft, akBottom]
+      Caption = 'Loop'
+      Color = 11448755
+      Font.Style = [fsBold]
+      OnChange = CheckBox1Change
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 1
+    end
+    object BPlay: TSpeedButton
+      AnchorSideLeft.Control = CheckBox1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = BPause
+      AnchorSideTop.Side = asrCenter
+      Cursor = crHandPoint
+      Left = 98
+      Height = 36
+      Top = 72
+      Width = 36
+      AutoSize = True
+      BorderSpacing.Left = 40
+      Images = ImageList1
+      ImageIndex = 1
+      OnClick = BPlayClick
+      ParentFont = False
+    end
+    object BPause: TSpeedButton
+      AnchorSideLeft.Control = BPlay
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Label4
+      AnchorSideTop.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 154
+      Height = 36
+      Top = 72
+      Width = 36
+      AutoSize = True
+      BorderSpacing.Left = 20
+      BorderSpacing.Top = 5
+      Images = ImageList1
+      ImageIndex = 2
+      OnClick = BPauseClick
+      ParentFont = False
+    end
+    object BStop: TSpeedButton
+      AnchorSideLeft.Control = BPause
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = BPause
+      AnchorSideTop.Side = asrCenter
+      Cursor = crHandPoint
+      Left = 210
+      Height = 36
+      Top = 72
+      Width = 36
+      AutoSize = True
+      BorderSpacing.Left = 20
+      Images = ImageList1
+      ImageIndex = 0
+      OnClick = BStopClick
+      ParentFont = False
+    end
+    object TBTone: TTrackBar
+      AnchorSideLeft.Control = BMute
+      AnchorSideTop.Control = ProgressBar1
+      AnchorSideRight.Control = BMute
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 416
+      Height = 29
+      Top = 308
+      Width = 198
+      Max = 100
+      OnChange = TBToneChange
+      Position = 50
+      ShowSelRange = False
+      TickStyle = tsNone
+      Anchors = [akTop]
+      BorderSpacing.Left = 5
+      TabOrder = 2
+    end
+    object Label19: TLabel
+      AnchorSideLeft.Control = TBTone
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideBottom.Control = TBTone
+      Left = 500
+      Height = 15
+      Top = 293
+      Width = 31
+      Anchors = [akLeft, akBottom]
+      Caption = 'TONE'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object CheckBox8: TCheckBox
+      AnchorSideLeft.Control = TBTone
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = TBTone
+      AnchorSideTop.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 448
+      Height = 19
+      Top = 337
+      Width = 135
+      Caption = 'Apply tone on effect'
+      Checked = True
+      Font.Style = [fsBold]
+      OnChange = CheckBox8Change
+      ParentFont = False
+      State = cbChecked
+      TabOrder = 3
+    end
+    object Label2: TLabel
+      AnchorSideLeft.Control = Panel4
+      AnchorSideTop.Control = TBVolume
+      AnchorSideTop.Side = asrCenter
+      Left = 6
+      Height = 15
+      Top = 127
+      Width = 40
+      BorderSpacing.Left = 5
+      Caption = 'Volume'
+      Font.Color = clBlack
+      ParentColor = False
+      ParentFont = False
+    end
+    object TBVolume: TTrackBar
+      AnchorSideTop.Control = BPause
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = BStop
+      AnchorSideRight.Side = asrBottom
+      Left = 72
+      Height = 49
+      Top = 110
+      Width = 174
+      Frequency = 100
+      Max = 100
+      OnChange = TBVolumeChange
+      Position = 100
+      ShowSelRange = False
+      TickStyle = tsNone
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 2
+      TabOrder = 4
+    end
+    object BMute: TSpeedButton
+      AnchorSideLeft.Control = TBVolume
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = TBVolume
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 246
+      Height = 30
+      Top = 119
+      Width = 55
+      BorderSpacing.Right = 10
+      Constraints.MaxHeight = 30
+      Constraints.MaxWidth = 55
+      Constraints.MinHeight = 30
+      Constraints.MinWidth = 55
+      Caption = 'MUTE'
+      Color = 8224125
+      Flat = True
+      Font.Style = [fsBold]
+      Transparent = False
+      OnClick = BMuteClick
+      ParentFont = False
+    end
+    object Label12: TLabel
+      AnchorSideLeft.Control = Label2
+      AnchorSideTop.Control = TBPan
+      AnchorSideTop.Side = asrCenter
+      Left = 6
+      Height = 15
+      Top = 197
+      Width = 20
+      Caption = 'Pan'
+      Font.Color = clBlack
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label13: TLabel
+      AnchorSideLeft.Control = TBPan
+      AnchorSideBottom.Control = TBPan
+      Left = 72
+      Height = 12
+      Top = 168
+      Width = 20
+      Anchors = [akLeft, akBottom]
+      Caption = 'LEFT'
+      Font.Color = clBlack
+      Font.Height = 12
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object BPanCenter: TSpeedButton
+      AnchorSideLeft.Control = TBPan
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = TBVolume
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = TBPan
+      Cursor = crHandPoint
+      Left = 150
+      Height = 21
+      Top = 159
+      Width = 62
+      Caption = 'CENTER'
+      Font.Style = [fsBold]
+      OnClick = BPanCenterClick
+      ParentFont = False
+    end
+    object Label14: TLabel
+      AnchorSideRight.Control = TBPan
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = TBPan
+      Left = 264
+      Height = 12
+      Top = 168
+      Width = 27
+      Anchors = [akRight, akBottom]
+      BorderSpacing.Left = 10
+      Caption = 'RIGHT'
+      Font.Color = clBlack
+      Font.Height = 12
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object TBPan: TTrackBar
+      AnchorSideLeft.Control = TBVolume
+      AnchorSideTop.Control = BPanCenter
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      Left = 72
+      Height = 49
+      Top = 180
+      Width = 219
+      Frequency = 100
+      Max = 100
+      Min = -100
+      OnChange = TBPanChange
+      Position = 0
+      ShowSelRange = False
+      TickStyle = tsNone
+      BorderSpacing.Right = 10
+      TabOrder = 5
+    end
+    object Label3: TLabel
+      AnchorSideLeft.Control = Owner
+      AnchorSideTop.Control = Label12
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 15
+      Top = 252
+      Width = 51
+      BorderSpacing.Left = 10
+      BorderSpacing.Top = 40
+      Caption = 'Pitch : 1.0'
+      Font.Color = clBlack
+      ParentColor = False
+      ParentFont = False
+    end
+    object BResetPitch: TButton
+      AnchorSideTop.Control = TBPan
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = TBPitch
+      Cursor = crHandPoint
+      Left = 128
+      Height = 20
+      Top = 229
+      Width = 33
+      Caption = 'reset'
+      Font.Height = 12
+      Font.Style = [fsBold]
+      OnClick = BResetPitchClick
+      ParentFont = False
+      TabOrder = 6
+    end
+    object TBPitch: TTrackBar
+      AnchorSideLeft.Control = TBPan
+      AnchorSideTop.Control = BResetPitch
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = TBPan
+      AnchorSideRight.Side = asrBottom
+      Left = 72
+      Height = 49
+      Top = 249
+      Width = 219
+      Frequency = 1000
+      Max = 600
+      Min = 1
+      OnChange = TBPitchChange
+      Position = 100
+      ShowSelRange = False
+      TickStyle = tsNone
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 7
+    end
+    object ProgressBar1: TProgressBar
+      AnchorSideLeft.Control = Panel4
+      AnchorSideTop.Control = TBPitch
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = TBPitch
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Label1
+      Left = 11
+      Height = 16
+      Top = 308
+      Width = 280
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 10
+      BorderSpacing.Top = 10
+      Smooth = True
+      TabOrder = 8
+    end
+    object Label1: TLabel
+      AnchorSideLeft.Control = ProgressBar1
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = ProgressBar1
+      AnchorSideTop.Side = asrBottom
+      Left = 134
+      Height = 15
+      Top = 324
+      Width = 34
+      Caption = 'Label1'
+      Font.Color = clBlack
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label20: TLabel
+      AnchorSideLeft.Control = TBTone
+      AnchorSideBottom.Control = TBTone
+      Left = 416
+      Height = 12
+      Top = 296
+      Width = 22
+      Anchors = [akLeft, akBottom]
+      Caption = 'BASS'
+      Font.Height = 12
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label21: TLabel
+      AnchorSideRight.Control = TBTone
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = TBTone
+      Left = 582
+      Height = 12
+      Top = 296
+      Width = 32
+      Anchors = [akRight, akBottom]
+      Caption = 'TREBLE'
+      Font.Height = 12
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label16: TLabel
+      AnchorSideLeft.Control = Panel4
+      AnchorSideTop.Control = Label1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Side = asrBottom
+      Left = 1
+      Height = 15
+      Top = 339
+      Width = 40
+      Caption = 'Label16'
+      ParentColor = False
+    end
+    object Panel1: TPanel
+      AnchorSideLeft.Control = BMute
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = BPlay
+      AnchorSideBottom.Side = asrBottom
+      Left = 311
+      Height = 165
+      Top = 72
+      Width = 181
+      BorderSpacing.Left = 10
+      BorderSpacing.Bottom = 5
+      ClientHeight = 165
+      ClientWidth = 181
+      Color = 16636413
+      ParentColor = False
+      TabOrder = 9
+      object Image1: TImage
+        AnchorSideLeft.Control = Panel1
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = ComboBox1
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = Panel1
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = Panel1
+        AnchorSideBottom.Side = asrBottom
+        Left = 5
+        Height = 52
+        Top = 107
+        Width = 170
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        BorderSpacing.Left = 5
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 5
+        BorderSpacing.Bottom = 5
+      end
+      object ComboBox1: TComboBox
+        AnchorSideLeft.Control = Panel1
+        AnchorSideTop.Control = Label9
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = Panel1
+        AnchorSideRight.Side = asrBottom
+        Left = 2
+        Height = 20
+        Top = 82
+        Width = 177
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 1
+        BorderSpacing.Top = 2
+        BorderSpacing.Right = 1
+        Font.Height = 12
+        ItemHeight = 12
+        OnChange = ComboBox1Change
+        ParentFont = False
+        Style = csDropDownList
+        TabOrder = 0
+      end
+      object Label9: TLabel
+        AnchorSideLeft.Control = Panel1
+        AnchorSideTop.Control = FSE1
+        AnchorSideTop.Side = asrBottom
+        Left = 2
+        Height = 15
+        Top = 65
+        Width = 41
+        Alignment = taCenter
+        BorderSpacing.Left = 1
+        BorderSpacing.Top = 5
+        Caption = 'Velocity'
+        Font.Color = clBlack
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label5: TLabel
+        AnchorSideLeft.Control = FSE1
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideBottom.Control = FSE1
+        AnchorSideBottom.Side = asrBottom
+        Left = 140
+        Height = 15
+        Top = 45
+        Width = 17
+        Anchors = [akLeft, akBottom]
+        BorderSpacing.Left = 10
+        Caption = 'sec'
+        Font.Color = clBlack
+        ParentColor = False
+        ParentFont = False
+      end
+      object FSE1: TFloatSpinEdit
+        AnchorSideLeft.Control = Panel1
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = BFadeIn
+        AnchorSideTop.Side = asrBottom
+        Left = 50
+        Height = 23
+        Top = 37
+        Width = 80
+        BorderSpacing.Top = 5
+        Font.Color = clBlack
+        Increment = 0.2
+        MinValue = 0.1
+        ParentFont = False
+        TabOrder = 1
+        Value = 5
+      end
+      object Label7: TLabel
+        AnchorSideRight.Control = FSE1
+        AnchorSideBottom.Control = FSE1
+        AnchorSideBottom.Side = asrBottom
+        Left = 30
+        Height = 15
+        Top = 45
+        Width = 10
+        Anchors = [akRight, akBottom]
+        BorderSpacing.Right = 10
+        Caption = 'in'
+        Font.Color = clBlack
+        ParentColor = False
+        ParentFont = False
+      end
+      object BFadeIn: TButton
+        AnchorSideLeft.Control = Panel1
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = Panel1
+        Cursor = crHandPoint
+        Left = 14
+        Height = 26
+        Top = 6
+        Width = 153
+        BorderSpacing.Top = 5
+        Caption = 'FADE IN'
+        Font.Height = 12
+        Font.Style = [fsBold]
+        OnClick = BFadeInClick
+        ParentFont = False
+        TabOrder = 2
+      end
+    end
+    object Panel2: TPanel
+      AnchorSideLeft.Control = Panel1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel1
+      AnchorSideRight.Control = Panel4
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Panel1
+      AnchorSideBottom.Side = asrBottom
+      Left = 495
+      Height = 165
+      Top = 72
+      Width = 182
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 3
+      ClientHeight = 165
+      ClientWidth = 182
+      Color = 14876387
+      ParentColor = False
+      TabOrder = 10
+      object Image2: TImage
+        AnchorSideLeft.Control = Panel2
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = ComboBox2
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = Panel2
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = Panel2
+        AnchorSideBottom.Side = asrBottom
+        Left = 7
+        Height = 55
+        Top = 104
+        Width = 169
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        BorderSpacing.Left = 5
+        BorderSpacing.Top = 5
+        BorderSpacing.Right = 5
+        BorderSpacing.Bottom = 5
+      end
+      object ComboBox2: TComboBox
+        AnchorSideLeft.Control = Panel2
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = Label10
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = Panel2
+        AnchorSideRight.Side = asrBottom
+        Left = 2
+        Height = 20
+        Top = 79
+        Width = 178
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 1
+        BorderSpacing.Right = 1
+        Font.Height = 12
+        ItemHeight = 12
+        OnChange = ComboBox2Change
+        ParentFont = False
+        Style = csDropDownList
+        TabOrder = 0
+      end
+      object Label10: TLabel
+        AnchorSideLeft.Control = Panel2
+        AnchorSideTop.Control = FSE2
+        AnchorSideTop.Side = asrBottom
+        Left = 2
+        Height = 15
+        Top = 64
+        Width = 41
+        Alignment = taCenter
+        BorderSpacing.Left = 1
+        BorderSpacing.Top = 5
+        Caption = 'Velocity'
+        Font.Color = clBlack
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label6: TLabel
+        AnchorSideLeft.Control = FSE2
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideBottom.Control = FSE2
+        AnchorSideBottom.Side = asrBottom
+        Left = 141
+        Height = 15
+        Top = 35
+        Width = 17
+        Anchors = [akLeft]
+        BorderSpacing.Left = 10
+        Caption = 'sec'
+        Font.Color = clBlack
+        ParentColor = False
+        ParentFont = False
+      end
+      object FSE2: TFloatSpinEdit
+        AnchorSideLeft.Control = Panel2
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = BFadeOut
+        AnchorSideTop.Side = asrBottom
+        Left = 51
+        Height = 23
+        Top = 36
+        Width = 80
+        BorderSpacing.Top = 5
+        Font.Color = clBlack
+        Increment = 0.2
+        MinValue = 0.1
+        ParentFont = False
+        TabOrder = 1
+        Value = 7
+      end
+      object Label8: TLabel
+        AnchorSideRight.Control = FSE2
+        AnchorSideBottom.Control = FSE2
+        AnchorSideBottom.Side = asrBottom
+        Left = 31
+        Height = 15
+        Top = 44
+        Width = 10
+        Anchors = [akRight, akBottom]
+        BorderSpacing.Right = 10
+        Caption = 'in'
+        Font.Color = clBlack
+        ParentColor = False
+        ParentFont = False
+      end
+      object BFadeOut: TButton
+        AnchorSideLeft.Control = Panel2
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = Panel2
+        Cursor = crHandPoint
+        Left = 15
+        Height = 25
+        Top = 6
+        Width = 152
+        BorderSpacing.Top = 5
+        Caption = 'FADE OUT'
+        Font.Height = 12
+        Font.Style = [fsBold]
+        OnClick = BFadeOutClick
+        ParentFont = False
+        TabOrder = 2
+      end
+    end
+    object Label22: TLabel
+      AnchorSideLeft.Control = TrackBar1
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = TrackBar1
+      Cursor = crHelp
+      Left = 712
+      Height = 15
+      Hint = 'Sets the amount of original sound sent to the mixer. This is the DRY gain.'#13#10'DRY gain affects the sound volume only if an effect is connected to an auxiliary send.'
+      Top = 177
+      Width = 24
+      Anchors = [akLeft, akBottom]
+      Caption = 'DRY'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+    end
+    object TrackBar1: TTrackBar
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel4
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Panel4
+      AnchorSideRight.Side = asrBottom
+      Left = 712
+      Height = 128
+      Top = 192
+      Width = 39
+      Max = 100
+      OnChange = TrackBar1Change
+      Orientation = trVertical
+      Position = 100
+      Reversed = True
+      ShowSelRange = False
+      TickStyle = tsNone
+      Anchors = [akTop, akRight]
+      TabOrder = 11
+    end
+    object TB1: TTrackBar
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Panel4
+      AnchorSideBottom.Side = asrBottom
+      Left = 40
+      Height = 79
+      Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
+      Top = 432
+      Width = 44
+      Frequency = 10
+      Max = 100
+      OnChange = TB1Change
+      Orientation = trVertical
+      Position = 100
+      Reversed = True
+      ShowSelRange = False
+      Anchors = [akBottom]
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 12
+    end
+    object Label23: TLabel
+      AnchorSideLeft.Control = TB1
+      AnchorSideBottom.Control = TB1
+      Left = 40
+      Height = 45
+      Top = 387
+      Width = 53
+      Alignment = taCenter
+      Anchors = [akLeft, akBottom]
+      Caption = 'WET'#13#10'Aux.Send'#13#10'gain'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object TB2: TTrackBar
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Panel4
+      AnchorSideBottom.Side = asrBottom
+      Left = 154
+      Height = 79
+      Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
+      Top = 432
+      Width = 44
+      Frequency = 10
+      Max = 100
+      OnChange = TB1Change
+      Orientation = trVertical
+      Position = 100
+      Reversed = True
+      ShowSelRange = False
+      Anchors = [akBottom]
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 13
+    end
+    object Label24: TLabel
+      AnchorSideLeft.Control = TB2
+      AnchorSideBottom.Control = TB2
+      Left = 154
+      Height = 45
+      Top = 387
+      Width = 53
+      Alignment = taCenter
+      Anchors = [akLeft, akBottom]
+      Caption = 'WET'#13#10'Aux.Send'#13#10'gain'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label25: TLabel
+      AnchorSideLeft.Control = TB3
+      AnchorSideBottom.Control = TB3
+      Left = 272
+      Height = 45
+      Top = 387
+      Width = 53
+      Alignment = taCenter
+      Anchors = [akLeft, akBottom]
+      Caption = 'WET'#13#10'Aux.Send'#13#10'gain'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object TB3: TTrackBar
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Panel4
+      AnchorSideBottom.Side = asrBottom
+      Left = 272
+      Height = 79
+      Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
+      Top = 432
+      Width = 44
+      Frequency = 10
+      Max = 100
+      OnChange = TB1Change
+      Orientation = trVertical
+      Position = 100
+      Reversed = True
+      ShowSelRange = False
+      Anchors = [akBottom]
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 14
+    end
+    object TB4: TTrackBar
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Panel4
+      AnchorSideBottom.Side = asrBottom
+      Left = 391
+      Height = 79
+      Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
+      Top = 432
+      Width = 44
+      Frequency = 10
+      Max = 100
+      OnChange = TB1Change
+      Orientation = trVertical
+      Position = 100
+      Reversed = True
+      ShowSelRange = False
+      Anchors = [akBottom]
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 15
+    end
+    object Label26: TLabel
+      AnchorSideLeft.Control = TB4
+      AnchorSideBottom.Control = TB4
+      Left = 391
+      Height = 45
+      Top = 387
+      Width = 53
+      Alignment = taCenter
+      Anchors = [akLeft, akBottom]
+      Caption = 'WET'#13#10'Aux.Send'#13#10'gain'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object TB5: TTrackBar
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Panel4
+      AnchorSideBottom.Side = asrBottom
+      Left = 509
+      Height = 79
+      Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
+      Top = 432
+      Width = 44
+      Frequency = 10
+      Max = 100
+      OnChange = TB1Change
+      Orientation = trVertical
+      Position = 100
+      Reversed = True
+      ShowSelRange = False
+      Anchors = [akBottom]
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 16
+    end
+    object Label27: TLabel
+      AnchorSideLeft.Control = TB5
+      AnchorSideBottom.Control = TB5
+      Left = 509
+      Height = 45
+      Top = 387
+      Width = 53
+      Alignment = taCenter
+      Anchors = [akLeft, akBottom]
+      Caption = 'WET'#13#10'Aux.Send'#13#10'gain'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object TB6: TTrackBar
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Panel4
+      AnchorSideBottom.Side = asrBottom
+      Left = 632
+      Height = 79
+      Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
+      Top = 432
+      Width = 44
+      Frequency = 10
+      Max = 100
+      OnChange = TB1Change
+      Orientation = trVertical
+      Position = 100
+      Reversed = True
+      ShowSelRange = False
+      Anchors = [akBottom]
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 17
+    end
+    object Label28: TLabel
+      AnchorSideLeft.Control = TB6
+      AnchorSideBottom.Control = TB6
+      Left = 632
+      Height = 45
+      Top = 387
+      Width = 53
+      Alignment = taCenter
+      Anchors = [akLeft, akBottom]
+      Caption = 'WET'#13#10'Aux.Send'#13#10'gain'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+  end
+  object Panel5: TPanel
+    AnchorSideLeft.Control = Panel8
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Panel9
+    Left = 474
+    Height = 67
+    Top = 584
+    Width = 116
+    BorderSpacing.Left = 2
+    ClientHeight = 67
+    ClientWidth = 116
+    Color = 13034495
+    ParentColor = False
+    TabOrder = 1
+    object CheckBox6: TCheckBox
+      AnchorSideLeft.Control = Panel5
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel5
+      Cursor = crHandPoint
+      Left = 29
+      Height = 19
+      Top = 1
+      Width = 59
+      Caption = 'Flanger'
+      OnChange = CheckBox6Change
+      TabOrder = 0
+    end
+  end
+  object Panel6: TPanel
+    AnchorSideLeft.Control = Panel5
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Panel9
+    Left = 592
+    Height = 67
+    Top = 584
+    Width = 116
+    BorderSpacing.Left = 2
+    ClientHeight = 67
+    ClientWidth = 116
+    Color = 13034495
+    ParentColor = False
+    TabOrder = 2
+    object CheckBox7: TCheckBox
+      AnchorSideLeft.Control = Panel6
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel6
+      Cursor = crHandPoint
+      Left = 23
+      Height = 19
+      Top = 1
+      Width = 70
+      Caption = 'AutoWah'
+      OnChange = CheckBox7Change
+      TabOrder = 0
+    end
+  end
+  object Panel7: TPanel
+    AnchorSideLeft.Control = Panel10
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Panel9
+    Left = 238
+    Height = 67
+    Top = 584
+    Width = 116
+    BorderSpacing.Left = 2
+    ClientHeight = 67
+    ClientWidth = 116
+    Color = 13034495
+    ParentColor = False
+    TabOrder = 3
+    object CheckBox4: TCheckBox
+      AnchorSideLeft.Control = Panel7
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel7
+      Cursor = crHandPoint
+      Left = 22
+      Height = 19
+      Top = 1
+      Width = 73
+      Caption = 'Distorsion'
+      OnChange = CheckBox4Change
+      TabOrder = 0
+    end
+  end
+  object Panel8: TPanel
+    AnchorSideLeft.Control = Panel7
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Panel9
+    Left = 356
+    Height = 67
+    Top = 584
+    Width = 116
+    BorderSpacing.Left = 2
+    ClientHeight = 67
+    ClientWidth = 116
+    Color = 13034495
+    ParentColor = False
+    TabOrder = 4
+    object CheckBox5: TCheckBox
+      AnchorSideLeft.Control = Panel8
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel8
+      Cursor = crHandPoint
+      Left = 35
+      Height = 19
+      Top = 1
+      Width = 46
+      Caption = 'Echo'
+      OnChange = CheckBox5Change
+      TabOrder = 0
+    end
+  end
+  object Panel9: TPanel
+    AnchorSideLeft.Control = Owner
+    Left = 2
+    Height = 67
+    Top = 584
+    Width = 116
+    BorderSpacing.Left = 2
+    ClientHeight = 67
+    ClientWidth = 116
+    Color = 13034495
+    ParentColor = False
+    TabOrder = 5
+    object CheckBox2: TCheckBox
+      AnchorSideLeft.Control = Panel9
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel9
+      Cursor = crHandPoint
+      Left = 18
+      Height = 19
+      Top = 1
+      Width = 80
+      BorderSpacing.Left = 20
+      Caption = 'EAX Reverb'
+      OnChange = CheckBox2Change
+      TabOrder = 0
+    end
+  end
+  object Panel10: TPanel
+    AnchorSideLeft.Control = Panel9
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Panel9
+    Left = 120
+    Height = 67
+    Top = 584
+    Width = 116
+    BorderSpacing.Left = 2
+    ClientHeight = 67
+    ClientWidth = 116
+    Color = 13034495
+    ParentColor = False
+    TabOrder = 6
+    object CheckBox3: TCheckBox
+      AnchorSideLeft.Control = Panel10
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel10
+      Cursor = crHandPoint
+      Left = 9
+      Height = 19
+      Top = 1
+      Width = 98
+      Caption = 'Vocal Morpher'
+      OnChange = CheckBox3Change
+      TabOrder = 0
+    end
+  end
+  object Panel11: TPanel
+    AnchorSideLeft.Control = Panel4
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Panel4
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Side = asrBottom
+    Left = 817
+    Height = 240
+    Top = 136
+    Width = 212
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 10
+    ClientHeight = 240
+    ClientWidth = 212
+    Color = 12713952
+    ParentColor = False
+    TabOrder = 7
+    object Label18: TLabel
+      AnchorSideLeft.Control = Panel11
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel11
+      AnchorSideTop.Side = asrCenter
+      Left = 47
+      Height = 40
+      Top = 100
+      Width = 118
+      Alignment = taCenter
+      Caption = 'Playback context'#13#10'internal mixer'
+      Font.Height = 20
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+  end
+  object Shape12: TShape
+    AnchorSideLeft.Control = Panel11
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel11
+    AnchorSideTop.Side = asrBottom
+    Left = 916
+    Height = 20
+    Top = 376
+    Width = 15
+    Brush.Color = clBlack
+    Shape = stTriangle
+  end
+  object Shape11: TShape
+    AnchorSideLeft.Control = Shape12
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Shape12
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape25
+    AnchorSideBottom.Side = asrBottom
+    Left = 921
+    Height = 321
+    Top = 396
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    Brush.Color = clBlack
+  end
+  object Shape13: TShape
+    AnchorSideLeft.Control = Panel4
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Panel4
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = Shape14
+    Left = 752
+    Height = 5
+    Top = 254
+    Width = 45
+    Anchors = [akTop, akLeft, akRight]
+    Brush.Color = clBlack
+  end
+  object Shape14: TShape
+    AnchorSideLeft.Control = Shape13
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Shape13
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = Panel11
+    Left = 797
+    Height = 15
+    Top = 249
+    Width = 20
+    Anchors = [akTop, akRight]
+    Brush.Color = clBlack
+    Shape = stTriangleRight
+  end
+  object Shape3: TShape
+    AnchorSideLeft.Control = Panel9
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel4
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape4
+    Left = 58
+    Height = 52
+    Top = 512
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 50
+    Brush.Color = clBlack
+  end
+  object Shape4: TShape
+    AnchorSideLeft.Control = Shape3
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Panel9
+    Left = 53
+    Height = 20
+    Top = 564
+    Width = 15
+    Anchors = [akLeft, akBottom]
+    Brush.Color = clBlack
+    Shape = stTriangleDown
+  end
+  object Shape5: TShape
+    AnchorSideLeft.Control = Panel10
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel4
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape6
+    Left = 176
+    Height = 52
+    Top = 512
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 50
+    Brush.Color = clBlack
+  end
+  object Shape6: TShape
+    AnchorSideLeft.Control = Shape5
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Panel9
+    Left = 171
+    Height = 20
+    Top = 564
+    Width = 15
+    Anchors = [akLeft, akBottom]
+    Brush.Color = clBlack
+    Shape = stTriangleDown
+  end
+  object Shape7: TShape
+    AnchorSideLeft.Control = Panel7
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel4
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape8
+    Left = 294
+    Height = 52
+    Top = 512
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 50
+    Brush.Color = clBlack
+  end
+  object Shape8: TShape
+    AnchorSideLeft.Control = Shape7
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Panel9
+    Left = 289
+    Height = 20
+    Top = 564
+    Width = 15
+    Anchors = [akLeft, akBottom]
+    Brush.Color = clBlack
+    Shape = stTriangleDown
+  end
+  object Shape9: TShape
+    AnchorSideLeft.Control = Panel8
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel4
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape10
+    Left = 412
+    Height = 52
+    Top = 512
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 50
+    Brush.Color = clBlack
+  end
+  object Shape10: TShape
+    AnchorSideLeft.Control = Shape9
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Panel9
+    Left = 407
+    Height = 20
+    Top = 564
+    Width = 15
+    Anchors = [akLeft, akBottom]
+    Brush.Color = clBlack
+    Shape = stTriangleDown
+  end
+  object Shape15: TShape
+    AnchorSideLeft.Control = Panel5
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel4
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape16
+    Left = 530
+    Height = 52
+    Top = 512
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 50
+    Brush.Color = clBlack
+  end
+  object Shape16: TShape
+    AnchorSideLeft.Control = Shape15
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Panel9
+    Left = 525
+    Height = 20
+    Top = 564
+    Width = 15
+    Anchors = [akLeft, akBottom]
+    Brush.Color = clBlack
+    Shape = stTriangleDown
+  end
+  object Shape17: TShape
+    AnchorSideLeft.Control = Panel6
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel4
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape18
+    Left = 648
+    Height = 52
+    Top = 512
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 50
+    Brush.Color = clBlack
+  end
+  object Shape18: TShape
+    AnchorSideLeft.Control = Shape17
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Panel9
+    Left = 643
+    Height = 20
+    Top = 564
+    Width = 15
+    Anchors = [akLeft, akBottom]
+    Brush.Color = clBlack
+    Shape = stTriangleDown
+  end
+  object Shape19: TShape
+    AnchorSideLeft.Control = Panel9
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel9
+    AnchorSideTop.Side = asrBottom
+    Left = 58
+    Height = 61
+    Top = 651
+    Width = 5
+    Brush.Color = clBlack
+  end
+  object Shape20: TShape
+    AnchorSideLeft.Control = Panel10
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel9
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape25
+    AnchorSideBottom.Side = asrBottom
+    Left = 176
+    Height = 66
+    Top = 651
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    Brush.Color = clBlack
+  end
+  object Shape21: TShape
+    AnchorSideLeft.Control = Panel7
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel9
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape25
+    AnchorSideBottom.Side = asrBottom
+    Left = 294
+    Height = 66
+    Top = 651
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    Brush.Color = clBlack
+  end
+  object Shape22: TShape
+    AnchorSideLeft.Control = Panel8
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel9
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape25
+    AnchorSideBottom.Side = asrBottom
+    Left = 412
+    Height = 66
+    Top = 651
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    Brush.Color = clBlack
+  end
+  object Shape23: TShape
+    AnchorSideLeft.Control = Panel5
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel9
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape25
+    AnchorSideBottom.Side = asrBottom
+    Left = 530
+    Height = 66
+    Top = 651
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    Brush.Color = clBlack
+  end
+  object Shape24: TShape
+    AnchorSideLeft.Control = Panel6
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Panel9
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = Shape25
+    AnchorSideBottom.Side = asrBottom
+    Left = 648
+    Height = 66
+    Top = 651
+    Width = 5
+    Anchors = [akTop, akLeft, akBottom]
+    Brush.Color = clBlack
+  end
+  object Shape25: TShape
+    AnchorSideLeft.Control = Shape19
+    AnchorSideTop.Control = Shape19
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Shape11
+    AnchorSideRight.Side = asrBottom
+    Left = 58
+    Height = 5
+    Top = 712
+    Width = 868
+    Anchors = [akTop, akLeft, akRight]
+    Brush.Color = clBlack
+  end
+  object Timer1: TTimer
+    Interval = 100
+    OnTimer = Timer1Timer
+    Left = 872
+    Top = 8
+  end
+  object OD1: TOpenDialog
+    Title = 'Open an audio file'
+    Left = 760
+    Top = 8
+  end
+  object ImageList1: TImageList
+    Height = 32
+    Width = 32
+    Left = 808
+    Bitmap = {
+      4C69030000002000000020000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000
+      AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000
+      AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFFD0D0FFFFCBCBFFFFC6C6FFFFC1C1FFFFBCBCFFFFB7B7FFFFB2B2FFFFACAC
+      FFFFA7A7FFFFA2A2FFFF9D9DFFFF9898FFFF9393FFFF8E8EFFFF8989FFFF8484
+      FFFF7F7FFFFF7A7AFFFF7575FFFF7070FFFF6B6BFFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFFCBCBFFFFC6C6FFFFC1C1FFFFBCBCFFFFB7B7FFFFB2B2FFFFACACFFFFA7A7
+      FFFFA2A2FFFF9D9DFFFF9898FFFF9393FFFF8E8EFFFF8989FFFF8484FFFF7F7F
+      FFFF7A7AFFFF7575FFFF7070FFFF6B6BFFFF6565FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFFC6C6FFFFC1C1FFFFBCBCFFFFB7B7FFFFB2B2FFFFACACFFFFA7A7FFFFA2A2
+      FFFF9D9DFFFF9898FFFF9393FFFF8E8EFFFF8989FFFF8484FFFF7F7FFFFF7A7A
+      FFFF7575FFFF7070FFFF6B6BFFFF6565FFFF6060FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFFC1C1FFFFBCBCFFFFB7B7FFFFB2B2FFFFACACFFFFA7A7FFFFA2A2FFFF9D9D
+      FFFF9898FFFF9393FFFF8E8EFFFF8989FFFF8484FFFF7F7FFFFF7A7AFFFF7575
+      FFFF7070FFFF6B6BFFFF6565FFFF6060FFFF5B5BFFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFFBCBCFFFFB7B7FFFFB2B2FFFFACACFFFFA7A7FFFFA2A2FFFF9D9DFFFF9898
+      FFFF9393FFFF8E8EFFFF8989FFFF8484FFFF7F7FFFFF7A7AFFFF7575FFFF7070
+      FFFF6B6BFFFF6565FFFF6060FFFF5B5BFFFF5656FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFFB7B7FFFFB2B2FFFFACACFFFFA7A7FFFFA2A2FFFF9D9DFFFF9898FFFF9393
+      FFFF8E8EFFFF8989FFFF8484FFFF7F7FFFFF7A7AFFFF7575FFFF7070FFFF6B6B
+      FFFF6565FFFF6060FFFF5B5BFFFF5656FFFF5151FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFFB2B2FFFFACACFFFFA7A7FFFFA2A2FFFF9D9DFFFF9898FFFF9393FFFF8E8E
+      FFFF8989FFFF8484FFFF7F7FFFFF7A7AFFFF7575FFFF7070FFFF6B6BFFFF6565
+      FFFF6060FFFF5B5BFFFF5656FFFF5151FFFF4C4CFFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFFACACFFFFA7A7FFFFA2A2FFFF9D9DFFFF9898FFFF9393FFFF8E8EFFFF8989
+      FFFF8484FFFF7F7FFFFF7A7AFFFF7575FFFF7070FFFF6B6BFFFF6565FFFF6060
+      FFFF5B5BFFFF5656FFFF5151FFFF4C4CFFFF4747FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFFA7A7FFFFA2A2FFFF9D9DFFFF9898FFFF9393FFFF8E8EFFFF8989FFFF8484
+      FFFF7F7FFFFF7A7AFFFF7575FFFF7070FFFF6B6BFFFF6565FFFF6060FFFF5B5B
+      FFFF5656FFFF5151FFFF4C4CFFFF4747FFFF4242FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFFA2A2FFFF9D9DFFFF9898FFFF9393FFFF8E8EFFFF8989FFFF8484FFFF7F7F
+      FFFF7A7AFFFF7575FFFF7070FFFF6B6BFFFF6565FFFF6060FFFF5B5BFFFF5656
+      FFFF5151FFFF4C4CFFFF4747FFFF4242FFFF3D3DFFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF9D9DFFFF9898FFFF9393FFFF8E8EFFFF8989FFFF8484FFFF7F7FFFFF7A7A
+      FFFF7575FFFF7070FFFF6B6BFFFF6565FFFF6060FFFF5B5BFFFF5656FFFF5151
+      FFFF4C4CFFFF4747FFFF4242FFFF3D3DFFFF3838FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF9898FFFF9393FFFF8E8EFFFF8989FFFF8484FFFF7F7FFFFF7A7AFFFF7575
+      FFFF7070FFFF6B6BFFFF6565FFFF6060FFFF5B5BFFFF5656FFFF5151FFFF4C4C
+      FFFF4747FFFF4242FFFF3D3DFFFF3838FFFF3333FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF9393FFFF8E8EFFFF8989FFFF8484FFFF7F7FFFFF7A7AFFFF7575FFFF7070
+      FFFF6B6BFFFF6565FFFF6060FFFF5B5BFFFF5656FFFF5151FFFF4C4CFFFF4747
+      FFFF4242FFFF3D3DFFFF3838FFFF3333FFFF2E2EFFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF8E8EFFFF8989FFFF8484FFFF7F7FFFFF7A7AFFFF7575FFFF7070FFFF6B6B
+      FFFF6565FFFF6060FFFF5B5BFFFF5656FFFF5151FFFF4C4CFFFF4747FFFF4242
+      FFFF3D3DFFFF3838FFFF3333FFFF2E2EFFFF2929FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF8989FFFF8484FFFF7F7FFFFF7A7AFFFF7575FFFF7070FFFF6B6BFFFF6565
+      FFFF6060FFFF5B5BFFFF5656FFFF5151FFFF4C4CFFFF4747FFFF4242FFFF3D3D
+      FFFF3838FFFF3333FFFF2E2EFFFF2929FFFF2424FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF8484FFFF7F7FFFFF7A7AFFFF7575FFFF7070FFFF6B6BFFFF6565FFFF6060
+      FFFF5B5BFFFF5656FFFF5151FFFF4C4CFFFF4747FFFF4242FFFF3D3DFFFF3838
+      FFFF3333FFFF2E2EFFFF2929FFFF2424FFFF1E1EFFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF7F7FFFFF7A7AFFFF7575FFFF7070FFFF6B6BFFFF6565FFFF6060FFFF5B5B
+      FFFF5656FFFF5151FFFF4C4CFFFF4747FFFF4242FFFF3D3DFFFF3838FFFF3333
+      FFFF2E2EFFFF2929FFFF2424FFFF1E1EFFFF1919FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF7A7AFFFF7575FFFF7070FFFF6B6BFFFF6565FFFF6060FFFF5B5BFFFF5656
+      FFFF5151FFFF4C4CFFFF4747FFFF4242FFFF3D3DFFFF3838FFFF3333FFFF2E2E
+      FFFF2929FFFF2424FFFF1E1EFFFF1919FFFF1414FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF7575FFFF7070FFFF6B6BFFFF6565FFFF6060FFFF5B5BFFFF5656FFFF5151
+      FFFF4C4CFFFF4747FFFF4242FFFF3D3DFFFF3838FFFF3333FFFF2E2EFFFF2929
+      FFFF2424FFFF1E1EFFFF1919FFFF1414FFFF0F0FFFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF7070FFFF6B6BFFFF6565FFFF6060FFFF5B5BFFFF5656FFFF5151FFFF4C4C
+      FFFF4747FFFF4242FFFF3D3DFFFF3838FFFF3333FFFF2E2EFFFF2929FFFF2424
+      FFFF1E1EFFFF1919FFFF1414FFFF0F0FFFFF0A0AFFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF6B6BFFFF6565FFFF6060FFFF5B5BFFFF5656FFFF5151FFFF4C4CFFFF4747
+      FFFF4242FFFF3D3DFFFF3838FFFF3333FFFF2E2EFFFF2929FFFF2424FFFF1E1E
+      FFFF1919FFFF1414FFFF0F0FFFFF0A0AFFFF0505FFFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000
+      AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000
+      AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF0000AAFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000181
+      01E7008000400000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF028302F50080004000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF2AB72AFF028302F500800042000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF2AB72AFF028302F5008000420000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF2AB72AFF028302F50080004200000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF2AB72AFF028302F500800042000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF2AB72AFF028302F5008000420000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF2AB72AFF028302F50080
+      0042000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF2AB72AFF0283
+      02F5008000420000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF2AB7
+      2AFF028302F50080004200000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C8
+      37FF2AB72AFF028302F500800042000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C8
+      37FF37C837FF2AB72AFF028302F5008000420000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C8
+      37FF37C837FF37C837FF2AB72AFF028302F50080004200000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C8
+      37FF37C837FF37C837FF37C837FF29B629FF028302F500820037000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C8
+      37FF37C837FF37C837FF37C837FF29B629FF028302F400820037000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C8
+      37FF37C837FF37C837FF2AB72AFF028402F40080004200000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C8
+      37FF37C837FF2AB72AFF028402F4008000420000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C8
+      37FF2AB72AFF028402F400800042000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF2AB7
+      2AFF028402F40080004200000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF37C837FF2AB72AFF0284
+      02F4008000420000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF37C837FF2AB72AFF028402F40080
+      0042000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF37C837FF2AB72AFF028402F4008000420000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF37C837FF2AB72AFF028402F400800042000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF37C837FF2AB72AFF028402F40080004200000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF37C837FF2AB72AFF028402F4008000420000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF2AB72AFF028402F400800042000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      00FF028302F40080004000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000181
+      01E7008000400000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFA46534FFA46534FFA46534FFA46534FFA465
+      34FFA46534FFA46534FF00000000000000000000000000000000A46534FFA465
+      34FFA46534FFA46534FFA46534FFA46534FFA46534FFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCC
+      AAFFFFCCAAFFA46534FF00000000000000000000000000000000A46534FFFFCC
+      AAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000A46534FFA46534FFA46534FFA46534FFA46534FFA465
+      34FFA46534FFA46534FF00000000000000000000000000000000A46534FFA465
+      34FFA46534FFA46534FFA46534FFA46534FFA46534FFA46534FF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000
+    }
+  end
+end

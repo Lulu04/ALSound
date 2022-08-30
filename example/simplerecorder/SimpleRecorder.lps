@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Debug"/>
+    <Units Count="27">
+      <Unit0>
+        <Filename Value="SimpleRecorder.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="11"/>
+        <CursorPos X="22" Y="11"/>
+        <UsageCount Value="173"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="unit1.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="141"/>
+        <CursorPos X="5" Y="156"/>
+        <UsageCount Value="173"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="unit2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form2"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="53"/>
+        <CursorPos X="49" Y="67"/>
+        <UsageCount Value="125"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\source\als_dsp_utils.pas"/>
+        <EditorIndex Value="5"/>
+        <CursorPos X="27" Y="18"/>
+        <UsageCount Value="66"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\source\oalssoundmanager.pas"/>
+        <UnitName Value="OALSSoundManager"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2017"/>
+        <CursorPos X="30" Y="2034"/>
+        <UsageCount Value="42"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\source\openalsoft.pas"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="31"/>
+        <CursorPos X="13" Y="54"/>
+        <UsageCount Value="77"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\source\libsndfile.pas"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="67"/>
+        <CursorPos X="38" Y="312"/>
+        <UsageCount Value="65"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\source\alc.inc"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="133"/>
+        <CursorPos Y="142"/>
+        <UsageCount Value="54"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\source\al.inc"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="286"/>
+        <CursorPos X="3" Y="299"/>
+        <UsageCount Value="54"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\source\alext.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="76"/>
+        <CursorPos X="2" Y="90"/>
+        <UsageCount Value="39"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\..\source\efx.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="2"/>
+        <UsageCount Value="12"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\..\source\oalssound.pas"/>
+        <UnitName Value="OALSSound"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3764"/>
+        <CursorPos X="41" Y="3771"/>
+        <UsageCount Value="15"/>
+        <Bookmarks Count="7">
+          <Item0 X="2" Y="233" ID="1"/>
+          <Item1 X="2" Y="374" ID="2"/>
+          <Item2 X="2" Y="457" ID="3"/>
+          <Item3 X="2" Y="498" ID="4"/>
+          <Item4 X="2" Y="608" ID="5"/>
+          <Item5 X="2" Y="691" ID="6"/>
+          <Item6 X="2" Y="181" ID="7"/>
+        </Bookmarks>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\..\source\oals_dsp_utils.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="25" Y="19"/>
+        <UsageCount Value="14"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="..\..\..\..\LazStyleHack\lazstylehacku.pas"/>
+        <UnitName Value="LazStyleHackU"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="31"/>
+        <CursorPos X="33" Y="47"/>
+        <UsageCount Value="8"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="C:\FPCupDeluxe\lazarus\lcl\forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1194"/>
+        <CursorPos X="62" Y="1210"/>
+        <UsageCount Value="8"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <UnitName Value="ALSound"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="986"/>
+        <CursorPos X="17" Y="1000"/>
+        <UsageCount Value="41"/>
+        <Bookmarks Count="1">
+          <Item0 Y="919"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="..\..\source\als_capture_buffer.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="137"/>
+        <CursorPos X="8" Y="161"/>
+        <UsageCount Value="36"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\..\source\als_loopback_buffer.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="82"/>
+        <CursorPos Y="104"/>
+        <UsageCount Value="36"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\..\source\als_velocitycurve.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="7"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="..\..\source\als_velocity_curve.inc"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="182"/>
+        <CursorPos Y="195"/>
+        <UsageCount Value="14"/>
+        <Loaded Value="True"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="..\..\source\als_auxiliarysend.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="12"/>
+        <CursorPos X="21" Y="27"/>
+        <UsageCount Value="35"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="C:\FPCupDeluxe\fpcsrc\rtl\objpas\math.pp"/>
+        <UnitName Value="Math"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2101"/>
+        <CursorPos X="3" Y="2104"/>
+        <UsageCount Value="8"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="..\..\source\als_error.inc"/>
+        <EditorIndex Value="9"/>
+        <CursorPos X="2" Y="3"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="C:\FPCupDeluxe\fpcsrc\rtl\inc\threadh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="143"/>
+        <CursorPos X="31" Y="158"/>
+        <UsageCount Value="9"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="C:\FPCupDeluxe\lazarus\lcl\include\buttoncontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="36"/>
+        <CursorPos X="36" Y="52"/>
+        <UsageCount Value="10"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="..\..\source\als_frame_buffers.inc"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="265"/>
+        <CursorPos X="58" Y="290"/>
+        <UsageCount Value="27"/>
+        <Loaded Value="True"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="C:\FPCupDeluxe\lazarus\lcl\include\progressbar.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="125"/>
+        <CursorPos Y="139"/>
+        <UsageCount Value="10"/>
+      </Unit26>
+    </Units>
+    <OtherDefines Count="1">
+      <Define0 Value="ALS_ENABLE_CONTEXT_SWITCHING"/>
+    </OtherDefines>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="..\..\source\als_frame_buffers.inc"/>
+        <Caret Line="26" Column="58" TopLine="19"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\source\als_frame_buffers.inc"/>
+        <Caret Line="275" Column="59" TopLine="258"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\source\als_frame_buffers.inc"/>
+        <Caret Line="28" Column="31" TopLine="8"/>
+      </Position3>
+      <Position4>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="271" Column="68" TopLine="258"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="915" Column="37" TopLine="908"/>
+      </Position5>
+      <Position6>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="271" Column="4" TopLine="258"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1650" Column="19" TopLine="1637"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="911" Column="22" TopLine="897"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1647" Column="3" TopLine="1644"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1058" Column="41" TopLine="1008"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="925" Column="33" TopLine="910"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1740" Column="48" TopLine="1739"/>
+      </Position12>
+      <Position13>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="932" Column="30" TopLine="917"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="930" Column="29" TopLine="921"/>
+      </Position14>
+      <Position15>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="156" Column="42" TopLine="140"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1084" Column="28" TopLine="1069"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="2187" Column="61" TopLine="2177"/>
+      </Position17>
+      <Position18>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1090" Column="28" TopLine="1076"/>
+      </Position18>
+      <Position19>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="2212" Column="20" TopLine="2192"/>
+      </Position19>
+      <Position20>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="2219" Column="22" TopLine="2219"/>
+      </Position20>
+      <Position21>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="2231" Column="5" TopLine="2219"/>
+      </Position21>
+      <Position22>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1087" Column="33" TopLine="1079"/>
+      </Position22>
+      <Position23>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="2141" Column="3" TopLine="2132"/>
+      </Position23>
+      <Position24>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1090" Column="25" TopLine="1079"/>
+      </Position24>
+      <Position25>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="2206" TopLine="2193"/>
+      </Position25>
+      <Position26>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1017" Column="23" TopLine="1007"/>
+      </Position26>
+      <Position27>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1028" Column="19" TopLine="1003"/>
+      </Position27>
+      <Position28>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="2098" Column="26" TopLine="2087"/>
+      </Position28>
+      <Position29>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="94" Column="24" TopLine="88"/>
+      </Position29>
+      <Position30>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="134" Column="43" TopLine="116"/>
+      </Position30>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
