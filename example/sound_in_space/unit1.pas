@@ -81,7 +81,7 @@ begin
   // to ALC_STEREO_HRTF.
   // https://en.wikipedia.org/wiki/Head-related_transfer_function
   FAttribs.InitDefault;  // First, fill attributes with default value
-  FAttribs.MixMode := ALC_STEREO_HRTF;
+  FAttribs.OutputMode := ALC_STEREO_HRTF;
 
   // Create a playback context with the default playback device and our custom attributes
   FPlaybackContext := ALSManager.CreatePlaybackContext(-1, FAttribs);
@@ -120,7 +120,7 @@ end;
 procedure TForm1.ComboBox2Select(Sender: TObject);
 begin
   // update the mixing mode in our context attributes
-  FAttribs.MixMode := ALSManager.PlaybackOutputModeIndexToEnum(ComboBox1.ItemIndex);
+  FAttribs.OutputMode := ALSManager.PlaybackOutputModeIndexToEnum(ComboBox1.ItemIndex);
   // and try to re-start the playback context with the new attributes
   if not FPlaybackContext.ChangeAttributes( FAttribs ) then
     ShowMessage('Can not apply the new context attributes');

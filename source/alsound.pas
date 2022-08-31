@@ -64,7 +64,7 @@ const
 
 type
 
-  // Possible state for sounds, playlist and capture context
+  // Possible state for sounds, playlist and context
   TALSState = ( ALS_STOPPED,
                 ALS_PLAYING,
                 ALS_PAUSED,
@@ -605,8 +605,9 @@ type
     ContextUseFloat: boolean; // TRUE asks the context to use buffers with float samples.
                               // FALSE asks the context to use buffers with 16bits signed int samples.
     MaxAuxSend: integer; // Number of auxiliary SEND per sound - default 2 (max 6).
-    MixMode: TALSPlaybackContextOutputMode; // The mode to use for the final mix for a playback context.
-                                            // Default value is ALC_STEREO_BASIC
+    OutputMode: TALSPlaybackContextOutputMode; // This is the output mode (only)
+                                               // for a playback context.
+                                               // Default value is ALC_STEREO_BASIC
     HRTFIndex: integer; // The index of the HRTF to use for the playback context.
                         // This index points to an HRTF name in the list provided by TALSPlaybackContext.HRTFList.
                         // Default value is -1, that means default HRTF will be used.
@@ -687,10 +688,10 @@ type
     function GetHRTFList: TStringArray;
     function GetResamplerList: TStringArray;
     function GetSoundCount: integer;
-    function GetCountMono: integer;
-    function GetCountStereo: integer;
+    function GetObtainedMonoCount: integer;
+    function GetObtainedStereoCount: integer;
     function GetSoundByIndex(aIndex: integer): TALSSound;
-    function GetAuxiliarySendCount: integer;
+    function GetObtainedAuxiliarySendCount: integer;
     procedure InternalDeleteSound(AIndex: integer);
     procedure SetDistanceModel(AValue: TALSDistanceModel);
     procedure SetListenerGain;
@@ -768,9 +769,9 @@ type
     property Playlist: TALSPlaylist read FPlaylist;
 
     property SoundCount: integer read GetSoundCount;
-    property CountMono: integer read GetCountMono;
-    property CountStereo: integer read GetCountStereo;
-    property AuxiliarySendCount: integer read GetAuxiliarySendCount;
+    property ObtainedMonoCount: integer read GetObtainedMonoCount;
+    property ObtainedStereoCount: integer read GetObtainedStereoCount;
+    property ObtainedAuxiliarySendCount: integer read GetObtainedAuxiliarySendCount;
 
     property HaveStereoAngle: boolean read FHaveExt_AL_EXT_STEREO_ANGLES;
     property HaveEFX: boolean read FHaveEXT_ALC_EXT_EFX;
@@ -2365,7 +2366,7 @@ begin
   MaxAuxSend := 2;
   MonoCount := 128;
   StereoCount := 128;
-  MixMode := ALC_STEREO_BASIC;
+  OutputMode := ALC_STEREO_BASIC;
   ContextUseFloat := False;
   HRTFIndex := -1;
   FLoopbackModeEnabled := False;
@@ -2377,7 +2378,7 @@ begin
   MaxAuxSend := aAttribs.MaxAuxSend;
   MonoCount := aAttribs.MonoCount;
   StereoCount := aAttribs.StereoCount;
-  MixMode := aAttribs.MixMode;
+  OutputMode := aAttribs.OutputMode;
   HRTFIndex := aAttribs.HRTFIndex;
   ContextUseFloat := aAttribs.ContextUseFloat;
   FLoopbackModeEnabled := aAttribs.FLoopbackModeEnabled;
@@ -2423,7 +2424,7 @@ begin
 
   // Output mode (extension). Ignored if loopback mode is enabled.
   if aOutputModePresent and not FLoopbackModeEnabled then
-    AddAttrib( ALC_OUTPUT_MODE_SOFT, ALint(Ord(MixMode)) );
+    AddAttrib( ALC_OUTPUT_MODE_SOFT, ALint(Ord(OutputMode)) );
 
   // HRTF selection (extension)
   if (HRTFIndex<>-1) and
@@ -4050,7 +4051,7 @@ begin
   end;
 end;
 
-function TALSPlaybackContext.GetCountMono: integer;
+function TALSPlaybackContext.GetObtainedMonoCount: integer;
 var
   p: ALCint;
 begin
@@ -4068,7 +4069,7 @@ begin
   end;
 end;
 
-function TALSPlaybackContext.GetCountStereo: integer;
+function TALSPlaybackContext.GetObtainedStereoCount: integer;
 var
   p: ALCint;
 begin
@@ -4165,7 +4166,7 @@ begin
   end;
 end;
 
-function TALSPlaybackContext.GetAuxiliarySendCount: integer;
+function TALSPlaybackContext.GetObtainedAuxiliarySendCount: integer;
 begin
   Result := FAuxiliarySendAvailable;
 end;
@@ -4278,6 +4279,8 @@ begin
         FHaveBandPassFilter := alGetError() = AL_NO_ERROR;
         alDeleteFilters(1, @obj);
       end;
+
+      FHaveBufferOfFloat := alGetEnumValue(PChar('AL_FORMAT_MONO_FLOAT32')) <> 0;
 
       FHaveExt_AL_SOFT_deferred_updates := alIsExtensionPresent(PChar('AL_SOFT_deferred_updates'));
       if FHaveExt_AL_SOFT_deferred_updates then
@@ -4432,7 +4435,7 @@ begin
 
   if not Error and FParentContext.FHaveEXT_ALC_EXT_EFX then
   begin
-    SetLength(FAuxiliarySend, FParentContext.AuxiliarySendCount);
+    SetLength(FAuxiliarySend, FParentContext.ObtainedAuxiliarySendCount);
     for i := 0 to High(FAuxiliarySend) do
       FAuxiliarySend[i].Init(Self, i);
   end
