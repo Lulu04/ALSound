@@ -33,14 +33,14 @@ uses
   libsndfile,
   als_dsp_utils;
 
+const
+  ALS_VERSION = '1.0.0';
+
+
 type
   TALSSound = class;
 
-
 const
-  ALS_VERSION    = 1;
-  ALS_SUBVERSION = 0;
-
   // Volume range
   ALS_VOLUME_MIN = 0.0;
   ALS_VOLUME_MAX = 1.0;
@@ -1028,7 +1028,6 @@ type
   private
     FDefaultLoopbackDevice: TALSLoopbackDeviceItem;
     procedure CloseLoopbackDevice( aDeviceHandle: PALCDevice );
-    function GetALSoundVersion: string;
   public // LIBRARIES
     constructor Create;
     destructor Destroy; override;
@@ -1112,7 +1111,6 @@ type
     property OpenALSoftLibraryLoaded: boolean read FOpenALSoftLibraryLoaded;
     property LibSndFileLibraryLoaded: boolean read FLibSndFileLibraryLoaded;
 
-    property ALSoundVersion: string read GetALSoundVersion;
     // Version of OpenAL-Soft library.
     property OpenAlSoftVersion: string read GetOpenAlSoftVersion;
     // Version of LibSndFile library.
@@ -2088,11 +2086,6 @@ begin
     if aDeviceHandle = FDefaultLoopbackDevice.Handle then
       FDefaultLoopbackDevice.Close;
   end;
-end;
-
-function TALSManager.GetALSoundVersion: string;
-begin
-  Result := ALS_VERSION.ToString + '.' +ALS_SUBVERSION.ToString;
 end;
 
 constructor TALSManager.Create;
