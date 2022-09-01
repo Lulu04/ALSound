@@ -4,8 +4,9 @@
 //
 
 {
-   You'll found here some presets. I made them with poor quality headphones and
-   with my ears... They can surely be improved.
+   You'll found here some effect's presets.
+   Made by the author of ALSound with low quality headphones and
+   and low quality ears... They can surely be improved.
 }
 
 type
