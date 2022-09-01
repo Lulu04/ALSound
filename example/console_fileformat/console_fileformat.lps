@@ -31,8 +31,8 @@
         <Filename Value="..\..\source\alsound.pas"/>
         <UnitName Value="ALSound"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="2214"/>
-        <CursorPos X="42" Y="2228"/>
+        <TopLine Value="1084"/>
+        <CursorPos X="2" Y="1094"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit3>

@@ -8,7 +8,8 @@
       <Unit0>
         <Filename Value="loopback.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="12"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
         <CursorPos Y="17"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -251,41 +252,36 @@
       </Unit32>
       <Unit33>
         <Filename Value="..\..\source\libsndfile.pas"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="709"/>
         <CursorPos X="2" Y="725"/>
         <UsageCount Value="94"/>
-        <Loaded Value="True"/>
       </Unit33>
       <Unit34>
         <Filename Value="..\..\source\openalsoft.pas"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="44" Y="39"/>
         <UsageCount Value="102"/>
-        <Loaded Value="True"/>
       </Unit34>
       <Unit35>
         <Filename Value="..\..\source\alext.inc"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="16"/>
         <CursorPos X="40" Y="43"/>
         <UsageCount Value="49"/>
-        <Loaded Value="True"/>
       </Unit35>
       <Unit36>
         <Filename Value="..\..\source\alc.inc"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="109"/>
         <CursorPos X="25" Y="126"/>
         <UsageCount Value="49"/>
-        <Loaded Value="True"/>
       </Unit36>
       <Unit37>
         <Filename Value="..\..\source\al.inc"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="30" Y="311"/>
         <UsageCount Value="101"/>
-        <Loaded Value="True"/>
       </Unit37>
       <Unit38>
         <Filename Value="..\..\source\eaxreverbpresets.inc"/>
@@ -316,7 +312,6 @@
       <Unit42>
         <Filename Value="..\..\source\alsound.pas"/>
         <UnitName Value="ALSound"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="4271"/>
         <CursorPos X="37" Y="4282"/>
@@ -353,11 +348,10 @@
       </Unit46>
       <Unit47>
         <Filename Value="..\..\source\efx.inc"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="142"/>
         <CursorPos X="18" Y="147"/>
         <UsageCount Value="97"/>
-        <Loaded Value="True"/>
       </Unit47>
       <Unit48>
         <Filename Value="..\..\source\als_dsp_utils.inc"/>
@@ -388,11 +382,10 @@
       </Unit51>
       <Unit52>
         <Filename Value="..\..\source\als_error.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="41"/>
         <CursorPos X="76" Y="66"/>
         <UsageCount Value="31"/>
-        <Loaded Value="True"/>
       </Unit52>
       <Unit53>
         <Filename Value="C:\FPCupDeluxe\fpcsrc\rtl\objpas\math.pp"/>
@@ -404,18 +397,16 @@
       </Unit53>
       <Unit54>
         <Filename Value="..\..\source\als_frame_buffers.inc"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="15"/>
         <CursorPos X="3" Y="33"/>
         <UsageCount Value="31"/>
-        <Loaded Value="True"/>
       </Unit54>
       <Unit55>
         <Filename Value="..\..\source\als_directfilter.inc"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="28" Y="66"/>
         <UsageCount Value="21"/>
-        <Loaded Value="True"/>
       </Unit55>
       <Unit56>
         <Filename Value="C:\FPCupDeluxe\lazarus\lcl\include\spinedit.inc"/>
@@ -426,11 +417,10 @@
       </Unit56>
       <Unit57>
         <Filename Value="..\..\source\als_dsp_utils.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="195"/>
         <CursorPos X="3" Y="197"/>
         <UsageCount Value="14"/>
-        <Loaded Value="True"/>
       </Unit57>
     </Units>
     <OtherDefines Count="1">

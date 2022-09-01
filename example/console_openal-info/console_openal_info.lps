@@ -8,9 +8,8 @@
       <Unit0>
         <Filename Value="console_openal_info.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="62"/>
-        <CursorPos Y="71"/>
+        <CursorPos X="29" Y="75"/>
         <UsageCount Value="58"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -24,9 +23,9 @@
       </Unit1>
       <Unit2>
         <Filename Value="..\..\source\openalsoft.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="122"/>
-        <CursorPos Y="148"/>
+        <CursorPos X="36" Y="24"/>
         <UsageCount Value="29"/>
         <Loaded Value="True"/>
       </Unit2>

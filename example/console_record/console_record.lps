@@ -45,11 +45,10 @@
       </Unit4>
       <Unit5>
         <Filename Value="..\..\source\al.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="372"/>
         <CursorPos X="3" Y="387"/>
         <UsageCount Value="32"/>
-        <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\inc\ctypes.pp"/>
