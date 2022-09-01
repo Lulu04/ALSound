@@ -1,3 +1,25 @@
+{
+  **************************************************************************
+ *                                                                          *
+ *  This file is part of ALSound.                                           *
+ *                                                                          *
+ *  See the file LICENSE included in this distribution,                     *
+ *  for details about the copyright.                                        *
+ *                                                                          *
+ *  This software is distributed in the hope of being useful                *
+ *  for learning purposes about OpenAL-Soft and LibSndFile                  *
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                    *
+ *                                                                          *
+  **************************************************************************
+
+  ALSound offer a simple and easy way to play, capture and mix sounds
+  using OpenAL-Soft and LibSndFile libraries under FreePascal/Lazarus.
+
+
+ written by Lulu - 2022
+}
+
 unit als_dsp_utils;
 
 {$mode objfpc}{$H+}

@@ -23,6 +23,31 @@
 ** and at http://libsndfile.github.io/libsndfile/api.html.
 *}
 
+//
+// FreePascal binding for LibSndFile written by lulu - 2022
+//
+{
+  **************************************************************************
+ *                                                                          *
+ *  This file is part of ALSound. It is a pascal binding for LibSndFile     *
+ *  library.
+ *                                                                          *
+ *  See the file LICENSE included in this distribution,                     *
+ *  for details about the copyright.                                        *
+ *                                                                          *
+ *  This software is distributed in the hope of being useful                *
+ *  for learning purposes about OpenAL-Soft and LibSndFile                  *
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                    *
+ *                                                                          *
+  **************************************************************************
+
+  ALSound offer a simple and easy way to play, capture and mix sounds
+  using OpenAL-Soft and LibSndFile libraries under FreePascal/Lazarus.
+
+
+ written by Lulu - 2022 - https://github.com/Lulu04/ALSound
+}
 unit libsndfile;
 
 {$mode objfpc}{$H+}

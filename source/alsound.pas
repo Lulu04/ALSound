@@ -1,23 +1,22 @@
 {
   **************************************************************************
  *                                                                          *
- *  This file is part of OALSSound library.                                 *
+ *  This file is part of ALSound.                                           *
  *                                                                          *
  *  See the file LICENSE included in this distribution,                     *
  *  for details about the copyright.                                        *
  *                                                                          *
  *  This software is distributed in the hope of being useful                *
- *  for learning purposes about OpenAL-Soft and FreePascal/Lazarus,         *
+ *  for learning purposes about OpenAL-Soft and LibSndFile                  *
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                    *
  *                                                                          *
   **************************************************************************
 
-  OALSSound offer a simple and easy way to play sound
+  ALSound offer a simple and easy way to play, capture and mix sounds
   using OpenAL-Soft and LibSndFile libraries under FreePascal/Lazarus.
 
-
- written by Lulu - 2022
+ written by Lulu - 2022 - https://github.com/Lulu04/ALSound
 }
 
 unit ALSound;

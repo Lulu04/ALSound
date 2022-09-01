@@ -1,20 +1,25 @@
 {
- ****************************************************************************
+  **************************************************************************
  *                                                                          *
- *  This file is part of OpenALSoundManager library which is distributed    *
- *  under the modified LGPL.                                                *
+ *  This file is part of ALSound.                                           *
  *                                                                          *
- *  See the file COPYING.modifiedLGPL.txt, included in this distribution,   *
+ *  See the file LICENSE included in this distribution,                     *
  *  for details about the copyright.                                        *
  *                                                                          *
- *  This program is distributed in the hope that it will be useful,         *
+ *  This software is distributed in the hope of being useful                *
+ *  for learning purposes about OpenAL-Soft and LibSndFile                  *
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                    *
  *                                                                          *
- ****************************************************************************
+  **************************************************************************
 
- written by Lulu - 2022
+  ALSound offer a simple and easy way to play, capture and mix sounds
+  using OpenAL-Soft and LibSndFile libraries under FreePascal/Lazarus.
 
+
+ OpenAL-Soft pascal binding written by Lulu - 2022
+
+ Checks last version at https://github.com/Lulu04/ALSound
 }
 
 unit openalsoft;
@@ -45,7 +50,6 @@ const
   {$ENDIF}
   {$IFDEF CPUX86_64}
   OPENAL_LIBNAME = 'soft_oal.dll';
-
   {$ENDIF}
 {$ENDIF}
 
