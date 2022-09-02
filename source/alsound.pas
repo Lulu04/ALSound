@@ -343,7 +343,8 @@ type
     FFrameCount,
     FByteCount: QWord;
     FStrFormat,
-    FStrSubFormat: string;
+    FStrSubFormat,
+    FFilename: string;
     function GetFormatForAL( aChannelCount: integer; aContextUseFloat, aWantBFormatAmbisonic: boolean ): DWord;
     procedure DecodeFileInfo( aFileHandle: PSNDFILE; aSFInfo: TSF_INFO );
   protected
@@ -483,6 +484,8 @@ type
     property Loop: boolean read FLoop write SetLoop;
     // the channel count of the sound.
     property ChannelCount: word read FChannelCount;
+    // The sound's filename. Empty string if the sound is not loaded from a file.
+    property Filename: string read FFilename;
     // The format of the sound file e.g: WAV (Microsoft), AIFF(Apple/SGI), ...
     // Empty string if the sound is not loaded from a file.
     property Format: string read FStrFormat;
@@ -3509,6 +3512,7 @@ begin
   FParentContext := aParent;
   InitializeErrorStatus;
   fileopened := False;
+  FFilename := aFilename;
 
   if not Error then
   begin
@@ -3600,6 +3604,7 @@ begin
   InitializeErrorStatus;
   fileopened := False;
   SamplesFromFile := NIL;  // avoid hint
+  FFilename := aFilename;
 
   if not Error then
   begin
@@ -3661,6 +3666,7 @@ begin
   FParentContext := aParent;
   InitializeErrorStatus;
   Samples := NIL;  // avoid hint
+  FFilename := '';
 
   if not Error then
   begin
