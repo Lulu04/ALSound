@@ -691,7 +691,7 @@ type
     function GetSoundCount: integer;
     function GetObtainedMonoCount: integer;
     function GetObtainedStereoCount: integer;
-    function GetSoundByIndex(aIndex: integer): TALSSound;
+    function GetSoundByIndex(index: integer): TALSSound;
     function GetObtainedAuxiliarySendCount: integer;
     procedure InternalDeleteSound(AIndex: integer);
     procedure SetDistanceModel(AValue: TALSDistanceModel);
@@ -770,6 +770,8 @@ type
     property Playlist: TALSPlaylist read FPlaylist;
 
     property SoundCount: integer read GetSoundCount;
+    property Sounds[index:integer]: TALSSound read GetSoundByIndex;
+
     property ObtainedMonoCount: integer read GetObtainedMonoCount;
     property ObtainedStereoCount: integer read GetObtainedStereoCount;
     property ObtainedAuxiliarySendCount: integer read GetObtainedAuxiliarySendCount;
@@ -4157,11 +4159,11 @@ begin
   end;
 end;
 
-function TALSPlaybackContext.GetSoundByIndex(aIndex: integer): TALSSound;
+function TALSPlaybackContext.GetSoundByIndex(index: integer): TALSSound;
 begin
   try
     EnterCriticalSection(FCriticalSection);
-    Result := TALSSound(FList.Items[aIndex]);
+    Result := TALSSound(FList.Items[index]);
   finally
     LeaveCriticalSection(FCriticalSection);
   end;
