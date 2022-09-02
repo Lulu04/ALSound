@@ -350,8 +350,6 @@ type
   protected
     FSource: longword;
     FLoop, FPaused: boolean;
-   // FPan: integer;
-   // FPitch: single;
     procedure GenerateALSource;
     procedure GenerateALBuffer(aTarget: PALuint; aCount: integer);
   protected
