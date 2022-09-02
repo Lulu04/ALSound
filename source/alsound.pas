@@ -345,6 +345,7 @@ type
     FStrFormat,
     FStrSubFormat,
     FFilename: string;
+    FTag: integer;
     function GetFormatForAL( aChannelCount: integer; aContextUseFloat, aWantBFormatAmbisonic: boolean ): DWord;
     procedure DecodeFileInfo( aFileHandle: PSNDFILE; aSFInfo: TSF_INFO );
   protected
@@ -507,7 +508,10 @@ type
     // For more info see  https://openal-soft.org/openal-extensions/SOFT_source_resampler.txt
     property ResamplerIndex: integer read GetResamplerIndex write SetResamplerIndex;
 
+    // State of the sound. Possible value are ALS_STOPPED, ALS_PLAYING, ALS_PAUSED
     property State: TALSState read GetState;
+    // general use
+    property Tag: integer read FTag;
   end;
 
 
