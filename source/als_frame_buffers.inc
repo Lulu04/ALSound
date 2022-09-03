@@ -47,16 +47,6 @@ type
   end;
 
 
-  { TALSPlaybackFrameBuffer }
-
-{  TALSPlaybackFrameBuffer = object(TALSFrameBufferBase)
-  private
-    FFormat: TALSPlaybackFormat;
-  public
-    procedure Init(aFormat: TALSPlaybackFormat);
-    property Format: TALSPlaybackFormat read FFormat;
-  end;  }
-
   { TALSCaptureFrameBuffer }
 
   TALSCaptureFrameBuffer = object(TALSFrameBufferBase)
