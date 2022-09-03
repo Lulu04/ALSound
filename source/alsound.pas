@@ -511,7 +511,7 @@ type
     // State of the sound. Possible value are ALS_STOPPED, ALS_PLAYING, ALS_PAUSED
     property State: TALSState read GetState;
     // general purpose
-    property Tag: integer read FTag;
+    property Tag: integer read FTag write FTag;
   end;
 
 
