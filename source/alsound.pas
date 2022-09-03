@@ -41,9 +41,11 @@ type
   TALSSound = class;
 
 const
-  // Volume range
+  // Volume range. 0.0=silence  1.0=original volume  >1.0=amplification
   ALS_VOLUME_MIN = 0.0;
   ALS_VOLUME_MAX = 1.0;
+  ALS_VOLUME_MAXAMP = 8.0; // The maximum amplification value. This is
+                           // equivalent to +18dB
 
   // Pan range
   ALS_PAN_LEFT = -1.0;
@@ -60,8 +62,9 @@ const
   ALS_TONE_ONLYHIGHFREQ = 1.0;
   ALS_TONE_NORMAL = 0.5;
 
-  // Decibel
+  // Decibel range is -60dB to +18dB
   ALS_DECIBEL_MIN_VALUE = -60;
+  ALS_DECIBEL_MAX_VALUE = 18;
 
 type
 
@@ -458,7 +461,8 @@ type
     procedure Position3D( aX, aY, aZ: single );
 
   public
-    // The volume of the sound. Range is [0.0 to 1.0]
+    // The volume of the sound. Range is [0.0 to 8.0]
+    // 0.0=silence  1.0=original volume  >1.0=amplification
     Volume: TALSBoundedFParam;
     // Panning control. Range is -1.0 to 1.0. Works only on MONO and STEREO sounds.
     // value           -1.0<------->0<---------->1.0
@@ -618,6 +622,10 @@ type
                         // This index points to an HRTF name in the list provided by TALSPlaybackContext.HRTFList.
                         // Default value is -1, that means default HRTF will be used.
                         // Please, see HRTFDemo for an typical usage.
+    EnableOutputLimiter: boolean; // Toogle ON/OFF the output limiter on the context.
+                                  // Default value is TRUE. For now, OpenAL-Soft don't offer
+                                  // a control on the limiter's parameters.
+                                  // See https://openal-soft.org/openal-extensions/SOFT_output_limiter.txt
     // Initialize all fields to their default value. Don't forgot to call first !
     procedure InitDefault;
     // Initialize parameters for a loopback context.
@@ -627,7 +635,9 @@ type
     FLoopbackChannelType: TALSLoopbackChannel;
     FLoopbackSampleType: TALSLoopbackSampleType;
     procedure InitFrom(aAttribs: TALSContextAttributes);
-    function ToArray(aEFXPresent, aOutputModePresent, aHRTFPresent, aLoopbackPresent: boolean): ArrayOfALint;
+    function ToArray(aEFXPresent, aOutputModePresent,
+                     aHRTFPresent, aLoopbackPresent,
+                     aOutputLimiterPresent: boolean): ArrayOfALint;
   end;
 
 
@@ -685,7 +695,10 @@ type
     FHaveExt_AL_SOFT_deferred_updates,
     FHaveExt_AL_SOFT_source_resampler,
     FHaveExt_ALC_SOFT_loopback,
-    FHaveExt_AL_SOFT_source_spatialize: boolean;
+    FHaveExt_ALC_SOFT_output_limiter,
+    FHaveExt_AL_SOFT_source_spatialize,
+    FHaveExt_AL_SOFT_gain_clamp_ex,
+    FHaveExt_AL_EXT_source_distance_model: boolean;
 
     FMasterGain: TALSBoundedFParam;
 
@@ -2378,6 +2391,7 @@ begin
   ContextUseFloat := False;
   HRTFIndex := -1;
   FLoopbackModeEnabled := False;
+  EnableOutputLimiter := True;
 end;
 
 procedure TALSContextAttributes.InitFrom(aAttribs: TALSContextAttributes);
@@ -2404,7 +2418,7 @@ begin
 end;
 
 function TALSContextAttributes.ToArray( aEFXPresent, aOutputModePresent,
-  aHRTFPresent, aLoopbackPresent: boolean): ArrayOfALint;
+  aHRTFPresent, aLoopbackPresent, aOutputLimiterPresent: boolean): ArrayOfALint;
 var A: ArrayOfALint;
   i: integer;
   procedure AddAttrib( aAttribLabel, aAttribValue: ALint );
@@ -2448,6 +2462,15 @@ begin
   begin
     AddAttrib( ALC_FORMAT_CHANNELS_SOFT, ALint(Ord(FLoopbackChannelType)) );
     AddAttrib( ALC_FORMAT_TYPE_SOFT, ALint(Ord(FLoopbackSampleType)) );
+  end;
+
+  // Output limiter ON/OFF (extension)
+  if aOutputLimiterPresent then
+  begin
+    if EnableOutputLimiter then
+      AddAttrib(ALC_OUTPUT_LIMITER_SOFT, ALC_TRUE)
+    else
+      AddAttrib(ALC_OUTPUT_LIMITER_SOFT, ALC_FALSE);
   end;
 
   // end of context attributes
@@ -4249,9 +4272,14 @@ begin
   FHaveExt_ALC_SOFT_loopback := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_loopback'));
   // extension is loaded in TALSLoopbackDeviceItem.Open
 
+  FHaveExt_ALC_SOFT_output_limiter := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_output_limiter'));
+
   FContext := alcCreateContext(FParentDevice,
-    @aAttribs.ToArray(FHaveEXT_ALC_EXT_EFX, FHaveExt_ALC_SOFT_output_mode,
-    FHaveExt_ALC_SOFT_HRTF, FHaveExt_ALC_SOFT_loopback)[0]);
+    @aAttribs.ToArray(FHaveEXT_ALC_EXT_EFX,
+                      FHaveExt_ALC_SOFT_output_mode,
+                      FHaveExt_ALC_SOFT_HRTF,
+                      FHaveExt_ALC_SOFT_loopback,
+                      FHaveExt_ALC_SOFT_output_limiter)[0]);
   CheckALCError(FParentDevice, als_ALContextNotCreated);
 
   if FContext <> nil then
@@ -4292,6 +4320,15 @@ begin
       end;
 
       FHaveBufferOfFloat := alGetEnumValue(PChar('AL_FORMAT_MONO_FLOAT32')) <> 0;
+
+      FHaveExt_AL_SOFT_gain_clamp_ex := alIsExtensionPresent(PChar('AL_SOFT_gain_clamp_ex'));
+      if FHaveExt_AL_SOFT_gain_clamp_ex then
+      begin  // sets max amplification gain to 8.0
+       // alListenerf(AL_GAIN_LIMIT_SOFT, ALfloat(ALS_VOLUME_MAXAMP));
+        alGetError();
+      end;
+
+      FHaveExt_AL_EXT_source_distance_model := alIsExtensionPresent(PChar('AL_EXT_source_distance_model'));
 
       FHaveExt_AL_SOFT_deferred_updates := alIsExtensionPresent(PChar('AL_SOFT_deferred_updates'));
       if FHaveExt_AL_SOFT_deferred_updates then
@@ -4419,12 +4456,17 @@ end;
 procedure TALSSound.CreateParameters;
 var
   i: integer;
+  v: single;
 begin
   InitCriticalSection(FCriticalSection);
 
   FMuteMultiplicator := 1.0;
 
-  Volume := TALSBoundedFParam.Create(ALS_VOLUME_MIN, ALS_VOLUME_MAX, ALS_VOLUME_MAX);
+  if FParentContext.FHaveExt_AL_SOFT_gain_clamp_ex then
+    v := ALS_VOLUME_MAXAMP
+  else
+    v := ALS_VOLUME_MAX;
+  Volume := TALSBoundedFParam.Create(ALS_VOLUME_MIN, v, ALS_VOLUME_MAX);
   Volume.FProc := @SetALVolume;
   Volume.FOnLockParam := @EnterCS;
   Volume.FOnUnlockParam := @LeaveCS;
@@ -4639,8 +4681,18 @@ begin
     SetPositionRelativeToListener( True );
     alSource3f(FSource, AL_POSITION, 0.0, 0.0, -1.0);
     alSourcef(FSource, AL_ROLLOFF_FACTOR, 0.0);
-    alSourcei(FSource, AL_DISTANCE_MODEL, ALint(FParentContext.FDistanceModel) );
-    //alSourcef(FSource, AL_MAX_GAIN, 1.0);
+
+    if FParentContext.FHaveExt_AL_EXT_source_distance_model then
+    begin
+      alSourcei(FSource, AL_DISTANCE_MODEL, ALint(FParentContext.FDistanceModel) );
+      alGetError();
+    end;
+
+    if FParentContext.FHaveExt_AL_SOFT_gain_clamp_ex then
+    begin
+      alSourcef(FSource, AL_MAX_GAIN, ALS_VOLUME_MAXAMP);
+      alGetError();
+    end;
   end;
 end;
 
@@ -5387,11 +5439,12 @@ end;
 
 procedure TALSSound.SetDistanceModel(AValue: TALSDistanceModel);
 begin
-  if not Error then
+  if not Error and FParentContext.FHaveExt_AL_EXT_source_distance_model then
   begin
     LockContext( FParentContext.FContext );
     try
       alSourcei( FSource, AL_DISTANCE_MODEL, Ord(AValue) );
+      alGetError();
     finally
       UnlockContext;
     end;
