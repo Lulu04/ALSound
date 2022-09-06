@@ -538,12 +538,13 @@ type
   private
   const
     NUM_BUFFERS = 4;
-    BUFFER_FRAMES_COUNT = 8192;
+    BUFFER_TIME_LENGTH = 0.100;
   private
     Fsndfile: PSNDFILE;
     Fsfinfo: TSF_INFO;
     FFramesFromFile: ArrayOfByte;
     FBuffers: array[0..NUM_BUFFERS - 1] of ALuint;
+    FBufferFrameCount: integer;
     procedure PreBuffAudio;
   private
     FFrameReadAccu: sf_count_t;
@@ -3433,7 +3434,7 @@ begin
   for i := 0 to NUM_BUFFERS - 1 do
   begin
     accuRead := 0;
-    todo := BUFFER_FRAMES_COUNT;
+    todo := FBufferFrameCount;
     repeat
       if FParentContext.FHaveBufferOfFloat then
         readCount := sf_readf_float(Fsndfile, @FFramesFromFile[accuRead], todo)
@@ -3481,7 +3482,7 @@ begin
   if processed < 1 then
     exit;
 
-  FFrameReadAccu := FFrameReadAccu + int64(processed) * BUFFER_FRAMES_COUNT;
+  FFrameReadAccu := FFrameReadAccu + int64(processed * FBufferFrameCount);
 
   // Unqueue and fill each processed buffer
   while (processed > 0) do
@@ -3491,9 +3492,9 @@ begin
 
     // Read data from opened file
     if FParentContext.FHaveBufferOfFloat then
-      readCount := sf_readf_float(Fsndfile, @FFramesFromFile[0], BUFFER_FRAMES_COUNT)
+      readCount := sf_readf_float(Fsndfile, @FFramesFromFile[0], FBufferFrameCount)
     else
-      readCount := sf_readf_short(Fsndfile, @FFramesFromFile[0], BUFFER_FRAMES_COUNT);
+      readCount := sf_readf_short(Fsndfile, @FFramesFromFile[0], FBufferFrameCount);
 
     if readCount > 0 then
     begin
@@ -3504,7 +3505,7 @@ begin
       alSourceQueueBuffers(FSource, 1, @bufid);
       // Set the opened file read cursor to the beginning if LOOP mode is enabled,
       // and the buffer was not completely filled
-      if FLoop and (readCount <> BUFFER_FRAMES_COUNT) then
+      if FLoop and (readCount <> FBufferFrameCount) then
       begin
         sf_seek(Fsndfile, 0, SF_SEEK_SET);
         FFrameReadAccu := 0;
@@ -3562,7 +3563,8 @@ begin
 
         if not Error then
         begin
-          SetLength(FFramesFromFile, BUFFER_FRAMES_COUNT * FFrameSize);
+          FBufferFrameCount := Round(BUFFER_TIME_LENGTH*SampleRate);
+          SetLength(FFramesFromFile, FBufferFrameCount * FFrameSize);
           // prebuf some data
           PreBuffAudio;
         end;
@@ -3622,13 +3624,12 @@ var
   sndfile: PSNDFILE;
   sfinfo: TSF_INFO;
   frameRead: sf_count_t;
-  SamplesFromFile: ArrayOfByte;
+  frameBuffer: TALSPlaybackBuffer;
   fileopened: boolean;
 begin
   FParentContext := aParent;
   InitializeErrorStatus;
   fileopened := False;
-  SamplesFromFile := NIL;  // avoid hint
   FFilename := aFilename;
 
   if not Error then
@@ -3645,15 +3646,19 @@ begin
     // load sound data in memory
     if not Error then
     begin
-      SetLength(SamplesFromFile, FByteCount);
+      frameBuffer.Init(FChannelCount, FParentContext.FHaveBufferOfFloat);
+      frameBuffer.FrameCapacity := sfinfo.frames;
+
       if FParentContext.FHaveBufferOfFloat then
-        frameRead := sf_readf_float(sndfile, @SamplesFromFile[0], sfinfo.frames)
+        frameRead := sf_readf_float(sndfile, frameBuffer.Data, sfinfo.frames)
       else
-        frameRead := sf_readf_short(sndfile, @SamplesFromFile[0], sfinfo.frames);
+        frameRead := sf_readf_short(sndfile, frameBuffer.Data, sfinfo.frames);
 
       if frameRead < 1 then
+      begin
         SetError(als_FailToReadSample);
-
+        frameBuffer.FreeMemory;
+      end;
     end;
     // close the file
     if fileopened then
@@ -3665,8 +3670,10 @@ begin
       LockContext( FParentContext.FContext );
       try
         GenerateALBuffer(@FBufferID, 1);
-        alBufferData(FBufferID, FFormatForAL, @{%H-}SamplesFromFile[0], FByteCount, FSampleRate);
+        alBufferData(FBufferID, FFormatForAL, frameBuffer.Data, FByteCount, FSampleRate);
         CheckALError(als_ALCanNotGenerateBuffer);
+
+        frameBuffer.FreeMemory;
 
         GenerateALSource;
         if not Error then
@@ -4329,6 +4336,9 @@ begin
       end;
 
       FHaveExt_AL_EXT_source_distance_model := alIsExtensionPresent(PChar('AL_EXT_source_distance_model'));
+      if FHaveExt_AL_EXT_source_distance_model then
+        alEnable( AL_SOURCE_DISTANCE_MODEL );// enable source to have their own distance model
+                                             // https://openal-soft.org/openal-extensions/EXT_source_distance_model.txt
 
       FHaveExt_AL_SOFT_deferred_updates := alIsExtensionPresent(PChar('AL_SOFT_deferred_updates'));
       if FHaveExt_AL_SOFT_deferred_updates then
@@ -4990,15 +5000,24 @@ end;
 
 procedure TALSSound.Update(const aElapsedTime: single);
 var
-  v, p: single;
+  v: single;
 begin
   EnterCriticalSection(FCriticalSection);
   try
     v := Volume.Value;
     Volume.OnElapse(aElapsedTime);
+    if v <> Volume.Value then
+      SetALVolume;
 
-    p := Pitch.Value;
+    v := Pan.Value;
+    Pan.OnElapse(aElapsedTime);
+    if v <> Pan.Value then
+      SetALPan;
+
+    v := Pitch.Value;
     Pitch.OnElapse(aElapsedTime);
+    if v <> Pitch.Value then
+      SetALPitch;
 
     if (Volume.State = psNO_CHANGE) and FFadeOutEnabled then
     begin
@@ -5007,17 +5026,6 @@ begin
       FKill := FKill or FKillAfterFadeOut;
     end;
 
-    if not Error then
-    begin
-      if v <> Volume.Value then
-        SetALVolume;
-      if p <> Pitch.Value then
-        SetALPitch;
-      if FKillAfterPlay and (State = ALS_STOPPED) then
-        FKill := True;
-    end
-    else
-      FKill := FKill or FKillAfterPlay;
   finally
     LeaveCriticalSection(FCriticalSection);;
   end;
