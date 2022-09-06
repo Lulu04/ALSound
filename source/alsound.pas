@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, ctypes, Types,
-  {$ifdef LCL}ExtCtrls, Graphics, Forms,{$endif}
+  {$ifdef LCL}ExtCtrls, Graphics, Forms, LCLTranslator,{$endif}
   openalsoft,
   libsndfile,
   als_dsp_utils;
