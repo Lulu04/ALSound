@@ -47,6 +47,13 @@ type
   end;
 
 
+  { TALSPlaybackBuffer }
+
+  TALSPlaybackBuffer = object(TALSFrameBufferBase)
+    procedure Init(aChannelCount: integer; aUseFloat: boolean);
+  end;
+
+
   { TALSCaptureFrameBuffer }
 
   TALSCaptureFrameBuffer = object(TALSFrameBufferBase)
@@ -178,17 +185,19 @@ begin
   end;
 end;
 
-{ TALSPlaybackFrameBuffer }
+{ TALSPlaybackBuffer }
 
-{procedure TALSPlaybackFrameBuffer.Init(aFormat: TALSPlaybackFormat);
+procedure TALSPlaybackBuffer.Init(aChannelCount: integer; aUseFloat: boolean);
 begin
- InitDefault;
- SetChannelCount(ALSCaptureFormatToChannelCount(aFormat));
- FBytePerChannel := ALSCaptureFormatToBytePerChannel(aFormat);
- FBytePerFrame := ChannelCount * BytePerChannel;
- FUseFloat := (aFormat = ALS_CAPTUREFORMAT_MONO_FLOAT32) or
-              (aFormat = ALS_CAPTUREFORMAT_STEREO_FLOAT32);
-end; }
+  InitDefault;
+  SetChannelCount(aChannelCount);
+  if aUseFloat then
+    FBytePerChannel := 4
+  else
+   FBytePerChannel := 2;
+  FBytePerFrame := ChannelCount * BytePerChannel;
+  FUseFloat := aUseFloat;
+end;
 
 { TALSFrameBufferBase }
 
