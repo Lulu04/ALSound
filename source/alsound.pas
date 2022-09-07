@@ -87,9 +87,9 @@ type
 
   // Capture context sample format
   TALSCaptureFormat = ( ALS_CAPTUREFORMAT_MONO16=$1101,
-                              ALS_CAPTUREFORMAT_STEREO16=$1103,
-                              ALS_CAPTUREFORMAT_MONO_FLOAT32=$10010,
-                              ALS_CAPTUREFORMAT_STEREO_FLOAT32=$10011 );
+                        ALS_CAPTUREFORMAT_STEREO16=$1103,
+                        ALS_CAPTUREFORMAT_MONO_FLOAT32=$10010,
+                        ALS_CAPTUREFORMAT_STEREO_FLOAT32=$10011 );
 
 
   TALSLoopbackChannel = ( ALC_MONO_SOFT = $1500,
@@ -699,7 +699,8 @@ type
     FHaveExt_ALC_SOFT_output_limiter,
     FHaveExt_AL_SOFT_source_spatialize,
     FHaveExt_AL_SOFT_gain_clamp_ex,
-    FHaveExt_AL_EXT_source_distance_model: boolean;
+    FHaveExt_AL_EXT_source_distance_model,
+    FHaveExt_AL_SOFT_buffer_samples: boolean;
 
     FMasterGain: TALSBoundedFParam;
 
@@ -4349,6 +4350,8 @@ begin
       FHaveExt_AL_SOFT_effect_target := alIsExtensionPresent(PChar('AL_SOFT_effect_target'));
 
       FHaveExt_AL_SOFT_source_spatialize := alIsExtensionPresent(PChar('AL_SOFT_source_spatialize'));
+
+      FHaveExt_AL_SOFT_buffer_samples := alIsExtensionPresent(PChar('AL_SOFT_buffer_samples'));
 
       FHaveExt_AL_EXT_BFORMAT := alIsExtensionPresent(PChar('AL_EXT_BFORMAT'));
 
