@@ -722,8 +722,8 @@ type
     procedure InternalCloseDevice; virtual;
   public
     // Don't create playback context directly.
-    // Use ALSRoot.CreateDefaultPlaybackContext
-    // or  ALSToot.CreatePlaybackContext(...) method for this
+    // Use ALSManager.CreateDefaultPlaybackContext
+    // or  ALSManager.CreatePlaybackContext(...) method for this
     constructor Create(aDevice: PALCDevice; const aAttribs: TALSContextAttributes);
     destructor Destroy; override;
 
