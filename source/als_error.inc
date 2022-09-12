@@ -21,7 +21,7 @@ TALSError = ( als_NoError = 0,
               als_ALAttributesNotConfiguredForLoopback,
               //als_CanNotCreateTargetMixFile,
               als_FileWriteErrorWhileMixing,
-              als_BadMixTimeInterval,
+              //als_BadMixTimeInterval,
 
               als_LibSndFileNotLoaded,
               als_FileNotOpened,
@@ -34,7 +34,9 @@ TALSError = ( als_NoError = 0,
               als_FileWriteErrorWhileCapturing,
               als_ALErrorWhileCapturing,
               als_CanNotCreateTargetCaptureFile,
-              als_FileWriteErrorOnTargetCaptureFile
+              als_FileWriteErrorOnTargetCaptureFile,
+
+              als_OutOfMemory
               );
 
 resourcestring
@@ -58,7 +60,7 @@ resourcestring
   StrALS_ALAttributesNotConfiguredForLoopback  = 'OpenAL: Ask for Loopback context but attributes not configured on loopback mode';
   //StrALS_CanNotCreateTargetMixFile = 'LibSndFile: Can not create target mix file';
   StrALS_FileWriteErrorWhileMixing = 'LibSndFile: File write error while mixing audio to file';
-  StrALS_BadMixTimeInterval = 'Loopback Context: Bad time interval';
+  //StrALS_BadMixTimeInterval = 'Loopback Context: Bad time interval';
 
   StrALS_LibSndFileNotLoaded = 'LibSndFile: Library not loaded';
   StrALS_FileNotOpened = 'LibSndFile: Can not open file';
@@ -72,6 +74,8 @@ resourcestring
   StrALS_ALErrorWhileCapturing = 'OpenAL: An error appears while capturing audio';
   StrALS_CanNotCreateTargetCaptureFile = 'LibSndFile: Can not create target capture file';
   StrALS_FileWriteErrorOnTargetCaptureFile = 'LibSndFile: File write error while converting temporary capture file to final file';
+
+  StrALS_OutOfMemory = 'ALSound: Not enough memory';
 
   StrALS_Undefined = 'OALSSoundManager: Undefined error';
   // other
@@ -103,7 +107,7 @@ begin
     als_ALAttributesNotConfiguredForLoopback: Result := StrALS_ALAttributesNotConfiguredForLoopback;
     //als_CanNotCreateTargetMixFile: Result := StrALS_CanNotCreateTargetMixFile;
     als_FileWriteErrorWhileMixing: Result := StrALS_FileWriteErrorWhileMixing;
-    als_BadMixTimeInterval: Result := StrALS_BadMixTimeInterval;
+    //als_BadMixTimeInterval: Result := StrALS_BadMixTimeInterval;
 
     als_LibSndFileNotLoaded: Result := StrALS_LibSndFileNotLoaded;
     als_FileNotOpened: Result := StrALS_FileNotOpened;
@@ -117,6 +121,8 @@ begin
     als_ALErrorWhileCapturing: Result := StrALS_ALErrorWhileCapturing;
     als_CanNotCreateTargetCaptureFile: Result := StrALS_CanNotCreateTargetCaptureFile;
     als_FileWriteErrorOnTargetCaptureFile: Result := StrALS_FileWriteErrorOnTargetCaptureFile;
+
+    als_OutOfMemory: Result := StrALS_OutOfMemory;
     else
       Result := StrALS_Undefined;
   end;
