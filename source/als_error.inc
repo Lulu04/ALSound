@@ -11,6 +11,7 @@ TALSError = ( als_NoError = 0,
               als_ALCanNotGenerateBuffer,
               als_ALCanNotGenerateFilter,
               als_ALCanNotFillBuffer,
+              als_ALCanNotAttachBufferToSource,
               als_ErrorWhileBufferingData,
               als_ErrorWhileQueuingBuffer,
 
@@ -47,6 +48,7 @@ resourcestring
   StrALS_ALCanNotGenerateBuffer = 'OpenAL: Can not generate buffer';
   StrALS_ALCanNotGenerateFilter = 'OpenAL: Can not generate filter';
   StrALS_ALCanNotFillBuffer = 'OpenAL: Can not fill buffer';
+  StrALS_ALCanNotAttachBufferToSource = 'OpenAL: Can not attach buffer to source';
   StrALS_ErrorWhileBufferingData = 'OpenAL: Error while buffering data';
   StrALS_ErrorWhileQueuingBuffer = 'OpenAL: Error while queuing buffer';
 
@@ -91,6 +93,7 @@ begin
     als_ALCanNotGenerateBuffer: Result := StrALS_ALCanNotGenerateBuffer;
     als_ALCanNotGenerateFilter: Result := StrALS_ALCanNotGenerateFilter;
     als_ALCanNotFillBuffer: Result := StrALS_ALCanNotFillBuffer;
+    als_ALCanNotAttachBufferToSource: Result := StrALS_ALCanNotAttachBufferToSource;
     als_ErrorWhileBufferingData: Result := StrALS_ErrorWhileBufferingData;
     als_ErrorWhileQueuingBuffer: Result := StrALS_ErrorWhileQueuingBuffer;
 
