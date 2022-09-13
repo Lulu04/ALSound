@@ -356,6 +356,7 @@ type
     FSource: longword;
     FLoop, FPaused: boolean;
     FBuffers: array of TALSPlaybackBuffer;
+    FMonitoringEnabled: boolean;
     procedure GenerateALSource;
     procedure GenerateALBuffers(aCount: integer);
     procedure SetBuffersFrameCapacity(aFrameCapacity: longword);
@@ -542,8 +543,8 @@ type
     procedure InitLevelsFromBuffer(const aBuf: TALSPlaybackBuffer);
     function GetChannelLevel(index: integer): single; override;
   public
-    constructor CreateFromFile(aParent: TALSPlaybackContext; const aFilename: string);
-    constructor CreateWhiteNoise(aParent: TALSPlaybackContext; aDuration: single; aChannelCount: integer);
+    constructor CreateFromFile(aParent: TALSPlaybackContext; const aFilename: string; aEnableMonitor: boolean);
+    constructor CreateWhiteNoise(aParent: TALSPlaybackContext; aDuration: single; aChannelCount: integer; aEnableMonitor: boolean);
     destructor Destroy; override;
   end;
 
@@ -569,7 +570,7 @@ type
     procedure Update(const aElapsedTime: single); override;
     procedure InternalRewind; override;
   public
-    constructor Create(aParent: TALSPlaybackContext; const aFilename: string);
+    constructor Create(aParent: TALSPlaybackContext; const aFilename: string; aEnableMonitor: boolean);
     destructor Destroy; override;
 
     function GetTimePosition: single; override;
@@ -746,15 +747,21 @@ type
     constructor Create(aDevice: PALCDevice; const aAttribs: TALSContextAttributes);
     destructor Destroy; override;
 
-    // Loads a sound file into memory and return its instance
-    function AddSound(const aFilename: string): TALSSound;
-    // Opens the sound file as stream and return its instance
-    function AddStream(const aFilename: string): TALSSound;
+    // Loads a sound file into memory and return its instance.
+    // Set aEnableMonitoring to True if you need the channel's level of the
+    // sound (it take some ram and cpu resources).
+    function AddSound(const aFilename: string; aEnableMonitoring: boolean=False): TALSSound;
+    // Opens the sound file as stream and return its instance.
+    // Set aEnableMonitoring to True if you need the channel's level of the
+    // sound (it take some ram and cpu resources).
+    function AddStream(const aFilename: string; aEnableMonitoring: boolean=False): TALSSound;
 
   { TODO : AddWebStream( const aUrl: string ): TOALSound; to play audio from url }
 
     // Creates a memory sound filled with white noise.
-    function CreateWhiteNoise(aDuration: single; aChannelCount: integer): TALSSound;
+    // Set aEnableMonitoring to True if you need the channel's level of the
+    // sound (it take some ram and cpu resources).
+    function CreateWhiteNoise(aDuration: single; aChannelCount: integer; aEnableMonitoring: boolean=False): TALSSound;
 
     // stops the sound and free it
     procedure Delete(ASound: TALSSound);
@@ -2613,7 +2620,7 @@ procedure TALSPlaylist.LoadCurrentMusic;
 begin
   FreeCurrentMusic;
   try
-    FMusic := TALSStreamedFileSound.Create(FParentContext, FList.Strings[FMusicIndex]);
+    FMusic := TALSStreamedFileSound.Create(FParentContext, FList.Strings[FMusicIndex], False);
   except
     FMusic.Free;
     FMusic := nil;
@@ -3340,6 +3347,7 @@ end;
 function TALSStreamedFileSound.GetChannelLevel(index: integer): single;
 begin
   if Error or
+     not FMonitoringEnabled or
      (State <> ALS_PLAYING) then
     Result := 0
   else
@@ -3393,7 +3401,8 @@ begin
       FBuffers[i].FrameCount*FBuffers[i].BytePerFrame, ALsizei(Fsfinfo.SampleRate));
 
     // retrieve the channels level
-    FBuffers[i].ComputeChannelsLevel;
+    if FMonitoringEnabled then
+      FBuffers[i].ComputeChannelsLevel;
 
     Inc(FUsedBuffer);
   end;
@@ -3470,7 +3479,8 @@ begin
       end;
 
       // retrieve the channels level
-      FBuffers[bufferIndex].ComputeChannelsLevel;
+      if FMonitoringEnabled then
+        FBuffers[bufferIndex].ComputeChannelsLevel;
     end;
 
    {   if alGetError()<> AL_NO_ERROR
@@ -3492,7 +3502,7 @@ begin
 end;
 
 constructor TALSStreamedFileSound.Create(aParent: TALSPlaybackContext;
-  const aFilename: string);
+  const aFilename: string; aEnableMonitor: boolean);
 var
   fileopened: boolean;
 begin
@@ -3500,6 +3510,7 @@ begin
   InitializeErrorStatus;
   fileopened := False;
   FFilename := aFilename;
+  FMonitoringEnabled := aEnableMonitor;
 
   if not Error then
   begin
@@ -3622,6 +3633,7 @@ var
   i: integer;
 begin
   if Error or
+     not FMonitoringEnabled or
      (State <> ALS_PLAYING) or
      (index < 0) or
      (index >= FChannelCount) then
@@ -3640,7 +3652,7 @@ begin
 end;
 
 constructor TALSSingleStaticBufferSound.CreateFromFile(aParent: TALSPlaybackContext;
-  const aFilename: string);
+  const aFilename: string; aEnableMonitor: boolean);
 var
   sndfile: PSNDFILE;
   sfinfo: TSF_INFO;
@@ -3651,6 +3663,7 @@ begin
   InitializeErrorStatus;
   fileopened := False;
   FFilename := aFilename;
+  FMonitoringEnabled := aEnableMonitor;
 
   if not Error then
   begin
@@ -3708,7 +3721,8 @@ begin
         end;
 
         // generates channel's level by slices of time
-        InitLevelsFromBuffer(FBuffers[0]);
+        if FMonitoringEnabled then
+          InitLevelsFromBuffer(FBuffers[0]);
 
         FBuffers[0].FreeMemory;
       finally
@@ -3726,11 +3740,12 @@ end;
 
 // White noise generation from OpenAL example "altonegen.c"
 constructor TALSSingleStaticBufferSound.CreateWhiteNoise(aParent: TALSPlaybackContext;
-  aDuration: single; aChannelCount: integer);
+  aDuration: single; aChannelCount: integer; aEnableMonitor: boolean);
 begin
   FParentContext := aParent;
   InitializeErrorStatus;
   FFilename := '';
+  FMonitoringEnabled := aEnableMonitor;
 
   if not Error then
   begin
@@ -3772,7 +3787,7 @@ begin
             alBufferData(FBuffers[0].BufferID, FFormatForAL, FBuffers[0].Data, FByteCount, FSampleRate);
             CheckALError(als_ALCanNotFillBuffer);
 
-            if not Error then
+            if not Error and FMonitoringEnabled then
               InitLevelsFromBuffer(FBuffers[0]); // generates channel's level by slices of time
 
             FBuffers[0].FreeMemory;
@@ -3882,12 +3897,12 @@ begin
   inherited Destroy;
 end;
 
-function TALSPlaybackContext.AddStream(const aFilename: string): TALSSound;
+function TALSPlaybackContext.AddStream(const aFilename: string; aEnableMonitoring: boolean): TALSSound;
 begin
   EnterCriticalSection(FCriticalSection);
   LockContext( FContext );
   try
-    Result := TALSStreamedFileSound.Create(Self, aFilename);
+    Result := TALSStreamedFileSound.Create(Self, aFilename, aEnableMonitoring);
     FList.Add(Result);
   finally
     LeaveCriticalSection(FCriticalSection);
@@ -3896,12 +3911,12 @@ begin
 end;
 
 function TALSPlaybackContext.CreateWhiteNoise(aDuration: single;
-  aChannelCount: integer): TALSSound;
+  aChannelCount: integer; aEnableMonitoring: boolean): TALSSound;
 begin
   EnterCriticalSection(FCriticalSection);
   LockContext( FContext );
   try
-    Result := TALSSingleStaticBufferSound.CreateWhiteNoise(Self, aDuration, aChannelCount);
+    Result := TALSSingleStaticBufferSound.CreateWhiteNoise(Self, aDuration, aChannelCount, aEnableMonitoring);
     FList.Add(Result);
   finally
     LeaveCriticalSection(FCriticalSection);
@@ -4456,14 +4471,14 @@ begin
   FExecutingConstructor := False;
 end;
 
-function TALSPlaybackContext.AddSound(const aFilename: string): TALSSound;
+function TALSPlaybackContext.AddSound(const aFilename: string; aEnableMonitoring: boolean): TALSSound;
 begin
   LockContext( FContext );
   try
 
     EnterCriticalSection(FCriticalSection);
     try
-      Result := TALSSingleStaticBufferSound.CreateFromFile(Self, aFilename);
+      Result := TALSSingleStaticBufferSound.CreateFromFile(Self, aFilename, aEnableMonitoring);
       FList.Add(Result);
     finally
       LeaveCriticalSection(FCriticalSection);
@@ -4479,7 +4494,7 @@ procedure TALSPlaybackContext.PlaySoundThenKill(const aFilename: string;
 var
   snd: TALSSound;
 begin
-  snd := AddSound(aFilename);
+  snd := AddSound(aFilename, False);
   if snd = nil then
     exit;
   snd.Volume.Value := aVolume;
@@ -4491,7 +4506,7 @@ procedure TALSPlaybackContext.PlayStreamThenKill(const aFilename: string;
 var
   snd: TALSSound;
 begin
-  snd := AddStream(aFilename);
+  snd := AddStream(aFilename, False);
   if snd = nil then
     exit;
   snd.Volume.Value := aVolume;

@@ -128,8 +128,9 @@ begin
   if FSound <> NIL then
     FSound.Kill;    // we can also do FPlaybackContext.Delete( FSound );
 
-  // Creates the new one as stream
-  FSound := FPlaybackContext.AddStream( OD1.FileName );
+  // Creates the new one as stream and enable sound monitoring to retrieve the
+  // channel's level of the sound.
+  FSound := FPlaybackContext.AddStream( OD1.FileName, True );
 
   // Checks if an error occured
   if FSound.Error then
