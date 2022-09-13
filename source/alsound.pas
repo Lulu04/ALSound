@@ -310,7 +310,7 @@ type
   // In ALSound, everything that handle errors inherits from TALSErrorHandling class
   TALSErrorHandling = class
   private
-    function GetErrorState: boolean; inline;
+    function GetErrorState: boolean;
   protected
     FErrorCode: TALSError;
     FALErrorCode,
