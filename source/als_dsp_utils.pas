@@ -56,9 +56,15 @@ type
   procedure dsp_RemoveDCBias_Smallint(p: PSmallint; aFrameCount: longword; aChannelCount: Smallint);
   procedure dsp_RemoveDCBias_Float(p: PSingle; aFrameCount: longword; aChannelCount: Smallint);
 
-  // return the level of each channels, in range of [0..1]
-  function dsp_ComputeLinearLevel_Smallint(p: PSmallint; aFrameCount: longword; aChannelCount: Smallint): ArrayOfSingle;
-  function dsp_ComputeLinearLevel_Float(p: PSingle; aFrameCount: longword; aChannelCount: Smallint): ArrayOfSingle;
+  // Compute the level of each channels, in range of [0..1].
+  procedure dsp_ComputeLinearLevel_Smallint(p: PSmallint; aFrameCount: longword; aChannelCount: Smallint; aTarget: PSingle);
+  procedure dsp_ComputeLinearLevel_Float(p: PSingle; aFrameCount: longword; aChannelCount: Smallint; aTarget: PSingle);
+
+  procedure dsp_FillWithSilence_Smallint(p: PSmallint; aFrameCount: longword; aChannelCount: Smallint);
+  procedure dsp_FillWithSilence_Single(p: PSingle; aFrameCount: longword; aChannelCount: Smallint);
+
+  procedure dsp_FillWithWhiteNoise_Smallint(p: PSmallint; aFrameCount: longword; aChannelCount: Smallint);
+  procedure dsp_FillWithWhiteNoise_Single(p: PSingle; aFrameCount: longword; aChannelCount: Smallint);
 
 implementation
 uses Math;
@@ -182,13 +188,18 @@ begin
   dsp_Add_Float(p, aFrameCount, aChannelCount, M);
 end;
 
-function dsp_ComputeLinearLevel_Smallint(p: PSmallint; aFrameCount: longword; aChannelCount: Smallint): ArrayOfSingle;
+procedure dsp_ComputeLinearLevel_Smallint(p: PSmallint; aFrameCount: longword;
+  aChannelCount: Smallint; aTarget: PSingle);
 var
   i: integer;
+  tar: PSingle;
 begin
-  SetLength(Result{%H-}, aChannelCount);
-  for i:=0 to High(Result) do
-    Result[i] := 0.0;
+  tar := aTarget;
+  for i:=1 to aChannelCount do
+  begin
+    tar^ := 0.0;
+    inc(tar);
+  end;
 
   if p = NIL then
     exit;
@@ -196,29 +207,40 @@ begin
   // Get peak sample values
   while aFrameCount > 0 do
   begin
-    for i:=0 to aChannelCount-1 do
+    tar := aTarget;
+    for i:=1 to aChannelCount do
     begin
-      if Result[i] < Abs(p^) then
-         Result[i] := Abs(p^);
+      if tar^ < Abs(p^) then
+         tar^ := Abs(p^);
       inc( p );
+      inc(tar);
     end;
     dec( aFrameCount );
   end;
   // rms
-  for i:=0 to aChannelCount-1 do
-    Result[i] := Result[i] / 32767;
+  tar := aTarget;
+  for i:=1 to aChannelCount do
+  begin
+    tar^ := Sqrt(tar^ / 32767);
+    inc(tar);
+  end;
   // dB
   //for i:=0 to aChannelCount-1 do
-  //  Result[i] := 20 * Log10(Sqrt(Result[i]));
+  //  Result[i] := 20 * Log10(Sqrt(aTarget[i]));
 end;
 
-function dsp_ComputeLinearLevel_Float(p: PSingle; aFrameCount: longword; aChannelCount: Smallint): ArrayOfSingle;
+procedure dsp_ComputeLinearLevel_Float(p: PSingle; aFrameCount: longword;
+  aChannelCount: Smallint; aTarget: PSingle);
 var
   i: integer;
+  tar: PSingle;
 begin
-  SetLength(Result{%H-}, aChannelCount);
-  for i:=0 to High(Result) do
-    Result[i] := 0.0;
+  tar := aTarget;
+  for i:=1 to aChannelCount do
+  begin
+    tar^ := 0.0;
+    inc(tar);
+  end;
 
   if p = NIL then
     exit;
@@ -226,26 +248,96 @@ begin
   // Get peak sample values
   while aFrameCount > 0 do
   begin
-    for i:=0 to aChannelCount-1 do
+    tar := aTarget;
+    for i:=1 to aChannelCount do
     begin
-      if Result[i] < Abs(p^) then
-         Result[i] := Abs(p^);
+      if tar^ < Abs(p^) then
+         tar^ := Abs(p^);
       inc( p );
+      inc(tar);
     end;
     dec( aFrameCount );
   end;
 
-  for i:=0 to aChannelCount-1 do
-    if Result[i] > 1.0 then
-      Result[i] := 1.0;
-
+  tar := aTarget;
+  for i:=1 to aChannelCount do
+  begin
+    if tar^ > 1.0 then
+      tar^ := 1.0;
+    tar^ := Sqrt(tar^);
+    inc(tar);
+  end;
 
   // rms
 {  for i:=0 to aChannelCount-1 do
-    Result[i] := Sqrt(Result[i]);    }
+    aTarget[i] := Sqrt(aTarget[i]);    }
   // dB
   //for i:=0 to aChannelCount-1 do
-  //  Result[i] := 20 * Log10(Sqrt(Result[i]));
+  //  aTarget[i] := 20 * Log10(Sqrt(aTarget[i]));
+end;
+
+procedure dsp_FillWithSilence_Smallint(p: PSmallint; aFrameCount: longword;
+  aChannelCount: Smallint);
+var
+  i: Integer;
+begin
+  while aFrameCount > 0 do
+  begin
+    for i:=0 to aChannelCount-1 do
+    begin
+      p^ := Smallint(0);
+      inc(p); //p := p + SizeOf(Smallint);
+    end;
+    dec(aFrameCount);
+  end;
+end;
+
+procedure dsp_FillWithSilence_Single(p: PSingle; aFrameCount: longword;
+  aChannelCount: Smallint);
+var
+  i: Integer;
+begin
+  while aFrameCount > 0 do
+  begin
+    for i:=0 to aChannelCount-1 do
+    begin
+      p^ := 0.0;
+      inc(p);
+    end;
+    dec(aFrameCount);
+  end;
+end;
+
+procedure dsp_FillWithWhiteNoise_Smallint(p: PSmallint; aFrameCount: longword;
+  aChannelCount: Smallint);
+var
+  i: Integer;
+begin
+  while aFrameCount > 0 do
+  begin
+    for i:=0 to aChannelCount-1 do
+    begin
+      p^ := Smallint(Random(32768) - Random(32769 ));
+      inc(p); //p := p + SizeOf(Smallint);
+    end;
+    dec(aFrameCount);
+  end;
+end;
+
+procedure dsp_FillWithWhiteNoise_Single(p: PSingle; aFrameCount: longword;
+  aChannelCount: Smallint);
+var
+  i: Integer;
+begin
+  while aFrameCount > 0 do
+  begin
+    for i:=0 to aChannelCount-1 do
+    begin
+      p^ := Random - Random;
+      inc(p);
+    end;
+    dec(aFrameCount);
+  end;
 end;
 
 
