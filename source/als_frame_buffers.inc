@@ -10,6 +10,7 @@ type
 
   TALSFrameBufferBase = object
   private
+    FOutOfMemory: boolean;
     FUseFloat: boolean;
     FChannelCount,
     FBytePerFrame,
@@ -28,11 +29,13 @@ type
     function GetChannelsPeakdB(aIndex: integer): single;
   private
     procedure FreeMemory;
+    function GetDataOffset(frameOffset: longword): Pointer;
 
     procedure ResetChannelsLevelToZero;
   public
     procedure ComputeChannelsLevel;
 
+    property OutOfMemory: boolean read FOutOfMemory;
     property UseFloat: boolean read FUseFloat;
     property ChannelCount: SmallInt read FChannelCount;
     property ChannelsLevel[index:integer]: single read GetChannelsLevel; // for stereo buffer first is left then right
@@ -44,16 +47,33 @@ type
     property FrameCapacity: longword read FFrameCapacity write SetFrameCapacity; // the total capacity
     property FrameCount: longword read FFrameCount write FFrameCount; // the number of frames written to the buffer (can be < than FrameCapacity)
     property Data: Pointer read FData;
+    property DataOffset[frameOffset:longword]: Pointer read GetDataOffset;// return the adress of a frame
   end;
 
+
+  TALSPlaybackSampleType=
+  (    ALS_SAMPLE_INT16,
+       ALS_SAMPLE_FLOAT32 );
 
   { TALSPlaybackBuffer }
 
   TALSPlaybackBuffer = object(TALSFrameBufferBase)
-    procedure Init(aChannelCount: integer; aUseFloat: boolean);
+  private
+    FFormat: TALSPlaybackSampleType;
+    FBufferID: ALuint;
+    function GenerateBufferID: ALenum;
+    procedure DeleteBufferID;
+  public
+    procedure Init(aChannelCount: integer; aFormat: TALSPlaybackSampleType);
+
+    property Format: TALSPlaybackSampleType read FFormat;
+    property BufferID: ALuint read FBufferID;
   end;
 
+  function ALSPlaybackSampleTypeToBytePerChannel(aFormat: TALSPlaybackSampleType): integer;
 
+
+type
   { TALSCaptureFrameBuffer }
 
   TALSCaptureFrameBuffer = object(TALSFrameBufferBase)
@@ -134,6 +154,14 @@ begin
   FUseFloat := aSampleType=ALC_FLOAT_SOFT;
 end;
 
+function ALSPlaybackSampleTypeToBytePerChannel(aFormat: TALSPlaybackSampleType): integer;
+begin
+ case aFormat of
+   ALS_SAMPLE_INT16: Result := 2;
+   ALS_SAMPLE_FLOAT32: Result := 4;
+ end;
+end;
+
 { TALSCaptureFrameBuffer }
 function ALSCaptureFormatToChannelCount(aFormat: TALSCaptureFormat): SmallInt;
 begin
@@ -187,16 +215,28 @@ end;
 
 { TALSPlaybackBuffer }
 
-procedure TALSPlaybackBuffer.Init(aChannelCount: integer; aUseFloat: boolean);
+function TALSPlaybackBuffer.GenerateBufferID: ALenum;
+begin
+   alGetError();
+   alGenBuffers(1, @FBufferID);
+   Result := alGetError();
+end;
+
+procedure TALSPlaybackBuffer.DeleteBufferID;
+begin
+  if FBufferID <> 0 then
+    alDeleteBuffers(1, @FBufferID);
+end;
+
+procedure TALSPlaybackBuffer.Init(aChannelCount: integer; aFormat: TALSPlaybackSampleType);
 begin
   InitDefault;
-  SetChannelCount(aChannelCount);
-  if aUseFloat then
-    FBytePerChannel := 4
-  else
-   FBytePerChannel := 2;
+  FFormat := aFormat;
+  SetChannelCount( aChannelCount );
+  FBytePerChannel := ALSPlaybackSampleTypeToBytePerChannel(aFormat);
   FBytePerFrame := ChannelCount * BytePerChannel;
-  FUseFloat := aUseFloat;
+  FUseFloat := (aFormat = ALS_SAMPLE_FLOAT32);
+  FBufferID := 0;
 end;
 
 { TALSFrameBufferBase }
@@ -208,13 +248,19 @@ begin
   FFrameCount := 0;
   FChannelsLevel := nil;
   FChannelsPeak := nil;
+  FOutOfMemory := False;
 end;
 
 procedure TALSFrameBufferBase.SetFrameCapacity(AValue: longword);
 begin
   FreeMemory;
+  ReturnNilIfGrowHeapFails := True; // no exception, GetMem return NIL if not enough memory
   FData := GetMem(AValue * longword(FBytePerFrame));
-  FFrameCapacity := AValue;
+  if FData <> NIL then
+    FFrameCapacity := AValue
+  else
+    FFrameCapacity := 0;
+  FOutOfMemory := FData = NIL;
 end;
 
 procedure TALSFrameBufferBase.SetChannelCount(AValue: SmallInt);
@@ -233,6 +279,12 @@ begin
   FFrameCapacity := 0;
   FFrameCount := 0;
   ResetChannelsLevelToZero;
+  FOutOfMemory := False;
+end;
+
+function TALSFrameBufferBase.GetDataOffset(frameOffset: longword): Pointer;
+begin
+  Result := FData + BytePerFrame * frameOffset;
 end;
 
 procedure TALSFrameBufferBase.ResetChannelsLevelToZero;
@@ -254,9 +306,9 @@ begin
     exit;
 
   if FUseFloat then
-    FChannelsLevel := Copy(dsp_ComputeLinearLevel_Float(PSingle(Data), FFrameCount, FChannelCount), 0, FChannelCount)
+    dsp_ComputeLinearLevel_Float(PSingle(Data), FFrameCount, FChannelCount, @FChannelsLevel[0])
   else
-    FChannelsLevel := Copy(dsp_ComputeLinearLevel_Smallint(PSmallint(Data), FFrameCount, FChannelCount), 0, FChannelCount);
+    dsp_ComputeLinearLevel_Smallint(PSmallint(Data), FFrameCount, FChannelCount, @FChannelsLevel[0]);
 
  for i:=0 to High(FChannelsPeak) do
    if FChannelsPeak[i] < FChannelsLevel[i] then
