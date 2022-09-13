@@ -11,7 +11,7 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poDesktopCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '2.2.3.0'
   object Button1: TButton
     Cursor = crHandPoint
     Left = 224
@@ -54,16 +54,16 @@ object Form1: TForm1
     Options = [nboMultiLine]
     object PageAutoWah: TTabSheet
       Caption = 'AutoWah'
-      ClientHeight = 533
-      ClientWidth = 798
+      ClientHeight = 516
+      ClientWidth = 800
       object Panel1: TPanel
         Left = 0
-        Height = 533
+        Height = 516
         Top = 0
-        Width = 798
+        Width = 800
         Align = alClient
-        ClientHeight = 533
-        ClientWidth = 798
+        ClientHeight = 516
+        ClientWidth = 800
         Color = 13033981
         ParentColor = False
         TabOrder = 0
@@ -74,8 +74,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 24
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -92,10 +92,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel1
-          Left = 7
-          Height = 17
+          Left = 16
+          Height = 15
           Top = 6
-          Width = 82
+          Width = 65
           BorderSpacing.Top = 5
           Caption = 'AttackTime'
           Font.Style = [fsBold]
@@ -110,10 +110,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label2
           AnchorSideTop.Side = asrBottom
-          Left = 34
-          Height = 17
-          Top = 23
-          Width = 28
+          Left = 38
+          Height = 15
+          Top = 21
+          Width = 21
           Caption = '0.06'
           ParentColor = False
         end
@@ -121,10 +121,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB2
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel1
-          Left = 123
-          Height = 17
+          Left = 133
+          Height = 15
           Top = 6
-          Width = 91
+          Width = 71
           BorderSpacing.Top = 5
           Caption = 'ReleaseTime'
           Font.Style = [fsBold]
@@ -138,10 +138,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label4
           AnchorSideTop.Side = asrBottom
-          Left = 154
-          Height = 17
-          Top = 23
-          Width = 28
+          Left = 158
+          Height = 15
+          Top = 21
+          Width = 21
           Caption = '0.06'
           ParentColor = False
         end
@@ -152,8 +152,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 144
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -170,10 +170,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB3
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel1
-          Left = 250
-          Height = 17
+          Left = 258
+          Height = 15
           Top = 6
-          Width = 76
+          Width = 60
           BorderSpacing.Top = 5
           Caption = 'Resonance'
           Font.Style = [fsBold]
@@ -187,10 +187,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label6
           AnchorSideTop.Side = asrBottom
-          Left = 272
-          Height = 17
-          Top = 23
-          Width = 32
+          Left = 276
+          Height = 15
+          Top = 21
+          Width = 24
           Caption = '1000'
           ParentColor = False
         end
@@ -201,8 +201,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 264
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -219,10 +219,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB4
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel1
-          Left = 376
-          Height = 17
+          Left = 382
+          Height = 15
           Top = 6
-          Width = 65
+          Width = 52
           BorderSpacing.Top = 5
           Caption = 'PeakGain'
           Font.Style = [fsBold]
@@ -236,10 +236,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label8
           AnchorSideTop.Side = asrBottom
-          Left = 390
-          Height = 17
-          Top = 23
-          Width = 36
+          Left = 395
+          Height = 15
+          Top = 21
+          Width = 27
           Caption = '11.22'
           ParentColor = False
         end
@@ -250,8 +250,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 384
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -280,16 +280,16 @@ object Form1: TForm1
     end
     object PageChorus: TTabSheet
       Caption = 'Chorus'
-      ClientHeight = 533
-      ClientWidth = 798
+      ClientHeight = 516
+      ClientWidth = 800
       object Panel2: TPanel
         Left = 0
-        Height = 533
+        Height = 516
         Top = 0
-        Width = 798
+        Width = 800
         Align = alClient
-        ClientHeight = 533
-        ClientWidth = 798
+        ClientHeight = 516
+        ClientWidth = 800
         Color = 13033981
         ParentColor = False
         TabOrder = 0
@@ -300,8 +300,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 180
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -318,10 +318,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB7
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel2
-          Left = 183
-          Height = 17
+          Left = 188
+          Height = 15
           Top = 6
-          Width = 42
+          Width = 32
           BorderSpacing.Top = 5
           Caption = 'Phase'
           Font.Style = [fsBold]
@@ -336,10 +336,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label14
           AnchorSideTop.Side = asrBottom
-          Left = 196
-          Height = 17
-          Top = 23
-          Width = 16
+          Left = 198
+          Height = 15
+          Top = 21
+          Width = 12
           Caption = '90'
           ParentColor = False
         end
@@ -347,10 +347,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB8
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel2
-          Left = 276
-          Height = 17
+          Left = 279
+          Height = 15
           Top = 6
-          Width = 32
+          Width = 26
           BorderSpacing.Top = 5
           Caption = 'Rate'
           Font.Style = [fsBold]
@@ -364,10 +364,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label16
           AnchorSideTop.Side = asrBottom
-          Left = 278
-          Height = 17
-          Top = 23
-          Width = 28
+          Left = 282
+          Height = 15
+          Top = 21
+          Width = 21
           Caption = '0.06'
           ParentColor = False
         end
@@ -378,8 +378,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 268
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -396,10 +396,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB9
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel2
-          Left = 358
-          Height = 17
+          Left = 363
+          Height = 15
           Top = 6
-          Width = 45
+          Width = 35
           BorderSpacing.Top = 5
           Caption = 'Depth'
           Font.Style = [fsBold]
@@ -413,10 +413,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label18
           AnchorSideTop.Side = asrBottom
-          Left = 370
-          Height = 17
-          Top = 23
-          Width = 20
+          Left = 373
+          Height = 15
+          Top = 21
+          Width = 15
           Caption = '0.1'
           ParentColor = False
         end
@@ -427,8 +427,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 356
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -445,10 +445,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB10
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel2
-          Left = 435
-          Height = 17
+          Left = 442
+          Height = 15
           Top = 6
-          Width = 67
+          Width = 53
           BorderSpacing.Top = 5
           Caption = 'Feedback'
           Font.Style = [fsBold]
@@ -462,10 +462,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label20
           AnchorSideTop.Side = asrBottom
-          Left = 454
-          Height = 17
-          Top = 23
-          Width = 28
+          Left = 458
+          Height = 15
+          Top = 21
+          Width = 21
           Caption = '0.25'
           ParentColor = False
         end
@@ -476,8 +476,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 444
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -512,10 +512,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB11
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel2
-          Left = 534
-          Height = 17
+          Left = 539
+          Height = 15
           Top = 6
-          Width = 41
+          Width = 31
           BorderSpacing.Top = 5
           Caption = 'Delay'
           Font.Style = [fsBold]
@@ -529,10 +529,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label22
           AnchorSideTop.Side = asrBottom
-          Left = 536
-          Height = 17
-          Top = 23
-          Width = 36
+          Left = 541
+          Height = 15
+          Top = 21
+          Width = 27
           Caption = '0.016'
           ParentColor = False
         end
@@ -543,8 +543,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 530
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -573,16 +573,16 @@ object Form1: TForm1
     end
     object PageFlanger: TTabSheet
       Caption = 'Flanger'
-      ClientHeight = 533
-      ClientWidth = 798
+      ClientHeight = 516
+      ClientWidth = 800
       object Panel3: TPanel
         Left = 0
-        Height = 533
+        Height = 516
         Top = 0
-        Width = 798
+        Width = 800
         Align = alClient
-        ClientHeight = 533
-        ClientWidth = 798
+        ClientHeight = 516
+        ClientWidth = 800
         Color = 13033981
         ParentColor = False
         TabOrder = 0
@@ -593,8 +593,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 180
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -611,10 +611,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB12
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel3
-          Left = 183
-          Height = 17
+          Left = 188
+          Height = 15
           Top = 6
-          Width = 42
+          Width = 32
           BorderSpacing.Top = 5
           Caption = 'Phase'
           Font.Style = [fsBold]
@@ -629,10 +629,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label24
           AnchorSideTop.Side = asrBottom
-          Left = 196
-          Height = 17
-          Top = 23
-          Width = 16
+          Left = 198
+          Height = 15
+          Top = 21
+          Width = 12
           Caption = '90'
           ParentColor = False
         end
@@ -640,10 +640,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB13
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel3
-          Left = 276
-          Height = 17
+          Left = 279
+          Height = 15
           Top = 6
-          Width = 32
+          Width = 26
           BorderSpacing.Top = 5
           Caption = 'Rate'
           Font.Style = [fsBold]
@@ -657,10 +657,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label26
           AnchorSideTop.Side = asrBottom
-          Left = 278
-          Height = 17
-          Top = 23
-          Width = 28
+          Left = 282
+          Height = 15
+          Top = 21
+          Width = 21
           Caption = '0.06'
           ParentColor = False
         end
@@ -671,8 +671,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 268
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -689,10 +689,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB14
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel3
-          Left = 358
-          Height = 17
+          Left = 363
+          Height = 15
           Top = 6
-          Width = 45
+          Width = 35
           BorderSpacing.Top = 5
           Caption = 'Depth'
           Font.Style = [fsBold]
@@ -706,10 +706,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label28
           AnchorSideTop.Side = asrBottom
-          Left = 370
-          Height = 17
-          Top = 23
-          Width = 20
+          Left = 373
+          Height = 15
+          Top = 21
+          Width = 15
           Caption = '0.1'
           ParentColor = False
         end
@@ -720,8 +720,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 356
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -738,10 +738,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB15
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel3
-          Left = 435
-          Height = 17
+          Left = 442
+          Height = 15
           Top = 6
-          Width = 67
+          Width = 53
           BorderSpacing.Top = 5
           Caption = 'Feedback'
           Font.Style = [fsBold]
@@ -755,10 +755,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label30
           AnchorSideTop.Side = asrBottom
-          Left = 454
-          Height = 17
-          Top = 23
-          Width = 28
+          Left = 458
+          Height = 15
+          Top = 21
+          Width = 21
           Caption = '0.25'
           ParentColor = False
         end
@@ -769,8 +769,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 444
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -805,10 +805,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB16
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel3
-          Left = 534
-          Height = 17
+          Left = 539
+          Height = 15
           Top = 6
-          Width = 41
+          Width = 31
           BorderSpacing.Top = 5
           Caption = 'Delay'
           Font.Style = [fsBold]
@@ -822,10 +822,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label32
           AnchorSideTop.Side = asrBottom
-          Left = 536
-          Height = 17
-          Top = 23
-          Width = 36
+          Left = 541
+          Height = 15
+          Top = 21
+          Width = 27
           Caption = '0.016'
           ParentColor = False
         end
@@ -836,8 +836,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 530
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -866,16 +866,16 @@ object Form1: TForm1
     end
     object PageDistortion: TTabSheet
       Caption = 'Distortion'
-      ClientHeight = 533
-      ClientWidth = 798
+      ClientHeight = 516
+      ClientWidth = 800
       object Panel4: TPanel
         Left = 0
-        Height = 533
+        Height = 516
         Top = 0
-        Width = 798
+        Width = 800
         Align = alClient
-        ClientHeight = 533
-        ClientWidth = 798
+        ClientHeight = 516
+        ClientWidth = 800
         Color = 13033981
         ParentColor = False
         TabOrder = 0
@@ -886,8 +886,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 56
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -904,11 +904,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB17
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel4
-          Left = 62
-          Height = 17
+          Left = 67
+          Height = 15
           Hint = 'This property controls the shape of the distortion. The higher the value for Edge, the ‘dirtier’ and'#13#10'‘fuzzier’ the effect.'
           Top = 6
-          Width = 36
+          Width = 27
           BorderSpacing.Top = 5
           Caption = 'Edge'
           Font.Style = [fsBold]
@@ -923,10 +923,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label34
           AnchorSideTop.Side = asrBottom
-          Left = 70
-          Height = 17
-          Top = 23
-          Width = 20
+          Left = 73
+          Height = 15
+          Top = 21
+          Width = 15
           Caption = '0.2'
           ParentColor = False
         end
@@ -934,11 +934,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB18
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel4
-          Left = 185
-          Height = 17
+          Left = 188
+          Height = 15
           Hint = 'This property allows you to attenuate the distorted sound.'
           Top = 6
-          Width = 31
+          Width = 25
           BorderSpacing.Top = 5
           Caption = 'Gain'
           Font.Style = [fsBold]
@@ -952,10 +952,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label36
           AnchorSideTop.Side = asrBottom
-          Left = 186
-          Height = 17
-          Top = 23
-          Width = 28
+          Left = 190
+          Height = 15
+          Top = 21
+          Width = 21
           Caption = '0.05'
           ParentColor = False
         end
@@ -966,8 +966,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 176
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -984,11 +984,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB19
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel4
-          Left = 261
-          Height = 17
+          Left = 273
+          Height = 15
           Hint = 'Input signal can have a low pass filter applied, to limit the amount of high frequency signal'#13#10'feeding into the distortion effect.'
           Top = 6
-          Width = 115
+          Width = 90
           BorderSpacing.Top = 5
           Caption = 'Low pass cut off'
           Font.Style = [fsBold]
@@ -1002,10 +1002,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label38
           AnchorSideTop.Side = asrBottom
-          Left = 296
-          Height = 17
-          Top = 23
-          Width = 44
+          Left = 302
+          Height = 15
+          Top = 21
+          Width = 33
           Caption = '8000.0'
           ParentColor = False
         end
@@ -1016,8 +1016,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 294
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1034,11 +1034,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB20
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel4
-          Left = 401
-          Height = 17
+          Left = 409
+          Height = 15
           Hint = 'This property controls the frequency at which the post-distortion attenuation (Distortion Gain) is'#13#10'active.'
           Top = 6
-          Width = 71
+          Width = 55
           BorderSpacing.Top = 5
           Caption = 'EQ center'
           Font.Style = [fsBold]
@@ -1052,10 +1052,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label40
           AnchorSideTop.Side = asrBottom
-          Left = 414
-          Height = 17
-          Top = 23
-          Width = 44
+          Left = 420
+          Height = 15
+          Top = 21
+          Width = 33
           Caption = '3600.0'
           ParentColor = False
         end
@@ -1066,8 +1066,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 412
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1084,11 +1084,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB21
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel4
-          Left = 510
-          Height = 17
+          Left = 522
+          Height = 15
           Hint = 'This property controls the bandwidth of the post-distortion attenuation.'
           Top = 6
-          Width = 100
+          Width = 77
           BorderSpacing.Top = 5
           Caption = 'EQ bandwidth'
           Font.Style = [fsBold]
@@ -1102,10 +1102,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label42
           AnchorSideTop.Side = asrBottom
-          Left = 538
-          Height = 17
-          Top = 23
-          Width = 44
+          Left = 544
+          Height = 15
+          Top = 21
+          Width = 33
           Caption = '3600.0'
           ParentColor = False
         end
@@ -1116,8 +1116,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 536
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1146,16 +1146,16 @@ object Form1: TForm1
     end
     object PageEcho: TTabSheet
       Caption = 'Echo'
-      ClientHeight = 533
-      ClientWidth = 798
+      ClientHeight = 516
+      ClientWidth = 800
       object Panel5: TPanel
         Left = 0
-        Height = 533
+        Height = 516
         Top = 0
-        Width = 798
+        Width = 800
         Align = alClient
-        ClientHeight = 533
-        ClientWidth = 798
+        ClientHeight = 516
+        ClientWidth = 800
         Color = 13033981
         ParentColor = False
         TabOrder = 0
@@ -1166,8 +1166,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 56
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1185,11 +1185,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel5
           Cursor = crHelp
-          Left = 60
-          Height = 17
+          Left = 65
+          Height = 15
           Hint = 'This property controls the delay between the original sound and the first ‘tap’, or echo instance.'#13#10'Subsequently, the value for Echo Delay is used to determine the time delay between each'#13#10'‘second tap’ and the next ‘first tap’.'
           Top = 6
-          Width = 41
+          Width = 31
           BorderSpacing.Top = 5
           Caption = 'Delay'
           Font.Style = [fsBold]
@@ -1204,10 +1204,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label44
           AnchorSideTop.Side = asrBottom
-          Left = 70
-          Height = 17
-          Top = 23
-          Width = 20
+          Left = 73
+          Height = 15
+          Top = 21
+          Width = 15
           Caption = '0.1'
           ParentColor = False
         end
@@ -1216,11 +1216,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel5
           Cursor = crHelp
-          Left = 145
-          Height = 17
+          Left = 152
+          Height = 15
           Hint = 'This property controls the delay between the first ‘tap’ and the second ‘tap’. Subsequently, the'#13#10'value for Echo LR Delay is used to determine the time delay between each ‘first tap’ and the next'#13#10'‘second tap’.'
           Top = 6
-          Width = 63
+          Width = 48
           BorderSpacing.Top = 5
           Caption = 'LR Delay'
           Font.Style = [fsBold]
@@ -1234,10 +1234,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label46
           AnchorSideTop.Side = asrBottom
-          Left = 166
-          Height = 17
-          Top = 23
-          Width = 20
+          Left = 169
+          Height = 15
+          Top = 21
+          Width = 15
           Caption = '0.1'
           ParentColor = False
         end
@@ -1248,8 +1248,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 152
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1267,11 +1267,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel5
           Cursor = crHelp
-          Left = 241
-          Height = 17
+          Left = 247
+          Height = 15
           Hint = 'This property controls the amount of high frequency damping applied to each echo. As the sound'#13#10'is subsequently fed back for further echoes, damping results in an echo which progressively gets'#13#10'softer in tone as well as intensity.'
           Top = 6
-          Width = 63
+          Width = 50
           BorderSpacing.Top = 5
           Caption = 'Damping'
           Font.Style = [fsBold]
@@ -1285,10 +1285,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label48
           AnchorSideTop.Side = asrBottom
-          Left = 262
-          Height = 17
-          Top = 23
-          Width = 20
+          Left = 265
+          Height = 15
+          Top = 21
+          Width = 15
           Caption = '0.5'
           ParentColor = False
         end
@@ -1299,8 +1299,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 248
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1318,11 +1318,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel5
           Cursor = crHelp
-          Left = 335
-          Height = 17
+          Left = 342
+          Height = 15
           Hint = 'This property controls the amount of feedback the output signal fed back into the input. Use this'#13#10'parameter to create “cascading” echoes. At full magnitude, the identical sample will repeat'#13#10'endlessly. Below full magnitude, the sample will repeat and fade.'
           Top = 6
-          Width = 67
+          Width = 53
           BorderSpacing.Top = 5
           Caption = 'Feedback'
           Font.Style = [fsBold]
@@ -1336,10 +1336,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label50
           AnchorSideTop.Side = asrBottom
-          Left = 358
-          Height = 17
-          Top = 23
-          Width = 20
+          Left = 361
+          Height = 15
+          Top = 21
+          Width = 15
           Caption = '0.5'
           ParentColor = False
         end
@@ -1350,8 +1350,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 344
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1369,11 +1369,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel5
           Cursor = crHelp
-          Left = 444
-          Height = 17
+          Left = 450
+          Height = 15
           Hint = 'This property controls how hard panned the individual echoes are. With a value of 1.0, the first'#13#10'‘tap’ will be panned hard left, and the second tap hard right. A value of –1.0 gives the opposite'#13#10'result. Settings nearer to 0.0 result in less emphasized panning.'
           Top = 6
-          Width = 50
+          Width = 39
           BorderSpacing.Top = 5
           Caption = 'Spread'
           Font.Style = [fsBold]
@@ -1387,10 +1387,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label52
           AnchorSideTop.Side = asrBottom
-          Left = 457
-          Height = 17
-          Top = 23
-          Width = 24
+          Left = 459
+          Height = 15
+          Top = 21
+          Width = 20
           Caption = '-1.0'
           ParentColor = False
         end
@@ -1401,8 +1401,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 445
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1431,16 +1431,16 @@ object Form1: TForm1
     end
     object PageEqualizer: TTabSheet
       Caption = 'Equalizer'
-      ClientHeight = 533
-      ClientWidth = 798
+      ClientHeight = 516
+      ClientWidth = 800
       object Panel6: TPanel
         Left = 0
-        Height = 533
+        Height = 516
         Top = 0
-        Width = 798
+        Width = 800
         Align = alClient
-        ClientHeight = 533
-        ClientWidth = 798
+        ClientHeight = 516
+        ClientWidth = 800
         Color = 13033981
         ParentColor = False
         TabOrder = 0
@@ -1451,8 +1451,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 10
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1470,11 +1470,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel6
           Cursor = crHelp
-          Left = 19
-          Height = 34
+          Left = 22
+          Height = 30
           Hint = 'This property controls amount of cut or boost on the low frequency range.'
           Top = 6
-          Width = 31
+          Width = 25
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Low'#10'Gain'
@@ -1490,10 +1490,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label54
           AnchorSideTop.Side = asrBottom
-          Left = 24
-          Height = 17
-          Top = 40
-          Width = 20
+          Left = 27
+          Height = 15
+          Top = 36
+          Width = 15
           Caption = '1.0'
           ParentColor = False
         end
@@ -1502,11 +1502,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel6
           Cursor = crHelp
-          Left = 82
-          Height = 34
+          Left = 86
+          Height = 30
           Hint = 'This property controls the low frequency below which signal will be cut off.'
           Top = 6
-          Width = 45
+          Width = 36
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Low'#10'Cutoff'
@@ -1521,10 +1521,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label56
           AnchorSideTop.Side = asrBottom
-          Left = 86
-          Height = 17
-          Top = 40
-          Width = 36
+          Left = 91
+          Height = 15
+          Top = 36
+          Width = 27
           Caption = '200.0'
           ParentColor = False
         end
@@ -1535,8 +1535,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 80
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1554,11 +1554,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel6
           Cursor = crHelp
-          Left = 162
-          Height = 34
+          Left = 168
+          Height = 30
           Hint = 'This property allows you to cut / boost signal on the “mid1” range.'
           Top = 6
-          Width = 61
+          Width = 48
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Middle 1'#10'Gain'
@@ -1573,10 +1573,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label58
           AnchorSideTop.Side = asrBottom
-          Left = 182
-          Height = 17
-          Top = 40
-          Width = 20
+          Left = 185
+          Height = 15
+          Top = 36
+          Width = 15
           Caption = '1.0'
           ParentColor = False
         end
@@ -1587,8 +1587,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 168
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1606,11 +1606,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel6
           Cursor = crHelp
-          Left = 234
-          Height = 34
+          Left = 240
+          Height = 30
           Hint = 'This property sets the center frequency for the “mid1” range.'
           Top = 6
-          Width = 61
+          Width = 48
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Middle 1'#10'Center'
@@ -1625,10 +1625,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label60
           AnchorSideTop.Side = asrBottom
-          Left = 246
-          Height = 17
-          Top = 40
-          Width = 36
+          Left = 251
+          Height = 15
+          Top = 36
+          Width = 27
           Caption = '500.0'
           ParentColor = False
         end
@@ -1639,8 +1639,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 240
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1658,11 +1658,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel6
           Cursor = crHelp
-          Left = 306
-          Height = 34
+          Left = 312
+          Height = 30
           Hint = 'This property controls the width of the “mid1” range.'
           Top = 6
-          Width = 61
+          Width = 48
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Middle 1'#10'Width'
@@ -1677,10 +1677,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label62
           AnchorSideTop.Side = asrBottom
-          Left = 326
-          Height = 17
-          Top = 40
-          Width = 20
+          Left = 329
+          Height = 15
+          Top = 36
+          Width = 15
           Caption = '1.0'
           ParentColor = False
         end
@@ -1691,8 +1691,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 312
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1710,11 +1710,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel6
           Cursor = crHelp
-          Left = 402
-          Height = 34
+          Left = 408
+          Height = 30
           Hint = 'This property allows you to cut / boost signal on the “mid2” range.'
           Top = 6
-          Width = 61
+          Width = 48
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Middle 2'#10'Gain'
@@ -1729,10 +1729,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label64
           AnchorSideTop.Side = asrBottom
-          Left = 422
-          Height = 17
-          Top = 40
-          Width = 20
+          Left = 425
+          Height = 15
+          Top = 36
+          Width = 15
           Caption = '1.0'
           ParentColor = False
         end
@@ -1743,8 +1743,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 408
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1762,11 +1762,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel6
           Cursor = crHelp
-          Left = 474
-          Height = 34
+          Left = 480
+          Height = 30
           Hint = 'This property sets the center frequency for the “mid2” range.'
           Top = 6
-          Width = 61
+          Width = 48
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Middle 2'#10'Center'
@@ -1781,10 +1781,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label66
           AnchorSideTop.Side = asrBottom
-          Left = 482
-          Height = 17
-          Top = 40
-          Width = 44
+          Left = 488
+          Height = 15
+          Top = 36
+          Width = 33
           Caption = '3000.0'
           ParentColor = False
         end
@@ -1795,8 +1795,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 480
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1814,11 +1814,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel6
           Cursor = crHelp
-          Left = 546
-          Height = 34
+          Left = 552
+          Height = 30
           Hint = 'This property controls the width of the “mid2” range.'
           Top = 6
-          Width = 61
+          Width = 48
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Middle 2'#10'Width'
@@ -1833,10 +1833,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label68
           AnchorSideTop.Side = asrBottom
-          Left = 566
-          Height = 17
-          Top = 40
-          Width = 20
+          Left = 569
+          Height = 15
+          Top = 36
+          Width = 15
           Caption = '1.0'
           ParentColor = False
         end
@@ -1847,8 +1847,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 552
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1866,11 +1866,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel6
           Cursor = crHelp
-          Left = 646
-          Height = 34
+          Left = 653
+          Height = 30
           Hint = 'This property allows you to cut / boost the signal at high frequencies.'
           Top = 49
-          Width = 69
+          Width = 54
           Alignment = taCenter
           Anchors = [akLeft]
           BorderSpacing.Top = 5
@@ -1886,10 +1886,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label70
           AnchorSideTop.Side = asrBottom
-          Left = 670
-          Height = 17
-          Top = 83
-          Width = 20
+          Left = 673
+          Height = 15
+          Top = 79
+          Width = 15
           Caption = '1.0'
           ParentColor = False
         end
@@ -1900,8 +1900,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 656
-          Height = 432
-          Top = 100
+          Height = 421
+          Top = 94
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1919,11 +1919,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel6
           Cursor = crHelp
-          Left = 718
-          Height = 34
+          Left = 725
+          Height = 30
           Hint = 'This property controls the high frequency above which signal will be cut off.'
           Top = 49
-          Width = 69
+          Width = 54
           Alignment = taCenter
           Anchors = [akLeft]
           BorderSpacing.Top = 5
@@ -1939,10 +1939,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label72
           AnchorSideTop.Side = asrBottom
-          Left = 730
-          Height = 17
-          Top = 83
-          Width = 44
+          Left = 736
+          Height = 15
+          Top = 79
+          Width = 33
           Caption = '6000.0'
           ParentColor = False
         end
@@ -1953,8 +1953,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 728
-          Height = 432
-          Top = 100
+          Height = 421
+          Top = 94
           Width = 48
           Frequency = 50
           Max = 1000
@@ -1983,16 +1983,16 @@ object Form1: TForm1
     end
     object PageFrequencyShifter: TTabSheet
       Caption = 'Frequency Shifter'
-      ClientHeight = 533
-      ClientWidth = 798
+      ClientHeight = 516
+      ClientWidth = 800
       object Panel7: TPanel
         Left = 0
-        Height = 533
+        Height = 516
         Top = 0
-        Width = 798
+        Width = 800
         Align = alClient
-        ClientHeight = 533
-        ClientWidth = 798
+        ClientHeight = 516
+        ClientWidth = 800
         Color = 13033981
         ParentColor = False
         TabOrder = 0
@@ -2003,8 +2003,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 176
-          Height = 418
-          Top = 114
+          Height = 417
+          Top = 98
           Width = 48
           Frequency = 50
           Max = 1000
@@ -2023,11 +2023,11 @@ object Form1: TForm1
           AnchorSideTop.Control = RadioButton3
           AnchorSideTop.Side = asrBottom
           Cursor = crHelp
-          Left = 163
-          Height = 17
+          Left = 171
+          Height = 15
           Hint = 'This is the carrier frequency. For carrier frequencies below the audible range, the singlesideband'#13#10'modulator may produce phaser effects, spatial effects or a slight pitch-shift. As the'#13#10'carrier frequency increases, the timbre of the sound is affected; a piano or guitar note becomes'#13#10'like a bell''s chime, and a human voice sounds extraterrestrial!'
-          Top = 80
-          Width = 74
+          Top = 68
+          Width = 58
           BorderSpacing.Top = 5
           Caption = 'Frequency'
           Font.Style = [fsBold]
@@ -2042,10 +2042,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label74
           AnchorSideTop.Side = asrBottom
-          Left = 196
-          Height = 17
-          Top = 97
-          Width = 8
+          Left = 197
+          Height = 15
+          Top = 83
+          Width = 6
           Caption = '0'
           ParentColor = False
         end
@@ -2073,10 +2073,10 @@ object Form1: TForm1
           AnchorSideBottom.Control = ComboBox3
           Cursor = crHelp
           Left = 352
-          Height = 17
+          Height = 15
           Hint = 'These select which internal signals are added together to produce the output. Different'#13#10'combinations of values will produce slightly different tonal and spatial effects.'
-          Top = 31
-          Width = 98
+          Top = 33
+          Width = 76
           Anchors = [akLeft, akBottom]
           Caption = 'Left direction'
           Font.Style = [fsBold]
@@ -2090,10 +2090,10 @@ object Form1: TForm1
           AnchorSideBottom.Control = ComboBox4
           Cursor = crHelp
           Left = 512
-          Height = 17
+          Height = 15
           Hint = 'These select which internal signals are added together to produce the output. Different'#13#10'combinations of values will produce slightly different tonal and spatial effects.'
-          Top = 31
-          Width = 107
+          Top = 33
+          Width = 83
           Anchors = [akLeft, akBottom]
           Caption = 'Right direction'
           Font.Style = [fsBold]
@@ -2124,9 +2124,9 @@ object Form1: TForm1
         object RadioButton1: TRadioButton
           AnchorSideTop.Control = Panel7
           Left = 120
-          Height = 23
+          Height = 19
           Top = 6
-          Width = 194
+          Width = 155
           BorderSpacing.Top = 5
           Caption = 'Frequency range 0 - 500'
           Font.Style = [fsBold]
@@ -2139,9 +2139,9 @@ object Form1: TForm1
           AnchorSideTop.Control = RadioButton1
           AnchorSideTop.Side = asrBottom
           Left = 120
-          Height = 23
-          Top = 29
-          Width = 200
+          Height = 19
+          Top = 25
+          Width = 161
           Caption = 'frequency range 0 - 1000'
           Font.Style = [fsBold]
           OnChange = TB37Change
@@ -2153,9 +2153,9 @@ object Form1: TForm1
           AnchorSideTop.Control = RadioButton2
           AnchorSideTop.Side = asrBottom
           Left = 120
-          Height = 23
-          Top = 52
-          Width = 208
+          Height = 19
+          Top = 44
+          Width = 168
           Caption = 'frequency range 0 - 24000'
           Checked = True
           Font.Style = [fsBold]
@@ -2180,16 +2180,16 @@ object Form1: TForm1
     end
     object PagePitchShifter: TTabSheet
       Caption = 'Pitch Shifter'
-      ClientHeight = 533
-      ClientWidth = 798
+      ClientHeight = 516
+      ClientWidth = 800
       object Panel8: TPanel
         Left = 0
-        Height = 533
+        Height = 516
         Top = 0
-        Width = 798
+        Width = 800
         Align = alClient
-        ClientHeight = 533
-        ClientWidth = 798
+        ClientHeight = 516
+        ClientWidth = 800
         Color = 13033981
         ParentColor = False
         TabOrder = 0
@@ -2200,8 +2200,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 248
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -2219,11 +2219,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel8
           Cursor = crHelp
-          Left = 229
-          Height = 17
+          Left = 239
+          Height = 15
           Hint = 'This sets the number of semitones by which the pitch is shifted. There are 12 semitones per'#13#10'octave. Negative values create a downwards shift in pitch, positive values pitch the sound'#13#10'upwards.'
           Top = 6
-          Width = 87
+          Width = 67
           BorderSpacing.Top = 5
           Caption = 'Coarse Tune'
           Font.Style = [fsBold]
@@ -2238,10 +2238,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label78
           AnchorSideTop.Side = asrBottom
-          Left = 264
-          Height = 17
-          Top = 23
-          Width = 16
+          Left = 266
+          Height = 15
+          Top = 21
+          Width = 12
           Caption = '12'
           ParentColor = False
         end
@@ -2250,11 +2250,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel8
           Cursor = crHelp
-          Left = 358
-          Height = 17
+          Left = 366
+          Height = 15
           Hint = 'This sets the number of cents between Semitones a pitch is shifted. A Cent is 1/100th of a'#13#10'Semitone. Negative values create a downwards shift in pitch, positive values pitch the sound'#13#10'upwards.'
           Top = 6
-          Width = 69
+          Width = 53
           BorderSpacing.Top = 5
           Caption = 'Fine Tune'
           Font.Style = [fsBold]
@@ -2268,10 +2268,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label80
           AnchorSideTop.Side = asrBottom
-          Left = 388
-          Height = 17
-          Top = 23
-          Width = 8
+          Left = 389
+          Height = 15
+          Top = 21
+          Width = 6
           Caption = '0'
           ParentColor = False
         end
@@ -2282,8 +2282,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 368
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -2312,16 +2312,16 @@ object Form1: TForm1
     end
     object PageRingModulator: TTabSheet
       Caption = 'Ring Modulator'
-      ClientHeight = 533
-      ClientWidth = 798
+      ClientHeight = 516
+      ClientWidth = 800
       object Panel9: TPanel
         Left = 0
-        Height = 533
+        Height = 516
         Top = 0
-        Width = 798
+        Width = 800
         Align = alClient
-        ClientHeight = 533
-        ClientWidth = 798
+        ClientHeight = 516
+        ClientWidth = 800
         Color = 13033981
         ParentColor = False
         TabOrder = 0
@@ -2332,8 +2332,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 180
-          Height = 418
-          Top = 114
+          Height = 417
+          Top = 98
           Width = 48
           Frequency = 50
           Max = 1000
@@ -2352,11 +2352,11 @@ object Form1: TForm1
           AnchorSideTop.Control = RadioButton6
           AnchorSideTop.Side = asrBottom
           Cursor = crHelp
-          Left = 167
-          Height = 17
+          Left = 175
+          Height = 15
           Hint = 'This is the frequency of the carrier signal. If the carrier signal is slowly varying (less than 20 Hz),'#13#10'the result is a tremolo (slow amplitude variation) effect. If the carrier signal is in the audio range,'#13#10'audible upper and lower sidebands begin to appear, causing an inharmonic effect. The carrier'#13#10'signal itself is not heard in the output.'
-          Top = 80
-          Width = 74
+          Top = 68
+          Width = 58
           BorderSpacing.Top = 5
           Caption = 'Frequency'
           Font.Style = [fsBold]
@@ -2371,10 +2371,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label82
           AnchorSideTop.Side = asrBottom
-          Left = 186
-          Height = 17
-          Top = 97
-          Width = 36
+          Left = 191
+          Height = 15
+          Top = 83
+          Width = 27
           Caption = '440.0'
           ParentColor = False
         end
@@ -2383,11 +2383,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel9
           Cursor = crHelp
-          Left = 309
-          Height = 17
+          Left = 322
+          Height = 15
           Hint = 'This controls the cutoff frequency at which the input signal is high-pass filtered before being ring'#13#10'modulated. If the cutoff frequency is 0, the entire signal will be ring modulated. If the cutoff'#13#10'frequency is high, very little of the signal (only those parts above the cutoff) will be ring'#13#10'modulated.'
           Top = 6
-          Width = 118
+          Width = 93
           BorderSpacing.Top = 5
           Caption = 'High-pass Cutoff'
           Font.Style = [fsBold]
@@ -2401,10 +2401,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label84
           AnchorSideTop.Side = asrBottom
-          Left = 350
-          Height = 17
-          Top = 23
-          Width = 36
+          Left = 355
+          Height = 15
+          Top = 21
+          Width = 27
           Caption = '800.0'
           ParentColor = False
         end
@@ -2415,8 +2415,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 344
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -2454,9 +2454,9 @@ object Form1: TForm1
         object RadioButton4: TRadioButton
           AnchorSideTop.Control = Panel9
           Left = 120
-          Height = 23
+          Height = 19
           Top = 6
-          Width = 194
+          Width = 155
           BorderSpacing.Top = 5
           Caption = 'Frequency range 0 - 100'
           Font.Style = [fsBold]
@@ -2469,9 +2469,9 @@ object Form1: TForm1
           AnchorSideTop.Control = RadioButton4
           AnchorSideTop.Side = asrBottom
           Left = 120
-          Height = 23
-          Top = 29
-          Width = 200
+          Height = 19
+          Top = 25
+          Width = 161
           Caption = 'frequency range 0 - 1000'
           Font.Style = [fsBold]
           OnChange = TB37Change
@@ -2483,9 +2483,9 @@ object Form1: TForm1
           AnchorSideTop.Control = RadioButton5
           AnchorSideTop.Side = asrBottom
           Left = 120
-          Height = 23
-          Top = 52
-          Width = 208
+          Height = 19
+          Top = 44
+          Width = 168
           Caption = 'frequency range 0 - 24000'
           Checked = True
           Font.Style = [fsBold]
@@ -2510,16 +2510,16 @@ object Form1: TForm1
     end
     object PageVocalMorpher: TTabSheet
       Caption = 'Vocal Morpher'
-      ClientHeight = 533
-      ClientWidth = 798
+      ClientHeight = 516
+      ClientWidth = 800
       object Panel10: TPanel
         Left = 0
-        Height = 533
+        Height = 516
         Top = 0
-        Width = 798
+        Width = 800
         Align = alClient
-        ClientHeight = 533
-        ClientWidth = 798
+        ClientHeight = 516
+        ClientWidth = 800
         Color = 13033981
         ParentColor = False
         TabOrder = 0
@@ -2530,8 +2530,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 576
-          Height = 430
-          Top = 102
+          Height = 417
+          Top = 98
           Width = 48
           Frequency = 50
           Max = 1000
@@ -2549,11 +2549,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Side = asrBottom
           Cursor = crHelp
-          Left = 584
-          Height = 17
+          Left = 587
+          Height = 15
           Hint = 'This controls the frequency of the low-frequency oscillator used to morph between the two'#13#10'phoneme filters.'
           Top = 68
-          Width = 32
+          Width = 26
           BorderSpacing.Top = 5
           Caption = 'Rate'
           Font.Style = [fsBold]
@@ -2568,10 +2568,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label87
           AnchorSideTop.Side = asrBottom
-          Left = 586
-          Height = 17
-          Top = 85
-          Width = 28
+          Left = 590
+          Height = 15
+          Top = 83
+          Width = 21
           Caption = '1.41'
           ParentColor = False
         end
@@ -2594,10 +2594,10 @@ object Form1: TForm1
           AnchorSideBottom.Control = ComboBox6
           Cursor = crHelp
           Left = 140
-          Height = 17
+          Height = 15
           Hint = 'These select which internal signals are added together to produce the output. Different'#13#10'combinations of values will produce slightly different tonal and spatial effects.'
-          Top = 15
-          Width = 82
+          Top = 17
+          Width = 64
           Anchors = [akLeft, akBottom]
           Caption = 'Phoneme A'
           Font.Style = [fsBold]
@@ -2611,10 +2611,10 @@ object Form1: TForm1
           AnchorSideBottom.Control = ComboBox7
           Cursor = crHelp
           Left = 340
-          Height = 17
+          Height = 15
           Hint = 'These select which internal signals are added together to produce the output. Different'#13#10'combinations of values will produce slightly different tonal and spatial effects.'
-          Top = 15
-          Width = 81
+          Top = 17
+          Width = 64
           Anchors = [akLeft, akBottom]
           Caption = 'Phoneme B'
           Font.Style = [fsBold]
@@ -2642,10 +2642,10 @@ object Form1: TForm1
           AnchorSideBottom.Control = ComboBox8
           Cursor = crHelp
           Left = 540
-          Height = 17
+          Height = 15
           Hint = 'These select which internal signals are added together to produce the output. Different'#13#10'combinations of values will produce slightly different tonal and spatial effects.'
-          Top = 15
-          Width = 72
+          Top = 17
+          Width = 60
           Anchors = [akLeft, akBottom]
           Caption = 'Waveform'
           Font.Style = [fsBold]
@@ -2680,11 +2680,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Side = asrBottom
           Cursor = crHelp
-          Left = 152
-          Height = 34
+          Left = 163
+          Height = 30
           Hint = 'This is the frequency of the carrier signal. If the carrier signal is slowly varying (less than 20 Hz),'#13#10'the result is a tremolo (slow amplitude variation) effect. If the carrier signal is in the audio range,'#13#10'audible upper and lower sidebands begin to appear, causing an inharmonic effect. The carrier'#13#10'signal itself is not heard in the output.'
-          Top = 66
-          Width = 97
+          Top = 65
+          Width = 75
           Alignment = taCenter
           Anchors = [akLeft]
           BorderSpacing.Top = 5
@@ -2701,10 +2701,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label92
           AnchorSideTop.Side = asrBottom
-          Left = 196
-          Height = 17
-          Top = 100
-          Width = 8
+          Left = 197
+          Height = 15
+          Top = 95
+          Width = 6
           Caption = '0'
           ParentColor = False
         end
@@ -2715,8 +2715,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 176
-          Height = 415
-          Top = 117
+          Height = 405
+          Top = 110
           Width = 48
           Frequency = 50
           Max = 24
@@ -2735,11 +2735,11 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Side = asrBottom
           Cursor = crHelp
-          Left = 347
-          Height = 34
+          Left = 359
+          Height = 30
           Hint = 'This is the frequency of the carrier signal. If the carrier signal is slowly varying (less than 20 Hz),'#13#10'the result is a tremolo (slow amplitude variation) effect. If the carrier signal is in the audio range,'#13#10'audible upper and lower sidebands begin to appear, causing an inharmonic effect. The carrier'#13#10'signal itself is not heard in the output.'
-          Top = 66
-          Width = 106
+          Top = 65
+          Width = 82
           Alignment = taCenter
           Anchors = [akLeft]
           BorderSpacing.Top = 5
@@ -2757,10 +2757,10 @@ object Form1: TForm1
           AnchorSideTop.Control = Label94
           AnchorSideTop.Side = asrBottom
           AnchorSideBottom.Control = Panel10
-          Left = 396
-          Height = 17
-          Top = 100
-          Width = 8
+          Left = 397
+          Height = 15
+          Top = 95
+          Width = 6
           Caption = '0'
           ParentColor = False
         end
@@ -2771,8 +2771,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 376
-          Height = 415
-          Top = 117
+          Height = 405
+          Top = 110
           Width = 48
           Frequency = 50
           Max = 24
@@ -2802,16 +2802,16 @@ object Form1: TForm1
     end
     object PageReverb: TTabSheet
       Caption = 'Reverb'
-      ClientHeight = 533
-      ClientWidth = 798
+      ClientHeight = 516
+      ClientWidth = 800
       object Panel11: TPanel
         Left = 0
-        Height = 533
+        Height = 516
         Top = 0
-        Width = 798
+        Width = 800
         Align = alClient
-        ClientHeight = 533
-        ClientWidth = 798
+        ClientHeight = 516
+        ClientWidth = 800
         Color = 13033981
         ParentColor = False
         TabOrder = 0
@@ -2822,8 +2822,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 24
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -2840,11 +2840,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB45
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 21
-          Height = 17
+          Left = 27
+          Height = 15
           Hint = 'Reverb Modal Density controls the coloration of the late reverb. Lowering the value adds more'#13#10'coloration to the late reverb.'
           Top = 6
-          Width = 55
+          Width = 42
           BorderSpacing.Top = 5
           Caption = 'Density'
           Font.Style = [fsBold]
@@ -2859,10 +2859,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label96
           AnchorSideTop.Side = asrBottom
-          Left = 38
-          Height = 17
-          Top = 23
-          Width = 20
+          Left = 41
+          Height = 15
+          Top = 21
+          Width = 15
           Caption = '1.0'
           ParentColor = False
           ParentShowHint = False
@@ -2871,11 +2871,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB46
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 80
-          Height = 17
+          Left = 87
+          Height = 15
           Hint = 'The Reverb Diffusion property controls the echo density in the reverberation decay. It’s set by'#13#10'default to 1.0, which provides the highest density. Reducing diffusion gives the reverberation a'#13#10'more “grainy” character that is especially noticeable with percussive sound sources. If you set a'#13#10'diffusion value of 0.0, the later reverberation sounds like a succession of distinct echoes.'
           Top = 6
-          Width = 65
+          Width = 51
           BorderSpacing.Top = 5
           Caption = 'Diffusion'
           Font.Style = [fsBold]
@@ -2889,10 +2889,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label98
           AnchorSideTop.Side = asrBottom
-          Left = 102
-          Height = 17
-          Top = 23
-          Width = 20
+          Left = 105
+          Height = 15
+          Top = 21
+          Width = 15
           Caption = '1.0'
           ParentColor = False
         end
@@ -2903,8 +2903,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 88
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -2921,11 +2921,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB47
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 161
-          Height = 17
+          Left = 164
+          Height = 15
           Hint = 'The Reverb Gain property is the master volume control for the reflected sound (both early'#13#10'reflections and reverberation) that the reverb effect adds to all sound sources. It sets the'#13#10'maximum amount of reflections and reverberation added to the final sound mix. The value of the'#13#10'Reverb Gain property ranges from 1.0 (0db) (the maximum amount) to 0.0 (-100db) (no reflected'#13#10'sound at all).'
           Top = 6
-          Width = 31
+          Width = 25
           BorderSpacing.Top = 5
           Caption = 'Gain'
           Font.Style = [fsBold]
@@ -2939,10 +2939,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label100
           AnchorSideTop.Side = asrBottom
-          Left = 162
-          Height = 17
-          Top = 23
-          Width = 28
+          Left = 166
+          Height = 15
+          Top = 21
+          Width = 21
           Caption = '0.32'
           ParentColor = False
         end
@@ -2953,8 +2953,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 152
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -2971,11 +2971,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB48
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 199
-          Height = 17
+          Left = 205
+          Height = 15
           Hint = 'The Reverb Gain HF property further tweaks reflected sound by attenuating it at high frequencies.'#13#10'It controls a low-pass filter that applies globally to the reflected sound of all sound sources'#13#10'feeding the particular instance of the reverb effect. The value of the Reverb Gain HF property'#13#10'ranges from 1.0 (0db) (no filter) to 0.0 (-100db) (virtually no reflected sound).'
           Top = 6
-          Width = 54
+          Width = 43
           BorderSpacing.Top = 5
           Caption = 'Gain HF'
           Font.Style = [fsBold]
@@ -2989,10 +2989,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label102
           AnchorSideTop.Side = asrBottom
-          Left = 212
-          Height = 17
-          Top = 23
-          Width = 28
+          Left = 216
+          Height = 15
+          Top = 21
+          Width = 21
           Caption = '0.89'
           ParentColor = False
         end
@@ -3003,8 +3003,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 202
-          Height = 492
-          Top = 40
+          Height = 479
+          Top = 36
           Width = 48
           Frequency = 50
           Max = 1000
@@ -3039,11 +3039,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB49
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 275
-          Height = 34
+          Left = 279
+          Height = 30
           Hint = 'The Decay Time property sets the reverberation decay time. It ranges from 0.1 (typically a small'#13#10'room with very dead surfaces) to 20.0 (typically a large room with very live surfaces).'
           Top = 6
-          Width = 43
+          Width = 34
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Decay'#13#10'time'
@@ -3058,10 +3058,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label104
           AnchorSideTop.Side = asrBottom
-          Left = 282
-          Height = 17
-          Top = 40
-          Width = 28
+          Left = 286
+          Height = 15
+          Top = 36
+          Width = 21
           Caption = '1.49'
           ParentColor = False
         end
@@ -3072,8 +3072,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 272
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -3090,10 +3090,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = ComboBox9
           AnchorSideBottom.Control = ComboBox9
           Left = 680
-          Height = 17
+          Height = 15
           Hint = 'When this flag is set, the high-frequency decay time automatically stays below a limit value that’s'#13#10'derived from the setting of the property Air Absorption HF. This limit applies regardless of the'#13#10'setting of the property Decay HF Ratio, and the limit doesn’t affect the value of Decay HF Ratio.'#13#10'This limit, when on, maintains a natural sounding reverberation decay by allowing you to increase'#13#10'the value of Decay Time without the risk of getting an unnaturally long decay time at high'#13#10'frequencies. If this flag is set to AL_FALSE, high-frequency decay time isn’t automatically limited.'
-          Top = 47
-          Width = 106
+          Top = 49
+          Width = 83
           Anchors = [akLeft, akBottom]
           Caption = 'Decay HF Limit'
           Font.Style = [fsBold]
@@ -3107,10 +3107,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = Label105
           AnchorSideTop.Side = asrCenter
-          Left = 310
-          Height = 17
-          Top = 40
-          Width = 7
+          Left = 307
+          Height = 15
+          Top = 36
+          Width = 5
           Caption = 's'
           ParentColor = False
         end
@@ -3118,11 +3118,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB50
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 321
-          Height = 34
+          Left = 328
+          Height = 30
           Hint = 'The Decay HF Ratio property sets the spectral quality of the Decay Time parameter. It is the'#13#10'ratio of high-frequency decay time relative to the time set by Decay Time. The Decay HF Ratio'#13#10'value 1.0 is neutral: the decay time is equal for all frequencies. As Decay HF Ratio increases'#13#10'above 1.0, the high-frequency decay time increases so it’s longer than the decay time at low'#13#10'frequencies. You hear a more brilliant reverberation with a longer decay at high frequencies. As'#13#10'the Decay HF Ratio value decreases below 1.0, the high-frequency decay time decreases so it’s'#13#10'shorter than the decay time of the low frequencies. You hear a more natural reverberation.'
           Top = 6
-          Width = 66
+          Width = 52
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Decay HF'#13#10'Ratio'
@@ -3137,10 +3137,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label108
           AnchorSideTop.Side = asrBottom
-          Left = 340
-          Height = 17
-          Top = 40
-          Width = 28
+          Left = 344
+          Height = 15
+          Top = 36
+          Width = 21
           Caption = '0.83'
           ParentColor = False
         end
@@ -3151,8 +3151,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 330
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -3169,11 +3169,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB51
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 400
-          Height = 34
+          Left = 409
+          Height = 30
           Hint = 'The Reflections Gain property controls the overall amount of initial reflections relative to the Gain'#13#10'property. (The Gain property sets the overall amount of reflected sound: both initial reflections'#13#10'and later reverberation.) The value of Reflections Gain ranges from a maximum of 3.16 (+10 dB)'#13#10'to a minimum of 0.0 (-100 dB) (no initial reflections at all), and is corrected by the value of the'#13#10'Gain property. The Reflections Gain property does not affect the subsequent reverberation'#13#10'decay.'#13#10'You can increase the amount of initial reflections to simulate a more narrow space or closer walls,'#13#10'especially effective if you associate the initial reflections increase with a reduction in reflections'#13#10'delays by lowering the value of the Reflection Delay property. To simulate open or semi-open'#13#10'environments, you can maintain the amount of early reflections while reducing the value of the'#13#10'Late Reverb Gain property, which controls later reflections.'
           Top = 6
-          Width = 81
+          Width = 63
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Reflections'#13#10'Gain'
@@ -3188,10 +3188,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label110
           AnchorSideTop.Side = asrBottom
-          Left = 426
-          Height = 17
-          Top = 40
-          Width = 28
+          Left = 430
+          Height = 15
+          Top = 36
+          Width = 21
           Caption = '0.05'
           ParentColor = False
         end
@@ -3202,8 +3202,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 416
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -3220,11 +3220,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB52
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 472
-          Height = 34
+          Left = 481
+          Height = 30
           Hint = 'The Reflections Delay property is the amount of delay between the arrival time of the direct path'#13#10'from the source to the first reflection from the source. It ranges from 0 to 300 milliseconds. You'#13#10'can reduce or increase Reflections Delay to simulate closer or more distant reflective surfaces—'#13#10'and therefore control the perceived size of the room.'
           Top = 6
-          Width = 81
+          Width = 63
           Alignment = taCenter
           BorderSpacing.Top = 5
           Caption = 'Reflections'#13#10'Delay'
@@ -3239,10 +3239,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label112
           AnchorSideTop.Side = asrBottom
-          Left = 494
-          Height = 17
-          Top = 40
-          Width = 36
+          Left = 499
+          Height = 15
+          Top = 36
+          Width = 27
           Caption = '0.007'
           ParentColor = False
         end
@@ -3253,8 +3253,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 488
-          Height = 475
-          Top = 57
+          Height = 464
+          Top = 51
           Width = 48
           Frequency = 50
           Max = 1000
@@ -3271,10 +3271,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = Label113
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = Label113
-          Left = 530
-          Height = 17
-          Top = 40
-          Width = 7
+          Left = 526
+          Height = 15
+          Top = 36
+          Width = 5
           Caption = 's'
           ParentColor = False
         end
@@ -3282,11 +3282,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB53
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 551
-          Height = 51
+          Left = 556
+          Height = 45
           Hint = 'The Late Reverb Gain property controls the overall amount of later reverberation relative to the'#13#10'Gain property. (The Gain property sets the overall amount of both initial reflections and later'#13#10'reverberation.) The value of Late Reverb Gain ranges from a maximum of 10.0 (+20 dB) to a'#13#10'minimum of 0.0 (-100 dB) (no late reverberation at all).'#13#10'Note that Late Reverb Gain and Decay Time are independent properties: If you adjust Decay'#13#10'Time without changing Late Reverb Gain, the total intensity (the averaged square of the'#13#10'amplitude) of the late reverberation remains constant.'
-          Top = 47
-          Width = 50
+          Top = 48
+          Width = 41
           Alignment = taCenter
           Anchors = [akLeft]
           BorderSpacing.Top = 5
@@ -3302,10 +3302,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label115
           AnchorSideTop.Side = asrBottom
-          Left = 562
-          Height = 17
-          Top = 98
-          Width = 28
+          Left = 566
+          Height = 15
+          Top = 93
+          Width = 21
           Caption = '1.26'
           ParentColor = False
         end
@@ -3316,8 +3316,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 552
-          Height = 417
-          Top = 115
+          Height = 407
+          Top = 108
           Width = 48
           Frequency = 50
           Max = 1000
@@ -3334,11 +3334,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB54
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 608
-          Height = 51
+          Left = 613
+          Height = 45
           Hint = 'The Late Reverb Delay property defines the begin time of the late reverberation relative to the'#13#10'time of the initial reflection (the first of the early reflections). It ranges from 0 to 100 milliseconds.'#13#10'Reducing or increasing Late Reverb Delay is useful for simulating a smaller or larger room.'
-          Top = 47
-          Width = 50
+          Top = 48
+          Width = 41
           Alignment = taCenter
           Anchors = [akLeft]
           BorderSpacing.Top = 5
@@ -3354,10 +3354,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label117
           AnchorSideTop.Side = asrBottom
-          Left = 615
-          Height = 17
-          Top = 98
-          Width = 36
+          Left = 620
+          Height = 15
+          Top = 93
+          Width = 27
           Caption = '0.011'
           ParentColor = False
         end
@@ -3368,8 +3368,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 609
-          Height = 417
-          Top = 115
+          Height = 407
+          Top = 108
           Width = 48
           Frequency = 50
           Max = 1000
@@ -3386,11 +3386,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB55
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 672
-          Height = 51
+          Left = 677
+          Height = 45
           Hint = 'The Room Rolloff Factor property is one of two methods available to attenuate the reflected'#13#10'sound (containing both reflections and reverberation) according to source-listener distance. It’s'#13#10'defined the same way as OpenAL’s Rolloff Factor, but operates on reverb sound instead of'#13#10'direct-path sound. Setting the Room Rolloff Factor value to 1.0 specifies that the reflected sound'#13#10'will decay by 6 dB every time the distance doubles. Any value other than 1.0 is equivalent to a'#13#10'scaling factor applied to the quantity specified by ((Source listener distance) - (Reference'#13#10'Distance)). Reference Distance is an OpenAL source parameter that specifies the inner border'#13#10'for distance rolloff effects: if the source comes closer to the listener than the reference distance,'#13#10'the direct-path sound isn’t increased as the source comes closer to the listener, and neither is the'#13#10'reflected sound.'#13#10'The default value of Room Rolloff Factor is 0.0 because, by default, the Effects Extension reverb'#13#10'effect naturally manages the reflected sound level automatically for each sound source to'#13#10'simulate the natural rolloff of reflected sound vs. distance in typical rooms. (Note that this isn’t'#13#10'the case if the source property flag AL_AUXILIARY_SEND_FILTER_GAIN_AUTO is set to'#13#10'AL_FALSE) You can use Room Rolloff Factor as an option to automatic control so you can'#13#10'exaggerate or replace the default automatically-controlled rolloff.'
-          Top = 93
-          Width = 49
+          Top = 92
+          Width = 38
           Alignment = taCenter
           Anchors = [akLeft]
           BorderSpacing.Top = 5
@@ -3406,10 +3406,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label119
           AnchorSideTop.Side = asrBottom
-          Left = 686
-          Height = 17
-          Top = 144
-          Width = 20
+          Left = 689
+          Height = 15
+          Top = 137
+          Width = 15
           Caption = '0.0'
           ParentColor = False
         end
@@ -3420,8 +3420,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 672
-          Height = 371
-          Top = 161
+          Height = 363
+          Top = 152
           Width = 48
           Frequency = 50
           Max = 1000
@@ -3438,11 +3438,11 @@ object Form1: TForm1
           AnchorSideLeft.Control = TB56
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Panel11
-          Left = 714
-          Height = 51
+          Left = 724
+          Height = 45
           Hint = 'The Air Absorption Gain HF property controls the distance-dependent attenuation at high'#13#10'frequencies caused by the propagation medium. It applies to reflected sound only. You can use'#13#10'Air Absorption Gain HF to simulate sound transmission through foggy air, dry air, smoky'#13#10'atmosphere, and so on. The default value is 0.994 (-0.05 dB) per meter, which roughly'#13#10'corresponds to typical condition of atmospheric humidity, temperature, and so on. Lowering the'#13#10'value simulates a more absorbent medium (more humidity in the air, for example); raising the'#13#10'value simulates a less absorbent medium (dry desert air, for example).'
-          Top = 93
-          Width = 80
+          Top = 92
+          Width = 61
           Alignment = taCenter
           Anchors = [akLeft]
           BorderSpacing.Top = 5
@@ -3458,10 +3458,10 @@ object Form1: TForm1
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = Label121
           AnchorSideTop.Side = asrBottom
-          Left = 736
-          Height = 17
-          Top = 144
-          Width = 36
+          Left = 741
+          Height = 15
+          Top = 137
+          Width = 27
           Caption = '0.994'
           ParentColor = False
         end
@@ -3472,8 +3472,8 @@ object Form1: TForm1
           AnchorSideBottom.Side = asrBottom
           Cursor = crHandPoint
           Left = 730
-          Height = 371
-          Top = 161
+          Height = 363
+          Top = 152
           Width = 48
           Frequency = 50
           Max = 1000
@@ -3490,10 +3490,10 @@ object Form1: TForm1
           AnchorSideLeft.Control = Label118
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = Label118
-          Left = 651
-          Height = 17
-          Top = 98
-          Width = 7
+          Left = 647
+          Height = 15
+          Top = 93
+          Width = 5
           Caption = 's'
           ParentColor = False
         end
@@ -3735,151 +3735,16 @@ object Form1: TForm1
     Left = 920
     Top = 480
     Bitmap = {
-      4C69020000001800000018000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000081006100800006000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF038303C1008E00090000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF139813F7048404CB0089
-      000D000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C737FF179E17F80284
-      02D6008600130000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C737FF18A0
-      18FA028302E00085001900000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF1DA51DFA028202E30080001C000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF37C837FF1FA81FFC028302E9008000240000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF37C837FF37C837FF20AB20FD028302EF0080002C00000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF37C837FF37C837FF37C837FF23AF23FD028302EF00800030000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF37C837FF37C837FF37C837FF37C837FF26B326FE028302F2008200390000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF37C837FF37C837FF37C837FF37C837FF37C837FF27B427FF028302F50082
-      0035000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF37C837FF37C837FF37C837FF37C837FF37C837FF27B427FF028402F40082
-      0035000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF37C837FF37C837FF37C837FF37C837FF26B326FE028302F2008200390000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF37C837FF37C837FF37C837FF23AE23FD028302EF00800030000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF37C837FF37C837FF20AB20FD028302EE0080002C00000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF37C837FF1FA81FFC028302E8008300230000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C837FF37C8
-      37FF1DA51DFA028202E30080001C000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C837FF37C737FF19A0
-      19F8028302DE0085001900000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF37C737FF179E17F80284
-      02D6008600130000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF139813F7048404CB0089
-      000D000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000008000FF038303C1008E00090000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000081006100800006000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFA46534FFA46534FFA46534FFA46534FFA46534FF000000000000
-      000000000000A46534FFA46534FFA46534FFA46534FFA46534FFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF000000000000
-      000000000000A46534FFFFCCAAFFFFCCAAFFFFCCAAFFFFCCAAFFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000A46534FFA46534FFA46534FFA46534FFA46534FFA46534FF000000000000
-      000000000000A46534FFA46534FFA46534FFA46534FFA46534FFA46534FF0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000
+      4C7A020000001800000018000000150100000000000078DA63601804A0912191
+      A181818D66E63730FC676E663EC8D0C7C0492BF38567087F67696139CDD0C9C0
+      4B0BF3CD8F9BFF179F27FE83A985E91A431B8330D5CD3F610EB6436281C42FA6
+      66A6070CAD0C9254371F8A6597CAFE626A627A0C1497A185F9202CBF42FE0FD0
+      1F2F81722AB4301F8415562BFC05DAF11E28AF430BF3415879BD32CC0E035A98
+      0FC26A9BD5FE01EDF8C4D0C460490BF341587D8BFA7FA01D5F817698D2CCFC16
+      A62FB4309F96E1A3BC8E76F10B4D9FEF68913EA1F9EB05433383F290291F80E5
+      9BE402C91F4077DFA37AF946E3F299D6F50B4DEB475AD7EF430C2C4935F98F0D
+      93AA069FF9FFCFAC42C1D8CC27A466D4FC51F347CD1F357FD4FC51F347CD27CD
+      7C5AD6EFD4040046EE1B8A
     }
   end
 end

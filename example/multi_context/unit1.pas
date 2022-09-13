@@ -72,6 +72,9 @@ procedure TForm1.FormCreate(Sender: TObject);
 var
   f: string;
 begin
+  // load OpenAL-Soft and LibSndFile libraries
+  ALSManager.LoadLibraries;
+
   f := ConcatPaths([Application.Location, '..', 'data']);
 
   // Create 3 playback contexts with the default playback device

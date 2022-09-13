@@ -75,6 +75,14 @@ begin
 end;
 
 begin
+  // load OpenAL-Soft and LibSndFile libraries
+  ALSManager.LoadLibraries;
+  if ALSManager.Error then
+  begin
+    writeln(ALSManager.StrError);
+    exit;
+  end;
+
   writeln('Record from an audio device to a file.'+LINEENDING);
 
   recorder.mDevice := NIL;

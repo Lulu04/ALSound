@@ -2,13 +2,15 @@
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <BuildModes Active="Release"/>
     <Units Count="9">
       <Unit0>
         <Filename Value="console_alplay.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos Y="10"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="4"/>
+        <CursorPos X="18" Y="24"/>
         <UsageCount Value="35"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -65,8 +67,8 @@
       <Unit8>
         <Filename Value="..\..\source\alsound.pas"/>
         <UnitName Value="ALSound"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
+        <TopLine Value="37"/>
         <CursorPos Y="23"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
@@ -147,7 +149,7 @@
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="0" ActiveMode=""/>
+      <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
 </CONFIG>
