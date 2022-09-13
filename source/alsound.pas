@@ -3508,6 +3508,7 @@ var
 begin
   FParentContext := aParent;
   InitializeErrorStatus;
+  FChannelCount := 1;
   fileopened := False;
   FFilename := aFilename;
   FMonitoringEnabled := aEnableMonitor;
@@ -3661,6 +3662,7 @@ var
 begin
   FParentContext := aParent;
   InitializeErrorStatus;
+  FChannelCount := 1;
   fileopened := False;
   FFilename := aFilename;
   FMonitoringEnabled := aEnableMonitor;
