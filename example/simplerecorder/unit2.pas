@@ -81,7 +81,7 @@ begin
                       FMusic.ChannelCount.ToString+' channel(s) - '+
                       FMusic.Format+' '+FMusic.SubFormat
   else
-    Label2.Caption := FMusic.StrError+' - '+FMusic.StrError2;
+    Label2.Caption := FMusic.StrError;
 
   // Set loop mode
   FMusic.Loop := True;

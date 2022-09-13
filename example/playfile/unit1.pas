@@ -28,6 +28,8 @@ type
     Label7: TLabel;
     OD1: TOpenDialog;
     Panel1: TPanel;
+    ProgressBar1: TProgressBar;
+    ProgressBar2: TProgressBar;
     SpeedButton1: TSpeedButton;
     TrackBar1: TTrackBar;
     TrackBar2: TTrackBar;
@@ -44,6 +46,8 @@ type
     FPlaybackContext: TALSPlaybackContext;
     // our sound object
     FSound: TALSSound;
+  private
+    procedure ProcessOnIdle(Sender: TObject; var Done: Boolean);
   public
 
   end;
@@ -64,6 +68,8 @@ begin
 
   // Fill the file open dialog filter property with supported audio file types.
   OD1.Filter := ALSManager.DialogFileFilters(True);
+
+  Application.OnIdle := @ProcessOnIdle;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -89,7 +95,7 @@ end;
 procedure TForm1.TrackBar1Change(Sender: TObject);
 begin
   // User change sound's volume.
-  if FSound <> NIL then Exit;
+  if FSound <> NIL then
     FSound.Volume.Value := TrackBar1.Position/TrackBar1.Max;
 end;
 
@@ -98,6 +104,16 @@ begin
   // User change sound's tone.
   if FSound <> NIL then
     FSound.Tone.Value := TrackBar2.Position/TrackBar2.Max;
+end;
+
+procedure TForm1.ProcessOnIdle(Sender: TObject; var Done: Boolean);
+begin
+  if FSound <> NIL then
+  begin
+    ProgressBar1.Position := Round(FSound.ChannelsLevel[0]*100);
+    ProgressBar2.Position := Round(FSound.ChannelsLevel[1]*100);
+    Done := False;
+  end;
 end;
 
 procedure TForm1.BLoadClick(Sender: TObject);

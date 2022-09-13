@@ -241,7 +241,7 @@ begin
   FLoopbackContext := ALSManager.CreateDefaultLoopbackContext;
   if FLoopbackContext.Error then
   begin
-    ShowMessage(FLoopbackContext.StrError+lineending+FLoopbackContext.StrError2);
+    ShowMessage(FLoopbackContext.StrError);
     FreeAndNil(FLoopbackContext);
     exit;
   end;
