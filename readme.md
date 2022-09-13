@@ -82,5 +82,28 @@ Thanks to Christopher Robinson, the author and maintainer of OpenAL-Soft, for it
 Thanks to Fred van Stappen, the author of United OpenLib of Sound (UOS) (https://github.com/fredvs/uos) who wrote pascal binding for LibSndFile and PortAudio. This inspired me to write pascal binding for OpenAL-Soft and LibSndFile used by ALSound.
 
 
+Version
+-------
 
+v1.1.1 :
+     - New property 'ALSManager.LibrariesSubFolder' allow to specify a sub-folder name in case of librarie's binaries images are located in a sub-folder of the executable.
+     - Because the libraries path is configurable, now application must call ALSManager.LoadLibraries at startup to load OpenAL-Soft and LibSndFile. All examples have been updated.
+
+
+v1.1.0 :
+     - Add a new error message in case of out of memory error.
+     - Add new error message in case of failure when attaching a buffer to a source.
+     - Add Tag property to TALSSound.
+     - TALSSound can now monitor its channel's levels. This feature is enabled/disabled at creation time and channel's level can be retrieved with property ChannelsLevel[index:integer] or ChannelsLeveldB[index:integer].
+     - Add dsp routine to generates silence and white noise in a target buffer.
+     - Modified parameters for dsp routine 'dsp_ComputeLinearLevel_Smallint' and 'dsp_ComputeLinearLevel_Float'.
+     - Introduction of TALSPlaybackBuffer (internal use).
+     - Add property Sounds[index:integer]: TALSSound to TALSPlaybackContext and TALSLoopbackContext, to retrieve a sound by its index.
+     - Add header about license on several files.
+     - TALSContextAttributes have a new field 'EnableOutputLimiter' to enable/disable the output limiter on a playback or loopback context.
+     - TALSSound max gain is fixed to 8.0 in case of OpenAL-Soft extension 'AL_SOFT_gain_clamp_ex' is present. if this extension is not detected, the max gain is 1.0 like before.
+     - Correction/deletion of some comments.
+
+
+v1.0.0 : initial version
 
