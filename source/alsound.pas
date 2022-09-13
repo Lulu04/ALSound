@@ -23,6 +23,7 @@ unit ALSound;
 
 {$mode objfpc}{$H+}
 {$MODESWITCH ADVANCEDRECORDS}
+{$pointerMath on}  // enable Inc() Dec() on pointer
 
 interface
 
@@ -101,11 +102,11 @@ type
 
   TALSLoopbackSampleType = ( //ALC_BYTE_SOFT = $1400,
                              //ALC_UNSIGNED_BYTE_SOFT = $1401,
-                             ALC_SHORT_SOFT = $1402,
+                             ALC_SHORT_SOFT = $1402, // 16b signed integer
                              //ALC_UNSIGNED_SHORT_SOFT = $1403,
-                             ALC_INT_SOFT = $1404,
+                             ALC_INT_SOFT = $1404, // 32bit signed integer
                              //ALC_UNSIGNED_INT_SOFT = $1405,
-                             ALC_FLOAT_SOFT = $1406);
+                             ALC_FLOAT_SOFT = $1406); // 32bits float
 
   TALSFileMajorFormat = (
        SF_FORMAT_WAV = $010000,  // Microsoft WAV format (little endian default)
@@ -314,17 +315,17 @@ type
     FErrorCode: TALSError;
     FALErrorCode,
     FALCErrorCode: ALenum;
-    FAdditionnalErrorMessage: string;
     function GetStrError: string;
     procedure InitializeErrorStatus; virtual;
     // return True if OpenAL returned an error
     function CheckALError(aErrorCode: TALSError): boolean;
     function CheckALCError(aDevice: PALCDevice; aErrorCode: TALSError): boolean;
     procedure SetError(aErrorCode: TALSError);
+    procedure SetALError(aErrorCode: TALSError; aALError: ALenum);
+    procedure SetALCError(aErrorCode: TALSError; aALCError: ALenum);
   public
     property Error: boolean read GetErrorState;
     property StrError: string read GetStrError;
-    property StrError2: string read FAdditionnalErrorMessage;
   end;
 
   { TALSSound }
@@ -339,8 +340,8 @@ type
     procedure InitializeErrorStatus; override;
   private
     FParentContext: TALSPlaybackContext;
-    FSampleRate: integer;
-    FChannelCount: word;
+    FSampleRate,
+    FChannelCount: integer;
     FFormatForAL: DWord;
     FFrameSize: integer;
     FFrameCount,
@@ -354,8 +355,11 @@ type
   protected
     FSource: longword;
     FLoop, FPaused: boolean;
+    FBuffers: array of TALSPlaybackBuffer;
     procedure GenerateALSource;
-    procedure GenerateALBuffer(aTarget: PALuint; aCount: integer);
+    procedure GenerateALBuffers(aCount: integer);
+    procedure SetBuffersFrameCapacity(aFrameCapacity: longword);
+    procedure FreeBuffers;
   protected
     FFadeOutEnabled, FKillAfterFadeOut, FKillAfterPlay, FKill: boolean;
   private
@@ -377,6 +381,8 @@ type
   private
     FMuteMultiplicator: single;
     FPositionRelativeToListener: boolean;
+    function GetChannelLevel(index: integer): single; virtual;
+    function GetChannelLeveldB(index: integer): single;
     function GetDistanceModel: TALSDistanceModel;
     function GetMute: boolean;
     function GetState: TALSState;
@@ -385,7 +391,6 @@ type
     procedure SetPositionRelativeToListener(AValue: boolean);
     function GetResamplerIndex: integer;
     procedure SetResamplerIndex(AValue: integer);
-  protected
     procedure InternalRewind; virtual;
     procedure CreateParameters;
     procedure FreeParameters;
@@ -485,8 +490,13 @@ type
     property SampleRate: integer read FSampleRate;
     // Sets to true to loop the sound.
     property Loop: boolean read FLoop write SetLoop;
-    // the channel count of the sound.
-    property ChannelCount: word read FChannelCount;
+    // The channel count of the sound.
+    property ChannelCount: integer read FChannelCount;
+    // The level for each channel expressed in percent: 0=silence 1=full
+    property ChannelsLevel[index:integer]: single read GetChannelLevel;
+    // The level for each channel expressed in decibel. Range is -60dB to 0dB.
+    property ChannelsLeveldB[index:integer]: single read GetChannelLeveldB;
+
     // The sound's filename. Empty string if the sound is not loaded from a file.
     property Filename: string read FFilename;
     // The format of the sound file e.g: WAV (Microsoft), AIFF(Apple/SGI), ...
@@ -524,7 +534,13 @@ type
 
   TALSSingleStaticBufferSound = class(TALSSound)
   private
-    FBufferID: ALuint;
+  const
+    LEVEL_TIME_SLICE = 0.050;
+  var
+    // stuff for channels level
+    FLevels: array of ArrayOfSingle;
+    procedure InitLevelsFromBuffer(const aBuf: TALSPlaybackBuffer);
+    function GetChannelLevel(index: integer): single; override;
   public
     constructor CreateFromFile(aParent: TALSPlaybackContext; const aFilename: string);
     constructor CreateWhiteNoise(aParent: TALSPlaybackContext; aDuration: single; aChannelCount: integer);
@@ -537,19 +553,19 @@ type
   TALSStreamedFileSound = class(TALSSound)
   private
   const
-    NUM_BUFFERS = 4;
-    BUFFER_TIME_LENGTH = 0.100;
+    NUM_BUFFERS = 8;
+    BUFFER_TIME_LENGTH = 0.050;
+  private
+    FPlayedBufferIndex: integer;
+    function GetChannelLevel(index: integer): single; override;
   private
     Fsndfile: PSNDFILE;
     Fsfinfo: TSF_INFO;
-    FFramesFromFile: ArrayOfByte;
-    FBuffers: array[0..NUM_BUFFERS - 1] of ALuint;
     FBufferFrameCount: integer;
     procedure PreBuffAudio;
   private
     FFrameReadAccu: sf_count_t;
     FUsedBuffer: ALsizei;
-  protected
     procedure Update(const aElapsedTime: single); override;
     procedure InternalRewind; override;
   public
@@ -678,7 +694,7 @@ type
     FParentDevice: PALCdevice;
     FContext: PALCcontext;
     FDistanceModel: TALSDistanceModel;
-    FHaveBufferOfFloat: boolean;
+    FUseBufferOfFloat: boolean;
     FSampleRate,
     FObtainedSampleRate: integer;
     FAuxiliarySendAvailable: ALCInt;
@@ -700,9 +716,12 @@ type
     FHaveExt_AL_SOFT_source_spatialize,
     FHaveExt_AL_SOFT_gain_clamp_ex,
     FHaveExt_AL_EXT_source_distance_model,
-    FHaveExt_AL_SOFT_buffer_samples: boolean;
+    FHaveExt_AL_SOFT_buffer_samples,
+    FHaveExt_AL_SOFT_buffer_sub_data: boolean;
 
     FMasterGain: TALSBoundedFParam;
+
+    FInternalSampleType: TALSPlaybackSampleType;
 
     function GetHaveFilter: boolean;
     function GetHRTFEnabled: boolean;
@@ -884,8 +903,8 @@ type
     // interrupt a mixing process.
     procedure CancelMix;
 
-    // This callback is fired each time the buffer is filled with audio.
-    // It allows your application to:
+    // This callback is fired after a call to StartMixing, each time the buffer
+    // is filled with audio. It allows your application to:
     //     - control if the current audio buffer content must be saved to the
     //         output file. Usefull to save only a portion of the mix.
     //     - control if the mixing must be stopped.
@@ -1542,7 +1561,6 @@ end;
 procedure TALSErrorHandling.InitializeErrorStatus;
 begin
   FErrorCode := ALSManager.FErrorCode;
-  FAdditionnalErrorMessage := ALSManager.FAdditionnalErrorMessage;
 end;
 
 function TALSErrorHandling.CheckALError(aErrorCode: TALSError): boolean;
@@ -1553,11 +1571,7 @@ begin
   if (err <> openalsoft.AL_NO_ERROR) then
   begin
     Result := True;
-    if FErrorCode = als_NoError then
-    begin
-      FErrorCode := aErrorCode;
-      FALErrorCode := err;
-    end;
+    SetALError(aErrorCode, err);
   end
   else
     Result := False;
@@ -1585,6 +1599,24 @@ procedure TALSErrorHandling.SetError(aErrorCode: TALSError);
 begin
   if FErrorCode = als_NoError then
     FErrorCode := aErrorCode;
+end;
+
+procedure TALSErrorHandling.SetALError(aErrorCode: TALSError; aALError: ALenum);
+begin
+  if FErrorCode = als_NoError then
+  begin
+    FErrorCode := aErrorCode;
+    FALErrorCode := aALError;
+  end;
+end;
+
+procedure TALSErrorHandling.SetALCError(aErrorCode: TALSError; aALCError: ALenum);
+begin
+  if FErrorCode = als_NoError then
+  begin
+    FErrorCode := aErrorCode;
+    FALCErrorCode := aALCError;
+  end;
 end;
 
 function TALSErrorHandling.GetStrError: string;
@@ -2037,20 +2069,10 @@ end;
 procedure TALSManager.InitializeErrorStatus;
 begin
   if not FOpenALSoftLibraryLoaded then
-  begin
-    SetError(als_ALLibraryNotLoaded);
-    FAdditionnalErrorMessage := FOpenALSoftLibraryFilename;
-  end
+    SetError(als_ALLibraryNotLoaded)
   else if not FLibSndFileLibraryLoaded then
-  begin
-    SetError(als_LibSndFileNotLoaded);
-    FAdditionnalErrorMessage := FLibSNDFileLibraryFilename;
-  end
-{  else
-  begin
-    FErrorCode := als_NoError;
-    FAdditionnalErrorMessage := '';
-  end};
+    SetError(als_LibSndFileNotLoaded)
+  else FErrorCode := als_NoError;
 end;
 
 procedure TALSManager.RetrievePlaybackDevices;
@@ -3203,115 +3225,6 @@ begin
   end;
 end;
 
-{
-procedure TALSEffect.SetMute(AValue: boolean);
-var
-  previousSlotID, targetSlotID: ALuint;
-  i, j: integer;
-begin
-  if FMute=AValue then Exit;
-  FMute:=AValue;
-
-  if FParentContext.Error or
-     not FParentContext.FHaveEXT_ALC_EXT_EFX then
-    exit;
-
-  LockContext( FParentContext.FContext );
-  try
-    if not IsInChain then
-    begin
-      // The effect is single one -> we multiply the output gain by a coeff. 0 or 1.
-      if AValue then
-        FMuteCoef := 0.0
-      else
-        FMuteCoef := 1.0;
-      InternalSetOutputGain;
-    end
-    else
-    begin
-      // The effect is chained with others.
-      targetSlotID := GetNextActiveEffectSlotID(FNext);
-      if AValue then
-      begin // Muting = connect the previous effect slot to the next effect slot
-            // If there isn't a previous effect, we have to disconnect all sound's
-            // auxiliary send that use the current slot and connect them to the
-            // next effect slot, and connect current to AL_EFFECTSLOT_NULL
-
-        if AllOtherChainedEffectAreMuted then
-        begin
-          FMuteCoef := 0.0;
-          InternalSetOutputGain;
-        end
-        else
-
-        if GetPreviousActiveEffectSlotID(FPrevious, previousSlotID) then
-        begin // connects the previous effect slot to the next effect slot
-          alAuxiliaryEffectSloti(previousSlotID, AL_EFFECTSLOT_TARGET_SOFT, targetSlotID);
-          alAuxiliaryEffectSloti(FSlotID, AL_EFFECTSLOT_TARGET_SOFT, AL_EFFECTSLOT_NULL);
-        end
-        else
-        begin
-          for i:=0 to FParentContext.GetSoundCount-1 do
-            with FParentContext.GetSoundByIndex(i) do
-            begin
-              EnterCS;
-              try
-                for j:=0 to High(FAuxiliarySend) do
-                  if FAuxiliarySend[j].IsConnectedWithChain(FirstEffectInChain) then
-                    FAuxiliarySend[j].ConnectTo(targetSlotID);
-              finally
-                LeaveCS;
-              end;
-            end;
-          alAuxiliaryEffectSloti(FSlotID, AL_EFFECTSLOT_TARGET_SOFT, AL_EFFECTSLOT_NULL);
-        end;
-      end
-      else
-      begin // Unmuting = connect the previous effect slot to the current one
-            // and connect the current one to the next one.
-            // if there isn't a previous effect, we have to disconnect all sound's
-            // auxiliary send that use the next slot and connect them to the
-            // current one, and connect current to the next.
-
-        if FMuteCoef = 0.0 then
-        begin
-          FMuteCoef := 1.0;
-          InternalSetOutputGain;
-        end
-        else
-        begin
-          ForceAllMuteCoeffTo1;
-
-          if GetPreviousActiveEffectSlotID(FPrevious, previousSlotID) then
-          begin
-            alAuxiliaryEffectSloti(previousSlotID, AL_EFFECTSLOT_TARGET_SOFT, FSlotID);
-            alAuxiliaryEffectSloti(FSlotID, AL_EFFECTSLOT_TARGET_SOFT, targetSlotID);
-          end
-          else
-          begin // inserts the current effect between the previous and next
-            for i:=0 to FParentContext.GetSoundCount-1 do
-              with FParentContext.GetSoundByIndex(i) do
-              begin
-                EnterCS;
-                try
-                  for j:=0 to High(FAuxiliarySend) do
-                    if FAuxiliarySend[j].IsConnectedWithChain(FirstEffectInChain) then
-                      FAuxiliarySend[j].ConnectTo(Self.FSlotID);
-                finally
-                  LeaveCS;
-                end;
-              end;
-            alAuxiliaryEffectSloti(FSlotID, AL_EFFECTSLOT_TARGET_SOFT, targetSlotID);
-          end;
-        end;
-      end;
-    end;
-  finally
-    UnlockContext;
-  end;
-end;
-}
-
 procedure TALSEffect.UpdateParameters(const P);
 begin
   if not Ready then
@@ -3424,36 +3337,64 @@ end;
 
 { TALSStreamedFileSound }
 
+function TALSStreamedFileSound.GetChannelLevel(index: integer): single;
+begin
+  if Error or
+     (State <> ALS_PLAYING) then
+    Result := 0
+  else
+  begin
+    LockContext( FParentContext.FContext );
+    EnterCS;
+    try
+      Result := FBuffers[FPlayedBufferIndex].ChannelsLevel[index] * Volume.Value * FMuteMultiplicator;
+    finally
+      LeaveCS;
+      UnlockContext;
+    end;
+  end;
+end;
+
+
 procedure TALSStreamedFileSound.PreBuffAudio;
 var
   i: integer;
-  readCount, todo, accuRead: sf_count_t;
+  readCount, todo: sf_count_t;
 begin
   alGetError();
 
   FUsedBuffer := 0;
+  FPlayedBufferIndex := 0;
   for i := 0 to NUM_BUFFERS - 1 do
   begin
-    accuRead := 0;
-    todo := FBufferFrameCount;
+    FBuffers[i].FrameCount := 0;
+    todo := FBuffers[i].FrameCapacity;
     repeat
-      if FParentContext.FHaveBufferOfFloat then
-        readCount := sf_readf_float(Fsndfile, @FFramesFromFile[accuRead], todo)
+      if FParentContext.FUseBufferOfFloat then
+        readCount := sf_readf_float(Fsndfile,
+                FBuffers[i].DataOffset[FBuffers[i].FrameCount], todo)
       else
-        readCount := sf_readf_short(Fsndfile, @FFramesFromFile[accuRead], todo);
+        readCount := sf_readf_short(Fsndfile,
+                FBuffers[i].DataOffset[FBuffers[i].FrameCount], todo);
 
       if readCount > 0 then
       begin
         todo := todo - readCount;
-        accuRead := accuRead + readCount;
+        FBuffers[i].FrameCount := FBuffers[i].FrameCount + readCount;
         if FLoop and (todo <> 0) then
           sf_seek(Fsndfile, 0, SF_SEEK_SET);
       end;
     until (readCount < 1) or not FLoop or (todo = 0);
     if readCount < 1 then
       break;
-    alBufferData(FBuffers[i], FFormatForAL, @FFramesFromFile[0],
-      ALsizei(accuRead * FFrameSize), ALsizei(Fsfinfo.SampleRate));
+
+    // refill AL buffer with audio
+    alBufferData(FBuffers[i].BufferID, FFormatForAL, FBuffers[i].Data,
+      FBuffers[i].FrameCount*FBuffers[i].BytePerFrame, ALsizei(Fsfinfo.SampleRate));
+
+    // retrieve the channels level
+    FBuffers[i].ComputeChannelsLevel;
+
     Inc(FUsedBuffer);
   end;
 
@@ -3461,9 +3402,12 @@ begin
 
   if not Error then
   begin
-    // Now queue the buffers
-    alSourceQueueBuffers(FSource, FUsedBuffer, @FBuffers[0]);
-    CheckALError(als_ErrorWhileQueuingBuffer);
+    // Now queue the used buffers
+    for i:=0 to FUsedBuffer - 1 do
+    begin
+      alSourceQueueBuffers(FSource, 1, @FBuffers[i].BufferID);
+      CheckALError(als_ErrorWhileQueuingBuffer);
+    end;
   end;
 end;
 
@@ -3472,6 +3416,7 @@ var
   processed: ALint;
   bufid: ALuint;
   readCount: sf_count_t;
+  bufferIndex: integer;
 begin
   inherited Update(aElapsedTime);
 
@@ -3491,26 +3436,41 @@ begin
     alSourceUnqueueBuffers(FSource, 1, @bufid);
     Dec(processed);
 
+    // increment the index of the played buffer. we use this index to retrieve
+    // the channel's level.
+    inc(FPlayedBufferIndex);
+    if FPlayedBufferIndex >= FUsedBuffer then
+      FPlayedBufferIndex := 0;
+
+    // retrieves the index of the buffer to refill with audio
+    bufferIndex := 0;
+    while FBuffers[bufferIndex].BufferID <> bufid do
+     inc(bufferIndex);
+
     // Read data from opened file
-    if FParentContext.FHaveBufferOfFloat then
-      readCount := sf_readf_float(Fsndfile, @FFramesFromFile[0], FBufferFrameCount)
+    if FParentContext.FUseBufferOfFloat then
+      readCount := sf_readf_float(Fsndfile, FBuffers[bufferIndex].Data, FBuffers[bufferIndex].FrameCapacity)
     else
-      readCount := sf_readf_short(Fsndfile, @FFramesFromFile[0], FBufferFrameCount);
+      readCount := sf_readf_short(Fsndfile, FBuffers[bufferIndex].Data, FBuffers[bufferIndex].FrameCapacity);
+    FBuffers[bufferIndex].FrameCount := readCount;
 
     if readCount > 0 then
     begin
       // refill the openAL buffer with...
-      alBufferData(bufid, ALenum(FFormatForAL), @FFramesFromFile[0],
+      alBufferData(bufid, ALenum(FFormatForAL), FBuffers[bufferIndex].Data,
         ALsizei(readCount * FFrameSize), ALsizei(Fsfinfo.SampleRate));
       // and queue it back on the source
       alSourceQueueBuffers(FSource, 1, @bufid);
       // Set the opened file read cursor to the beginning if LOOP mode is enabled,
       // and the buffer was not completely filled
-      if FLoop and (readCount <> FBufferFrameCount) then
+      if FLoop and (readCount < FBuffers[bufferIndex].FrameCapacity) then
       begin
         sf_seek(Fsndfile, 0, SF_SEEK_SET);
         FFrameReadAccu := 0;
       end;
+
+      // retrieve the channels level
+      FBuffers[bufferIndex].ComputeChannelsLevel;
     end;
 
    {   if alGetError()<> AL_NO_ERROR
@@ -3558,16 +3518,18 @@ begin
         if not Error then
         begin
           // generates the buffers and source
-          GenerateALBuffer(@FBuffers[0], NUM_BUFFERS);
+          GenerateALBuffers(NUM_BUFFERS);
           GenerateALSource;
         end;
 
         if not Error then
         begin
           FBufferFrameCount := Round(BUFFER_TIME_LENGTH*SampleRate);
-          SetLength(FFramesFromFile, FBufferFrameCount * FFrameSize);
+          SetBuffersFrameCapacity( FBufferFrameCount );
+
           // prebuf some data
-          PreBuffAudio;
+          if not Error then
+            PreBuffAudio;
         end;
       finally
         UnlockContext;
@@ -3586,7 +3548,8 @@ end;
 
 destructor TALSStreamedFileSound.Destroy;
 begin
-  LockContext( FParentContext.FContext );
+  if not FParentContext.Error then
+    LockContext( FParentContext.FContext );
   try
     if not Error then
     begin
@@ -3594,13 +3557,14 @@ begin
       RemoveAllALEffects;
       FDirectFilter.DeleteFilter;
       alSourcei(FSource, AL_BUFFER, 0);
-      alDeleteBuffers(NUM_BUFFERS, @FBuffers);
+      FreeBuffers;
       alDeleteSources(1, @FSource);
       sf_close(Fsndfile);
     end;
     FreeParameters;
   finally
-    UnlockContext;
+    if not FParentContext.Error then
+      UnlockContext;
   end;
   inherited Destroy;
 end;
@@ -3619,13 +3583,68 @@ end;
 
 { TALSSingleStaticBufferSound }
 
+procedure TALSSingleStaticBufferSound.InitLevelsFromBuffer(const aBuf: TALSPlaybackBuffer);
+var
+  i, j, levelCount: integer;
+  frameToRead, c, frameIndex: longword;
+begin
+  FLevels := NIL;
+
+  levelCount := Round(TotalDuration/LEVEL_TIME_SLICE)+1;
+  SetLength(FLevels, levelCount, aBuf.ChannelCount);
+
+  frameToRead := Round(LEVEL_TIME_SLICE * FSampleRate);
+
+  frameIndex := 0;
+  i := 0;
+  while frameIndex < aBuf.FrameCount do
+  begin
+    // compute number of frame to read
+    if frameIndex + frameToRead >= aBuf.FrameCount then
+      c := aBuf.FrameCount - frameIndex
+    else
+      c := frameToRead;
+
+    if aBuf.UseFloat then
+      dsp_ComputeLinearLevel_Float(PSingle(aBuf.DataOffset[frameIndex]),
+                      c, aBuf.ChannelCount, @FLevels[i][0])
+    else
+      dsp_ComputeLinearLevel_Smallint(PSmallint(aBuf.DataOffset[frameIndex]),
+                      c, aBuf.ChannelCount, @FLevels[i][0]);
+
+    frameIndex := frameIndex+frameToRead;
+    inc(i);
+  end;
+end;
+
+function TALSSingleStaticBufferSound.GetChannelLevel(index: integer): single;
+var
+  i: integer;
+begin
+  if Error or
+     (State <> ALS_PLAYING) or
+     (index < 0) or
+     (index >= FChannelCount) then
+    Result := 0.0
+  else begin
+    LockContext( FParentContext.FContext );
+    EnterCS;
+    try
+      i := Trunc(GetTimePosition/LEVEL_TIME_SLICE);
+      Result:= FLevels[i][index] * Volume.Value * FMuteMultiplicator;
+    finally
+      LeaveCS;
+      UnlockContext;
+    end;
+  end;
+end;
+
 constructor TALSSingleStaticBufferSound.CreateFromFile(aParent: TALSPlaybackContext;
   const aFilename: string);
 var
   sndfile: PSNDFILE;
   sfinfo: TSF_INFO;
   frameRead: sf_count_t;
-  frameBuffer: TALSPlaybackBuffer;
   fileopened: boolean;
 begin
   FParentContext := aParent;
@@ -3644,45 +3663,62 @@ begin
     if not Error then
       DecodeFileInfo( sndfile, sfinfo );
 
-    // load sound data in memory
-    if not Error then
-    begin
-      frameBuffer.Init(FChannelCount, FParentContext.FHaveBufferOfFloat);
-      frameBuffer.FrameCapacity := sfinfo.frames;
-
-      if FParentContext.FHaveBufferOfFloat then
-        frameRead := sf_readf_float(sndfile, frameBuffer.Data, sfinfo.frames)
-      else
-        frameRead := sf_readf_short(sndfile, frameBuffer.Data, sfinfo.frames);
-
-      if frameRead < 1 then
-      begin
-        SetError(als_FailToReadSample);
-        frameBuffer.FreeMemory;
-      end;
-    end;
-    // close the file
-    if fileopened then
-      sf_close(sndfile);
-
-    // generate buffer and source
+    // prepare buffer and load the sound in
     if not Error then
     begin
       LockContext( FParentContext.FContext );
       try
-        GenerateALBuffer(@FBufferID, 1);
-        alBufferData(FBufferID, FFormatForAL, frameBuffer.Data, FByteCount, FSampleRate);
-        CheckALError(als_ALCanNotGenerateBuffer);
+        GenerateALBuffers( 1 );
+        if not Error then
+        begin
+          // reserves memory for buffer
+          SetBuffersFrameCapacity( sfinfo.frames );
 
-        frameBuffer.FreeMemory;
+          if not Error then
+          begin
+            // load sound data in buffer
+            if FParentContext.FUseBufferOfFloat then
+              frameRead := sf_readf_float(sndfile, FBuffers[0].Data, sfinfo.frames)
+            else
+              frameRead := sf_readf_short(sndfile, FBuffers[0].Data, sfinfo.frames);
+            FBuffers[0].FrameCount := frameRead;
+
+            if frameRead < 1 then
+              SetError(als_FailToReadSample)
+            else if frameRead < sfinfo.frames then
+            begin
+              FFrameCount := frameRead;
+              FByteCount := frameRead*FFrameSize;
+            end;
+          end;
+        end;
+
+        if not Error then
+        begin
+          alBufferData(FBuffers[0].BufferID, FFormatForAL, FBuffers[0].Data,
+            FByteCount, FSampleRate);
+          CheckALError(als_ALCanNotFillBuffer);
+        end;
 
         GenerateALSource;
         if not Error then
-          alSourcei(FSource, AL_BUFFER, FBufferID);
+        begin
+          alSourcei(FSource, AL_BUFFER, FBuffers[0].BufferID);
+          CheckALError(als_ALCanNotAttachBufferToSource);
+        end;
+
+        // generates channel's level by slices of time
+        InitLevelsFromBuffer(FBuffers[0]);
+
+        FBuffers[0].FreeMemory;
       finally
         UnlockContext;
       end;
     end;
+
+    // close the file
+    if fileopened then
+      sf_close(sndfile);
   end;
 
   CreateParameters;
@@ -3691,14 +3727,9 @@ end;
 // White noise generation from OpenAL example "altonegen.c"
 constructor TALSSingleStaticBufferSound.CreateWhiteNoise(aParent: TALSPlaybackContext;
   aDuration: single; aChannelCount: integer);
-var
-  Samples: ArrayOfByte;
-  i, j: integer;
-  p: Pointer;
 begin
   FParentContext := aParent;
   InitializeErrorStatus;
-  Samples := NIL;  // avoid hint
   FFilename := '';
 
   if not Error then
@@ -3707,7 +3738,7 @@ begin
     FSampleRate := FParentContext.FObtainedSampleRate;
     FFrameCount := Trunc( FSampleRate * aDuration );
     FStrFormat := '';
-    if FParentContext.FHaveBufferOfFloat then
+    if FParentContext.FUseBufferOfFloat then
     begin
       FStrSubFormat := '32 bit FLOAT';
       FFrameSize := SizeOf(Single) * FChannelCount;
@@ -3719,42 +3750,41 @@ begin
     end;
     FByteCount := FFrameCount * FFrameSize;
 
-    FFormatForAL := GetFormatForAL(FChannelCount, FParentContext.FHaveBufferOfFloat, FALSE);
+    FFormatForAL := GetFormatForAL(FChannelCount, FParentContext.FUseBufferOfFloat, FALSE);
 
     if not Error then
     begin
-      // fill buffer data in memory
-      SetLength(Samples, FByteCount);
-      p := @Samples[0];
-      for i:=0 to FFrameCount-1 do
-      begin
-        if FParentContext.FHaveBufferOfFloat then
-          for j:=0 to FChannelCount-1 do
-          begin
-            PSingle(p)^ := Random - Random;
-            p := p + SizeOf(Single);
-          end
-        else
-        for j:=0 to FChannelCount-1 do
-        begin
-          PSmallint(p)^ := Smallint(Random(32768) - Random(32769 ));
-          p := p + SizeOf(Smallint);
-        end;
-      end;
-
       // generate buffer and source
       LockContext( FParentContext.FContext );
       try
-        GenerateALBuffer(@FBufferID, 1);
+        GenerateALBuffers( 1 );
         if not Error then
         begin
-          alBufferData(FBufferID, FFormatForAL, @{%H-}Samples[0], FByteCount, FSampleRate);
-          CheckALError(als_ALCanNotFillBuffer);
+          // fill buffer data in memory
+          SetBuffersFrameCapacity( FFrameCount );
+          if not Error then
+          begin
+            if FParentContext.FUseBufferOfFloat then
+              dsp_FillWithWhiteNoise_Single(FBuffers[0].Data, FFrameCount, FBuffers[0].ChannelCount)
+            else
+              dsp_FillWithWhiteNoise_Smallint(FBuffers[0].Data, FFrameCount, FBuffers[0].ChannelCount);
+
+            alBufferData(FBuffers[0].BufferID, FFormatForAL, FBuffers[0].Data, FByteCount, FSampleRate);
+            CheckALError(als_ALCanNotFillBuffer);
+
+            if not Error then
+              InitLevelsFromBuffer(FBuffers[0]); // generates channel's level by slices of time
+
+            FBuffers[0].FreeMemory;
+          end;
         end;
 
         GenerateALSource;
         if not Error then
-          alSourcei(FSource, AL_BUFFER, FBufferID);
+        begin
+          alSourcei(FSource, AL_BUFFER, FBuffers[0].BufferID);
+          CheckALError(als_ALCanNotAttachBufferToSource);
+        end;
       finally
         UnlockContext;
       end;
@@ -3767,7 +3797,8 @@ end;
 
 destructor TALSSingleStaticBufferSound.Destroy;
 begin
-  LockContext(FParentContext.FContext);
+  if not FParentContext.Error then
+    LockContext(FParentContext.FContext);
   try
     if not Error then
     begin
@@ -3775,12 +3806,13 @@ begin
       RemoveAllALEffects;
       FDirectFilter.DeleteFilter;
       alSourcei(FSource, AL_BUFFER, 0);
-      alDeleteBuffers(1, @FBufferID);
+      FreeBuffers;
       alDeleteSources(1, @FSource);
     end;
     FreeParameters;
   finally
-    UnlockContext;
+    if not FParentContext.Error then
+      UnlockContext;
   end;
   inherited Destroy;
 end;
@@ -4085,7 +4117,6 @@ end;
 function TALSPlaybackContext.GetSoundCount: integer;
 begin
   try
-    { TODO : critical section necessary ? }
     EnterCriticalSection(FCriticalSection);
     Result := FList.Count;
   finally
@@ -4258,8 +4289,9 @@ var
 begin
   FExecutingConstructor := True;
   FDistanceModel := AL_NONE;
-  FHaveBufferOfFloat := aAttribs.ContextUseFloat;
+  FUseBufferOfFloat := aAttribs.ContextUseFloat;
   FSampleRate := aAttribs.SampleRate;
+  FInternalSampleType := ALS_SAMPLE_INT16;
 
   // Look for some extensions before the creation of the context because
   // some attributes use them.
@@ -4327,7 +4359,6 @@ begin
         alDeleteFilters(1, @obj);
       end;
 
-      FHaveBufferOfFloat := alGetEnumValue(PChar('AL_FORMAT_MONO_FLOAT32')) <> 0;
 
       FHaveExt_AL_SOFT_gain_clamp_ex := alIsExtensionPresent(PChar('AL_SOFT_gain_clamp_ex'));
       if FHaveExt_AL_SOFT_gain_clamp_ex then
@@ -4352,6 +4383,18 @@ begin
       FHaveExt_AL_SOFT_source_spatialize := alIsExtensionPresent(PChar('AL_SOFT_source_spatialize'));
 
       FHaveExt_AL_SOFT_buffer_samples := alIsExtensionPresent(PChar('AL_SOFT_buffer_samples'));
+      if FHaveExt_AL_SOFT_buffer_samples then
+        FHaveExt_AL_SOFT_buffer_samples := LoadExt_AL_SOFT_buffer_samples;
+
+      FHaveExt_AL_SOFT_buffer_sub_data := alIsExtensionPresent(PChar('AL_SOFT_buffer_sub_data'));
+      if FHaveExt_AL_SOFT_buffer_sub_data then
+        FHaveExt_AL_SOFT_buffer_sub_data := LoadExt_AL_SOFT_buffer_sub_data;
+
+      FUseBufferOfFloat := ((alGetEnumValue(PChar('AL_FORMAT_MONO_FLOAT32')) <> 0) or
+                            FHaveExt_AL_SOFT_buffer_samples) and aAttribs.ContextUseFloat;
+
+      if aAttribs.ContextUseFloat and FUseBufferOfFloat then
+         FInternalSampleType := ALS_SAMPLE_FLOAT32;
 
       FHaveExt_AL_EXT_BFORMAT := alIsExtensionPresent(PChar('AL_EXT_BFORMAT'));
 
@@ -4667,9 +4710,9 @@ begin
   //    http://dream.cs.bath.ac.uk/researchdev/wave-ex/bformat.html
   haveBFormatAmbisonic := sf_command(aFileHandle, SFC_WAVEX_GET_AMBISONIC, nil, 0) = SF_AMBISONIC_B_FORMAT;
 
-  FFormatForAL := GetFormatForAL( FChannelCount, FParentContext.FHaveBufferOfFloat, haveBFormatAmbisonic );
+  FFormatForAL := GetFormatForAL( FChannelCount, FParentContext.FUseBufferOfFloat, haveBFormatAmbisonic );
 
-  if FParentContext.FHaveBufferOfFloat then
+  if FParentContext.FUseBufferOfFloat then
     FFrameSize := SizeOf(Single) * FChannelCount
   else
     FFrameSize := SizeOf(Word) * FChannelCount;
@@ -4709,13 +4752,47 @@ begin
   end;
 end;
 
-procedure TALSSound.GenerateALBuffer(aTarget: PALuint; aCount: integer);
+procedure TALSSound.GenerateALBuffers(aCount: integer);
+var
+  err: ALenum;
+  i: Integer;
 begin
-  if Error then
-    exit;
-  alGetError();
-  alGenBuffers(aCount, aTarget);
-  CheckALError(als_ALCanNotGenerateBuffer);
+  FBuffers := NIL;
+  SetLength(FBuffers, aCount);
+  for i:=0 to High(FBuffers) do
+  begin
+    FBuffers[i].Init(FChannelCount, FParentContext.FInternalSampleType);
+    err := FBuffers[i].GenerateBufferID;
+    if err <> AL_NO_ERROR then
+      SetALError(als_ALCanNotGenerateBuffer, err);
+  end;
+end;
+
+procedure TALSSound.SetBuffersFrameCapacity(aFrameCapacity: longword);
+var
+  i, j: Integer;
+begin
+  for i:=0 to High(FBuffers) do
+  begin
+    FBuffers[i].FrameCapacity := aFrameCapacity;
+    if FBuffers[i].OutOfMemory then
+    begin
+      for j:=0 to i do
+       FBuffers[j].FreeMemory;
+      SetError(als_OutOfMemory);
+    end;
+  end;
+end;
+
+procedure TALSSound.FreeBuffers;
+var
+  i: Integer;
+begin
+  for i:=0 to High(FBuffers) do
+  begin
+    FBuffers[i].FreeMemory;
+    FBuffers[i].DeleteBufferID;
+  end;
 end;
 
 procedure TALSSound.RemoveAllALEffects;
@@ -4869,6 +4946,17 @@ begin
     end;
     Result := TALSDistanceModel(v);
   end;
+end;
+
+function TALSSound.GetChannelLevel(index: integer): single;
+begin
+  // overriden in descendant classes
+  Result := 0;
+end;
+
+function TALSSound.GetChannelLeveldB(index: integer): single;
+begin
+  Result := ALSPercentToDecibel( GetChannelLevel(index) );
 end;
 
 procedure TALSSound.SetMute(AValue: boolean);
