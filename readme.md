@@ -85,6 +85,11 @@ Thanks to Fred van Stappen, the author of United OpenLib of Sound (UOS) (https:/
 Version
 -------
 
+v1.1.1 :
+     - New property 'ALSManager.LibrariesSubFolder' allow to specify a sub-folder name in case of librarie's binaries images are located in a sub-folder of the executable.
+     - Because the libraries path is configurable, now application must call ALSManager.LoadLibraries at startup to load OpenAL-Soft and LibSndFile. All examples have been updated.
+
+
 v1.1.0 :
      - Add a new error message in case of out of memory error.
      - Add new error message in case of failure when attaching a buffer to a source.
