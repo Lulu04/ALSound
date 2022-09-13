@@ -50,6 +50,7 @@ type
     procedure CheckBox2Change(Sender: TObject);
     procedure ComboBox1Select(Sender: TObject);
     procedure Edit1Change(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ListBox1SelectionChange(Sender: TObject; User: boolean);
@@ -344,6 +345,12 @@ end;
 procedure TForm1.Edit1Change(Sender: TObject);
 begin
   UpdateWidgets;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  // load OpenAL-Soft and LibSndFile libraries
+  ALSManager.LoadLibraries;
 end;
 
 

@@ -335,6 +335,9 @@ procedure TForm1.FormCreate(Sender: TObject);
 var
   FAttribs: TALSContextAttributes;
 begin
+  // load OpenAL-Soft and LibSndFile libraries
+  ALSManager.LoadLibraries;
+
   // Fill the file open dialog filter property with supported audio file types.
   OD1.Filter := ALSManager.DialogFileFilters(True);
 

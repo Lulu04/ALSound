@@ -35,7 +35,7 @@ uses
   als_dsp_utils;
 
 const
-  ALS_VERSION = '1.1.0';
+  ALS_VERSION = '1.1.1';
 
 
 type
@@ -1056,17 +1056,20 @@ type
 
   TALSManager = class( TALSErrorHandling )
   private
-    FOpenALSoftLibraryLoaded: boolean;
+    FOpenALSoftLibraryLoaded,
     FLibSndFileLibraryLoaded: boolean;
     function GetLibSndFileVersion: string;
     function GetOpenAlSoftVersion: string;
   protected
     procedure InitializeErrorStatus; override;
   private
+    FLibrariesSubFolder,
     FOpenALSoftLibraryFilename,
     FLibSNDFileLibraryFilename: string;
     FCompleteFileFormats: ArrayOfALSAudioFileFormat;
     FSimplifiedFileFormats: ArrayOfALSSimplifiedAudioFileFormat;
+    procedure DoLoadLibrary;
+    procedure DoUnloadLibrary;
   private
     FPlaybackDevices: ArrayOfALSPlaybackDeviceItem;
     FDefaultPlaybackDeviceIndex: integer;
@@ -1076,12 +1079,32 @@ type
   private
     FDefaultLoopbackDevice: TALSLoopbackDeviceItem;
     procedure CloseLoopbackDevice( aDeviceHandle: PALCDevice );
-  public // LIBRARIES
+  public
+    // Don't use ! Only one instance is allowed and it is created at startup.
     constructor Create;
     destructor Destroy; override;
 
-    procedure LoadLibrary;
-    procedure UnloadLibrary;
+  public // LIBRARIES
+
+    // Call this method at the begining of your application to load OpenAL-Soft
+    // and LibSndFile library. Librarie's binaries must be located in the
+    // application executable folder or sub-folder. In case of sub-folder, use
+    // property LibrariesSubFolder to inform ALSManager before calling
+    // LoadLibraries.
+    procedure LoadLibraries;
+
+    // If the librarie's binaries image are in a sub-folder of your application
+    // executable, you can inform ALSManager with this property.
+    // NOTE FOR Mac:(not tested)  the sub-folder must be in the Resources
+    // folder of the bundle.
+    property LibrariesSubFolder: string write FLibrariesSubFolder;
+    property OpenALSoftLibraryLoaded: boolean read FOpenALSoftLibraryLoaded;
+    property LibSndFileLibraryLoaded: boolean read FLibSndFileLibraryLoaded;
+
+    // Version of OpenAL-Soft library.
+    property OpenAlSoftVersion: string read GetOpenAlSoftVersion;
+    // Version of LibSndFile library.
+    property LibSndFileVersion: string read GetLibSndFileVersion;
 
   public // PLAYBACK DEVICE AND CONTEXT
 
@@ -1155,14 +1178,6 @@ type
     function ListOfPlaybackOutputMode: TStringArray;
     // convert an index to enum TALSPlaybackContextOutputMode
     function PlaybackOutputModeIndexToEnum(aIndex: integer): TALSPlaybackContextOutputMode;
-
-    property OpenALSoftLibraryLoaded: boolean read FOpenALSoftLibraryLoaded;
-    property LibSndFileLibraryLoaded: boolean read FLibSndFileLibraryLoaded;
-
-    // Version of OpenAL-Soft library.
-    property OpenAlSoftVersion: string read GetOpenAlSoftVersion;
-    // Version of LibSndFile library.
-    property LibSndFileVersion: string read GetLibSndFileVersion;
   end;
 
 
@@ -1961,7 +1976,7 @@ end;
 
 { TALSManager }
 
-procedure TALSManager.LoadLibrary;
+procedure TALSManager.DoLoadLibrary;
 var
   names: TStringArray;
   i: integer;
@@ -1973,14 +1988,20 @@ begin
 
     {$if DEFINED(Windows)}
     SetLength(names, 3);
-    names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), 'soft_oal.dll']);
+    if Length(FLibrariesSubFolder) = 0 then
+      names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), 'soft_oal.dll'])
+    else
+      names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), FLibrariesSubFolder, 'soft_oal.dll']);
     names[1] := 'soft_oal.dll';
     names[2] := 'OpenAL32.dll';
     {$endif}
 
     {$if DEFINED(Linux)}
     SetLength(names, 4);
-    names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), 'libopenal.so']);
+    if Length(FLibrariesSubFolder) = 0 then
+      names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), 'libopenal.so'])
+    else
+      names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), FLibrariesSubFolder, 'libopenal.so']);
     names[1] := 'libopenal.so';
     names[2] := 'libopenal.so.0';
     names[3] := 'libopenal.so.1';
@@ -1997,9 +2018,19 @@ begin
      bundleName := '/'+ApplicationName+'.app';
      i := Pos(bundleName, ParamStr(0));
      if i <> 0 then
-       names[0] := copy(f, 1, i-1)+bundleName+'/Contents/Resources/libopenal.dylib'
+     begin
+       if Length(FLibrariesSubFolder) = 0 then
+         names[0] := ConcatPaths([copy(f, 1, i-1), bundleName, 'Contents/Resources/libopenal.dylib'])
+       else
+         names[0] := ConcatPaths([copy(f, 1, i-1), bundleName, 'Contents/Resources', FLibrariesSubFolder, 'libopenal.dylib']);
+     end
      else
-       names[0] := ConcatPaths([f, '/libopenal.dylib']);
+     begin
+       if Length(FLibrariesSubFolder) = 0 then
+         names[0] := ConcatPaths([f, 'libopenal.dylib'])
+       else
+         names[0] := ConcatPaths([f, FLibrariesSubFolder, 'libopenal.dylib']);
+     end;
      names[1] := 'libopenal.dylib';
      names[2] := '/System/Library/Frameworks/OpenAL.framework/OpenAL';
     {$endif}
@@ -2019,13 +2050,19 @@ begin
   begin
     {$if DEFINED(Windows)}
     SetLength(names, 2);
-    names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), 'sndfile.dll']);
+    if Length(FLibrariesSubFolder) = 0 then
+      names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), 'sndfile.dll'])
+    else
+      names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), FLibrariesSubFolder, 'sndfile.dll']);
     names[1] := 'sndfile.dll';
     {$endif}
 
     {$if DEFINED(Linux)}
     SetLength(names, 2);
-    names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), 'libsndfile.so']);
+    if Length(FLibrariesSubFolder) = 0 then
+      names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), 'libsndfile.so'])
+    else
+      names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), FLibrariesSubFolder, 'libsndfile.so']);
     names[1] := 'libsndfile.so';
     {$endif}
 
@@ -2040,9 +2077,19 @@ begin
     bundleName := '/'+ApplicationName+'.app';
     i := Pos(bundleName, ParamStr(0));
     if i <> 0 then
-      names[0] := copy(f, 1, i-1)+bundleName+'/Contents/Resources/libsndfile.dylib'
+    begin
+      if Length(FLibrariesSubFolder) = 0 then
+        names[0] := ConcatPaths([copy(f, 1, i-1), bundleName, 'Contents/Resources/libsndfile.dylib'])
+      else
+        names[0] := ConcatPaths([copy(f, 1, i-1), bundleName, 'Contents/Resources', FLibrariesSubFolder, 'libsndfile.dylib']);
+    end
     else
-      names[0] := ConcatPaths([f, 'libsndfile.dylib']);
+    begin
+      if Length(FLibrariesSubFolder) = 0 then
+        names[0] := ConcatPaths([f, 'libsndfile.dylib'])
+      else
+        names[0] := ConcatPaths([f, FLibrariesSubFolder, 'libsndfile.dylib']);
+    end;
     names[1] := 'libsndfile.dylib';
     {$endif}
 
@@ -2141,8 +2188,12 @@ end;
 
 constructor TALSManager.Create;
 begin
-  LoadLibrary;
-  RetrievePlaybackDevices;
+  if ALSManager <> NIL then
+  begin
+    Exception.Create('Don''t create TALSManager instance yourself !'+lineending+
+           'Only one instance is allowed and it is created at application initialization');
+  end;
+
   FDefaultLoopbackDevice.InitDefault;
 end;
 
@@ -2153,11 +2204,18 @@ begin
   if FDefaultLoopbackDevice.OpenedCount > 0 then
     FDefaultLoopbackDevice.DoCloseDevice;
 
-  UnloadLibrary;
+  DoUnloadLibrary;
   inherited Destroy;
 end;
 
-procedure TALSManager.UnloadLibrary;
+procedure TALSManager.LoadLibraries;
+begin
+  DoUnloadLibrary;
+  DoLoadLibrary;
+  RetrievePlaybackDevices;
+end;
+
+procedure TALSManager.DoUnloadLibrary;
 begin
   if FOpenALSoftLibraryLoaded then
     UnloadOpenALSoftLibrary;
@@ -3508,13 +3566,18 @@ var
 begin
   FParentContext := aParent;
   InitializeErrorStatus;
+  FChannelCount := 1;
   fileopened := False;
   FFilename := aFilename;
   FMonitoringEnabled := aEnableMonitor;
 
   if not Error then
   begin
+  {$ifdef windows}
+    Fsndfile := sf_wchar_open(PWideChar(UnicodeString(aFilename)), SFM_READ, @Fsfinfo);
+  {$else}
     Fsndfile := sf_open(PChar(aFilename), SFM_READ, @Fsfinfo);
+  {$endif}
     if Fsndfile = nil then
       SetError(als_FileNotOpened)
     else
@@ -3661,13 +3724,18 @@ var
 begin
   FParentContext := aParent;
   InitializeErrorStatus;
+  FChannelCount := 1;
   fileopened := False;
   FFilename := aFilename;
   FMonitoringEnabled := aEnableMonitor;
 
   if not Error then
   begin
-    sndfile := sf_open(PChar(aFilename), SFM_READ, @sfinfo);
+    {$ifdef windows}
+      sndfile := sf_wchar_open(PWideChar(UnicodeString(aFilename)), SFM_READ, @sfinfo);
+    {$else}
+      sndfile := sf_open(PChar(aFilename), SFM_READ, @sfinfo);
+    {$endif}
     if sndfile = nil then
       SetError(als_FileNotOpened)
     else
@@ -5573,6 +5641,7 @@ initialization
   {$ifdef ALS_ENABLE_CONTEXT_SWITCHING}
   InitCriticalSection( _CSLockContext{%H-} );
   {$endif}
+  ALSManager := NIL;
   ALSManager := TALSManager.Create;
 
 finalization

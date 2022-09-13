@@ -61,6 +61,9 @@ implementation
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  // load OpenAL-Soft and LibSndFile libraries
+  ALSManager.LoadLibraries;
+
   // Creates a default playback context with default attributes
   FPlaybackContext := ALSManager.CreateDefaultPlaybackContext;
 

@@ -16,6 +16,14 @@ var
   WantedFilename: string;
 
 begin
+  // load OpenAL-Soft and LibSndFile libraries
+  ALSManager.LoadLibraries;
+  if ALSManager.Error then
+  begin
+    writeln(ALSManager.StrError);
+    exit;
+  end;
+
   WantedFilename:='';
   case ParamCount of
     1: begin

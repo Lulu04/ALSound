@@ -76,6 +76,9 @@ procedure TForm1.FormCreate(Sender: TObject);
 var
   f: string;
 begin
+  // load OpenAL-Soft and LibSndFile libraries
+  ALSManager.LoadLibraries;
+
   // For this demo, we need to position sound in space using HRTF -> we have to customize our playback context
   // For that, we use an TALSContextAttributes and set the output mode
   // to ALC_STEREO_HRTF.

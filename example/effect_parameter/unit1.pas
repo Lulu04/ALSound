@@ -335,6 +335,9 @@ procedure TForm1.FormCreate(Sender: TObject);
 begin
   DefaultFormatSettings.decimalSeparator := '.';
 
+  // load OpenAL-Soft and LibSndFile libraries
+  ALSManager.LoadLibraries;
+
   // Updates the file open dialog filter property with supported audio file types.
   OpenDialog1.Filter := ALSManager.DialogFileFilters(True);
 

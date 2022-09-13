@@ -93,6 +93,9 @@ procedure TForm1.FormCreate(Sender: TObject);
 var
   FAttribs: TALSContextAttributes;
 begin
+  // load OpenAL-Soft and LibSndFile libraries
+  ALSManager.LoadLibraries;
+
   // configure custom attributes to ask the playback context to use float
   FAttribs.InitDefault;
 //  FAttribs.ContextUseFloat := True;

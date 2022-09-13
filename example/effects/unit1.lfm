@@ -1,14 +1,14 @@
 object Form1: TForm1
-  Left = 211
+  Left = 206
   Height = 770
-  Top = 85
+  Top = 84
   Width = 1039
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'ALSound  -  Effects in parallel on auxiliary send demo'
   ClientHeight = 770
   ClientWidth = 1039
-  Color = 14807551
+  Color = 6651019
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -19,10 +19,12 @@ object Form1: TForm1
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Panel6
     AnchorSideRight.Side = asrBottom
-    Left = 0
+    Left = 5
     Height = 512
-    Top = 0
+    Top = 5
     Width = 752
+    BorderSpacing.Left = 5
+    BorderSpacing.Top = 5
     ClientHeight = 512
     ClientWidth = 752
     Color = 13034495
@@ -1069,7 +1071,7 @@ object Form1: TForm1
     BorderSpacing.Left = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 13034495
+    Color = 16766333
     ParentColor = False
     TabOrder = 1
     object CheckBox6: TCheckBox
@@ -1097,7 +1099,7 @@ object Form1: TForm1
     BorderSpacing.Left = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 13034495
+    Color = 16766333
     ParentColor = False
     TabOrder = 2
     object CheckBox7: TCheckBox
@@ -1125,7 +1127,7 @@ object Form1: TForm1
     BorderSpacing.Left = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 13034495
+    Color = 16766333
     ParentColor = False
     TabOrder = 3
     object CheckBox4: TCheckBox
@@ -1153,7 +1155,7 @@ object Form1: TForm1
     BorderSpacing.Left = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 13034495
+    Color = 16766333
     ParentColor = False
     TabOrder = 4
     object CheckBox5: TCheckBox
@@ -1179,7 +1181,7 @@ object Form1: TForm1
     BorderSpacing.Left = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 13034495
+    Color = 16766333
     ParentColor = False
     TabOrder = 5
     object CheckBox2: TCheckBox
@@ -1208,7 +1210,7 @@ object Form1: TForm1
     BorderSpacing.Left = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 13034495
+    Color = 16766333
     ParentColor = False
     TabOrder = 6
     object CheckBox3: TCheckBox
@@ -1235,7 +1237,7 @@ object Form1: TForm1
     AnchorSideBottom.Side = asrBottom
     Left = 817
     Height = 240
-    Top = 136
+    Top = 141
     Width = 212
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 10
@@ -1268,7 +1270,7 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     Left = 916
     Height = 20
-    Top = 376
+    Top = 381
     Width = 15
     Brush.Color = clBlack
     Shape = stTriangle
@@ -1281,8 +1283,8 @@ object Form1: TForm1
     AnchorSideBottom.Control = Shape25
     AnchorSideBottom.Side = asrBottom
     Left = 921
-    Height = 321
-    Top = 396
+    Height = 316
+    Top = 401
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     Brush.Color = clBlack
@@ -1293,10 +1295,10 @@ object Form1: TForm1
     AnchorSideTop.Control = Panel4
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = Shape14
-    Left = 752
+    Left = 757
     Height = 5
-    Top = 254
-    Width = 45
+    Top = 259
+    Width = 40
     Anchors = [akTop, akLeft, akRight]
     Brush.Color = clBlack
   end
@@ -1308,7 +1310,7 @@ object Form1: TForm1
     AnchorSideRight.Control = Panel11
     Left = 797
     Height = 15
-    Top = 249
+    Top = 254
     Width = 20
     Anchors = [akTop, akRight]
     Brush.Color = clBlack
@@ -1321,8 +1323,8 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape4
     Left = 58
-    Height = 52
-    Top = 512
+    Height = 47
+    Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 50
@@ -1348,8 +1350,8 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape6
     Left = 176
-    Height = 52
-    Top = 512
+    Height = 47
+    Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 50
@@ -1375,8 +1377,8 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape8
     Left = 294
-    Height = 52
-    Top = 512
+    Height = 47
+    Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 50
@@ -1402,8 +1404,8 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape10
     Left = 412
-    Height = 52
-    Top = 512
+    Height = 47
+    Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 50
@@ -1429,8 +1431,8 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape16
     Left = 530
-    Height = 52
-    Top = 512
+    Height = 47
+    Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 50
@@ -1456,8 +1458,8 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape18
     Left = 648
-    Height = 52
-    Top = 512
+    Height = 47
+    Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 50

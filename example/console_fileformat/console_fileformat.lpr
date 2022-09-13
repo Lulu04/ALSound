@@ -15,6 +15,14 @@ var
   i, j: integer;
 
 begin
+  // load OpenAL-Soft and LibSndFile libraries
+  ALSManager.LoadLibraries;
+  if ALSManager.Error then
+  begin
+    writeln(ALSManager.StrError);
+    exit;
+  end;
+
   writeln('LibSndFile version: '+ALSManager.LibSndFileVersion);
   writeln('supported audio format and their sub-format:');
   A := ALSManager.ListOfAudioFileFormat_Complete;
