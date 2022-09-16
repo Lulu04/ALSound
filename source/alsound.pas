@@ -3659,7 +3659,7 @@ end;
 
 procedure TALSSingleStaticBufferSound.InitLevelsFromBuffer(const aBuf: TALSPlaybackBuffer);
 var
-  i, j, levelCount: integer;
+  i, levelCount: integer;
   frameToRead, c, frameIndex: longword;
 begin
   FLevels := NIL;
@@ -5034,6 +5034,7 @@ end;
 function TALSSound.GetChannelLevel(index: integer): single;
 begin
   // overriden in descendant classes
+  index := index;
   Result := 0;
 end;
 
