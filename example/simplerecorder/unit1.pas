@@ -81,9 +81,15 @@ uses unit2;
 
 { TForm1 }
 
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  // load OpenAL-Soft and LibSndFile libraries
+  ALSManager.LoadLibraries;
+end;
+
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
-  // Destroy our capture context
+  // Destroy the capture context
   if FCaptureContext <> nil then
     FCaptureContext.Free;
 end;
@@ -174,11 +180,9 @@ begin
 end;
 
 procedure TForm1.BStopClick(Sender: TObject);
-var
-  res: boolean;
 begin
   // Stop the capture and keep the error value
-  res := FCaptureContext.StopCapture;
+  FCaptureContext.StopCapture;
   Timer1.Enabled := False;
   Label3.Visible := False;
   BStart.Enabled := True;
@@ -187,10 +191,11 @@ begin
   Panel2.Enabled := True;
 
   // If any show the capture message error
-  if not res then
+  if FCaptureContext.CaptureError then
     ShowMessage(UserFile+LINEENDING+FCaptureContext.StrCaptureError)
   else // or play the captured audio
     Form2.Play( UserFile );
+
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
@@ -262,7 +267,7 @@ end;
 
 procedure TForm1.ProcessApplicationOnIdle(Sender: TObject; var Done: Boolean);
 begin
-  // Update the progress bars with the channels level
+  // Update the progress bars with the channel's level
   if FCaptureContext<>NIL then
   begin
     if not CheckBox1.Checked then
@@ -286,7 +291,7 @@ begin
       Label14.Caption := FormatFloat('0.0', FCaptureContext.ChannelsLeveldB[1])+'dB';
     end;
 
-      Done := not FCaptureContext.MonitoringEnabled;
+    Done := not FCaptureContext.MonitoringEnabled;
   end;
 end;
 
@@ -325,7 +330,7 @@ begin
 
   // creates the new capture context
   FCaptureContext := ALSManager.CreateCaptureContext(ComboBox1.ItemIndex,
-    captureFrequency, captureFormat, 0.100);
+    captureFrequency, captureFormat, 0.1);
 
  FCaptureContext.MonitoringEnabled := CheckBox2.Checked;
 
@@ -345,12 +350,6 @@ end;
 procedure TForm1.Edit1Change(Sender: TObject);
 begin
   UpdateWidgets;
-end;
-
-procedure TForm1.FormCreate(Sender: TObject);
-begin
-  // load OpenAL-Soft and LibSndFile libraries
-  ALSManager.LoadLibraries;
 end;
 
 

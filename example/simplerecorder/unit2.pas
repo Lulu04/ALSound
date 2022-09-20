@@ -33,6 +33,7 @@ var
   Form2: TForm2;
 
 implementation
+uses unit1;
 
 {$R *.lfm}
 
@@ -56,7 +57,7 @@ begin
 
   // Stops the sound
   FMusic.Stop;
-  // Free the playback context
+  // Destroy the playback context
   FPlaybackContext.Free;
   // Close the playback window
   Close;
@@ -66,10 +67,10 @@ procedure TForm2.Play(const aF: string);
 var
   attribs: TALSContextAttributes;
 begin
-  // Creates a playback context
+  // Creates a playback context with float buffer to listen the captured samples
   attribs.InitDefault;
   attribs.ContextUseFloat := True;
-  FPlaybackContext := ALSManager.CreatePlaybackContext(-1, attribs);//.CreateDefaultPlaybackContext;
+  FPlaybackContext := ALSManager.CreatePlaybackContext(-1, attribs);
 
   // Creates an audio stream for playback
   FMusic := FPlaybackContext.AddStream( aF );
