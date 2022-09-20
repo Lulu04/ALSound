@@ -991,6 +991,7 @@ type
     procedure DoUpdate(const {%H-}aElapsedTime: single);
   private
     FMonitoringEnabled: boolean;
+    FPreAmp: single;
     FState: TALSState;
     FCaptureToFileIsReady: boolean;
     FUserFileName: string;
@@ -1010,6 +1011,7 @@ type
     function GetChannelsPeak(Index: integer): single;
     function GetChannelsPeakdB(Index: integer): single;
     procedure SetMonitoringEnabled(AValue: boolean);
+    procedure SetPreAmp(AValue: single);
   public
     // Don't call this contructor directly, instead use
     // ALSManager.CreateDefaultCaptureContext or
@@ -1049,6 +1051,11 @@ type
     property ChannelsLeveldB[Index:integer]: single read GetChannelsLeveldB;
     // The channel's peak values expressed in decibel. Range is -60 to 0
     property ChannelsPeakdB[Index:integer]: single read GetChannelsPeakdB;
+
+    // The pre-amplification applyed on the captured audio.
+    // Range is 0 to 8    0=silence   1=normal    >1=amplified
+    // Default value is 1.
+    property PreAmp: single read FPreAmp write SetPreAmp;
 
     property Frequency: longword read FSampleRate;
     // Sets this property to True to remove the DC bias signal while recording.
@@ -1789,6 +1796,10 @@ begin
       if FRemoveDCBiasWhileRecording then
         FCapturedFrames.RemoveDCBias;
 
+      // Pre-amplification
+      if FPreAmp <> 1.0 then
+        FCapturedFrames.Amplify(FPreAmp);
+
       // compute channels level/peak
       if FMonitoringEnabled then
         FCapturedFrames.ComputeChannelsLevel;
@@ -1866,6 +1877,20 @@ begin
   else StartThread;
 end;
 
+procedure TALSCaptureContext.SetPreAmp(AValue: single);
+begin
+  AValue := EnsureRange(AValue, ALS_VOLUME_MIN, ALS_VOLUME_MAXAMP);
+
+  if FPreAmp = AValue then Exit;
+
+  EnterCriticalSection(FCriticalSection);
+  try
+    FPreAmp := AValue;
+  finally
+    LeaveCriticalSection(FCriticalSection);
+  end;
+end;
+
 constructor TALSCaptureContext.Create(const aCaptureDeviceName: string;
   aFrequency: longword; aFormat: TALSCaptureFormat; aBufferTimeSize: double);
 begin
@@ -1906,6 +1931,7 @@ begin
   end;
 
   InitCriticalSection(FCriticalSection);
+  FPreAmp := 1.0;
 end;
 
 destructor TALSCaptureContext.Destroy;
@@ -3298,6 +3324,9 @@ begin
   if FMute=AValue then Exit;
   FMute:=AValue;
 
+  if (FParentContext = NIL) or
+     not FReady then
+    exit;
   if FParentContext.Error or
      not FParentContext.FHaveEXT_ALC_EXT_EFX then
     exit;
@@ -3425,6 +3454,8 @@ begin
   aTargetEffect.FPrevious := @Self;
 
   Result := False;
+  if FParentContext = NIL then
+    exit;
   if not FParentContext.FHaveExt_AL_SOFT_effect_target or
      FParentContext.Error then
     exit;
@@ -3518,7 +3549,8 @@ procedure TALSPlaybackCapturedSound.QueueBuffer(aBuffer: PALSCaptureFrameBuffer)
 var
   processed, stat: ALint;
 begin
-  if Error then
+  if Error or
+     (aBuffer^.FrameCount = 0) then
     exit;
 
   LockContext(FParentContext.FContext);
