@@ -63,9 +63,9 @@ const
   ALS_TONE_ONLYHIGHFREQ = 1.0;
   ALS_TONE_NORMAL = 0.5;
 
-  // Decibel range is -60dB to +18dB
+  // Decibel range is -60dB to 0dB
   ALS_DECIBEL_MIN_VALUE = -60;
-  ALS_DECIBEL_MAX_VALUE = 18;
+  ALS_DECIBEL_MAX_VALUE = 0;
 
 type
 
@@ -549,16 +549,22 @@ type
   end;
 
 
-  { TALSStreamedFileSound }
+  { TALSStreamBufferSound }
 
-  TALSStreamedFileSound = class(TALSSound)
+  TALSStreamBufferSound = class(TALSSound)
   private
   const
     NUM_BUFFERS = 8;
     BUFFER_TIME_LENGTH = 0.050;
+  type
+    TALSFunctionReadFromStream = function(aDest: Pointer; aFrameCount: longword): int64 of object;
   private
     FPlayedBufferIndex: integer;
     function GetChannelLevel(index: integer): single; override;
+  private
+    FDoReadFromStream: TALSFunctionReadFromStream;
+    function DoReadStreamFromFile(aDest: Pointer; aFrameCount: longword): int64;
+    //function DoReadStreamFromUrl(aDest: Pointer; aFrameCount: longword): int64;
   private
     Fsndfile: PSNDFILE;
     Fsfinfo: TSF_INFO;
@@ -570,12 +576,29 @@ type
     procedure Update(const aElapsedTime: single); override;
     procedure InternalRewind; override;
   public
-    constructor Create(aParent: TALSPlaybackContext; const aFilename: string; aEnableMonitor: boolean);
+    constructor CreateFromFile(aParent: TALSPlaybackContext; const aFilename: string; aEnableMonitor: boolean);
+    //constructor CreateFromUrl(aParent: TALSPlaybackContext; const aUrl: string; aEnableMonitor: boolean);
     destructor Destroy; override;
 
     function GetTimePosition: single; override;
   end;
 
+
+  { TALSPlaybackCapturedSound }
+
+  TALSPlaybackCapturedSound = class(TALSSound)
+  private
+  const
+    NUM_BUFFERS = 8;
+  private
+    FBufferIndexToQueue: integer;
+    FTempBufID: array[0..NUM_BUFFERS-1] of ALuint;
+  public
+    constructor CreateFromCapture(aParent: TALSPlaybackContext; aSampleRate: integer;
+                               aBuffer: PALSCaptureFrameBuffer);
+    destructor Destroy; override;
+    procedure QueueBuffer(aBuffer: PALSCaptureFrameBuffer);
+  end;
 
   { TALSPlaylist }
 
@@ -603,6 +626,7 @@ type
 
     procedure Clear;
     procedure Add(const aFilename: string);
+    procedure Delete(Index: integer);
 
     procedure Play(aFadeInTime: single = 0);
     procedure Pause(aFadeoutTime: single = 0);
@@ -626,24 +650,38 @@ type
   // fields with InitDefault, then apply your settings.
   TALSContextAttributes = record
   public
-    SampleRate, // Context output sample rate.
-                // Range is 8000hz to 192000hz - default 44100 Hz.
-    MonoCount,            // Number of mono sound the context can play - default 128.
-    StereoCount: integer; // Number of stereo sound the context can play - default 128.
-    ContextUseFloat: boolean; // TRUE asks the context to use buffers with float samples.
-                              // FALSE asks the context to use buffers with 16bits signed int samples.
-    MaxAuxSend: integer; // Number of auxiliary SEND per sound - default 2 (max 6).
-    OutputMode: TALSPlaybackContextOutputMode; // This is the output mode (only)
-                                               // for a playback context.
-                                               // Default value is ALC_STEREO_BASIC
-    HRTFIndex: integer; // The index of the HRTF to use for the playback context.
-                        // This index points to an HRTF name in the list provided by TALSPlaybackContext.HRTFList.
-                        // Default value is -1, that means default HRTF will be used.
-                        // Please, see HRTFDemo for an typical usage.
-    EnableOutputLimiter: boolean; // Toogle ON/OFF the output limiter on the context.
-                                  // Default value is TRUE. For now, OpenAL-Soft don't offer
-                                  // a control on the limiter's parameters.
-                                  // See https://openal-soft.org/openal-extensions/SOFT_output_limiter.txt
+    // Context output sample rate.
+    // Range is 8000hz to 192000hz - default 44100 Hz.
+    SampleRate,
+
+    // Number of mono sound the context can play - default 128.
+    MonoCount,
+
+    // Number of stereo sound the context can play - default 128.
+    StereoCount: integer;
+
+    // TRUE asks the context to use buffers with float samples.
+    // FALSE asks the context to use buffers with 16bits signed int samples.
+    ContextUseFloat: boolean;
+
+    // Number of auxiliary SEND per sound - default 2 (max 6).
+    MaxAuxSend: integer;
+
+    // This is the output mode for a playback context.
+    // Default value is ALC_STEREO_BASIC
+    OutputMode: TALSPlaybackContextOutputMode;
+
+    // The index of the HRTF to use for the playback context.
+    // This index points to an HRTF name in the list provided by TALSPlaybackContext.HRTFList.
+    // Default value is -1, that means default HRTF will be used.
+    // Please, see HRTFDemo for an typical usage.
+    HRTFIndex: integer;
+
+    // Toogle ON/OFF the output limiter on the context. Default value is TRUE.
+    // For now, OpenAL-Soft don't offer a control on the limiter's parameters.
+    // See https://openal-soft.org/openal-extensions/SOFT_output_limiter.txt
+    EnableOutputLimiter: boolean;
+
     // Initialize all fields to their default value. Don't forgot to call first !
     procedure InitDefault;
     // Initialize parameters for a loopback context.
@@ -740,6 +778,7 @@ type
     procedure CreateParameters;
     procedure FreeParameters;
     procedure InternalCloseDevice; virtual;
+    function AddCapturePlayback(aSampleRate: integer; aCaptureBuffer: PALSCaptureFrameBuffer): TALSPlaybackCapturedSound;
   public
     // Don't create playback context directly.
     // Use ALSManager.CreateDefaultPlaybackContext
@@ -922,7 +961,7 @@ type
     property OnProgress: TALSProgressEvent read FOnProgress write FOnProgress;
 
     // By default the mixing process use a buffer capacity of 10ms.
-    // That means that every 10ms callback OnProgress is fired.
+    // This means that callback OnProgress is fired every 10ms.
     // With this property, you can adjust this setting according to your need.
     property TimeSlice: double read FTimeSlice write SetTimeSlice;
 
@@ -941,10 +980,12 @@ type
     FCaptureError: TALSError;
     procedure ResetCaptureError;
     procedure SetCaptureError(aError: TALSError);
+    function GetCaptureError: boolean;
     function GetStrCaptureError: string;
   protected
     FCriticalSection: TRTLCriticalSection;
     FThread: TALSThread;
+    FThreadRefCount: integer;
     procedure StartThread;
     procedure StopThread;
     procedure DoUpdate(const {%H-}aElapsedTime: single);
@@ -959,12 +1000,15 @@ type
     FTempFile: PSNDFILE;
     FTempFileSubFormat: longint;
 
+    FPlaybackSound: TALSPlaybackCapturedSound;
+
     FCapturedFrames: TALSCaptureFrameBuffer;
 
     FFileWriteErrorWhileCapturing, FALErrorWhileCapturing: boolean;
     function GetChannelsLevel(Index: integer): single;
     function GetChannelsLeveldB(Index: integer): single;
     function GetChannelsPeak(Index: integer): single;
+    function GetChannelsPeakdB(Index: integer): single;
     procedure SetMonitoringEnabled(AValue: boolean);
   public
     // Don't call this contructor directly, instead use
@@ -982,23 +1026,39 @@ type
     // ALSManager.ListOfSimpleAudioFileFormat[].Format
     function PrepareSavingToFile(const aFileName: string; aFormat: longint): boolean;
 
+    // Ask to playback the captured audio.
+    // This method creates a streamed sound in the specified playback context
+    // that will receive the captured audio to playback. You can Add any affects
+    // to the returned TALSSound before starting the capture but do not use
+    // methods that affect its playing state (Play, Pause, Stop, FadeIn, FadeOut)
+    function PrepareToPlayback(aTargetContext: TALSPlaybackContext): TALSSound;
+
     // Start sample capture
     procedure StartCapture;
 
-    // Stop sample capture
-    function StopCapture: boolean;
+    // Stop sample capture.
+    procedure StopCapture;
 
+    // Start(True) or Stop(False) monitoring of the channel's level and peak.
     property MonitoringEnabled: boolean read FMonitoringEnabled write SetMonitoringEnabled;
+    // The channel's level expressed in percent. Range is from 0.0 to 1.0
     property ChannelsLevel[Index:integer]: single read GetChannelsLevel;
+    // The peak's level expressed in percent. Range is from 0.0 to 1.0
     property ChannelsPeak[Index:integer]: single read GetChannelsPeak;
+    // The channel's level expressed in decibel. Range is -60 to 0
     property ChannelsLeveldB[Index:integer]: single read GetChannelsLeveldB;
+    // The channel's peak values expressed in decibel. Range is -60 to 0
+    property ChannelsPeakdB[Index:integer]: single read GetChannelsPeakdB;
 
     property Frequency: longword read FSampleRate;
     // Sets this property to True to remove the DC bias signal while recording.
     property RemoveDCBias: boolean read FRemoveDCBiasWhileRecording write FRemoveDCBiasWhileRecording;
     // return the state of this recording context: ALS_STOPPED or ALS_RECORDING.
     property State: TALSState read FState;
-    // Give an human readable error message specific to capture
+
+    // Return True if an error occured while capturing audio.
+    property CaptureError: boolean read GetCaptureError;
+    // Give an human readable error message of the error.
     property StrCaptureError: string read GetStrCaptureError;
   end;
 
@@ -1675,18 +1735,27 @@ end;
 
 procedure TALSCaptureContext.StartThread;
 begin
-  if FThread = nil then
+  if FThreadRefCount = 0 then
+  begin
+    alcCaptureStart( FDevice );
     FThread := TALSThread.Create(@DoUpdate, 10, True);
+  end;
+  inc(FThreadRefCount);
 end;
 
 procedure TALSCaptureContext.StopThread;
 begin
-  if FThread <> nil then
+  if FThreadRefCount > 0 then
   begin
-    FThread.Terminate;
-    FThread.WaitFor;
-    FThread.Free;
-    FThread := nil;
+    dec(FThreadRefCount);
+    if FThreadRefCount = 0 then
+    begin
+      alcCaptureStop( FDevice );
+      FThread.Terminate;
+      FThread.WaitFor;
+      FThread.Free;
+      FThread := nil;
+    end;
   end;
 end;
 
@@ -1695,9 +1764,6 @@ var
   framesRead: cint;
   writtenOnFile: sf_count_t;
 begin
-  if FFileWriteErrorWhileCapturing or FALErrorWhileCapturing then
-    exit;
-
   framesRead := 0;
   // gets available frames (not byte !)
   alcGetIntegerv(FDevice, ALC_CAPTURE_SAMPLES, 1, @framesRead);
@@ -1713,25 +1779,39 @@ begin
       alcCaptureSamples(FDevice, FCapturedFrames.Data, framesRead);
       FCapturedFrames.FrameCount := framesRead;
 
+      if alcGetError(FDevice) <> AL_NO_ERROR then
+      begin
+        SetCaptureError(als_ALErrorWhileCapturing);
+        FALErrorWhileCapturing := True;
+      end;
+
       // Remove DC bias from the signal
       if FRemoveDCBiasWhileRecording then
-        FCapturedFrames.RemoveDCBias( framesRead );
+        FCapturedFrames.RemoveDCBias;
 
       // compute channels level/peak
       if FMonitoringEnabled then
         FCapturedFrames.ComputeChannelsLevel;
 
-      // if needed, save data to audio file
-      if FCaptureToFileIsReady then
+      if FState = ALS_RECORDING then
       begin
-        writtenOnFile := 0;
-        case FCapturedFrames.UseFloat of
-          False: writtenOnFile := sf_writef_short(FTempFile, FCapturedFrames.Data, framesRead);
-          True: writtenOnFile := sf_writef_float(FTempFile, FCapturedFrames.Data, framesRead);
+        // if needed send data to playback
+        if FPlaybackSound <> NIL then
+          FPlaybackSound.QueueBuffer( @FCapturedFrames );
+
+        // if needed, save data to audio file
+        if FCaptureToFileIsReady and
+           not FFileWriteErrorWhileCapturing and
+           not FALErrorWhileCapturing then
+        begin
+          writtenOnFile := 0;
+          case FCapturedFrames.UseFloat of
+            False: writtenOnFile := sf_writef_short(FTempFile, FCapturedFrames.Data, FCapturedFrames.FrameCount);
+            True: writtenOnFile := sf_writef_float(FTempFile, FCapturedFrames.Data, FCapturedFrames.FrameCount);
+          end;
+          FFileWriteErrorWhileCapturing := writtenOnFile <> sf_count_t(FCapturedFrames.FrameCount);
         end;
-        FFileWriteErrorWhileCapturing := writtenOnFile <> sf_count_t(framesRead);
       end;
-        FALErrorWhileCapturing := alcGetError(FDevice) <> AL_NO_ERROR;
     finally
       LeaveCriticalSection(FCriticalSection);
     end;
@@ -1746,6 +1826,11 @@ begin
   finally
     LeaveCriticalSection(FCriticalSection);
   end;
+end;
+
+function TALSCaptureContext.GetCaptureError: boolean;
+begin
+  Result := FCaptureError <> als_NoError;
 end;
 
 function TALSCaptureContext.GetChannelsLeveldB(Index: integer): single;
@@ -1763,18 +1848,22 @@ begin
   end;
 end;
 
+function TALSCaptureContext.GetChannelsPeakdB(Index: integer): single;
+begin
+  Result := ALSPercentToDecibel(GetChannelsPeak(Index));
+end;
+
 procedure TALSCaptureContext.SetMonitoringEnabled(AValue: boolean);
 begin
-  if FMonitoringEnabled=AValue then Exit;
+  if FMonitoringEnabled = AValue then Exit;
 
-  EnterCriticalSection(FCriticalSection);
-  try
-    FMonitoringEnabled := AValue;
-    if not AValue then
-      FCapturedFrames.ResetChannelsLevelToZero;
-  finally
-    LeaveCriticalSection(FCriticalSection);
-  end;
+  FMonitoringEnabled := AValue;
+  if not AValue then
+  begin
+    StopThread;
+    FCapturedFrames.ResetChannelsLevelToZero;
+  end
+  else StartThread;
 end;
 
 constructor TALSCaptureContext.Create(const aCaptureDeviceName: string;
@@ -1800,26 +1889,35 @@ begin
   end;
 
   FCapturedFrames.Init( aFormat );
+  FCapturedFrames.FrameCapacity := Round(aFrequency * aBufferTimeSize);
 
   // opens the capture device
   if not Error then
   begin
     if aCaptureDeviceName = '' then
       FDevice := alcCaptureOpenDevice(nil, aFrequency, ALCenum(Ord(aFormat)),
-                    Round(aFrequency * aBufferTimeSize))
+                    FCapturedFrames.FrameCapacity)
     else
       FDevice := alcCaptureOpenDevice(PChar(aCaptureDeviceName), aFrequency,
-                    ALCenum(Ord(aFormat)), Round(aFrequency * aBufferTimeSize));
+                    ALCenum(Ord(aFormat)), FCapturedFrames.FrameCapacity);
 
     if FDevice = nil then
       SetError(als_ALCanNotOpenCaptureDevice);
   end;
+
   InitCriticalSection(FCriticalSection);
 end;
 
 destructor TALSCaptureContext.Destroy;
 begin
-  StopThread;
+  StopCapture;
+  if FThread <> NIL then
+  begin
+    FThread.Terminate;
+    FThread.WaitFor;
+    FThread.Free;
+  end;
+
   FCapturedFrames.FreeMemory;
   DoneCriticalSection(FCriticalSection);
 
@@ -1862,6 +1960,16 @@ begin
   Result := FCaptureError = als_NoError;
 end;
 
+function TALSCaptureContext.PrepareToPlayback(aTargetContext: TALSPlaybackContext): TALSSound;
+begin
+  if FPlaybackSound <> NIL then
+    FPlaybackSound.Kill;
+
+  FPlaybackSound := aTargetContext.AddCapturePlayback(FSampleRate, @FCapturedFrames);
+
+  Result := FPlaybackSound;
+end;
+
 procedure TALSCaptureContext.StartCapture;
 begin
   if Error then
@@ -1872,39 +1980,35 @@ begin
   FFileWriteErrorWhileCapturing := False;
   FALErrorWhileCapturing := False;
 
-  alcCaptureStart( FDevice );
-
-  FCapturedFrames.FrameCapacity := 4096;
   StartThread;
   FState := ALS_RECORDING;
 end;
 
-function TALSCaptureContext.StopCapture: boolean;
+procedure TALSCaptureContext.StopCapture;
 var
   fileInfo: TSF_INFO;
   finalFile: PSNDFILE;
   readCount, writeCount: longint;
   buf: TALSCaptureFrameBuffer;
   err: cint;
-
-  function No_Error: boolean;
-  begin
-    Result := FCaptureError = als_NoError;
-  end;
-
 begin
-  if Error or
-    (FCaptureError = als_CanNotOpenTemporaryCaptureFile) or
-    (FState = ALS_STOPPED) then
+  // Release the sound instance for playback
+  if FPlaybackSound <> NIL then
   begin
-    Result := False;
-    exit;
+    FPlaybackSound.Kill;
+    FPlaybackSound := NIL;
   end;
+
+  if Error or
+     (FState = ALS_STOPPED) then
+    exit;
+
+  if (FCaptureError = als_CanNotOpenTemporaryCaptureFile) or
+     (FState = ALS_STOPPED) then
+    exit;
 
   // stop capture
   StopThread;
-  alcCaptureStop( FDevice );
-  FCapturedFrames.FreeMemory; // free the memory used by the capture buffer
   FState := ALS_STOPPED;
 
   // retrieve thread error
@@ -1921,7 +2025,7 @@ begin
     if err <> 0 then
       SetCaptureError(als_CanNotCloseTemporaryCaptureFile);
 
-    if No_Error then
+    if not CaptureError then
     begin
       // reopen the temporary '.au' file for reading
       fileInfo.Format := 0;
@@ -1929,7 +2033,7 @@ begin
       if FTempFile = nil then
         SetCaptureError(als_CanNotOpenTemporaryCaptureFile);
 
-      if No_Error then
+      if not CaptureError then
       begin
         // open the 'final' file with the requested format
         finalFile := sf_open(PChar(FUserFileName), SFM_WRITE, @FUserFileInfo);
@@ -1939,7 +2043,7 @@ begin
           sf_close(FTempFile);
         end;
 
-        if No_Error then
+        if not CaptureError then
         begin
           if FCapturedFrames.ChannelCount = 1 then
             buf.Init( ALS_CAPTUREFORMAT_MONO_FLOAT32 )
@@ -1966,7 +2070,6 @@ begin
       end;
     end;
   end;
-  Result := FCaptureError = als_NoError;
   FCaptureToFileIsReady := False;
 end;
 
@@ -2678,7 +2781,7 @@ procedure TALSPlaylist.LoadCurrentMusic;
 begin
   FreeCurrentMusic;
   try
-    FMusic := TALSStreamedFileSound.Create(FParentContext, FList.Strings[FMusicIndex], False);
+    FMusic := TALSStreamBufferSound.CreateFromFile(FParentContext, FList.Strings[FMusicIndex], False);
   except
     FMusic.Free;
     FMusic := nil;
@@ -2737,9 +2840,19 @@ end;
 
 procedure TALSPlaylist.Add(const aFilename: string);
 begin
+  EnterCriticalSection(FParentContext.FCriticalSection);
   try
-    EnterCriticalSection(FParentContext.FCriticalSection);
     FList.Add(aFilename);
+  finally
+    LeaveCriticalSection(FParentContext.FCriticalSection);
+  end;
+end;
+
+procedure TALSPlaylist.Delete(Index: integer);
+begin
+  EnterCriticalSection(FParentContext.FCriticalSection);
+  try
+    FList.Delete(Index);
   finally
     LeaveCriticalSection(FParentContext.FCriticalSection);
   end;
@@ -3399,10 +3512,118 @@ begin
   FReady := True;
 end;
 
+{ TALSPlaybackCapturedSound }
 
-{ TALSStreamedFileSound }
+procedure TALSPlaybackCapturedSound.QueueBuffer(aBuffer: PALSCaptureFrameBuffer);
+var
+  processed, stat: ALint;
+begin
+  if Error then
+    exit;
 
-function TALSStreamedFileSound.GetChannelLevel(index: integer): single;
+  LockContext(FParentContext.FContext);
+  EnterCS;
+  try
+    processed := 0;
+    // Get the number of processed buffer
+    alGetSourceiv(FSource, AL_BUFFERS_PROCESSED, @processed);
+    // and unqueue them from source
+    if processed > 0 then
+    begin
+      alSourceUnqueueBuffers(FSource, processed, @FTempBufID[0]);
+      alGetError();
+    end;
+
+    // next buffer index
+    inc(FBufferIndexToQueue);
+    if FBufferIndexToQueue >= NUM_BUFFERS then
+      FBufferIndexToQueue := 0;
+
+    // refill the openAL buffer with passed audio data
+    alBufferData(FBuffers[FBufferIndexToQueue].BufferID,
+                 ALenum(FFormatForAL),
+                 aBuffer^.Data,
+                 ALsizei(aBuffer^.FrameCount*aBuffer^.BytePerFrame),
+                 ALsizei(FSampleRate));
+    alGetError(); //CheckALError(als_ErrorWhileBufferingData);
+
+    // and queue it back on the source
+    alSourceQueueBuffers(FSource, 1, @FBuffers[FBufferIndexToQueue].BufferID);
+    alGetError(); //CheckALError(als_ErrorWhileQueuingBuffer);
+
+    stat := 0;
+    alGetSourcei(FSource, AL_SOURCE_STATE, stat);
+    case stat of
+      AL_INITIAL, AL_STOPPED, AL_PAUSED: begin
+        alSourcePlay(FSource);
+        alGetError();
+      end;
+    end;
+
+  finally
+    UnlockContext;
+    LeaveCS;
+  end;
+end;
+
+constructor TALSPlaybackCapturedSound.CreateFromCapture(aParent: TALSPlaybackContext;
+  aSampleRate: integer; aBuffer: PALSCaptureFrameBuffer);
+begin
+  FParentContext := aParent;
+  InitializeErrorStatus;
+  FChannelCount := aBuffer^.ChannelCount;
+  FMonitoringEnabled := False;
+  FSampleRate := aSampleRate;
+
+  if not Error then
+  begin
+    FFormatForAL := GetFormatForAL(aBuffer^.ChannelCount, aBuffer^.UseFloat, False);
+    if not Error then
+    begin
+      LockContext( FParentContext.FContext );
+      try
+        if not Error then
+        begin
+          // generates the buffers and source
+          GenerateALBuffers(NUM_BUFFERS);
+          GenerateALSource;
+        end;
+      finally
+        UnlockContext;
+      end;
+    end;
+  end;
+
+  FBufferIndexToQueue := -1;
+  CreateParameters;
+end;
+
+destructor TALSPlaybackCapturedSound.Destroy;
+begin
+  if not FParentContext.Error then
+    LockContext( FParentContext.FContext );
+  try
+    if not Error then
+    begin
+      alSourceStop( FSource );
+      RemoveAllALEffects;
+      FDirectFilter.DeleteFilter;
+      alSourcei(FSource, AL_BUFFER, 0);
+      FreeBuffers;
+      alDeleteSources(1, @FSource);
+    end;
+    FreeParameters;
+  finally
+    if not FParentContext.Error then
+      UnlockContext;
+  end;
+  inherited Destroy;
+end;
+
+
+{ TALSStreamBufferSound }
+
+function TALSStreamBufferSound.GetChannelLevel(index: integer): single;
 begin
   if Error or
      not FMonitoringEnabled or
@@ -3421,8 +3642,16 @@ begin
   end;
 end;
 
+function TALSStreamBufferSound.DoReadStreamFromFile(aDest: Pointer; aFrameCount: longword): int64;
+begin
+  if FParentContext.FUseBufferOfFloat then
+    Result := sf_readf_float(Fsndfile, aDest, aFrameCount)
+  else
+    Result := sf_readf_short(Fsndfile, aDest, aFrameCount);
+end;
 
-procedure TALSStreamedFileSound.PreBuffAudio;
+
+procedure TALSStreamBufferSound.PreBuffAudio;
 var
   i: integer;
   readCount, todo: sf_count_t;
@@ -3436,12 +3665,7 @@ begin
     FBuffers[i].FrameCount := 0;
     todo := FBuffers[i].FrameCapacity;
     repeat
-      if FParentContext.FUseBufferOfFloat then
-        readCount := sf_readf_float(Fsndfile,
-                FBuffers[i].DataOffset[FBuffers[i].FrameCount], todo)
-      else
-        readCount := sf_readf_short(Fsndfile,
-                FBuffers[i].DataOffset[FBuffers[i].FrameCount], todo);
+      readCount := FDoReadFromStream(FBuffers[i].DataOffset[FBuffers[i].FrameCount], todo);
 
       if readCount > 0 then
       begin
@@ -3478,7 +3702,7 @@ begin
   end;
 end;
 
-procedure TALSStreamedFileSound.Update(const aElapsedTime: single);
+procedure TALSStreamBufferSound.Update(const aElapsedTime: single);
 var
   processed: ALint;
   bufid: ALuint;
@@ -3515,10 +3739,8 @@ begin
      inc(bufferIndex);
 
     // Read data from opened file
-    if FParentContext.FUseBufferOfFloat then
-      readCount := sf_readf_float(Fsndfile, FBuffers[bufferIndex].Data, FBuffers[bufferIndex].FrameCapacity)
-    else
-      readCount := sf_readf_short(Fsndfile, FBuffers[bufferIndex].Data, FBuffers[bufferIndex].FrameCapacity);
+    readCount := FDoReadFromStream(FBuffers[bufferIndex].Data,
+                                   FBuffers[bufferIndex].FrameCapacity);
     FBuffers[bufferIndex].FrameCount := readCount;
 
     if readCount > 0 then
@@ -3540,13 +3762,10 @@ begin
       if FMonitoringEnabled then
         FBuffers[bufferIndex].ComputeChannelsLevel;
     end;
-
-   {   if alGetError()<> AL_NO_ERROR
-        then FErrorCode := als_ErrorWhileBufferingData;   }
   end;
 end;
 
-procedure TALSStreamedFileSound.InternalRewind;
+procedure TALSStreamBufferSound.InternalRewind;
 begin
   if Error then
     exit;
@@ -3559,7 +3778,7 @@ begin
   PreBuffAudio;
 end;
 
-constructor TALSStreamedFileSound.Create(aParent: TALSPlaybackContext;
+constructor TALSStreamBufferSound.CreateFromFile(aParent: TALSPlaybackContext;
   const aFilename: string; aEnableMonitor: boolean);
 var
   fileopened: boolean;
@@ -3570,6 +3789,8 @@ begin
   fileopened := False;
   FFilename := aFilename;
   FMonitoringEnabled := aEnableMonitor;
+
+  FDoReadFromStream := @DoReadStreamFromFile;
 
   if not Error then
   begin
@@ -3620,7 +3841,7 @@ begin
   CreateParameters;
 end;
 
-destructor TALSStreamedFileSound.Destroy;
+destructor TALSStreamBufferSound.Destroy;
 begin
   if not FParentContext.Error then
     LockContext( FParentContext.FContext );
@@ -3643,7 +3864,7 @@ begin
   inherited Destroy;
 end;
 
-function TALSStreamedFileSound.GetTimePosition: single;
+function TALSStreamBufferSound.GetTimePosition: single;
 begin
   if Error then
     Result := 0
@@ -3970,7 +4191,7 @@ begin
   EnterCriticalSection(FCriticalSection);
   LockContext( FContext );
   try
-    Result := TALSStreamedFileSound.Create(Self, aFilename, aEnableMonitoring);
+    Result := TALSStreamBufferSound.CreateFromFile(Self, aFilename, aEnableMonitoring);
     FList.Add(Result);
   finally
     LeaveCriticalSection(FCriticalSection);
@@ -4516,6 +4737,20 @@ begin
   ALSManager.ClosePlaybackDevice(FParentDevice);
 end;
 
+function TALSPlaybackContext.AddCapturePlayback(aSampleRate: integer;
+  aCaptureBuffer: PALSCaptureFrameBuffer): TALSPlaybackCapturedSound;
+begin
+  LockContext( FContext );
+  EnterCriticalSection(FCriticalSection);
+  try
+    Result := TALSPlaybackCapturedSound.CreateFromCapture(Self, aSampleRate, aCaptureBuffer);
+    FList.Add(Result);
+  finally
+    LeaveCriticalSection(FCriticalSection);
+    UnlockContext;
+  end;
+end;
+
 constructor TALSPlaybackContext.Create(aDevice: PALCDevice; const aAttribs: TALSContextAttributes);
 begin
   FExecutingConstructor := True;
@@ -4805,7 +5040,10 @@ end;
 
 procedure TALSSound.InitializeErrorStatus;
 begin
-  FErrorCode := FParentContext.FErrorCode;
+  if FParentContext <> NIL then
+    FErrorCode := FParentContext.FErrorCode
+  else
+    FErrorCode := als_ALContextNotCreated;
 end;
 
 procedure TALSSound.GenerateALSource;
