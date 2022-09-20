@@ -66,6 +66,9 @@ type
   procedure dsp_FillWithWhiteNoise_Smallint(p: PSmallint; aFrameCount: longword; aChannelCount: Smallint);
   procedure dsp_FillWithWhiteNoise_Single(p: PSingle; aFrameCount: longword; aChannelCount: Smallint);
 
+  procedure dsp_Amplify_Smallint(p: PSmallint; aFrameCount: longword; aChannelCount: Smallint; aGain: single);
+  procedure dsp_Amplify_Float(p: PSingle; aFrameCount: longword; aChannelCount: Smallint; aGain: single);
+
 implementation
 uses Math;
 
@@ -334,6 +337,38 @@ begin
     for i:=0 to aChannelCount-1 do
     begin
       p^ := Random - Random;
+      inc(p);
+    end;
+    dec(aFrameCount);
+  end;
+end;
+
+procedure dsp_Amplify_Smallint(p: PSmallint; aFrameCount: longword;
+  aChannelCount: Smallint; aGain: single);
+var
+  i: Integer;
+begin
+  while aFrameCount > 0 do
+  begin
+    for i:=0 to aChannelCount-1 do
+    begin
+      p^ := Smallint(EnsureRange(Round(p^*aGain), -32768, 32767));
+      inc(p);
+    end;
+    dec(aFrameCount);
+  end;
+end;
+
+procedure dsp_Amplify_Float(p: PSingle; aFrameCount: longword;
+  aChannelCount: Smallint; aGain: single);
+var
+  i: Integer;
+begin
+  while aFrameCount > 0 do
+  begin
+    for i:=0 to aChannelCount-1 do
+    begin
+      p^ := p^ * aGain;
       inc(p);
     end;
     dec(aFrameCount);
