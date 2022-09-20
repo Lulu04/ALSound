@@ -81,9 +81,10 @@ type
     FFormat: TALSCaptureFormat;
   public
     procedure Init(aFormat: TALSCaptureFormat);
-    procedure RemoveDCBias(aFrameCount: longword);
+    procedure RemoveDCBias;
     property Format: TALSCaptureFormat read FFormat;
   end;
+  PALSCaptureFrameBuffer = ^TALSCaptureFrameBuffer;
 
   function ALSCaptureFormatToChannelCount(aFormat: TALSCaptureFormat): SmallInt;
   function ALSCaptureFormatToBytePerChannel(aFormat: TALSCaptureFormat): SmallInt;
@@ -200,16 +201,16 @@ begin
                (aFormat = ALS_CAPTUREFORMAT_STEREO_FLOAT32);
 end;
 
-procedure TALSCaptureFrameBuffer.RemoveDCBias(aFrameCount: longword);
+procedure TALSCaptureFrameBuffer.RemoveDCBias;
 begin
-  if aFrameCount = 0 then exit;
+  if FFrameCount = 0 then exit;
 
   case Format of
     ALS_CAPTUREFORMAT_MONO16, ALS_CAPTUREFORMAT_STEREO16:
-      dsp_RemoveDCBias_Smallint(Data, aFrameCount, FChannelCount);
+      dsp_RemoveDCBias_Smallint(Data, FFrameCount, FChannelCount);
 
     ALS_CAPTUREFORMAT_MONO_FLOAT32, ALS_CAPTUREFORMAT_STEREO_FLOAT32:
-      dsp_RemoveDCBias_Float(PSingle(Data), aFrameCount, FChannelCount);
+      dsp_RemoveDCBias_Float(PSingle(Data), FFrameCount, FChannelCount);
   end;
 end;
 
