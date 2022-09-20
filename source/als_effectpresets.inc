@@ -358,7 +358,7 @@ const
       Rate: 0.8700;
       Depth: 0.8790;
       Feedback: 0.46600;
-      Delay: 0.01203 );
+      Delay: 0.00120 );
 
   FLANGER_PRESET_METALLIC: TALSFlangerProperties=
     ( Waveform: fwSinusoid;
@@ -366,7 +366,7 @@ const
       Rate: 0.0600;
       Depth: 0.0020;
       Feedback: 0.90600;
-      Delay: 0.00502 );
+      Delay: 0.004 );
 
   FLANGER_PRESET_NIGHTMARE: TALSFlangerProperties=
     ( Waveform: fwTriangle;
@@ -374,7 +374,7 @@ const
       Rate: 1.3600;
       Depth: 0.4750;
       Feedback: 0.54600;
-      Delay: 0.01440 );
+      Delay: 0.00144 );
 
   FLANGER_PRESET_ENHANCED_STEREO: TALSFlangerProperties=
     ( Waveform: fwTriangle;
@@ -390,7 +390,7 @@ const
       Rate: 8.8300;
       Depth: 0.1040;
       Feedback: 0.68200;
-      Delay: 0.00509 );
+      Delay: 0.004 );
 
   FLANGER_PRESET_MEDIUM_FLANGER: TALSFlangerProperties=
     ( Waveform: fwSinusoid;
