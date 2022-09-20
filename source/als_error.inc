@@ -29,6 +29,7 @@ TALSError = ( als_NoError = 0,
               als_UnSupportedFormat,
               als_FloatSampleNotSupported,
               als_FailToReadSample,
+
               als_CanNotOpenTemporaryCaptureFile,
               als_CanNotCloseTemporaryCaptureFile,
               als_FileWriteErrorWhileCapturing,
