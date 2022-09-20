@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 765
   Top = 60
   Width = 812
-  Caption = 'OpenAl-Soft Manager - Capture audio, save to file demo'
+  Caption = 'ALSound demo - Capture audio and save to file'
   ClientHeight = 765
   ClientWidth = 812
   Color = 11590399
