@@ -35,6 +35,8 @@ type
   public
     procedure ComputeChannelsLevel;
 
+    procedure Amplify(aGain: single);
+
     property OutOfMemory: boolean read FOutOfMemory;
     property UseFloat: boolean read FUseFloat;
     property ChannelCount: SmallInt read FChannelCount;
@@ -314,6 +316,17 @@ begin
  for i:=0 to High(FChannelsPeak) do
    if FChannelsPeak[i] < FChannelsLevel[i] then
      FChannelsPeak[i] := FChannelsLevel[i];
+end;
+
+procedure TALSFrameBufferBase.Amplify(aGain: single);
+begin
+  if aGain = 1.0 then
+    exit;
+
+  if FUseFloat then
+    dsp_Amplify_Float(PSingle(Data), FFrameCount, FChannelCount, aGain)
+  else
+    dsp_Amplify_Smallint(PSmallint(Data), FFrameCount, FChannelCount, aGain);
 end;
 
 function TALSFrameBufferBase.GetChannelsLevel(aIndex: integer): single;
