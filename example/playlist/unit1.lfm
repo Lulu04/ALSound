@@ -4,7 +4,7 @@ object Form1: TForm1
   Top = 143
   Width = 550
   BorderIcons = [biSystemMenu]
-  Caption = 'OpenAL-Soft Manager  -  Playlist demo'
+  Caption = 'ALSound demo  -  Playlist'
   ClientHeight = 400
   ClientWidth = 550
   Color = 14807551

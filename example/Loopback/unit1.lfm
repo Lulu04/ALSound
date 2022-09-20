@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 690
   Top = 0
   Width = 606
-  Caption = 'ALSound  -  Loopback demo -> Mixing to file'
+  Caption = 'ALSound demo  -  Loopback context -> Mixing to file'
   ClientHeight = 690
   ClientWidth = 606
   Color = 14807551

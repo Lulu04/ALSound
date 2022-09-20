@@ -5,7 +5,7 @@ object Form1: TForm1
   Width = 1039
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'ALSound  -  Effects in parallel on auxiliary send demo'
+  Caption = 'ALSound demo  -  Effects in parallel on auxiliary send'
   ClientHeight = 770
   ClientWidth = 1039
   Color = 6651019

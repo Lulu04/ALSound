@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 658
   Top = 95
   Width = 909
-  Caption = 'ALSound - Effect chain demo'
+  Caption = 'ALSound demo - Effect chain'
   ClientHeight = 658
   ClientWidth = 909
   Color = 6383213

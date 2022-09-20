@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 603
   Top = 130
   Width = 1024
-  Caption = 'OALSSound  -  Effects demo'
+  Caption = 'ALSound demo  -  Effects parameters'
   ClientHeight = 603
   ClientWidth = 1024
   Color = 10013436

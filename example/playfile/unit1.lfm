@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 273
   Top = 156
   Width = 342
-  Caption = 'ALSound - play file demo'
+  Caption = 'ALSound demo - playing an audio file'
   ClientHeight = 273
   ClientWidth = 342
   Color = 14807551

@@ -20,6 +20,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="123"/>
         <CursorPos X="41" Y="123"/>
         <UsageCount Value="131"/>
@@ -109,7 +110,6 @@
       </Unit12>
       <Unit13>
         <Filename Value="..\..\source\als_dsp_utils.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="46"/>
         <CursorPos X="20" Y="58"/>

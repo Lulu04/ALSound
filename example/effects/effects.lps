@@ -8,7 +8,7 @@
       <Unit0>
         <Filename Value="effects.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="2"/>
         <CursorPos Y="22"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -282,27 +282,24 @@
       </Unit36>
       <Unit37>
         <Filename Value="..\..\source\libsndfile.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="785"/>
         <CursorPos X="16" Y="804"/>
         <UsageCount Value="55"/>
-        <Loaded Value="True"/>
       </Unit37>
       <Unit38>
         <Filename Value="..\..\source\openalsoft.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="61"/>
         <CursorPos X="29" Y="69"/>
         <UsageCount Value="103"/>
-        <Loaded Value="True"/>
       </Unit38>
       <Unit39>
         <Filename Value="..\..\source\alext.inc"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="66"/>
         <CursorPos X="2" Y="90"/>
         <UsageCount Value="63"/>
-        <Loaded Value="True"/>
       </Unit39>
       <Unit40>
         <Filename Value="..\..\source\alc.inc"/>
@@ -313,11 +310,10 @@
       </Unit40>
       <Unit41>
         <Filename Value="..\..\source\al.inc"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="381"/>
         <CursorPos X="3" Y="396"/>
         <UsageCount Value="100"/>
-        <Loaded Value="True"/>
       </Unit41>
       <Unit42>
         <Filename Value="..\..\source\eaxreverbpresets.inc"/>
@@ -409,8 +405,7 @@
         <Filename Value="..\..\source\alsound.pas"/>
         <UnitName Value="ALSound"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="3717"/>
-        <CursorPos X="68" Y="3736"/>
+        <CursorPos Y="9"/>
         <UsageCount Value="80"/>
         <Loaded Value="True"/>
       </Unit54>
@@ -423,11 +418,10 @@
       </Unit55>
       <Unit56>
         <Filename Value="..\..\source\als_error.inc"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="73"/>
         <CursorPos X="23" Y="96"/>
         <UsageCount Value="69"/>
-        <Loaded Value="True"/>
       </Unit56>
       <Unit57>
         <Filename Value="..\..\source\als_effectpresets.inc"/>
@@ -445,19 +439,17 @@
       </Unit58>
       <Unit59>
         <Filename Value="..\..\source\als_directfilter.inc"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="25"/>
         <CursorPos X="43" Y="28"/>
         <UsageCount Value="65"/>
-        <Loaded Value="True"/>
       </Unit59>
       <Unit60>
         <Filename Value="..\..\source\als_frame_buffers.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="264"/>
         <CursorPos X="3" Y="267"/>
         <UsageCount Value="55"/>
-        <Loaded Value="True"/>
       </Unit60>
       <Unit61>
         <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\inc\objpash.inc"/>
@@ -468,11 +460,10 @@
       </Unit61>
       <Unit62>
         <Filename Value="..\..\source\als_dsp_utils.pas"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="288"/>
         <CursorPos X="18" Y="312"/>
         <UsageCount Value="35"/>
-        <Loaded Value="True"/>
       </Unit62>
     </Units>
     <OtherDefines Count="1">

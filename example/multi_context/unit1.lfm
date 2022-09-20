@@ -5,7 +5,7 @@ object Form1: TForm1
   Width = 326
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  Caption = 'OALSSound  -  Demo multiple playback context'
+  Caption = 'ALSound demo  -  Multiple playback context'
   ClientHeight = 569
   ClientWidth = 326
   Color = 11459071
