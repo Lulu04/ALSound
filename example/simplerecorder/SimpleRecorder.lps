@@ -21,8 +21,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="283"/>
-        <CursorPos X="12" Y="293"/>
+        <TopLine Value="181"/>
+        <CursorPos Y="199"/>
         <UsageCount Value="186"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -231,123 +231,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="2560" Column="37" TopLine="2551"/>
+        <Caret Line="1003" Column="17" TopLine="989"/>
       </Position1>
       <Position2>
-        <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="1003" Column="17" TopLine="989"/>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="353" Column="12" TopLine="337"/>
       </Position2>
       <Position3>
         <Filename Value="unit1.pas"/>
-        <Caret Line="353" Column="12" TopLine="337"/>
+        <Caret Line="54" Column="21" TopLine="38"/>
       </Position3>
       <Position4>
         <Filename Value="unit1.pas"/>
-        <Caret Line="54" Column="21" TopLine="38"/>
+        <Caret Line="98" Column="22" TopLine="88"/>
       </Position4>
       <Position5>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="98" Column="22" TopLine="88"/>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="685" TopLine="650"/>
       </Position5>
       <Position6>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="685" TopLine="650"/>
+        <Caret Line="991" TopLine="977"/>
       </Position6>
       <Position7>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="991" TopLine="977"/>
+        <Caret Line="600" Column="15" TopLine="585"/>
       </Position7>
       <Position8>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="600" Column="15" TopLine="585"/>
+        <Caret Line="1012" Column="20" TopLine="992"/>
       </Position8>
       <Position9>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="1012" Column="20" TopLine="992"/>
+        <Caret Line="1865" Column="26" TopLine="1855"/>
       </Position9>
       <Position10>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="1865" Column="26" TopLine="1855"/>
+        <Caret Line="991" Column="18" TopLine="980"/>
       </Position10>
       <Position11>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="991" Column="18" TopLine="980"/>
+        <Caret Line="1790" Column="33" TopLine="1777"/>
       </Position11>
       <Position12>
-        <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="1790" Column="33" TopLine="1777"/>
-      </Position12>
-      <Position13>
         <Filename Value="..\..\source\als_frame_buffers.inc"/>
         <Caret Line="84" Column="28" TopLine="70"/>
-      </Position13>
-      <Position14>
+      </Position12>
+      <Position13>
         <Filename Value="..\..\source\alsound.pas"/>
         <Caret Line="1809" Column="7" TopLine="1792"/>
-      </Position14>
-      <Position15>
+      </Position13>
+      <Position14>
         <Filename Value="..\..\source\als_frame_buffers.inc"/>
         <Caret Line="84" Column="28" TopLine="69"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="3541" Column="14" TopLine="3536"/>
       </Position15>
       <Position16>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="3541" Column="14" TopLine="3536"/>
+        <Caret Line="990" Column="22" TopLine="977"/>
       </Position16>
       <Position17>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="990" Column="22" TopLine="977"/>
+        <Caret Line="1748" Column="3" TopLine="1745"/>
       </Position17>
       <Position18>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="1748" Column="3" TopLine="1745"/>
+        <Caret Line="1012" Column="23" TopLine="995"/>
       </Position18>
       <Position19>
-        <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="1012" Column="23" TopLine="995"/>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="145" Column="19" TopLine="127"/>
       </Position19>
       <Position20>
         <Filename Value="unit1.pas"/>
-        <Caret Line="145" Column="19" TopLine="127"/>
+        <Caret Line="54" Column="21" TopLine="43"/>
       </Position20>
       <Position21>
         <Filename Value="unit1.pas"/>
-        <Caret Line="54" Column="21" TopLine="43"/>
+        <Caret Line="55" Column="20" TopLine="50"/>
       </Position21>
       <Position22>
         <Filename Value="unit1.pas"/>
-        <Caret Line="55" Column="20" TopLine="50"/>
+        <Caret Line="92" TopLine="82"/>
       </Position22>
       <Position23>
         <Filename Value="unit1.pas"/>
-        <Caret Line="92" TopLine="82"/>
+        <Caret Line="169" TopLine="143"/>
       </Position23>
       <Position24>
         <Filename Value="unit1.pas"/>
-        <Caret Line="169" TopLine="143"/>
+        <Caret Line="83" Column="21" TopLine="67"/>
       </Position24>
       <Position25>
         <Filename Value="unit1.pas"/>
-        <Caret Line="83" Column="21" TopLine="67"/>
+        <Caret Line="71" TopLine="56"/>
       </Position25>
       <Position26>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="71" TopLine="56"/>
-      </Position26>
-      <Position27>
         <Filename Value="unit2.pas"/>
         <Caret Line="76" Column="29" TopLine="61"/>
+      </Position26>
+      <Position27>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="185" TopLine="171"/>
       </Position27>
       <Position28>
         <Filename Value="unit1.pas"/>
-        <Caret Line="185" TopLine="171"/>
+        <Caret Line="295" Column="2" TopLine="284"/>
       </Position28>
       <Position29>
         <Filename Value="unit1.pas"/>
-        <Caret Line="295" Column="2" TopLine="284"/>
+        <Caret Line="294" Column="2" TopLine="283"/>
       </Position29>
       <Position30>
         <Filename Value="unit1.pas"/>
-        <Caret Line="294" Column="2" TopLine="283"/>
+        <Caret Line="293" Column="12" TopLine="283"/>
       </Position30>
     </JumpHistory>
     <RunParams>

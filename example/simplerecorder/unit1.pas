@@ -181,8 +181,9 @@ end;
 
 procedure TForm1.BStopClick(Sender: TObject);
 begin
-  // Stop the capture and keep the error value
+  // Stop the capture
   FCaptureContext.StopCapture;
+
   Timer1.Enabled := False;
   Label3.Visible := False;
   BStart.Enabled := True;
@@ -195,7 +196,6 @@ begin
     ShowMessage(UserFile+LINEENDING+FCaptureContext.StrCaptureError)
   else // or play the captured audio
     Form2.Play( UserFile );
-
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
