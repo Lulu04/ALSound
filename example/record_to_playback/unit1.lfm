@@ -1,0 +1,1350 @@
+object Form1: TForm1
+  Left = 281
+  Height = 765
+  Top = 60
+  Width = 812
+  Caption = 'ALSound demo - Audio capture and playback in real time'
+  ClientHeight = 765
+  ClientWidth = 812
+  Color = 11590399
+  Font.Height = 20
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poDesktopCenter
+  LCLVersion = '2.2.2.0'
+  object Label8: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 20
+    Height = 20
+    Top = 5
+    Width = 357
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 5
+    Caption = '1) Select a capture device and sets capture format'
+    Font.Height = 20
+    Font.Style = [fsBold, fsItalic]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Panel1: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Label8
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 20
+    Height = 143
+    Top = 25
+    Width = 772
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 20
+    BorderSpacing.Right = 20
+    ClientHeight = 143
+    ClientWidth = 772
+    Color = 14807551
+    ParentColor = False
+    TabOrder = 0
+    object ProgressBar1: TProgressBar
+      AnchorSideLeft.Control = Label7
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Label13
+      AnchorSideBottom.Control = ProgressBar2
+      Left = 544
+      Height = 16
+      Top = 82
+      Width = 175
+      Anchors = [akLeft, akRight, akBottom]
+      BorderSpacing.Left = 2
+      BorderSpacing.Right = 2
+      BorderSpacing.Bottom = 4
+      TabOrder = 4
+    end
+    object Label1: TLabel
+      AnchorSideLeft.Control = Panel1
+      AnchorSideBottom.Control = ComboBox1
+      AnchorSideBottom.Side = asrBottom
+      Left = 6
+      Height = 20
+      Top = 14
+      Width = 93
+      Anchors = [akLeft, akBottom]
+      BorderSpacing.Left = 5
+      Caption = 'Capture from :'
+      Font.Height = 20
+      Font.Style = [fsItalic]
+      ParentColor = False
+      ParentFont = False
+    end
+    object ComboBox1: TComboBox
+      AnchorSideLeft.Control = Label1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel1
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 104
+      Height = 28
+      Top = 6
+      Width = 662
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 5
+      BorderSpacing.Top = 5
+      BorderSpacing.Right = 5
+      Font.Height = 20
+      ItemHeight = 20
+      OnSelect = ComboBox1Select
+      ParentFont = False
+      Style = csDropDownList
+      TabOrder = 0
+    end
+    object Label2: TLabel
+      AnchorSideLeft.Control = ComboBox4
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = Panel1
+      AnchorSideBottom.Side = asrBottom
+      Left = 104
+      Height = 20
+      Top = 122
+      Width = 43
+      Anchors = [akLeft, akBottom]
+      Caption = 'Ready'
+      Font.Height = 20
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object ComboBox2: TComboBox
+      AnchorSideLeft.Control = ComboBox4
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = ComboBox1
+      AnchorSideTop.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 236
+      Height = 28
+      Top = 44
+      Width = 135
+      BorderSpacing.Left = 20
+      BorderSpacing.Top = 10
+      Font.Height = 20
+      ItemHeight = 20
+      ItemIndex = 1
+      Items.Strings = (
+        '16 bits'
+        '32 bits FLOAT'
+      )
+      OnSelect = ComboBox1Select
+      ParentFont = False
+      Style = csDropDownList
+      TabOrder = 1
+      Text = '32 bits FLOAT'
+    end
+    object ComboBox3: TComboBox
+      AnchorSideLeft.Control = ComboBox2
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = ComboBox2
+      Cursor = crHandPoint
+      Left = 391
+      Height = 28
+      Top = 44
+      Width = 112
+      BorderSpacing.Left = 20
+      Font.Height = 20
+      ItemHeight = 20
+      ItemIndex = 1
+      Items.Strings = (
+        'MONO'
+        'STEREO'
+      )
+      OnSelect = ComboBox1Select
+      ParentFont = False
+      Style = csDropDownList
+      TabOrder = 2
+      Text = 'STEREO'
+    end
+    object ComboBox4: TComboBox
+      AnchorSideLeft.Control = ComboBox1
+      AnchorSideTop.Control = ComboBox3
+      Cursor = crHandPoint
+      Left = 104
+      Height = 28
+      Top = 44
+      Width = 112
+      ItemHeight = 20
+      ItemIndex = 0
+      Items.Strings = (
+        '44100 Hz'
+        '48000 Hz'
+        '96000 Hz'
+      )
+      OnSelect = ComboBox1Select
+      Style = csDropDownList
+      TabOrder = 3
+      Text = '44100 Hz'
+    end
+    object ProgressBar2: TProgressBar
+      AnchorSideLeft.Control = ProgressBar1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Label14
+      AnchorSideBottom.Control = Label14
+      AnchorSideBottom.Side = asrBottom
+      Left = 544
+      Height = 16
+      Top = 102
+      Width = 175
+      Anchors = [akLeft, akRight, akBottom]
+      BorderSpacing.Right = 2
+      TabOrder = 5
+    end
+    object CheckBox1: TCheckBox
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Panel1
+      AnchorSideBottom.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 737
+      Height = 19
+      Hint = 'Checked -> decibel'#13#10'Unchecked -> percent'
+      Top = 123
+      Width = 34
+      Anchors = [akRight, akBottom]
+      Caption = 'dB'
+      Font.Height = 15
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 6
+    end
+    object Label7: TLabel
+      AnchorSideLeft.Control = ComboBox3
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = ProgressBar1
+      AnchorSideTop.Side = asrCenter
+      Left = 523
+      Height = 13
+      Top = 84
+      Width = 19
+      BorderSpacing.Left = 20
+      Caption = 'Left'
+      Font.Height = 13
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label11: TLabel
+      AnchorSideTop.Control = ProgressBar2
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Label7
+      AnchorSideRight.Side = asrBottom
+      Left = 514
+      Height = 13
+      Top = 104
+      Width = 28
+      Anchors = [akTop, akRight]
+      Caption = 'Right'
+      Font.Height = 13
+      ParentColor = False
+      ParentFont = False
+    end
+    object CheckBox2: TCheckBox
+      AnchorSideLeft.Control = ProgressBar1
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = ComboBox1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = ProgressBar1
+      Cursor = crHandPoint
+      Left = 568
+      Height = 19
+      Hint = 'Checked -> decibel'#13#10'Unchecked -> percent'
+      Top = 63
+      Width = 126
+      Anchors = [akLeft, akBottom]
+      Caption = 'Activate monitoring'
+      Font.Height = 15
+      OnChange = CheckBox2Change
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 7
+    end
+    object Label12: TLabel
+      AnchorSideLeft.Control = ProgressBar1
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = ProgressBar1
+      AnchorSideTop.Side = asrCenter
+      Left = 631
+      Height = 1
+      Top = 90
+      Width = 1
+      BorderSpacing.Left = 20
+      Font.Height = 13
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label13: TLabel
+      AnchorSideLeft.Control = ComboBox3
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = ProgressBar1
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      Left = 721
+      Height = 15
+      Top = 83
+      Width = 50
+      Anchors = [akTop, akRight]
+      Color = 13302222
+      Constraints.MinHeight = 15
+      Constraints.MinWidth = 50
+      Font.Height = 13
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+    end
+    object Label14: TLabel
+      AnchorSideTop.Control = ProgressBar2
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = CheckBox1
+      Left = 721
+      Height = 15
+      Top = 103
+      Width = 50
+      Anchors = [akRight, akBottom]
+      BorderSpacing.Bottom = 5
+      Color = 13302222
+      Constraints.MinHeight = 15
+      Constraints.MinWidth = 50
+      Font.Height = 13
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+    end
+  end
+  object Label9: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Panel3
+    AnchorSideTop.Side = asrBottom
+    Left = 20
+    Height = 20
+    Top = 294
+    Width = 165
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 5
+    Caption = '3) Play with the effects'
+    Font.Height = 20
+    Font.Style = [fsBold, fsItalic]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Panel2: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Label9
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 20
+    Height = 446
+    Top = 314
+    Width = 772
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 20
+    BorderSpacing.Right = 20
+    BorderSpacing.Bottom = 5
+    ClientHeight = 446
+    ClientWidth = 772
+    Color = 14807551
+    ParentColor = False
+    TabOrder = 1
+    object Panel4: TPanel
+      AnchorSideLeft.Control = Panel2
+      AnchorSideTop.Control = Panel2
+      Left = 21
+      Height = 155
+      Top = 21
+      Width = 223
+      BorderSpacing.Left = 20
+      BorderSpacing.Top = 20
+      ClientHeight = 155
+      ClientWidth = 223
+      Color = 16766333
+      ParentColor = False
+      TabOrder = 0
+      object Label4: TLabel
+        AnchorSideLeft.Control = Panel4
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = Panel4
+        Left = 92
+        Height = 15
+        Top = 1
+        Width = 38
+        Caption = 'Effect 1'
+        Font.Height = 16
+        Font.Style = [fsItalic]
+        ParentColor = False
+        ParentFont = False
+      end
+      object ComboBox5: TComboBox
+        AnchorSideLeft.Control = Panel4
+        AnchorSideTop.Control = Label4
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = Panel4
+        AnchorSideRight.Side = asrBottom
+        Cursor = crHandPoint
+        Left = 3
+        Height = 23
+        Top = 26
+        Width = 217
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 2
+        Font.Height = 16
+        Font.Style = [fsBold]
+        ItemHeight = 15
+        ItemIndex = 1
+        Items.Strings = (
+          'AUTOWAH'
+          'CHORUS'
+          'FLANGER'
+          'COMPRESSOR'
+          'DISTORSION'
+          'ECHO'
+          'EQUALIZER'
+          'FREQUENCY SHIFTER'
+          'PITCH SHIFTER'
+          'RING MODULATOR'
+          'VOCAL MORPHER'
+          'EAX-REVERB'
+        )
+        OnSelect = ComboBox5Select
+        ParentFont = False
+        Style = csDropDownList
+        TabOrder = 0
+        Text = 'CHORUS'
+      end
+      object ComboBox6: TComboBox
+        AnchorSideLeft.Control = Panel4
+        AnchorSideTop.Control = Label5
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = Panel4
+        AnchorSideRight.Side = asrBottom
+        Cursor = crHandPoint
+        Left = 3
+        Height = 21
+        Top = 74
+        Width = 217
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        BorderSpacing.Right = 2
+        Font.Height = 14
+        ItemHeight = 13
+        OnSelect = ComboBox6Select
+        ParentFont = False
+        Style = csDropDownList
+        TabOrder = 1
+      end
+      object CheckBox3: TCheckBox
+        AnchorSideLeft.Control = Panel4
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = ComboBox6
+        AnchorSideTop.Side = asrBottom
+        Cursor = crHandPoint
+        Left = 85
+        Height = 19
+        Top = 105
+        Width = 53
+        BorderSpacing.Top = 10
+        Caption = 'MUTE'
+        Font.Height = 16
+        Font.Style = [fsBold]
+        OnChange = CheckBox3Change
+        ParentFont = False
+        TabOrder = 2
+      end
+      object Label5: TLabel
+        AnchorSideLeft.Control = Panel4
+        AnchorSideTop.Control = ComboBox5
+        AnchorSideTop.Side = asrBottom
+        Left = 3
+        Height = 15
+        Top = 59
+        Width = 33
+        BorderSpacing.Left = 2
+        BorderSpacing.Top = 10
+        Caption = 'Preset'
+        Font.Height = 16
+        Font.Style = [fsItalic]
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label18: TLabel
+        AnchorSideLeft.Control = Panel4
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideBottom.Control = Panel4
+        AnchorSideBottom.Side = asrBottom
+        Left = 91
+        Height = 15
+        Top = 139
+        Width = 40
+        Anchors = [akLeft, akBottom]
+        Caption = 'Label18'
+        Font.Height = 16
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+    object Panel5: TPanel
+      AnchorSideLeft.Control = Panel2
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel2
+      Left = 275
+      Height = 155
+      Top = 21
+      Width = 223
+      BorderSpacing.Top = 20
+      ClientHeight = 155
+      ClientWidth = 223
+      Color = 16766333
+      ParentColor = False
+      TabOrder = 1
+      object Label6: TLabel
+        AnchorSideLeft.Control = Panel5
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = Panel5
+        Left = 92
+        Height = 15
+        Top = 1
+        Width = 38
+        Caption = 'Effect 1'
+        Font.Height = 16
+        Font.Style = [fsItalic]
+        ParentColor = False
+        ParentFont = False
+      end
+      object ComboBox7: TComboBox
+        Tag = 1
+        AnchorSideLeft.Control = Panel5
+        AnchorSideTop.Control = Label6
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = Panel5
+        AnchorSideRight.Side = asrBottom
+        Cursor = crHandPoint
+        Left = 3
+        Height = 23
+        Top = 26
+        Width = 217
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 2
+        Font.Height = 16
+        Font.Style = [fsBold]
+        ItemHeight = 15
+        ItemIndex = 11
+        Items.Strings = (
+          'AUTOWAH'
+          'CHORUS'
+          'FLANGER'
+          'COMPRESSOR'
+          'DISTORSION'
+          'ECHO'
+          'EQUALIZER'
+          'FREQUENCY SHIFTER'
+          'PITCH SHIFTER'
+          'RING MODULATOR'
+          'VOCAL MORPHER'
+          'EAX-REVERB'
+        )
+        OnSelect = ComboBox5Select
+        ParentFont = False
+        Style = csDropDownList
+        TabOrder = 0
+        Text = 'EAX-REVERB'
+      end
+      object ComboBox8: TComboBox
+        Tag = 1
+        AnchorSideLeft.Control = Panel5
+        AnchorSideTop.Control = Label15
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = Panel5
+        AnchorSideRight.Side = asrBottom
+        Cursor = crHandPoint
+        Left = 3
+        Height = 21
+        Top = 74
+        Width = 217
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        BorderSpacing.Right = 2
+        Font.Height = 14
+        ItemHeight = 13
+        OnSelect = ComboBox6Select
+        ParentFont = False
+        Style = csDropDownList
+        TabOrder = 1
+      end
+      object CheckBox4: TCheckBox
+        Tag = 1
+        AnchorSideLeft.Control = Panel5
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = ComboBox8
+        AnchorSideTop.Side = asrBottom
+        Cursor = crHandPoint
+        Left = 85
+        Height = 19
+        Top = 105
+        Width = 53
+        BorderSpacing.Top = 10
+        Caption = 'MUTE'
+        Font.Height = 16
+        Font.Style = [fsBold]
+        OnChange = CheckBox3Change
+        ParentFont = False
+        TabOrder = 2
+      end
+      object Label15: TLabel
+        AnchorSideLeft.Control = Panel5
+        AnchorSideTop.Control = ComboBox7
+        AnchorSideTop.Side = asrBottom
+        Left = 3
+        Height = 15
+        Top = 59
+        Width = 33
+        BorderSpacing.Left = 2
+        BorderSpacing.Top = 10
+        Caption = 'Preset'
+        Font.Height = 16
+        Font.Style = [fsItalic]
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label19: TLabel
+        AnchorSideLeft.Control = Panel5
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideBottom.Control = Panel5
+        AnchorSideBottom.Side = asrBottom
+        Left = 91
+        Height = 15
+        Top = 136
+        Width = 40
+        Anchors = [akLeft]
+        Caption = 'Label19'
+        Font.Height = 16
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+    object Panel6: TPanel
+      AnchorSideTop.Control = Panel2
+      AnchorSideRight.Control = Panel2
+      AnchorSideRight.Side = asrBottom
+      Left = 528
+      Height = 155
+      Top = 21
+      Width = 223
+      Anchors = [akTop, akRight]
+      BorderSpacing.Top = 20
+      BorderSpacing.Right = 20
+      ClientHeight = 155
+      ClientWidth = 223
+      Color = 16766333
+      ParentColor = False
+      TabOrder = 2
+      object Label16: TLabel
+        AnchorSideLeft.Control = Panel6
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = Panel6
+        Left = 92
+        Height = 15
+        Top = 1
+        Width = 38
+        Caption = 'Effect 1'
+        Font.Height = 16
+        Font.Style = [fsItalic]
+        ParentColor = False
+        ParentFont = False
+      end
+      object ComboBox9: TComboBox
+        Tag = 2
+        AnchorSideLeft.Control = Panel6
+        AnchorSideTop.Control = Label16
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = Panel6
+        AnchorSideRight.Side = asrBottom
+        Cursor = crHandPoint
+        Left = 3
+        Height = 23
+        Top = 26
+        Width = 217
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 2
+        Font.Height = 16
+        Font.Style = [fsBold]
+        ItemHeight = 15
+        ItemIndex = 6
+        Items.Strings = (
+          'AUTOWAH'
+          'CHORUS'
+          'FLANGER'
+          'COMPRESSOR'
+          'DISTORSION'
+          'ECHO'
+          'EQUALIZER'
+          'FREQUENCY SHIFTER'
+          'PITCH SHIFTER'
+          'RING MODULATOR'
+          'VOCAL MORPHER'
+          'EAX-REVERB'
+        )
+        OnSelect = ComboBox5Select
+        ParentFont = False
+        Style = csDropDownList
+        TabOrder = 0
+        Text = 'EQUALIZER'
+      end
+      object ComboBox10: TComboBox
+        Tag = 2
+        AnchorSideLeft.Control = Panel6
+        AnchorSideTop.Control = Label17
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = Panel6
+        AnchorSideRight.Side = asrBottom
+        Cursor = crHandPoint
+        Left = 3
+        Height = 21
+        Top = 74
+        Width = 217
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 2
+        BorderSpacing.Right = 2
+        Font.Height = 14
+        ItemHeight = 13
+        OnSelect = ComboBox6Select
+        ParentFont = False
+        Style = csDropDownList
+        TabOrder = 1
+      end
+      object CheckBox5: TCheckBox
+        Tag = 2
+        AnchorSideLeft.Control = Panel6
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = ComboBox10
+        AnchorSideTop.Side = asrBottom
+        Cursor = crHandPoint
+        Left = 85
+        Height = 19
+        Top = 105
+        Width = 53
+        BorderSpacing.Top = 10
+        Caption = 'MUTE'
+        Font.Height = 16
+        Font.Style = [fsBold]
+        OnChange = CheckBox3Change
+        ParentFont = False
+        TabOrder = 2
+      end
+      object Label17: TLabel
+        AnchorSideLeft.Control = Panel6
+        AnchorSideTop.Control = ComboBox9
+        AnchorSideTop.Side = asrBottom
+        Left = 3
+        Height = 15
+        Top = 59
+        Width = 33
+        BorderSpacing.Left = 2
+        BorderSpacing.Top = 10
+        Caption = 'Preset'
+        Font.Height = 16
+        Font.Style = [fsItalic]
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label20: TLabel
+        AnchorSideLeft.Control = Panel6
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideBottom.Control = Panel6
+        AnchorSideBottom.Side = asrBottom
+        Left = 91
+        Height = 15
+        Top = 139
+        Width = 40
+        Anchors = [akLeft, akBottom]
+        Caption = 'Label20'
+        Font.Height = 16
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+    object TrackBar1: TTrackBar
+      AnchorSideLeft.Control = Panel2
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Label21
+      AnchorSideTop.Side = asrBottom
+      Left = 252
+      Height = 40
+      Top = 251
+      Width = 268
+      Frequency = 10
+      Max = 100
+      OnChange = TrackBar1Change
+      Position = 50
+      ShowSelRange = False
+      TabOrder = 3
+    end
+    object Label21: TLabel
+      AnchorSideLeft.Control = Panel2
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel5
+      AnchorSideTop.Side = asrBottom
+      Left = 362
+      Height = 15
+      Top = 236
+      Width = 49
+      BorderSpacing.Top = 60
+      Caption = 'Dry/Wet'
+      Font.Height = 16
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object Panel7: TPanel
+      Left = 40
+      Height = 186
+      Top = 232
+      Width = 120
+      ClientHeight = 186
+      ClientWidth = 120
+      Color = 12572159
+      ParentColor = False
+      TabOrder = 4
+      object Label22: TLabel
+        AnchorSideLeft.Control = Panel7
+        AnchorSideTop.Control = Panel7
+        Left = 3
+        Height = 15
+        Top = 3
+        Width = 95
+        BorderSpacing.Left = 2
+        BorderSpacing.Top = 2
+        Caption = 'Capture pre-amp'
+        Font.Height = 16
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        WordWrap = True
+      end
+      object TrackBar2: TTrackBar
+        AnchorSideTop.Control = Label22
+        AnchorSideTop.Side = asrBottom
+        AnchorSideBottom.Control = Panel7
+        AnchorSideBottom.Side = asrBottom
+        Left = 32
+        Height = 165
+        Top = 18
+        Width = 40
+        Frequency = 50
+        Max = 800
+        OnChange = TrackBar2Change
+        Orientation = trVertical
+        Position = 100
+        Reversed = True
+        ShowSelRange = False
+        Anchors = [akTop, akLeft, akBottom]
+        BorderSpacing.Bottom = 2
+        TabOrder = 0
+      end
+      object Label23: TLabel
+        AnchorSideLeft.Control = TrackBar2
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = TrackBar2
+        Left = 72
+        Height = 15
+        Top = 18
+        Width = 24
+        Caption = 'x1.0'
+        Font.Height = 16
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+    object Label24: TLabel
+      AnchorSideLeft.Control = Panel2
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = TrackBar1
+      AnchorSideTop.Side = asrBottom
+      Left = 371
+      Height = 15
+      Top = 346
+      Width = 31
+      Anchors = [akLeft]
+      Caption = 'TONE'
+      Font.Height = 16
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object TrackBar3: TTrackBar
+      AnchorSideLeft.Control = Panel2
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Label24
+      AnchorSideTop.Side = asrBottom
+      Left = 283
+      Height = 40
+      Top = 361
+      Width = 207
+      Frequency = 10
+      Max = 100
+      OnChange = TrackBar3Change
+      Position = 50
+      ShowSelRange = False
+      TabOrder = 5
+    end
+    object Label25: TLabel
+      AnchorSideLeft.Control = TrackBar3
+      AnchorSideBottom.Control = TrackBar3
+      Left = 283
+      Height = 13
+      Top = 348
+      Width = 20
+      Anchors = [akLeft, akBottom]
+      Caption = 'bass'
+      Font.Height = 13
+      Font.Style = [fsItalic]
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label26: TLabel
+      AnchorSideRight.Control = TrackBar3
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = TrackBar3
+      Left = 462
+      Height = 13
+      Top = 348
+      Width = 28
+      Anchors = [akRight, akBottom]
+      Caption = 'treble'
+      Font.Height = 13
+      Font.Style = [fsItalic]
+      ParentColor = False
+      ParentFont = False
+    end
+    object Shape5: TShape
+      AnchorSideLeft.Control = Shape6
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = TrackBar1
+      AnchorSideTop.Side = asrCenter
+      Left = 540
+      Height = 5
+      Top = 269
+      Width = 78
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+    end
+    object Shape6: TShape
+      AnchorSideLeft.Control = TrackBar1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Shape5
+      AnchorSideTop.Side = asrCenter
+      Left = 520
+      Height = 15
+      Top = 264
+      Width = 20
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+      Shape = stTriangleLeft
+    end
+    object Shape7: TShape
+      AnchorSideLeft.Control = Panel4
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel4
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Shape8
+      Left = 244
+      Height = 5
+      Top = 96
+      Width = 11
+      Anchors = [akTop, akLeft, akRight]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+    end
+    object Shape8: TShape
+      AnchorSideLeft.Control = Shape7
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Shape7
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Panel5
+      Left = 255
+      Height = 15
+      Top = 91
+      Width = 20
+      Anchors = [akTop, akRight]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+      Shape = stTriangleRight
+    end
+    object Shape9: TShape
+      AnchorSideLeft.Control = Panel5
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel5
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Shape10
+      Left = 498
+      Height = 5
+      Top = 96
+      Width = 10
+      Anchors = [akTop, akLeft, akRight]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+    end
+    object Shape10: TShape
+      AnchorSideLeft.Control = Shape9
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Shape9
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Panel6
+      Left = 508
+      Height = 15
+      Top = 91
+      Width = 20
+      Anchors = [akTop, akRight]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+      Shape = stTriangleRight
+    end
+    object Shape11: TShape
+      AnchorSideLeft.Control = Panel7
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = TrackBar1
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Shape12
+      Left = 160
+      Height = 5
+      Top = 269
+      Width = 72
+      Anchors = [akTop, akLeft, akRight]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+    end
+    object Shape12: TShape
+      AnchorSideLeft.Control = Shape11
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Shape11
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = TrackBar1
+      Left = 232
+      Height = 15
+      Top = 264
+      Width = 20
+      Anchors = [akTop, akRight]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+      Shape = stTriangleRight
+    end
+    object Shape2: TShape
+      AnchorSideLeft.Control = Shape11
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Shape3
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = Shape11
+      Left = 194
+      Height = 73
+      Top = 196
+      Width = 5
+      Anchors = [akTop, akLeft, akBottom]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+    end
+    object Shape3: TShape
+      AnchorSideLeft.Control = Shape2
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel5
+      AnchorSideTop.Side = asrBottom
+      Left = 189
+      Height = 20
+      Top = 176
+      Width = 15
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+      Shape = stTriangle
+    end
+    object Shape4: TShape
+      AnchorSideLeft.Control = Shape5
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel6
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = Shape5
+      AnchorSideBottom.Side = asrBottom
+      Left = 618
+      Height = 98
+      Top = 176
+      Width = 5
+      Anchors = [akTop, akLeft, akBottom]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+    end
+    object Shape13: TShape
+      AnchorSideLeft.Control = TrackBar1
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = TrackBar1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = Shape14
+      Left = 384
+      Height = 35
+      Top = 291
+      Width = 5
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 50
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+    end
+    object Shape14: TShape
+      AnchorSideLeft.Control = Shape13
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Shape13
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = Label24
+      Left = 379
+      Height = 20
+      Top = 326
+      Width = 15
+      Anchors = [akLeft, akBottom]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+      Shape = stTriangleDown
+    end
+  end
+  object Label10: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Panel1
+    AnchorSideTop.Side = asrBottom
+    Left = 20
+    Height = 20
+    Top = 173
+    Width = 211
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 5
+    Caption = '2) Start/Stop capturing audio'
+    Font.Height = 20
+    Font.Style = [fsBold, fsItalic]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Panel3: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Label10
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Side = asrBottom
+    Left = 20
+    Height = 86
+    Top = 193
+    Width = 772
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 20
+    BorderSpacing.Right = 20
+    BorderSpacing.Bottom = 15
+    ClientHeight = 86
+    ClientWidth = 772
+    Color = 14807551
+    ParentColor = False
+    TabOrder = 2
+    object BStart: TSpeedButton
+      AnchorSideLeft.Control = Panel3
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel3
+      AnchorSideRight.Control = Shape1
+      Cursor = crHandPoint
+      Left = 271
+      Height = 35
+      Top = 6
+      Width = 95
+      Anchors = [akTop, akRight]
+      BorderSpacing.Top = 5
+      BorderSpacing.Right = 20
+      Caption = 'START'
+      Images = ImageList1
+      ImageIndex = 0
+      OnClick = BStartClick
+    end
+    object Label3: TLabel
+      AnchorSideLeft.Control = Panel3
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideBottom.Control = Panel3
+      AnchorSideBottom.Side = asrBottom
+      Left = 356
+      Height = 20
+      Top = 65
+      Width = 61
+      Anchors = [akLeft, akBottom]
+      Caption = 'Playback'
+      Font.Height = 20
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object BStop: TSpeedButton
+      AnchorSideLeft.Control = Shape1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel3
+      Cursor = crHandPoint
+      Left = 407
+      Height = 35
+      Top = 6
+      Width = 95
+      BorderSpacing.Left = 20
+      BorderSpacing.Top = 5
+      Caption = 'STOP'
+      Enabled = False
+      Images = ImageList1
+      ImageIndex = 1
+      OnClick = BStopClick
+    end
+    object Shape1: TShape
+      AnchorSideLeft.Control = Panel3
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel3
+      AnchorSideBottom.Control = Label3
+      Left = 386
+      Height = 61
+      Top = 4
+      Width = 1
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Top = 3
+      Brush.Color = 11796479
+      Brush.Style = bsClear
+      Pen.Style = psDot
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 250
+    OnTimer = Timer1Timer
+    Left = 712
+    Top = 216
+  end
+  object ImageList1: TImageList
+    Height = 32
+    Width = 32
+    Left = 648
+    Top = 216
+    Bitmap = {
+      4C7A020000002000000020000000100D00000000000078DAED97095455F516C6
+      CFBDCC0A32CF08A818329899363C0B451C501CD09C73C29C0784D45472023567
+      D144441115512F122AE088888A2399A638CF636AE5506669F552BEB7F739F75C
+      EEB9DCABF656ADF55AEBB1D65EE12AFBFDBF6F7F7BFFFF4710FE793F2AAB703B
+      956D7C80AA5A6223AAC642B5C4FA8275070FC1CCCFECEF629AD97470B572CD1F
+      51C50FBB6D7CF1C0DA17E596D501732AB50FA0F2C16F82F7F34B82FBA934C136
+      3E4C507BFE256731B30E77B0AD7E63A673001EB9BD06B80702FC4FE75A40B51A
+      009D077C0E33E90C10BC9E40F0BC5B2EB89F3D2CD8C64608AAAAFF35DBDA6961
+      986B6D5CF50B055E7B13087E4BAA40FABDC6EB80571DC089CE51D51FB092CFE0
+      2DF221B89F87E07AF899E0B83295FA62F367D9555C337B7A05E1D7A086C05B8D
+      81C62D818828A9DE6F01340803EA3400AA07D31902E80C5A1FD4DEBF10FF36F1
+      CF12FF1004E7ADA033ECA33338BE2ADBC625B313B1FF087D1B08236EBBCE408F
+      3E40DF01401FAAAEBD80D61D8146114010F9E11D0438D404AC7DCB61EEFD082A
+      8F1B10DCCA885F42FC7C084EEB21382C3F2898F9567919DBC22E3E983CFF99B5
+      8591CE0F7A000387039F2400939280895463C603FD8700EDBB00EF360502EA03
+      F477C8833F60E1751F6A8FCBC4FF0A824B11F173899F4DB516827DF20A4165FA
+      082A337FB59DDFA352DF50C9DF369D8001C38899082C480196AF04566402294B
+      8029D3A47FD72A1AA8F72FF280FA50CDFF092CBDEE40ED7E86B41F20F666E2E6
+      5069A8D650AD2E176C3E6C6352BB73660FCA396A939EF79A4B3E8F1A07242F02
+      3439C0F642A0A818C8DF022CCB003E9D0C74EF237950A3EE7338F8FF002BAF2B
+      50BB1DADACDD298B7290C9593827A89D2BCFA6CA41B0F67974DCADB694AB2691
+      40CF182061B2C4DAB60338721438790AF8F20890B71998B7803C180A84B7A21E
+      D47B0A27FF3BB0F63C0DB5EB3E62E7497D775AA7D52EB2A9322058B76B5F095F
+      25A66E155F69B6031B4879EFD117183F49E2171601652781CB97813367815DBB
+      81D4A5C0B038A059D433D4AEF7004E7E9760E5510AB5CB5643DF89BB8A6A05D5
+      7208D5666C34E4AB1D33C7D25E830BF91FF006791A0E74EC06C48DA1DE93FF9B
+      F281D22312FB44199D6727B02815183CA21CE1918F51ABEE7538543F064BB79D
+      503B7FA165AFADCC765C46B5F431F5C05CC1772FCBA59D0A479AA3EA2152A69A
+      B795E66DC214202D9D3C2F9074B3176B35C0D4CF800F639EE09DC6B7E1135806
+      3BAF6258B86C804AD773A36C9AC525102CEA8528F83EF89AF7879DBFD403F680
+      F70ECF79CC2060DC44606EB2E439E77FEA8C720C1AFE042DDBDE4550FDD370F5
+      DB0B1BB78D30737E05B6432A6520AA9DA2FF3EB86A4EFB937B604F1E78D691E6
+      A06198E443979ED2CC73BF87C43EA36C3E26F66DD47BE734BC03F6C2CE63232C
+      88AD52B0296B8EE95A765A05DB6131F15BF75604C00797F91E630FF84EE17DC6
+      770DEFF910DA836F37E14C3EA3FDFB84FA7D9F3CBF86E0FAC7895D0C7BAF0DB0
+      72C9869AB3E6B8BA22E7229B35A755701D52A81631BFA782EFFD6BA9CAFB39DD
+      21E5748672F2A19C7AF19CEEB93FE011F81B7C831FA366DDFB0878FD166A869C
+      83CF6BA5E4F90ED29D4B6C0DCC44B63C63CB8D6B96D90E9F13BF55A482EF9C97
+      2978D1EEF67A0C33EFC7B4C77F8295CF0FB0F1B90FDBEA7761EF4BF9F63D0747
+      CAB8BDF75ED87A14C0DA35873CD76875672A7B6D4C33731D164A655ECB5FC1B7
+      9B3048F0B84977D72DB1D49E3760E67915E61E1761E1711A961E4761E5BE9FE6
+      6B3B2C29E316CEEB49F33AEA77965ECED2951933C6755840957C4750592B1780
+      65636FC1FDE4337ABF40AA1374871C85CAED30EDB312DA293B68AE3751E51053
+      63226732DB9866912B95EDE834A3178053F616C1753FDD1DB43F5DF7687738ED
+      32E24AFB2C5B6F9F1AE62C4D8F6D826B3F5F2A8B860D8D5FFCDD1AD19D552E38
+      17484CF1FE90B91AC37B44CB9673966A9A2D73EDE7D1EE9D56482F2B131730DD
+      CD0E2959D2BDB15E8FABAFD9206746D9869AE7C9F5AB601916F2C20788799023
+      F1AE48CCB55AAEAC799511B631CF996BC89E0BA1EA9091AFF400E3333A657D2F
+      72759A65BF5FC65E60A07BAE54B6F129E4BBEA951FA096EF8792DE6B1257D69C
+      6E64B65FCA7E4EEC39C4FEF3DF0316F5DD04FB45B9C42D37BD4B5FC8FE4EA8D2
+      B79BC9BCBDD2C7968D4AB0E9DA8AD807C8EF6795779A31F6BCFB825DC26CC1AC
+      A6EB5FF7D147E7B08AA827D8C64D22F64E62DF20ED0F89FF23F1BFA3BC95D10E
+      5D4133DC8DB8F67FFB47A899B75A300FB0A33D6E4F655D699FFEFFE71FF363EB
+      EE1ED27AEE843FA2E627206AFE78B49EC7350EADE78E43AB3963C58A9CFD0922
+      6751CD1C83963346538D428BCFA8A67F8C16D3E2D17C6A3C9A4D8D43B3A49168
+      963812115362A9462062F270349DC4350C4D270E43F884A168327E30FCC31A65
+      CB7C477F9FF0360B27E0831533A4CA98818E199F55D4F2E96275489F860ECBA6
+      217AE95444A725A17D6A22DA2F9E8CB68B26A1EDE713D166C1A7884A4E90CECF
+      679F3D5671663E2F9FEFF5EE6DE0F7DE9B250A3EFD5D660FDBB40C8945EB3185
+      6B673626156A90B0632DC66ECBC2A8ADAB10B76525466CCEC0D082740CCA5F86
+      01794BD12F6F09FA6E5A82DE1B17A3E78614F4C85D84EE390BD17DFD0274D324
+      A3EBBAF9E8B2661E3A67CEC61BBDA211D8B629F11B28F851C9123FF7D461F0CF
+      D3E7FFC6FDDF7FC1F5270F71FAA76F51FAC34DECBA7719F9DF9E85E64E19326E
+      1D45CA8D52CCB97A00532FEFC5A7978A31FAC24EC49DDD8ED8939B31FC783E86
+      7DB51143BFCCC5E043391874201B1F15672228BAB9097E82C8FFE2D4213C7DF6
+      6F3CF8FD096E3DFD11E71F7F8FA33F7E837D0FAE62FBF717907BF734B2BE398E
+      A5378F60E1F5439879753FA65CDE83F11777E1E3F385883BB30DB165C4FF3A8F
+      F81B88FF05F1D7BF84EF1DCED963BEA6EC00EE91EE9BC4BEF0F33D1C7F741B07
+      1F5E47D1BD4B3AED2B6E1DC362D23EEFDA014CBF5282899776E3938B45883FB7
+      03234F6DC1881305187E6C13861ED98021A5C43FC87C0D3EDAB50A411D9AA30E
+      F3DF57F239339CBBD5C74B708D3C3F47BA997DE8E10DD1F7CDDF9D43CE9D93C8
+      FCE66B9DF659A43D91BC4FB8588C517ADE8F60EF8F92F7477231E430797F301B
+      83F66BD08FF8C1A6F89457CE7AFAB1629CFAE9AEE839EB66F61662E7DE3D8535
+      B78F23FDE65748B95E8AB9572BB48F65EDE77720EEF456493B793F54E7BDD4FB
+      81FBD7A15F9196DF2E42C177203ECF38F3538E14E23065AD84FABD933CDFAC65
+      AFBD7D42CC1CFB3EFFDA41CCB8B24FD7F7CADA2B7B3F70DF5AF4DBB912C11D5B
+      98E6D38CCF2FDD469A2F611B652DEFDB33A2E759A49BD9A937BE4432B1D9F724
+      6DE6C75CD0F65D4FBB943B6DEE45EFD7614009F10B5798E4F37EEB983E1D330F
+      15883963CD9C35EE377BCEBA6536CF9BECBB7EE62BFA6EA89DF87BD72046CB0F
+      6A6FC0F723FEAC31E26E4B3AB8099ADB65E28C71CE396BDC6FF67CA682AD9D37
+      D177BDCC1BF45DD63E606F1662766420E48396C46F06BFB0864AFECCD1C49F8A
+      09FB37885E3397352FB87648CC1AF73BC940773CB175F326FA2EED1BCEFC60F6
+      5DDB77D6DE7F8F1E3FBA19ED7F259FEF93E8A549185B92437A0F8B5C9E6FF67B
+      1AE59CB3C6FDD6796EC896E7AD54DE371A31F3A27662F7DFBD1A7DB72F474827
+      637CAF70BE1BDA2F49C4A8BDD9E24E65AF79BE1289CB9A39E76328E7A6D91BF4
+      D8D2BC0F2CA9D0DEBF98F8DBD2891F29CE60253EDDA3ED53A72076CF3AD1E729
+      5A2EEF16DE6DA32E148A3917B376B2325BD773EDAE917D97B5F3EEEDB3F5057C
+      BAC3DBA54CC6D0DD6B449F59AF8ECBBB8535D38C893937C156F45CCF7766F3EE
+      EDB36519423BB71267C0BFF15B0A7E737A3BB45D341103C9A7515A9F45BD32F7
+      A4C4E519E39C8B59D3F55B9FADEC39FBCEEC7E452BD17BF35293FC664971E037
+      C847B42399197766ABD8630557D6ACDD2FBA7E1B63EF59ADD3CE7B97779FC8EF
+      22F16BE8F37D993F12FC0688A1FF8E99B16505C6B9DA9C8933A69F357DCFF57C
+      97D9BC7B7A15A411BFB53883359A18F01363D19ADE7E7D6946876B99A2CF7A5C
+      69B6957E5762EF5EADE839B379EFC61466A057FE12D4ED2AF3DF56F0F9ADC877
+      60DF6DCBA5DECA4CEA31E74BD29BA3DDA9D9CAF9D6CBB92936EF9E5E79A9129F
+      66409F6FEFEB191E317984F8CEE58CCABD15FBABF5599FCB3B55A7599F5DACF4
+      5C9FCDBBA7E7A6C5C48F4228F3C30DF8F446E63BA837F548D42933459F5FC0DD
+      63A0D904BBCFD665F890DEA675BB19E7F3FB9CDFC9BDE82DABE3C9FD35CA556A
+      96674CCE9A219BB3CFEFE2BADDDA883358A3E93B4A3E7D1BF01B9DEFE02E5973
+      A9E6A033D7EAD9526572CD42E755B3D069D54C745A2955C53783F25BA1237F2B
+      7069BF15A269B7F37EE1B77F257E75CF70FE2E79EFE318F16D16D8265C7CA372
+      F19FEBB46B2ABE19C4A2BB9BEF4FBE43F82D192C17CDB458946DCE37DF33EC73
+      68E74891C773CFB327FE997EAF69C07F77784FE9FF2F33DBEA31DB45886F0691
+      ABC70E3264538518F23B69F9DA3370FEF9777DBE9985755597C05A135C026B24
+      BAD6A9F96A15544B516EFA151C505121FA555B2CF7D0DA89B61E5E91FF0BDFBE
+      FF0184E38BAA
+    }
+  end
+end
