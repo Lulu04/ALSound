@@ -3514,11 +3514,15 @@ end;
 procedure TALSEffect.InitEffect(aEffectType: TALSEffectType; const aParameters);
 begin
   FEffectType := aEffectType;
+
   // Create the effect object
-  alGenEffects(1, @FEffectID);
-  if alGetError() <> AL_NO_ERROR then
-    exit;
-  FEffectAssigned := True;
+  if not FEffectAssigned then
+  begin
+    alGenEffects(1, @FEffectID);
+    if alGetError() <> AL_NO_ERROR then
+      exit;
+    FEffectAssigned := True;
+  end;
 
   // set the type of effect
   alEffecti(FEffectID, AL_EFFECT_TYPE, ALint(aEffectType));
@@ -3529,13 +3533,16 @@ begin
   end;
 
   // Create an effect slot object
-  alGenAuxiliaryEffectSlots(1, @FSlotID);
-  if alGetError() <> AL_NO_ERROR then
+  if not FSlotAssigned then
   begin
-    DealocateALObjects;
-    exit;
+    alGenAuxiliaryEffectSlots(1, @FSlotID);
+    if alGetError() <> AL_NO_ERROR then
+    begin
+      DealocateALObjects;
+      exit;
+    end;
+    FSlotAssigned := True;
   end;
-  FSlotAssigned := True;
 
   // set effect parameters and attach the effect to the slot
   DoUpdateParam(aParameters);
