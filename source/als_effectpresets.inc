@@ -725,13 +725,13 @@ function TALSAutoWahProperties.PresetList: TStringArray;
 begin
   Result := NIL;
   SetLength(Result, 7);
-  Result[0] := 'AUTOWAH_PRESET_DEFAULT';
-  Result[1] := 'AUTOWAH_PRESET_OLD_RADIO';
-  Result[2] := 'AUTOWAH_PRESET_WIND_IMPACT';
-  Result[3] := 'AUTOWAH_PRESET_VOCAL_DELIRIUM';
-  Result[4] := 'AUTOWAH_PRESET_ROCKY1';
-  Result[5] := 'AUTOWAH_PRESET_ROCKY2';
-  Result[6] := 'AUTOWAH_PRESET_VOCAL_SUPPORT';
+  Result[0] := 'DEFAULT';
+  Result[1] := 'OLD_RADIO';
+  Result[2] := 'WIND_IMPACT';
+  Result[3] := 'VOCAL_DELIRIUM';
+  Result[4] := 'ROCKY1';
+  Result[5] := 'ROCKY2';
+  Result[6] := 'VOCAL_SUPPORT';
 end;
 
 procedure TALSAutoWahProperties.InitWithPreset(aIndex: integer);
@@ -768,16 +768,16 @@ function TALSChorusProperties.PresetList: TStringArray;
 begin
   Result := NIL;
   SetLength(Result, 10);
-  Result[0] := 'CHORUS_PRESET_DEFAULT';
-  Result[1] := 'CHORUS_PRESET_ACOUSTIC_DUET';
-  Result[2] := 'CHORUS_PRESET_AMATEUR';
-  Result[3] := 'CHORUS_PRESET_FLYING_SAUCER';
-  Result[4] := 'CHORUS_PRESET_DUO';
-  Result[5] := 'CHORUS_PRESET_ELECTRO_VOICE';
-  Result[6] := 'CHORUS_PRESET_60SPSYCHEDELIC';
-  Result[7] := 'CHORUS_PRESET_TRIPPYVOX';
-  Result[8] := 'CHORUS_PRESET_RICH';
-  Result[9] := 'CHORUS_PRESET_WIDE';
+  Result[0] := 'DEFAULT';
+  Result[1] := 'ACOUSTIC_DUET';
+  Result[2] := 'AMATEUR';
+  Result[3] := 'FLYING_SAUCER';
+  Result[4] := 'DUO';
+  Result[5] := 'ELECTRO_VOICE';
+  Result[6] := '60SPSYCHEDELIC';
+  Result[7] := 'TRIPPYVOX';
+  Result[8] := 'RICH';
+  Result[9] := 'WIDE';
 end;
 
 procedure TALSChorusProperties.InitWithPreset(aIndex: integer);
@@ -820,16 +820,16 @@ function TALSFlangerProperties.PresetList: TStringArray;
 begin
   Result := NIL;
   SetLength(Result, 10);
-  Result[0] := 'FLANGER_PRESET_DEFAULT';
-  Result[1] := 'FLANGER_PRESET_AURAL';
-  Result[2] := 'FLANGER_PRESET_RICH_VOICE';
-  Result[3] := 'FLANGER_PRESET_MULTI_VOICE';
-  Result[4] := 'FLANGER_PRESET_METALLIC';
-  Result[5] := 'FLANGER_PRESET_NIGHTMARE';
-  Result[6] := 'FLANGER_PRESET_ENHANCED_STEREO';
-  Result[7] := 'FLANGER_PRESET_SUSTAIN';
-  Result[8] := 'FLANGER_PRESET_MEDIUM_FLANGER';
-  Result[9] := 'FLANGER_PRESET_STRONG_FLANGER';
+  Result[0] := 'DEFAULT';
+  Result[1] := 'AURAL';
+  Result[2] := 'RICH_VOICE';
+  Result[3] := 'MULTI_VOICE';
+  Result[4] := 'METALLIC';
+  Result[5] := 'NIGHTMARE';
+  Result[6] := 'ENHANCED_STEREO';
+  Result[7] := 'SUSTAIN';
+  Result[8] := 'MEDIUM_FLANGER';
+  Result[9] := 'STRONG_FLANGER';
 end;
 
 procedure TALSFlangerProperties.InitWithPreset(aIndex: integer);
@@ -887,13 +887,13 @@ function TALSDistortionProperties.PresetList: TStringArray;
 begin
   Result := NIL;
   SetLength(Result, 7);
-  Result[0] := 'DISTORTION_PRESET_DEFAULT';
-  Result[1] := 'DISTORTION_PRESET_70S_FUZZGUITAR';
-  Result[2] := 'DISTORTION_PRESET_HEAVY';
-  Result[3] := 'DISTORTION_PRESET_DESTROY_BASS';
-  Result[4] := 'DISTORTION_PRESET_SOFT';
-  Result[5] := 'DISTORTION_PRESET_MEDIUM';
-  Result[6] := 'DISTORTION_PRESET_HARD';
+  Result[0] := 'DEFAULT';
+  Result[1] := '70S_FUZZGUITAR';
+  Result[2] := 'HEAVY';
+  Result[3] := 'DESTROY_BASS';
+  Result[4] := 'SOFT';
+  Result[5] := 'MEDIUM';
+  Result[6] := 'HARD';
 end;
 
 procedure TALSDistortionProperties.InitWithPreset(aIndex: integer);
@@ -932,21 +932,21 @@ function TALSEchoProperties.PresetList: TStringArray;
 begin
   Result := NIL;
   SetLength(Result, 15);
-  Result[0] := 'ECHO_PRESET_DEFAULT';
-  Result[1] := 'ECHO_PRESET_1950s_STYLE';
-  Result[2] := 'ECHO_PRESET_OLD_SCHOOL';
-  Result[3] := 'ECHO_PRESET_AUDITORIUM';
-  Result[4] := 'ECHO_PRESET_CANYON';
-  Result[5] := 'ECHO_PRESET_CHEAP_SPRINGS';
-  Result[6] := 'ECHO_PRESET_DRAIN_PIPE';
-  Result[7] := 'ECHO_PRESET_LIGHT_ECHO_HALL';
-  Result[8] := 'ECHO_PRESET_DELAYED';
-  Result[9] := 'ECHO_PRESET_MONO_VOCAL_1';
-  Result[10] := 'ECHO_PRESET_MONO_VOCAL_2';
-  Result[11] := 'ECHO_PRESET_ROBUST_SHORT';
-  Result[12] := 'ECHO_PRESET_SMALL_ROOM';
-  Result[13] := 'ECHO_PRESET_TAJ_MAHAL';
-  Result[14] := 'ECHO_PRESET_DELIRIUM';
+  Result[0] := 'DEFAULT';
+  Result[1] := '1950s_STYLE';
+  Result[2] := 'OLD_SCHOOL';
+  Result[3] := 'AUDITORIUM';
+  Result[4] := 'CANYON';
+  Result[5] := 'CHEAP_SPRINGS';
+  Result[6] := 'DRAIN_PIPE';
+  Result[7] := 'LIGHT_ECHO_HALL';
+  Result[8] := 'DELAYED';
+  Result[9] := 'MONO_VOCAL_1';
+  Result[10] := 'MONO_VOCAL_2';
+  Result[11] := 'ROBUST_SHORT';
+  Result[12] := 'SMALL_ROOM';
+  Result[13] := 'TAJ_MAHAL';
+  Result[14] := 'DELIRIUM';
 end;
 
 procedure TALSEchoProperties.InitWithPreset(aIndex: integer);
@@ -997,10 +997,10 @@ function TALSEqualizerProperties.PresetList: TStringArray;
 begin
   Result := NIL;
   SetLength(Result, 4);
-  Result[0] := 'EQUALIZER_PRESET_DEFAULT';
-  Result[1] := 'EQUALIZER_PRESET_BASSBOOST';
-  Result[2] := 'EQUALIZER_PRESET_HIGHBOOST';
-  Result[3] := 'EQUALIZER_PRESET_LOW_FIDELITY';
+  Result[0] := 'DEFAULT';
+  Result[1] := 'BASSBOOST';
+  Result[2] := 'HIGHBOOST';
+  Result[3] := 'LOW_FIDELITY';
 end;
 
 procedure TALSEqualizerProperties.InitWithPreset(aIndex: integer);
@@ -1039,11 +1039,11 @@ function TALSFreqShifterProperties.PresetList: TStringArray;
 begin
   Result := NIL;
   SetLength(Result, 5);
-  Result[0] := 'FREQSHIFTER_PRESET_DEFAULT';
-  Result[1] := 'FREQSHIFTER_PRESET_HOARSE_VOICE';
-  Result[2] := 'FREQSHIFTER_PRESET_DUAL_VOICE';
-  Result[3] := 'FREQSHIFTER_PRESET_MELODY_DESTRUCTOR';
-  Result[4] := 'FREQSHIFTER_PRESET_RAP_3_VOICES';
+  Result[0] := 'DEFAULT';
+  Result[1] := 'HOARSE_VOICE';
+  Result[2] := 'DUAL_VOICE';
+  Result[3] := 'MELODY_DESTRUCTOR';
+  Result[4] := 'RAP_3_VOICES';
 end;
 
 procedure TALSFreqShifterProperties.InitWithPreset(aIndex: integer);
@@ -1075,11 +1075,11 @@ function TALSRingModulatorProperties.PresetList: TStringArray;
 begin
   Result := NIL;
   SetLength(Result, 5);
-  Result[0] := 'RINGMODULATOR_PRESET_DEFAULT';
-  Result[1] := 'RINGMODULATOR_PRESET_GARGLE';
-  Result[2] := 'RINGMODULATOR_PRESET_CAT_IN_THROAT';
-  Result[3] := 'RINGMODULATOR_PRESET_HIGH_FREQ';
-  Result[4] := 'RINGMODULATOR_PRESET_SSSS';
+  Result[0] := 'DEFAULT';
+  Result[1] := 'GARGLE';
+  Result[2] := 'CAT_IN_THROAT';
+  Result[3] := 'HIGH_FREQ';
+  Result[4] := 'SSSS';
 end;
 
 procedure TALSRingModulatorProperties.InitWithPreset(aIndex: integer);
@@ -1110,8 +1110,8 @@ function TALSPitchShifterProperties.PresetList: TStringArray;
 begin
   Result := NIL;
   SetLength(Result, 2);
-  Result[0] := 'PITCHSHIFTER_PRESET_DEFAULT';
-  Result[1] := 'PITCHSHIFTER_PRESET_VOICEDUO_BASS';
+  Result[0] := 'DEFAULT';
+  Result[1] := 'VOICEDUO_BASS';
 end;
 
 procedure TALSPitchShifterProperties.InitWithPreset(aIndex: integer);
@@ -1156,8 +1156,8 @@ function TALSVocalMorpherProperties.PresetList: TStringArray;
 begin
   Result := NIL;
   SetLength(Result, 2);
-  Result[0] := 'VOCALMORPHER_PRESET_DEFAULT';
-  Result[1] := 'VOCALMORPHER_PRESET_NIGHTCLUB_TOILET';
+  Result[0] := 'DEFAULT';
+  Result[1] := 'NIGHTCLUB_TOILET';
 end;
 
 procedure TALSVocalMorpherProperties.InitWithPreset(aIndex: integer);
@@ -1200,7 +1200,7 @@ function TALSReverbProperties.PresetList: TStringArray;
 begin
   Result := NIL;
   SetLength(Result, 1);
-  Result[0] := 'REVERB_PRESET_DEFAULT';
+  Result[0] := 'DEFAULT';
 end;
 
 procedure TALSReverbProperties.InitWithPreset(aIndex: integer);
