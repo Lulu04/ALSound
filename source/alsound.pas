@@ -704,12 +704,12 @@ type
 
   TALSThread = class(TThread)
   private
-    FPeriodUpdate: integer;
+    FPeriodUpdate: cardinal;
     FDoUpdate: TALSDoUpdate;
   protected
     procedure Execute; override;
   public
-    constructor Create(aCallBackDoUpdate: TALSDoUpdate; aUpdatePeriod: integer;
+    constructor Create(aCallBackDoUpdate: TALSDoUpdate; aUpdatePeriod: cardinal;
       aStart: boolean);
     property DoUpdate: TALSDoUpdate read FDoUpdate write FDoUpdate;
   end;
@@ -1745,7 +1745,7 @@ begin
   if FThreadRefCount = 0 then
   begin
     alcCaptureStart( FDevice );
-    FThread := TALSThread.Create(@DoUpdate, 10, True);
+    FThread := TALSThread.Create(@DoUpdate, 2, True);
   end;
   inc(FThreadRefCount);
 end;
@@ -4172,7 +4172,8 @@ begin
   begin
     T2 := GetTickCount64;
     DeltaT := T2 - T1;
-    if (DeltaT >= FPeriodUpdate) and (FDoUpdate <> nil) then
+    if (DeltaT >= 1) and
+       ((FPeriodUpdate = 0) or (DeltaT >= FPeriodUpdate)) then
     begin
       FDoUpdate(single(DeltaT) * 0.001);
       T1 := T2;
@@ -4183,7 +4184,7 @@ begin
 end;
 
 constructor TALSThread.Create(aCallBackDoUpdate: TALSDoUpdate;
-  aUpdatePeriod: integer; aStart: boolean);
+  aUpdatePeriod: cardinal; aStart: boolean);
 begin
   inherited Create(True);
   FPeriodUpdate := aUpdatePeriod;
