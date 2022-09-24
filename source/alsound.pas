@@ -970,6 +970,10 @@ type
   end;
 
 
+  TALSCaptureContext = class;
+  TALSOnCaptureBuffer = procedure(Sender: TALSCaptureContext;
+                                  const aBuffer: TALSCaptureFrameBuffer) of object;
+
   { TALSCaptureContext }
 
   TALSCaptureContext = class(TALSErrorHandling)
@@ -986,9 +990,11 @@ type
     FCriticalSection: TRTLCriticalSection;
     FThread: TALSThread;
     FThreadRefCount: integer;
+    FOnCaptureBuffer: TALSOnCaptureBuffer;
     procedure StartThread;
     procedure StopThread;
     procedure DoUpdate(const {%H-}aElapsedTime: single);
+    procedure DoOnCaptureBufferEvent;
   private
     FMonitoringEnabled: boolean;
     FPreAmp: single;
@@ -1056,6 +1062,10 @@ type
     // Range is 0 to 8    0=silence   1=normal    >1=amplified
     // Default value is 1.
     property PreAmp: single read FPreAmp write SetPreAmp;
+
+    // This event is fired when the capture context have a new buffer with audio
+    // data. This event is called by the context's thread throught Queue method.
+    property OnCaptureBuffer: TALSOnCaptureBuffer read FOnCaptureBuffer write FOnCaptureBuffer;
 
     property Frequency: longword read FSampleRate;
     // Sets this property to True to remove the DC bias signal while recording.
@@ -1774,6 +1784,7 @@ begin
   framesRead := 0;
   // gets available frames (not byte !)
   alcGetIntegerv(FDevice, ALC_CAPTURE_SAMPLES, 1, @framesRead);
+
   if framesRead > 0 then
   begin
     EnterCriticalSection(FCriticalSection);
@@ -1782,7 +1793,7 @@ begin
       if FCapturedFrames.FrameCapacity < longword(framesRead) then
         FCapturedFrames.FrameCapacity := framesRead;
 
-      // fill buffer with captured frames
+      // Fill buffer with captured frames
       alcCaptureSamples(FDevice, FCapturedFrames.Data, framesRead);
       FCapturedFrames.FrameCount := framesRead;
 
@@ -1796,21 +1807,21 @@ begin
       if FRemoveDCBiasWhileRecording then
         FCapturedFrames.RemoveDCBias;
 
-      // Pre-amplification
+      // Apply pre-amplification
       if FPreAmp <> 1.0 then
         FCapturedFrames.Amplify(FPreAmp);
 
-      // compute channels level/peak
+      // Compute channels level/peak
       if FMonitoringEnabled then
         FCapturedFrames.ComputeChannelsLevel;
 
       if FState = ALS_RECORDING then
       begin
-        // if needed send data to playback
+        // Send data to playback
         if FPlaybackSound <> NIL then
           FPlaybackSound.QueueBuffer( @FCapturedFrames );
 
-        // if needed, save data to audio file
+        // Save data to audio file
         if FCaptureToFileIsReady and
            not FFileWriteErrorWhileCapturing and
            not FALErrorWhileCapturing then
@@ -1822,11 +1833,20 @@ begin
           end;
           FFileWriteErrorWhileCapturing := writtenOnFile <> sf_count_t(FCapturedFrames.FrameCount);
         end;
+
       end;
     finally
       LeaveCriticalSection(FCriticalSection);
     end;
+    // Send event to main thread
+    if FOnCaptureBuffer <> NIL then
+      FThread.Queue(FThread, @DoOnCaptureBufferEvent);
   end;
+end;
+
+procedure TALSCaptureContext.DoOnCaptureBufferEvent;
+begin
+  FOnCaptureBuffer(Self, FCapturedFrames);
 end;
 
 function TALSCaptureContext.GetChannelsLevel(Index: integer): single;
