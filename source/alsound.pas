@@ -589,7 +589,7 @@ type
   TALSPlaybackCapturedSound = class(TALSSound)
   private
   const
-    NUM_BUFFERS = 8;
+    NUM_BUFFERS = 32;
   private
     FBufferIndexToQueue: integer;
     FTempBufID: array[0..NUM_BUFFERS-1] of ALuint;
@@ -1756,6 +1756,7 @@ begin
   begin
     alcCaptureStart( FDevice );
     FThread := TALSThread.Create(@DoUpdate, 2, True);
+    FThread.Priority := tpHighest;
   end;
   inc(FThreadRefCount);
 end;
