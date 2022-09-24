@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 281
+  Left = 245
   Height = 765
-  Top = 60
-  Width = 812
+  Top = 41
+  Width = 810
   Caption = 'ALSound demo - Audio capture and playback in real time'
   ClientHeight = 765
-  ClientWidth = 812
+  ClientWidth = 810
   Color = 11590399
   Font.Height = 20
   OnCreate = FormCreate
@@ -37,31 +37,15 @@ object Form1: TForm1
     Left = 20
     Height = 143
     Top = 25
-    Width = 772
+    Width = 770
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 20
     BorderSpacing.Right = 20
     ClientHeight = 143
-    ClientWidth = 772
+    ClientWidth = 770
     Color = 14807551
     ParentColor = False
     TabOrder = 0
-    object ProgressBar1: TProgressBar
-      AnchorSideLeft.Control = Label7
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = Label13
-      AnchorSideBottom.Control = ProgressBar2
-      Left = 544
-      Height = 16
-      Top = 82
-      Width = 175
-      Anchors = [akLeft, akRight, akBottom]
-      BorderSpacing.Left = 2
-      BorderSpacing.Right = 2
-      BorderSpacing.Bottom = 4
-      TabOrder = 4
-    end
     object Label1: TLabel
       AnchorSideLeft.Control = Panel1
       AnchorSideBottom.Control = ComboBox1
@@ -89,7 +73,7 @@ object Form1: TForm1
       Left = 104
       Height = 28
       Top = 6
-      Width = 662
+      Width = 660
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 5
       BorderSpacing.Top = 5
@@ -185,95 +169,8 @@ object Form1: TForm1
       TabOrder = 3
       Text = '44100 Hz'
     end
-    object ProgressBar2: TProgressBar
-      AnchorSideLeft.Control = ProgressBar1
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = Label14
-      AnchorSideBottom.Control = Label14
-      AnchorSideBottom.Side = asrBottom
-      Left = 544
-      Height = 16
-      Top = 102
-      Width = 175
-      Anchors = [akLeft, akRight, akBottom]
-      BorderSpacing.Right = 2
-      TabOrder = 5
-    end
-    object CheckBox1: TCheckBox
-      AnchorSideRight.Control = Panel1
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = Panel1
-      AnchorSideBottom.Side = asrBottom
-      Cursor = crHandPoint
-      Left = 737
-      Height = 19
-      Hint = 'Checked -> decibel'#13#10'Unchecked -> percent'
-      Top = 123
-      Width = 34
-      Anchors = [akRight, akBottom]
-      Caption = 'dB'
-      Font.Height = 15
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 6
-    end
-    object Label7: TLabel
-      AnchorSideLeft.Control = ComboBox3
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = ProgressBar1
-      AnchorSideTop.Side = asrCenter
-      Left = 523
-      Height = 13
-      Top = 84
-      Width = 19
-      BorderSpacing.Left = 20
-      Caption = 'Left'
-      Font.Height = 13
-      ParentColor = False
-      ParentFont = False
-    end
-    object Label11: TLabel
-      AnchorSideTop.Control = ProgressBar2
-      AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = Label7
-      AnchorSideRight.Side = asrBottom
-      Left = 514
-      Height = 13
-      Top = 104
-      Width = 28
-      Anchors = [akTop, akRight]
-      Caption = 'Right'
-      Font.Height = 13
-      ParentColor = False
-      ParentFont = False
-    end
-    object CheckBox2: TCheckBox
-      AnchorSideLeft.Control = ProgressBar1
-      AnchorSideLeft.Side = asrCenter
-      AnchorSideTop.Control = ComboBox1
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = ProgressBar1
-      Cursor = crHandPoint
-      Left = 568
-      Height = 19
-      Hint = 'Checked -> decibel'#13#10'Unchecked -> percent'
-      Top = 63
-      Width = 126
-      Anchors = [akLeft, akBottom]
-      Caption = 'Activate monitoring'
-      Font.Height = 15
-      OnChange = CheckBox2Change
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 7
-    end
     object Label12: TLabel
-      AnchorSideLeft.Control = ProgressBar1
       AnchorSideLeft.Side = asrCenter
-      AnchorSideTop.Control = ProgressBar1
       AnchorSideTop.Side = asrCenter
       Left = 631
       Height = 1
@@ -283,46 +180,6 @@ object Form1: TForm1
       Font.Height = 13
       ParentColor = False
       ParentFont = False
-    end
-    object Label13: TLabel
-      AnchorSideLeft.Control = ComboBox3
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = ProgressBar1
-      AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = Panel1
-      AnchorSideRight.Side = asrBottom
-      Left = 721
-      Height = 15
-      Top = 83
-      Width = 50
-      Anchors = [akTop, akRight]
-      Color = 13302222
-      Constraints.MinHeight = 15
-      Constraints.MinWidth = 50
-      Font.Height = 13
-      ParentColor = False
-      ParentFont = False
-      Transparent = False
-    end
-    object Label14: TLabel
-      AnchorSideTop.Control = ProgressBar2
-      AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = Panel1
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = CheckBox1
-      Left = 721
-      Height = 15
-      Top = 103
-      Width = 50
-      Anchors = [akRight, akBottom]
-      BorderSpacing.Bottom = 5
-      Color = 13302222
-      Constraints.MinHeight = 15
-      Constraints.MinWidth = 50
-      Font.Height = 13
-      ParentColor = False
-      ParentFont = False
-      Transparent = False
     end
   end
   object Label9: TLabel
@@ -352,13 +209,13 @@ object Form1: TForm1
     Left = 20
     Height = 446
     Top = 314
-    Width = 772
+    Width = 770
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 20
     BorderSpacing.Right = 20
     BorderSpacing.Bottom = 5
     ClientHeight = 446
-    ClientWidth = 772
+    ClientWidth = 770
     Color = 14807551
     ParentColor = False
     TabOrder = 1
@@ -444,6 +301,7 @@ object Form1: TForm1
         BorderSpacing.Left = 2
         BorderSpacing.Right = 2
         Font.Height = 14
+        Font.Style = [fsBold]
         ItemHeight = 13
         OnSelect = ComboBox6Select
         ParentFont = False
@@ -504,7 +362,7 @@ object Form1: TForm1
       AnchorSideLeft.Control = Panel2
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel2
-      Left = 275
+      Left = 274
       Height = 155
       Top = 21
       Width = 223
@@ -521,8 +379,8 @@ object Form1: TForm1
         Left = 92
         Height = 15
         Top = 1
-        Width = 38
-        Caption = 'Effect 1'
+        Width = 39
+        Caption = 'Effect 2'
         Font.Height = 16
         Font.Style = [fsItalic]
         ParentColor = False
@@ -584,6 +442,7 @@ object Form1: TForm1
         BorderSpacing.Left = 2
         BorderSpacing.Right = 2
         Font.Height = 14
+        Font.Style = [fsBold]
         ItemHeight = 13
         OnSelect = ComboBox6Select
         ParentFont = False
@@ -645,7 +504,7 @@ object Form1: TForm1
       AnchorSideTop.Control = Panel2
       AnchorSideRight.Control = Panel2
       AnchorSideRight.Side = asrBottom
-      Left = 528
+      Left = 526
       Height = 155
       Top = 21
       Width = 223
@@ -664,8 +523,8 @@ object Form1: TForm1
         Left = 92
         Height = 15
         Top = 1
-        Width = 38
-        Caption = 'Effect 1'
+        Width = 39
+        Caption = 'Effect 3'
         Font.Height = 16
         Font.Style = [fsItalic]
         ParentColor = False
@@ -727,6 +586,7 @@ object Form1: TForm1
         BorderSpacing.Left = 2
         BorderSpacing.Right = 2
         Font.Height = 14
+        Font.Style = [fsBold]
         ItemHeight = 13
         OnSelect = ComboBox6Select
         ParentFont = False
@@ -785,14 +645,14 @@ object Form1: TForm1
       end
     end
     object TrackBar1: TTrackBar
-      AnchorSideLeft.Control = Panel2
+      AnchorSideLeft.Control = Label21
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Label21
       AnchorSideTop.Side = asrBottom
-      Left = 252
+      Left = 500
       Height = 40
-      Top = 251
-      Width = 268
+      Top = 339
+      Width = 164
       Frequency = 10
       Max = 100
       OnChange = TrackBar1Change
@@ -803,13 +663,12 @@ object Form1: TForm1
     object Label21: TLabel
       AnchorSideLeft.Control = Panel2
       AnchorSideLeft.Side = asrCenter
-      AnchorSideTop.Control = Panel5
-      AnchorSideTop.Side = asrBottom
-      Left = 362
+      AnchorSideTop.Control = Label24
+      Left = 558
       Height = 15
-      Top = 236
+      Top = 324
       Width = 49
-      BorderSpacing.Top = 60
+      Anchors = [akTop]
       Caption = 'Dry/Wet'
       Font.Height = 16
       Font.Style = [fsBold]
@@ -817,12 +676,12 @@ object Form1: TForm1
       ParentFont = False
     end
     object Panel7: TPanel
-      Left = 40
+      Left = 21
       Height = 186
-      Top = 232
-      Width = 120
+      Top = 224
+      Width = 160
       ClientHeight = 186
-      ClientWidth = 120
+      ClientWidth = 160
       Color = 12572159
       ParentColor = False
       TabOrder = 4
@@ -880,11 +739,10 @@ object Form1: TForm1
     object Label24: TLabel
       AnchorSideLeft.Control = Panel2
       AnchorSideLeft.Side = asrCenter
-      AnchorSideTop.Control = TrackBar1
       AnchorSideTop.Side = asrBottom
-      Left = 371
+      Left = 370
       Height = 15
-      Top = 346
+      Top = 324
       Width = 31
       Anchors = [akLeft]
       Caption = 'TONE'
@@ -894,14 +752,14 @@ object Form1: TForm1
       ParentFont = False
     end
     object TrackBar3: TTrackBar
-      AnchorSideLeft.Control = Panel2
+      AnchorSideLeft.Control = Label24
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Label24
       AnchorSideTop.Side = asrBottom
-      Left = 283
+      Left = 303
       Height = 40
-      Top = 361
-      Width = 207
+      Top = 339
+      Width = 164
       Frequency = 10
       Max = 100
       OnChange = TrackBar3Change
@@ -912,9 +770,9 @@ object Form1: TForm1
     object Label25: TLabel
       AnchorSideLeft.Control = TrackBar3
       AnchorSideBottom.Control = TrackBar3
-      Left = 283
+      Left = 303
       Height = 13
-      Top = 348
+      Top = 326
       Width = 20
       Anchors = [akLeft, akBottom]
       Caption = 'bass'
@@ -927,9 +785,9 @@ object Form1: TForm1
       AnchorSideRight.Control = TrackBar3
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = TrackBar3
-      Left = 462
+      Left = 439
       Height = 13
-      Top = 348
+      Top = 326
       Width = 28
       Anchors = [akRight, akBottom]
       Caption = 'treble'
@@ -939,29 +797,33 @@ object Form1: TForm1
       ParentFont = False
     end
     object Shape5: TShape
-      AnchorSideLeft.Control = Shape6
+      AnchorSideLeft.Control = TrackBar3
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = TrackBar1
+      AnchorSideTop.Control = TrackBar3
       AnchorSideTop.Side = asrCenter
-      Left = 540
+      AnchorSideRight.Control = Shape6
+      Left = 467
       Height = 5
-      Top = 269
-      Width = 78
+      Top = 357
+      Width = 13
+      Anchors = [akTop, akLeft, akRight]
       Brush.Color = 6776679
       Pen.Color = 6776679
     end
     object Shape6: TShape
-      AnchorSideLeft.Control = TrackBar1
+      AnchorSideLeft.Control = Shape5
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = Shape5
       AnchorSideTop.Side = asrCenter
-      Left = 520
+      AnchorSideRight.Control = TrackBar1
+      Left = 480
       Height = 15
-      Top = 264
+      Top = 352
       Width = 20
+      Anchors = [akTop, akRight]
       Brush.Color = 6776679
       Pen.Color = 6776679
-      Shape = stTriangleLeft
+      Shape = stTriangleRight
     end
     object Shape7: TShape
       AnchorSideLeft.Control = Panel4
@@ -972,7 +834,7 @@ object Form1: TForm1
       Left = 244
       Height = 5
       Top = 96
-      Width = 11
+      Width = 10
       Anchors = [akTop, akLeft, akRight]
       Brush.Color = 6776679
       Pen.Color = 6776679
@@ -983,7 +845,7 @@ object Form1: TForm1
       AnchorSideTop.Control = Shape7
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = Panel5
-      Left = 255
+      Left = 254
       Height = 15
       Top = 91
       Width = 20
@@ -998,10 +860,10 @@ object Form1: TForm1
       AnchorSideTop.Control = Panel5
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = Shape10
-      Left = 498
+      Left = 497
       Height = 5
       Top = 96
-      Width = 10
+      Width = 9
       Anchors = [akTop, akLeft, akRight]
       Brush.Color = 6776679
       Pen.Color = 6776679
@@ -1012,7 +874,7 @@ object Form1: TForm1
       AnchorSideTop.Control = Shape9
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = Panel6
-      Left = 508
+      Left = 506
       Height = 15
       Top = 91
       Width = 20
@@ -1024,13 +886,13 @@ object Form1: TForm1
     object Shape11: TShape
       AnchorSideLeft.Control = Panel7
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = TrackBar1
+      AnchorSideTop.Control = Panel9
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = Shape12
-      Left = 160
+      Left = 181
       Height = 5
-      Top = 269
-      Width = 72
+      Top = 254
+      Width = 34
       Anchors = [akTop, akLeft, akRight]
       Brush.Color = 6776679
       Pen.Color = 6776679
@@ -1040,10 +902,10 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = Shape11
       AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = TrackBar1
-      Left = 232
+      AnchorSideRight.Control = Panel9
+      Left = 215
       Height = 15
-      Top = 264
+      Top = 249
       Width = 20
       Anchors = [akTop, akRight]
       Brush.Color = 6776679
@@ -1051,13 +913,13 @@ object Form1: TForm1
       Shape = stTriangleRight
     end
     object Shape2: TShape
-      AnchorSideLeft.Control = Shape11
+      AnchorSideLeft.Control = Panel4
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Shape3
       AnchorSideTop.Side = asrBottom
-      AnchorSideBottom.Control = Shape11
-      Left = 194
-      Height = 73
+      AnchorSideBottom.Control = Panel7
+      Left = 130
+      Height = 28
       Top = 196
       Width = 5
       Anchors = [akTop, akLeft, akBottom]
@@ -1069,7 +931,7 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel5
       AnchorSideTop.Side = asrBottom
-      Left = 189
+      Left = 125
       Height = 20
       Top = 176
       Width = 15
@@ -1078,49 +940,146 @@ object Form1: TForm1
       Shape = stTriangle
     end
     object Shape4: TShape
-      AnchorSideLeft.Control = Shape5
-      AnchorSideLeft.Side = asrBottom
+      AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel6
       AnchorSideTop.Side = asrBottom
-      AnchorSideBottom.Control = Shape5
+      AnchorSideRight.Control = Panel6
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Shape18
       AnchorSideBottom.Side = asrBottom
-      Left = 618
-      Height = 98
+      Left = 694
+      Height = 186
       Top = 176
       Width = 5
-      Anchors = [akTop, akLeft, akBottom]
+      Anchors = [akTop, akRight, akBottom]
+      BorderSpacing.Right = 50
       Brush.Color = 6776679
       Pen.Color = 6776679
     end
     object Shape13: TShape
-      AnchorSideLeft.Control = TrackBar1
+      AnchorSideLeft.Control = Shape11
       AnchorSideLeft.Side = asrCenter
-      AnchorSideTop.Control = TrackBar1
+      AnchorSideTop.Control = Shape11
       AnchorSideTop.Side = asrBottom
-      AnchorSideBottom.Control = Shape14
-      Left = 384
-      Height = 35
-      Top = 291
+      AnchorSideBottom.Control = Shape19
+      Left = 196
+      Height = 98
+      Top = 259
       Width = 5
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 50
       Brush.Color = 6776679
       Pen.Color = 6776679
     end
-    object Shape14: TShape
-      AnchorSideLeft.Control = Shape13
+    object Shape16: TShape
+      AnchorSideLeft.Control = TrackBar1
       AnchorSideLeft.Side = asrCenter
-      AnchorSideTop.Control = Shape13
+      AnchorSideTop.Control = TrackBar1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = Shape17
+      Left = 580
+      Height = 25
+      Top = 379
+      Width = 5
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+    end
+    object Shape17: TShape
+      AnchorSideLeft.Control = Shape16
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Shape16
       AnchorSideTop.Side = asrBottom
       AnchorSideBottom.Control = Label24
-      Left = 379
+      Left = 575
       Height = 20
-      Top = 326
+      Top = 404
       Width = 15
-      Anchors = [akLeft, akBottom]
       Brush.Color = 6776679
       Pen.Color = 6776679
       Shape = stTriangleDown
+    end
+    object Shape18: TShape
+      AnchorSideLeft.Control = Shape15
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Shape15
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Shape4
+      AnchorSideRight.Side = asrBottom
+      Left = 684
+      Height = 5
+      Top = 357
+      Width = 15
+      Anchors = [akTop, akLeft, akRight]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+    end
+    object Shape15: TShape
+      AnchorSideLeft.Control = TrackBar1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = TrackBar1
+      AnchorSideTop.Side = asrCenter
+      Left = 664
+      Height = 15
+      Top = 352
+      Width = 20
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+      Shape = stTriangleLeft
+    end
+    object Label27: TLabel
+      AnchorSideLeft.Control = Shape17
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Shape17
+      AnchorSideTop.Side = asrBottom
+      Left = 566
+      Height = 20
+      Top = 424
+      Width = 32
+      Caption = 'OUT'
+      Font.Height = 20
+      Font.Style = [fsBold, fsItalic]
+      ParentColor = False
+      ParentFont = False
+    end
+    object Shape14: TShape
+      AnchorSideLeft.Control = Shape5
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = TrackBar3
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = TrackBar3
+      Left = 283
+      Height = 15
+      Top = 352
+      Width = 20
+      Anchors = [akTop, akRight]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+      Shape = stTriangleRight
+    end
+    object Shape19: TShape
+      AnchorSideLeft.Control = Shape13
+      AnchorSideTop.Control = TrackBar3
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Shape14
+      Left = 196
+      Height = 5
+      Top = 357
+      Width = 87
+      Anchors = [akTop, akLeft, akRight]
+      Brush.Color = 6776679
+      Pen.Color = 6776679
+    end
+    object Panel9: TPanel
+      AnchorSideLeft.Control = Panel2
+      AnchorSideLeft.Side = asrCenter
+      AnchorSideTop.Control = Panel5
+      AnchorSideTop.Side = asrBottom
+      Left = 235
+      Height = 60
+      Top = 226
+      Width = 300
+      BorderSpacing.Top = 50
+      TabOrder = 6
     end
   end
   object Label10: TLabel
@@ -1149,13 +1108,13 @@ object Form1: TForm1
     Left = 20
     Height = 86
     Top = 193
-    Width = 772
+    Width = 770
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 20
     BorderSpacing.Right = 20
     BorderSpacing.Bottom = 15
     ClientHeight = 86
-    ClientWidth = 772
+    ClientWidth = 770
     Color = 14807551
     ParentColor = False
     TabOrder = 2
@@ -1165,7 +1124,7 @@ object Form1: TForm1
       AnchorSideTop.Control = Panel3
       AnchorSideRight.Control = Shape1
       Cursor = crHandPoint
-      Left = 271
+      Left = 270
       Height = 35
       Top = 6
       Width = 95
@@ -1182,7 +1141,7 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideBottom.Control = Panel3
       AnchorSideBottom.Side = asrBottom
-      Left = 356
+      Left = 355
       Height = 20
       Top = 65
       Width = 61
@@ -1198,7 +1157,7 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = Panel3
       Cursor = crHandPoint
-      Left = 407
+      Left = 406
       Height = 35
       Top = 6
       Width = 95
@@ -1215,7 +1174,7 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel3
       AnchorSideBottom.Control = Label3
-      Left = 386
+      Left = 385
       Height = 61
       Top = 4
       Width = 1

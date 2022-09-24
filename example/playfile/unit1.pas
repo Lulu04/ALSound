@@ -7,7 +7,8 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Buttons, StdCtrls,
   ExtCtrls, ComCtrls,
-  ALSound;
+  ALSound,
+  frame_channel_level;
 
 type
 
@@ -28,8 +29,7 @@ type
     Label7: TLabel;
     OD1: TOpenDialog;
     Panel1: TPanel;
-    ProgressBar1: TProgressBar;
-    ProgressBar2: TProgressBar;
+    Panel2: TPanel;
     SpeedButton1: TSpeedButton;
     TrackBar1: TTrackBar;
     TrackBar2: TTrackBar;
@@ -46,6 +46,8 @@ type
     FPlaybackContext: TALSPlaybackContext;
     // our sound object
     FSound: TALSSound;
+
+    FrameChannelsLevel1: TFrameChannelsLevel;
   private
     procedure ProcessOnIdle(Sender: TObject; var Done: Boolean);
   public
@@ -71,6 +73,10 @@ begin
 
   // Fill the file open dialog filter property with supported audio file types.
   OD1.Filter := ALSManager.DialogFileFilters(True);
+
+  FrameChannelsLevel1 := TFrameChannelsLevel.Create(Self);
+  FrameChannelsLevel1.Parent := Panel2;
+  FrameChannelsLevel1.Align := alClient;
 
   Application.OnIdle := @ProcessOnIdle;
 end;
@@ -113,8 +119,8 @@ procedure TForm1.ProcessOnIdle(Sender: TObject; var Done: Boolean);
 begin
   if FSound <> NIL then
   begin
-    ProgressBar1.Position := Round(FSound.ChannelsLevel[0]*100);
-    ProgressBar2.Position := Round(FSound.ChannelsLevel[1]*100);
+    FrameChannelsLevel1.UpdateProgressBar(FSound.ChannelsLevel[0],
+                                          FSound.ChannelsLevel[1]);
     Done := False;
   end;
 end;

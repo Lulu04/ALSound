@@ -1,0 +1,146 @@
+object FrameChannelsLevel: TFrameChannelsLevel
+  Left = 0
+  Height = 63
+  Top = 0
+  Width = 316
+  ClientHeight = 63
+  ClientWidth = 316
+  TabOrder = 0
+  DesignLeft = 561
+  DesignTop = 218
+  object Panel8: TPanel
+    Left = 0
+    Height = 63
+    Top = 0
+    Width = 316
+    Align = alClient
+    ClientHeight = 63
+    ClientWidth = 316
+    Color = 7393672
+    ParentColor = False
+    TabOrder = 0
+    object Label7: TLabel
+      AnchorSideLeft.Control = Panel8
+      AnchorSideTop.Control = ProgressBar1
+      AnchorSideTop.Side = asrCenter
+      Left = 1
+      Height = 13
+      Top = 20
+      Width = 23
+      Caption = 'LEFT'
+      Font.Height = 13
+      ParentColor = False
+      ParentFont = False
+    end
+    object ProgressBar1: TProgressBar
+      AnchorSideLeft.Control = ProgressBar2
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Label13
+      Left = 33
+      Height = 16
+      Top = 18
+      Width = 230
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Right = 2
+      TabOrder = 0
+    end
+    object Label13: TLabel
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = ProgressBar1
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Panel8
+      AnchorSideRight.Side = asrBottom
+      Left = 265
+      Height = 15
+      Top = 19
+      Width = 50
+      Anchors = [akTop, akRight]
+      Color = 13302222
+      Constraints.MaxHeight = 15
+      Constraints.MaxWidth = 50
+      Constraints.MinHeight = 15
+      Constraints.MinWidth = 50
+      Font.Height = 13
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+    end
+    object Label11: TLabel
+      AnchorSideLeft.Control = Panel8
+      AnchorSideTop.Control = ProgressBar2
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Label7
+      AnchorSideRight.Side = asrBottom
+      Left = 1
+      Height = 13
+      Top = 40
+      Width = 32
+      Caption = 'RIGHT'
+      Font.Height = 13
+      ParentColor = False
+      ParentFont = False
+    end
+    object ProgressBar2: TProgressBar
+      AnchorSideLeft.Control = Label11
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = ProgressBar1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Label14
+      AnchorSideBottom.Side = asrBottom
+      Left = 33
+      Height = 16
+      Top = 38
+      Width = 230
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
+      BorderSpacing.Right = 2
+      TabOrder = 1
+    end
+    object Label14: TLabel
+      AnchorSideTop.Control = ProgressBar2
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Panel8
+      AnchorSideRight.Side = asrBottom
+      Left = 265
+      Height = 15
+      Top = 39
+      Width = 50
+      Anchors = [akTop, akRight]
+      Color = 13302222
+      Constraints.MaxHeight = 15
+      Constraints.MaxWidth = 50
+      Constraints.MinHeight = 15
+      Constraints.MinWidth = 50
+      Font.Height = 13
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+    end
+    object CheckBox1: TCheckBox
+      AnchorSideTop.Control = Panel8
+      AnchorSideRight.Control = Panel8
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 281
+      Height = 19
+      Hint = 'Checked -> decibel'#13#10'Unchecked -> percent'
+      Top = 1
+      Width = 34
+      Anchors = [akTop, akRight]
+      Caption = 'dB'
+      Font.Height = 15
+      OnChange = CheckBox1Change
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+    end
+  end
+  object Timer1: TTimer
+    Interval = 250
+    OnTimer = Timer1Timer
+    Left = 288
+    Top = 35
+  end
+end

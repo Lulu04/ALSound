@@ -7,17 +7,23 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
   ExtCtrls, ComCtrls,
-  ALSound;
+  ALSound,
+  frame_channel_level;
 
 type
+
+  TChannelLevel=record
+    Left,
+    Right: single;
+  end;
+  PChannelLevel=^TChannelLevel;
+
 
   { TForm1 }
 
   TForm1 = class(TForm)
     BStart: TSpeedButton;
     BStop: TSpeedButton;
-    CheckBox1: TCheckBox;
-    CheckBox2: TCheckBox;
     CheckBox3: TCheckBox;
     CheckBox4: TCheckBox;
     CheckBox5: TCheckBox;
@@ -32,10 +38,7 @@ type
     ComboBox8: TComboBox;
     ComboBox9: TComboBox;
     ImageList1: TImageList;
-    Label11: TLabel;
     Label12: TLabel;
-    Label13: TLabel;
-    Label14: TLabel;
     Label15: TLabel;
     Label16: TLabel;
     Label17: TLabel;
@@ -48,10 +51,10 @@ type
     Label24: TLabel;
     Label25: TLabel;
     Label26: TLabel;
+    Label27: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
-    Label7: TLabel;
     Panel3: TPanel;
     Label3: TLabel;
     Panel2: TPanel;
@@ -65,14 +68,18 @@ type
     Panel5: TPanel;
     Panel6: TPanel;
     Panel7: TPanel;
-    ProgressBar1: TProgressBar;
-    ProgressBar2: TProgressBar;
+    Panel9: TPanel;
     Shape1: TShape;
     Shape10: TShape;
     Shape11: TShape;
     Shape12: TShape;
     Shape13: TShape;
     Shape14: TShape;
+    Shape15: TShape;
+    Shape16: TShape;
+    Shape17: TShape;
+    Shape18: TShape;
+    Shape19: TShape;
     Shape2: TShape;
     Shape3: TShape;
     Shape4: TShape;
@@ -85,7 +92,6 @@ type
     TrackBar1: TTrackBar;
     TrackBar2: TTrackBar;
     TrackBar3: TTrackBar;
-    procedure CheckBox2Change(Sender: TObject);
     procedure CheckBox3Change(Sender: TObject);
     procedure ComboBox1Select(Sender: TObject);
     procedure ComboBox5Select(Sender: TObject);
@@ -123,13 +129,16 @@ type
     FVocalMorpherProp: TALSVocalMorpherProperties;
     FEAXReverbProp: TEAXReverbProperties;
 
+    FrameChannelsLevel1: TFrameChannelsLevel;
+
     procedure FillPresetList(aCB: TComboBox; aEffectIndex: integer);
     procedure ReconstructEffectChain;
     procedure CreateEffect(Index: integer);
 
     function CaptureContextIsReady: boolean;
     procedure UpdateWidgets;
-    procedure ProcessApplicationOnIdle(Sender: TObject; var Done: Boolean);
+    procedure ProcessOnCaptureBuffer(Sender: TALSCaptureContext;
+                                     const aBuf: TALSCaptureFrameBuffer);
   public
   end;
 
@@ -152,11 +161,16 @@ begin
   // Creates a playback context with float buffer to listen the captured samples
   attribs.InitDefault;
   attribs.ContextUseFloat := True;
+  attribs.EnableOutputLimiter := False;
   FPlaybackContext := ALSManager.CreatePlaybackContext(-1, attribs);
 
   FEffects[0] := FPlaybackContext.CreateEffect( AL_EFFECT_NONE, FAutowahProp );
   FEffects[1] := FPlaybackContext.CreateEffect( AL_EFFECT_NONE, FAutowahProp );
   FEffects[2] := FPlaybackContext.CreateEffect( AL_EFFECT_NONE, FAutowahProp );
+
+  FrameChannelsLevel1 := TFrameChannelsLevel.Create(Self);
+  FrameChannelsLevel1.Parent := Panel9;
+  FrameChannelsLevel1.Align := alClient;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -182,8 +196,6 @@ var
   A: TStringArray;
   i: integer;
 begin
-  Application.OnIdle := @ProcessApplicationOnIdle;
-
   // Check if ALSManager encounter an error while loading OpenAL-Soft and LibSndFile
   if ALSManager.Error then
     ShowMessage(ALSManager.StrError);
@@ -216,6 +228,9 @@ begin
 
   // Asks to our capture context to play the captured audio in real time.
   FSound := FCaptureContext.PrepareToPlayback( FPlaybackContext );
+
+  // In this demo we choose not to apply tone on auxiliary send slots.
+  FSound.ApplyToneOnAuxSend := False;
 
   // Show a message in case of error
   if FSound.Error then
@@ -262,7 +277,7 @@ begin
   case Label3.Tag of
     0: begin
       Label3.Tag := 1;
-      Label3.Caption := 'Recording';
+      Label3.Caption := 'Playback';
     end;
     1: begin
       Label3.Tag := 0;
@@ -461,51 +476,26 @@ begin
 
 end;
 
-procedure TForm1.ProcessApplicationOnIdle(Sender: TObject; var Done: Boolean);
+procedure TForm1.ProcessOnCaptureBuffer(Sender: TALSCaptureContext;
+  const aBuf: TALSCaptureFrameBuffer);
 begin
-  // Update the progress bars with the channel's level
-  if FCaptureContext<>NIL then
-  begin
-    if not CheckBox1.Checked then
-    begin
-      // In percent.
-      ProgressBar1.Min:=0; ProgressBar1.Max:=100;
-      ProgressBar2.Min:=0; ProgressBar2.Max:=100;
-      ProgressBar1.Position := Round(FCaptureContext.ChannelsLevel[0]*100);
-      ProgressBar2.Position := Round(FCaptureContext.ChannelsLevel[1]*100);
-      Label13.Caption := FormatFloat('0.0', FCaptureContext.ChannelsLevel[0]*100)+'%';
-      Label14.Caption := FormatFloat('0.0', FCaptureContext.ChannelsLevel[1]*100)+'%';
-    end
-    else
-    begin
-      // In decibel.
-      ProgressBar1.Min:=ALS_DECIBEL_MIN_VALUE; ProgressBar1.Max:=0;
-      ProgressBar2.Min:=ALS_DECIBEL_MIN_VALUE; ProgressBar2.Max:=0;
-      ProgressBar1.Position := Round(FCaptureContext.ChannelsLeveldB[0]);
-      ProgressBar2.Position := Round(FCaptureContext.ChannelsLeveldB[1]);
-      Label13.Caption := FormatFloat('0.0', FCaptureContext.ChannelsLeveldB[0])+'dB';
-      Label14.Caption := FormatFloat('0.0', FCaptureContext.ChannelsLeveldB[1])+'dB';
-    end;
-
-      Done := not FCaptureContext.MonitoringEnabled;
-  end;
+  FrameChannelsLevel1.UpdateProgressBar( aBuf );
 end;
 
 procedure TForm1.ComboBox1Select(Sender: TObject);
 var
   captureFormat: TALSCaptureFormat;
-  captureFrequency: longword;
+  captureSampleRate: longword;
 begin
-  // Checks if user have choosen all parameters for the selection of capture device
-  if (ComboBox1.ItemIndex = -1) or (ComboBox2.ItemIndex = -1) or
-    (ComboBox3.ItemIndex = -1) or (ComboBox4.ItemIndex = -1) then
+  // User have selected a capture device.
+  if ComboBox1.ItemIndex = -1 then
     exit;
 
-  // Destroy the previous capture context
+  // Destroy the previous capture context.
   if FCaptureContext <> nil then
     FCaptureContext.Free;
 
-  // Retrieve format from combobox
+  // Retrieve capture format from combobox.
   case ComboBox3.ItemIndex of
     0: case ComboBox2.ItemIndex of
         0: captureFormat := ALS_CAPTUREFORMAT_MONO16;
@@ -517,20 +507,25 @@ begin
       end;
   end;
 
-  // Retrieve the frequency from combobox
+  // Retrieve the sample rate from combobox.
   case ComboBox4.ItemIndex of
-    0: captureFrequency := 44100;
-    1: captureFrequency := 48000;
-    2: captureFrequency := 96000;
+    0: captureSampleRate := 44100;
+    1: captureSampleRate := 48000;
+    2: captureSampleRate := 96000;
   end;
 
-  // creates the new capture context
+  // Creates the new capture context.
   FCaptureContext := ALSManager.CreateCaptureContext(ComboBox1.ItemIndex,
-    captureFrequency, captureFormat, 0.1);
+    captureSampleRate, captureFormat, 0.1);
 
- FCaptureContext.MonitoringEnabled := CheckBox2.Checked;
+  // Ask the capture context to compute channel's level.
+  FCaptureContext.MonitoringEnabled := True;
 
-  // Check error and show the error message
+  // Ask the capture context to call a callback each time it have a new buffer
+  // filled with captured samples.
+  FCaptureContext.OnCaptureBuffer := @ProcessOnCaptureBuffer;
+
+  // Check error and show the error message.
   if FCaptureContext.Error then
     ShowMessage(FCaptureContext.StrError);
 
@@ -541,20 +536,21 @@ procedure TForm1.ComboBox5Select(Sender: TObject);
 var
   cb, presetCB: TComboBox;
 begin
+  // User have selected an effect.
   cb := Sender as TComboBox;
 
   // Fill the presets list according to the selected effect.
   FFlag_LockPresetSelectionChange := True;
 
-  // Retrieve the corresponding preset's combobox
+  // Retrieve the corresponding preset's combobox.
   case cb.Tag of
     0: presetCB := ComboBox6;
     1: presetCB := ComboBox8;
     2: presetCB := ComboBox10;
   end;
-  // And fill it with the effect's preset
+  // And fill it with the effect's preset.
   FillPresetList( presetCB, cb.ItemIndex );
-   // Select the previous preset used by the user for this effect
+   // Select the previous preset used by the user for this effect.
   presetCB.ItemIndex := FPresetIndex[cb.Tag];
 
   FFlag_LockPresetSelectionChange := False;
@@ -568,6 +564,7 @@ procedure TForm1.ComboBox6Select(Sender: TObject);
 var
   cb: TComboBox;
 begin
+  // User have selected a preset.
   if FFlag_LockPresetSelectionChange then
     exit;
 
@@ -579,17 +576,13 @@ begin
   ReconstructEffectChain;
 end;
 
-procedure TForm1.CheckBox2Change(Sender: TObject);
-begin
-  if FCaptureContext <> NIL then
-    FCaptureContext.MonitoringEnabled := CheckBox2.Checked;
-end;
-
 procedure TForm1.CheckBox3Change(Sender: TObject);
 var
   cb: TCheckBox;
 begin
   cb := Sender as TCheckBox;
+
+  // Mute/Unmute the corresponding effect.
   FEffects[cb.Tag].Mute := cb.Checked;
 end;
 

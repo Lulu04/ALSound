@@ -1,24 +1,24 @@
 object Form1: TForm1
   Left = 437
-  Height = 273
+  Height = 280
   Top = 156
-  Width = 342
+  Width = 442
   Caption = 'ALSound demo - playing an audio file'
-  ClientHeight = 273
-  ClientWidth = 342
+  ClientHeight = 280
+  ClientWidth = 442
   Color = 14807551
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '2.2.3.0'
+  LCLVersion = '2.2.2.0'
   object Panel1: TPanel
     Left = 0
-    Height = 273
+    Height = 280
     Top = 0
-    Width = 342
+    Width = 442
     Align = alClient
-    ClientHeight = 273
-    ClientWidth = 342
+    ClientHeight = 280
+    ClientWidth = 442
     Color = 13297407
     ParentColor = False
     TabOrder = 0
@@ -29,7 +29,7 @@ object Form1: TForm1
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
       Cursor = crHandPoint
-      Left = 259
+      Left = 359
       Height = 26
       Top = 1
       Width = 77
@@ -85,7 +85,7 @@ object Form1: TForm1
       Left = 11
       Height = 15
       Top = 7
-      Width = 248
+      Width = 348
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       BorderSpacing.Left = 10
@@ -101,7 +101,7 @@ object Form1: TForm1
       Left = 11
       Height = 15
       Top = 22
-      Width = 248
+      Width = 348
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       BorderSpacing.Left = 10
@@ -116,7 +116,7 @@ object Form1: TForm1
       Left = 11
       Height = 15
       Top = 37
-      Width = 248
+      Width = 348
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       BorderSpacing.Left = 10
@@ -128,7 +128,7 @@ object Form1: TForm1
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = BPause
       Cursor = crHandPoint
-      Left = 87
+      Left = 137
       Height = 36
       Top = 62
       Width = 36
@@ -146,7 +146,7 @@ object Form1: TForm1
       AnchorSideTop.Control = Label17
       AnchorSideTop.Side = asrBottom
       Cursor = crHandPoint
-      Left = 153
+      Left = 203
       Height = 36
       Top = 62
       Width = 36
@@ -163,7 +163,7 @@ object Form1: TForm1
       AnchorSideTop.Control = BPause
       AnchorSideTop.Side = asrCenter
       Cursor = crHandPoint
-      Left = 219
+      Left = 269
       Height = 36
       Top = 62
       Width = 36
@@ -183,8 +183,8 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = Panel1
       AnchorSideBottom.Side = asrBottom
-      Left = 48
-      Height = 149
+      Left = 24
+      Height = 156
       Top = 123
       Width = 28
       Max = 100
@@ -202,7 +202,7 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = BPlay
       AnchorSideTop.Side = asrBottom
-      Left = 38
+      Left = 14
       Height = 15
       Top = 108
       Width = 49
@@ -215,14 +215,14 @@ object Form1: TForm1
     object TrackBar2: TTrackBar
       AnchorSideLeft.Control = TrackBar1
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = TrackBar1
-      AnchorSideTop.Side = asrCenter
+      AnchorSideTop.Control = Label3
+      AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
-      Left = 106
+      Left = 82
       Height = 32
-      Top = 181
-      Width = 205
+      Top = 186
+      Width = 329
       Frequency = 10
       Max = 100
       OnChange = TrackBar2Change
@@ -237,9 +237,9 @@ object Form1: TForm1
       AnchorSideLeft.Control = TrackBar2
       AnchorSideTop.Side = asrBottom
       AnchorSideBottom.Control = TrackBar2
-      Left = 106
+      Left = 82
       Height = 15
-      Top = 166
+      Top = 171
       Width = 23
       Anchors = [akLeft, akBottom]
       Caption = 'bass'
@@ -250,9 +250,9 @@ object Form1: TForm1
       AnchorSideRight.Control = TrackBar2
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = TrackBar2
-      Left = 281
+      Left = 368
       Height = 15
-      Top = 166
+      Top = 171
       Width = 30
       Anchors = [akBottom]
       Caption = 'treble'
@@ -261,12 +261,13 @@ object Form1: TForm1
     object Label3: TLabel
       AnchorSideLeft.Control = TrackBar2
       AnchorSideLeft.Side = asrCenter
-      AnchorSideBottom.Control = TrackBar2
-      Left = 193
+      AnchorSideTop.Control = Panel2
+      AnchorSideTop.Side = asrBottom
+      Left = 231
       Height = 15
-      Top = 166
+      Top = 171
       Width = 31
-      Anchors = [akLeft, akBottom]
+      BorderSpacing.Top = 5
       Caption = 'TONE'
       Font.Style = [fsBold]
       ParentColor = False
@@ -277,48 +278,31 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = TrackBar2
       AnchorSideTop.Side = asrBottom
-      Left = 178
+      Left = 216
       Height = 21
-      Top = 213
+      Top = 218
       Width = 60
       Caption = 'CENTER'
       OnClick = SpeedButton1Click
     end
-    object ProgressBar1: TProgressBar
-      AnchorSideTop.Control = ProgressBar2
-      AnchorSideRight.Control = ProgressBar2
-      AnchorSideBottom.Control = ProgressBar2
-      AnchorSideBottom.Side = asrBottom
-      Left = 288
-      Height = 119
-      Top = 37
-      Width = 10
-      Anchors = [akTop, akRight, akBottom]
-      BorderSpacing.Right = 3
-      Orientation = pbVertical
-      TabOrder = 3
-    end
-    object ProgressBar2: TProgressBar
-      AnchorSideTop.Control = BLoad
+    object Panel2: TPanel
+      AnchorSideLeft.Control = TrackBar2
+      AnchorSideTop.Control = BPause
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = TrackBar2
       AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = Label2
-      Left = 301
-      Height = 119
-      Top = 37
-      Width = 10
-      Anchors = [akTop, akRight, akBottom]
-      BorderSpacing.Top = 10
-      BorderSpacing.Bottom = 10
-      Orientation = pbVertical
-      TabOrder = 4
+      Left = 82
+      Height = 63
+      Top = 103
+      Width = 329
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 5
+      TabOrder = 3
     end
   end
   object OD1: TOpenDialog
     Title = 'Open an audio file'
-    Filter = 'Audio files|*.wav;*.ogg;*.mp3;*.aiff;*.aif;*.aifc;*.au;*.flac;*.opus|All files|*.*'
-    Left = 248
+    Left = 352
     Top = 224
   end
   object ImageList1: TImageList
