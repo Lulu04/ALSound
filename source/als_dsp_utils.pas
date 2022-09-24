@@ -224,12 +224,9 @@ begin
   tar := aTarget;
   for i:=1 to aChannelCount do
   begin
-    tar^ := Sqrt(tar^ / 32767);
+    tar^ := tar^ / 32767;
     inc(tar);
   end;
-  // dB
-  //for i:=0 to aChannelCount-1 do
-  //  Result[i] := 20 * Log10(Sqrt(aTarget[i]));
 end;
 
 procedure dsp_ComputeLinearLevel_Float(p: PSingle; aFrameCount: longword;
@@ -267,7 +264,6 @@ begin
   begin
     if tar^ > 1.0 then
       tar^ := 1.0;
-    tar^ := Sqrt(tar^);
     inc(tar);
   end;
 
