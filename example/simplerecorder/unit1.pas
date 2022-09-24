@@ -7,7 +7,8 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
   ExtCtrls, EditBtn, ComCtrls,
-  ALSound;
+  ALSound,
+  frame_channel_level;
 
 type
 
@@ -16,8 +17,6 @@ type
   TForm1 = class(TForm)
     BStart: TSpeedButton;
     BStop: TSpeedButton;
-    CheckBox1: TCheckBox;
-    CheckBox2: TCheckBox;
     ComboBox1: TComboBox;
     ComboBox2: TComboBox;
     ComboBox3: TComboBox;
@@ -25,11 +24,7 @@ type
     DirectoryEdit1: TDirectoryEdit;
     Edit1: TEdit;
     ImageList1: TImageList;
-    Label11: TLabel;
     Label12: TLabel;
-    Label13: TLabel;
-    Label14: TLabel;
-    Label7: TLabel;
     Panel3: TPanel;
     Label3: TLabel;
     Panel2: TPanel;
@@ -43,11 +38,9 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label8: TLabel;
-    ProgressBar1: TProgressBar;
-    ProgressBar2: TProgressBar;
+    Panel4: TPanel;
     Shape1: TShape;
     Timer1: TTimer;
-    procedure CheckBox2Change(Sender: TObject);
     procedure ComboBox1Select(Sender: TObject);
     procedure Edit1Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -58,6 +51,8 @@ type
     procedure BStopClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
+    FrameChannelsLevel1: TFrameChannelsLevel;
+
     FCaptureContext: TALSCaptureContext;
     FFileFormat: longint;
     FFileExt: string;
@@ -65,7 +60,8 @@ type
     function FileParametersAreReady: boolean;
     function UserFile: string;
     procedure UpdateWidgets;
-    procedure ProcessApplicationOnIdle(Sender: TObject; var Done: Boolean);
+    procedure ProcessOnCaptureBuffer(Sender: TALSCaptureContext;
+                                     const aBuffer: TALSCaptureFrameBuffer);
   public
 
   end;
@@ -85,6 +81,11 @@ procedure TForm1.FormCreate(Sender: TObject);
 begin
   // load OpenAL-Soft and LibSndFile libraries
   ALSManager.LoadLibraries;
+
+  // Creates the frame to show the channel's level.
+  FrameChannelsLevel1 := TFrameChannelsLevel.Create(Self);
+  FrameChannelsLevel1.Parent := Panel4;
+  FrameChannelsLevel1.Align := alClient;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -100,8 +101,6 @@ var
   i: integer;
   F: ArrayOfALSSimplifiedAudioFileFormat;
 begin
-  Application.OnIdle := @ProcessApplicationOnIdle;
-
   // Check if ALSManager encounter an error while loading OpenAL-Soft and LibSndFile
   if ALSManager.Error then
     ShowMessage(ALSManager.StrError);
@@ -265,34 +264,10 @@ begin
   Panel3.Enabled := CaptureContextIsReady and FileParametersAreReady;
 end;
 
-procedure TForm1.ProcessApplicationOnIdle(Sender: TObject; var Done: Boolean);
+procedure TForm1.ProcessOnCaptureBuffer(Sender: TALSCaptureContext;
+  const aBuffer: TALSCaptureFrameBuffer);
 begin
-  // Update the progress bars with the channel's level
-  if FCaptureContext<>NIL then
-  begin
-    if not CheckBox1.Checked then
-    begin
-      // In percent.
-      ProgressBar1.Min:=0; ProgressBar1.Max:=100;
-      ProgressBar2.Min:=0; ProgressBar2.Max:=100;
-      ProgressBar1.Position := Round(FCaptureContext.ChannelsLevel[0]*100);
-      ProgressBar2.Position := Round(FCaptureContext.ChannelsLevel[1]*100);
-      Label13.Caption := FormatFloat('0.0', FCaptureContext.ChannelsLevel[0]*100)+'%';
-      Label14.Caption := FormatFloat('0.0', FCaptureContext.ChannelsLevel[1]*100)+'%';
-    end
-    else
-    begin
-      // In decibel.
-      ProgressBar1.Min:=ALS_DECIBEL_MIN_VALUE; ProgressBar1.Max:=0;
-      ProgressBar2.Min:=ALS_DECIBEL_MIN_VALUE; ProgressBar2.Max:=0;
-      ProgressBar1.Position := Round(FCaptureContext.ChannelsLeveldB[0]);
-      ProgressBar2.Position := Round(FCaptureContext.ChannelsLeveldB[1]);
-      Label13.Caption := FormatFloat('0.0', FCaptureContext.ChannelsLeveldB[0])+'dB';
-      Label14.Caption := FormatFloat('0.0', FCaptureContext.ChannelsLeveldB[1])+'dB';
-    end;
-
-    Done := not FCaptureContext.MonitoringEnabled;
-  end;
+  FrameChannelsLevel1.UpdateProgressBar( aBuffer );
 end;
 
 procedure TForm1.ComboBox1Select(Sender: TObject);
@@ -332,19 +307,17 @@ begin
   FCaptureContext := ALSManager.CreateCaptureContext(ComboBox1.ItemIndex,
     captureFrequency, captureFormat, 0.1);
 
- FCaptureContext.MonitoringEnabled := CheckBox2.Checked;
+  // Enable the channel's level monitoring.
+  FCaptureContext.MonitoringEnabled := True;
+
+  // Set the callback when a new buffer is filled with captured samples.
+  FCaptureContext.OnCaptureBuffer := @ProcessOnCaptureBuffer;
 
   // Check error and show the error message
   if FCaptureContext.Error then
     ShowMessage(FCaptureContext.StrError);
 
   UpdateWidgets;
-end;
-
-procedure TForm1.CheckBox2Change(Sender: TObject);
-begin
-  if FCaptureContext <> NIL then
-    FCaptureContext.MonitoringEnabled := CheckBox2.Checked;
 end;
 
 procedure TForm1.Edit1Change(Sender: TObject);

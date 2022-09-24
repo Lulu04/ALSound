@@ -56,7 +56,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="SimpleRecorder.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -76,6 +76,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="frame_channel_level.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrameChannelsLevel"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

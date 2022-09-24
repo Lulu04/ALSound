@@ -12,7 +12,7 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poDesktopCenter
-  LCLVersion = '2.2.3.0'
+  LCLVersion = '2.2.2.0'
   object Label8: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -46,22 +46,6 @@ object Form1: TForm1
     Color = 14807551
     ParentColor = False
     TabOrder = 0
-    object ProgressBar1: TProgressBar
-      AnchorSideLeft.Control = Label7
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = Label13
-      AnchorSideBottom.Control = ProgressBar2
-      Left = 544
-      Height = 16
-      Top = 82
-      Width = 175
-      Anchors = [akLeft, akRight, akBottom]
-      BorderSpacing.Left = 2
-      BorderSpacing.Right = 2
-      BorderSpacing.Bottom = 4
-      TabOrder = 4
-    end
     object Label1: TLabel
       AnchorSideLeft.Control = Panel1
       AnchorSideBottom.Control = ComboBox1
@@ -102,11 +86,11 @@ object Form1: TForm1
       TabOrder = 0
     end
     object Label2: TLabel
-      AnchorSideLeft.Control = ComboBox4
+      AnchorSideLeft.Control = Panel1
       AnchorSideTop.Side = asrBottom
       AnchorSideBottom.Control = Panel1
       AnchorSideBottom.Side = asrBottom
-      Left = 104
+      Left = 1
       Height = 20
       Top = 122
       Width = 43
@@ -131,7 +115,7 @@ object Form1: TForm1
       BorderSpacing.Top = 10
       Font.Height = 20
       ItemHeight = 20
-      ItemIndex = 0
+      ItemIndex = 1
       Items.Strings = (
         '16 bits'
         '32 bits FLOAT'
@@ -140,7 +124,7 @@ object Form1: TForm1
       ParentFont = False
       Style = csDropDownList
       TabOrder = 1
-      Text = '16 bits'
+      Text = '32 bits FLOAT'
     end
     object ComboBox3: TComboBox
       AnchorSideLeft.Control = ComboBox2
@@ -154,7 +138,7 @@ object Form1: TForm1
       BorderSpacing.Left = 20
       Font.Height = 20
       ItemHeight = 20
-      ItemIndex = 0
+      ItemIndex = 1
       Items.Strings = (
         'MONO'
         'STEREO'
@@ -163,7 +147,7 @@ object Form1: TForm1
       ParentFont = False
       Style = csDropDownList
       TabOrder = 2
-      Text = 'MONO'
+      Text = 'STEREO'
     end
     object ComboBox4: TComboBox
       AnchorSideLeft.Control = ComboBox1
@@ -185,95 +169,8 @@ object Form1: TForm1
       TabOrder = 3
       Text = '44100 Hz'
     end
-    object ProgressBar2: TProgressBar
-      AnchorSideLeft.Control = ProgressBar1
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = Label14
-      AnchorSideBottom.Control = Label14
-      AnchorSideBottom.Side = asrBottom
-      Left = 544
-      Height = 16
-      Top = 102
-      Width = 175
-      Anchors = [akLeft, akRight, akBottom]
-      BorderSpacing.Right = 2
-      TabOrder = 5
-    end
-    object CheckBox1: TCheckBox
-      AnchorSideRight.Control = Panel1
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = Panel1
-      AnchorSideBottom.Side = asrBottom
-      Cursor = crHandPoint
-      Left = 737
-      Height = 19
-      Hint = 'Checked -> decibel'#13#10'Unchecked -> percent'
-      Top = 123
-      Width = 34
-      Anchors = [akRight, akBottom]
-      Caption = 'dB'
-      Font.Height = 15
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 6
-    end
-    object Label7: TLabel
-      AnchorSideLeft.Control = ComboBox3
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = ProgressBar1
-      AnchorSideTop.Side = asrCenter
-      Left = 523
-      Height = 13
-      Top = 84
-      Width = 19
-      BorderSpacing.Left = 20
-      Caption = 'Left'
-      Font.Height = 13
-      ParentColor = False
-      ParentFont = False
-    end
-    object Label11: TLabel
-      AnchorSideTop.Control = ProgressBar2
-      AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = Label7
-      AnchorSideRight.Side = asrBottom
-      Left = 514
-      Height = 13
-      Top = 104
-      Width = 28
-      Anchors = [akTop, akRight]
-      Caption = 'Right'
-      Font.Height = 13
-      ParentColor = False
-      ParentFont = False
-    end
-    object CheckBox2: TCheckBox
-      AnchorSideLeft.Control = ProgressBar1
-      AnchorSideLeft.Side = asrCenter
-      AnchorSideTop.Control = ComboBox1
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = ProgressBar1
-      Cursor = crHandPoint
-      Left = 568
-      Height = 19
-      Hint = 'Checked -> decibel'#13#10'Unchecked -> percent'
-      Top = 63
-      Width = 126
-      Anchors = [akLeft, akBottom]
-      Caption = 'Activate monitoring'
-      Font.Height = 15
-      OnChange = CheckBox2Change
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 7
-    end
     object Label12: TLabel
-      AnchorSideLeft.Control = ProgressBar1
       AnchorSideLeft.Side = asrCenter
-      AnchorSideTop.Control = ProgressBar1
       AnchorSideTop.Side = asrCenter
       Left = 631
       Height = 1
@@ -284,45 +181,21 @@ object Form1: TForm1
       ParentColor = False
       ParentFont = False
     end
-    object Label13: TLabel
-      AnchorSideLeft.Control = ComboBox3
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = ProgressBar1
-      AnchorSideTop.Side = asrCenter
+    object Panel4: TPanel
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
-      Left = 721
-      Height = 15
-      Top = 83
-      Width = 50
-      Anchors = [akTop, akRight]
-      Color = 13302222
-      Constraints.MinHeight = 15
-      Constraints.MinWidth = 50
-      Font.Height = 13
-      ParentColor = False
-      ParentFont = False
-      Transparent = False
-    end
-    object Label14: TLabel
-      AnchorSideTop.Control = ProgressBar2
-      AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = Panel1
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = CheckBox1
-      Left = 721
-      Height = 15
-      Top = 103
-      Width = 50
+      AnchorSideBottom.Control = Panel1
+      AnchorSideBottom.Side = asrBottom
+      Left = 453
+      Height = 63
+      Top = 77
+      Width = 316
       Anchors = [akRight, akBottom]
-      BorderSpacing.Bottom = 5
-      Color = 13302222
-      Constraints.MinHeight = 15
-      Constraints.MinWidth = 50
-      Font.Height = 13
+      BorderSpacing.Right = 2
+      BorderSpacing.Bottom = 2
+      Color = 11459071
       ParentColor = False
-      ParentFont = False
-      Transparent = False
+      TabOrder = 4
     end
   end
   object Label9: TLabel
