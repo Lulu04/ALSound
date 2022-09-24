@@ -266,13 +266,6 @@ begin
       tar^ := 1.0;
     inc(tar);
   end;
-
-  // rms
-{  for i:=0 to aChannelCount-1 do
-    aTarget[i] := Sqrt(aTarget[i]);    }
-  // dB
-  //for i:=0 to aChannelCount-1 do
-  //  aTarget[i] := 20 * Log10(Sqrt(aTarget[i]));
 end;
 
 procedure dsp_FillWithSilence_Smallint(p: PSmallint; aFrameCount: longword;
