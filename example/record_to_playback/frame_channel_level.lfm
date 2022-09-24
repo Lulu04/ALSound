@@ -138,7 +138,6 @@ object FrameChannelsLevel: TFrameChannelsLevel
     end
   end
   object Timer1: TTimer
-    Enabled = False
     Interval = 250
     OnTimer = Timer1Timer
     Left = 288
