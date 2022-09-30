@@ -288,6 +288,7 @@ type
     // Enable or disable automatic send adjustments based on the physical
     // positions of the sound and the listener
     property ApplyDistanceAttenuation: boolean read FApplyDistanceAttenuation write SetApplyDistanceAttenuation;
+    property EffectType: TALSEffectType read FEffectType;
   end;
 
   // The available curve you can use to change volume, pan, pitch,... not linearly
@@ -4412,6 +4413,17 @@ begin
   LockContext( FContext );
   try
     aEffect.DealocateALObjects;
+
+    // Extract from effect's chain
+    if aEffect.FPrevious <> NIL then
+      aEffect.FPrevious^.FNext := aEffect.FNext;
+
+    if aEffect.FNext <> NIL then
+      aEffect.FNext^.FPrevious := aEffect.FPrevious;
+
+    aEffect.FPrevious := NIL;
+    aEffect.FNext := NIL;
+
   finally
     UnlockContext;
   end;
