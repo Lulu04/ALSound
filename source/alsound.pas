@@ -3635,6 +3635,7 @@ begin
   FChannelCount := aBuffer^.ChannelCount;
   FMonitoringEnabled := False;
   FSampleRate := aSampleRate;
+  FFilename := StrALS_Capture;
 
   if not Error then
   begin
