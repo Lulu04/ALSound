@@ -8,7 +8,7 @@
       <Unit0>
         <Filename Value="SimpleRecorder.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="5"/>
         <CursorPos X="43" Y="11"/>
         <UsageCount Value="187"/>
         <Loaded Value="True"/>
@@ -22,7 +22,7 @@
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
         <TopLine Value="288"/>
-        <CursorPos X="44" Y="302"/>
+        <CursorPos X="49" Y="299"/>
         <UsageCount Value="187"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -41,64 +41,75 @@
         <LoadedDesigner Value="True"/>
       </Unit2>
       <Unit3>
+        <Filename Value="frame_channel_level.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrameChannelsLevel"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="16" Y="14"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit3>
+      <Unit4>
         <Filename Value="..\..\source\als_dsp_utils.pas"/>
         <EditorIndex Value="4"/>
         <TopLine Value="43"/>
         <CursorPos X="19" Y="65"/>
         <UsageCount Value="68"/>
         <Loaded Value="True"/>
-      </Unit3>
-      <Unit4>
+      </Unit4>
+      <Unit5>
         <Filename Value="..\..\source\oalssoundmanager.pas"/>
         <UnitName Value="OALSSoundManager"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2017"/>
         <CursorPos X="30" Y="2034"/>
         <UsageCount Value="41"/>
-      </Unit4>
-      <Unit5>
+      </Unit5>
+      <Unit6>
         <Filename Value="..\..\source\openalsoft.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="31"/>
         <CursorPos X="13" Y="54"/>
         <UsageCount Value="76"/>
-      </Unit5>
-      <Unit6>
+      </Unit6>
+      <Unit7>
         <Filename Value="..\..\source\libsndfile.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="67"/>
         <CursorPos X="38" Y="312"/>
         <UsageCount Value="64"/>
-      </Unit6>
-      <Unit7>
+      </Unit7>
+      <Unit8>
         <Filename Value="..\..\source\alc.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="133"/>
         <CursorPos Y="142"/>
         <UsageCount Value="53"/>
-      </Unit7>
-      <Unit8>
+      </Unit8>
+      <Unit9>
         <Filename Value="..\..\source\al.inc"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="295"/>
         <CursorPos X="47" Y="311"/>
         <UsageCount Value="57"/>
-        <Loaded Value="True"/>
-      </Unit8>
-      <Unit9>
+      </Unit9>
+      <Unit10>
         <Filename Value="..\..\source\alext.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="76"/>
         <CursorPos X="2" Y="90"/>
         <UsageCount Value="38"/>
-      </Unit9>
-      <Unit10>
+      </Unit10>
+      <Unit11>
         <Filename Value="..\..\source\efx.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="2"/>
         <UsageCount Value="11"/>
-      </Unit10>
-      <Unit11>
+      </Unit11>
+      <Unit12>
         <Filename Value="..\..\source\oalssound.pas"/>
         <UnitName Value="OALSSound"/>
         <EditorIndex Value="-1"/>
@@ -114,30 +125,30 @@
           <Item5 X="2" Y="691" ID="6"/>
           <Item6 X="2" Y="181" ID="7"/>
         </Bookmarks>
-      </Unit11>
-      <Unit12>
+      </Unit12>
+      <Unit13>
         <Filename Value="..\..\source\oals_dsp_utils.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="25" Y="19"/>
         <UsageCount Value="13"/>
-      </Unit12>
-      <Unit13>
+      </Unit13>
+      <Unit14>
         <Filename Value="..\..\..\..\LazStyleHack\lazstylehacku.pas"/>
         <UnitName Value="LazStyleHackU"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="31"/>
         <CursorPos X="33" Y="47"/>
         <UsageCount Value="7"/>
-      </Unit13>
-      <Unit14>
+      </Unit14>
+      <Unit15>
         <Filename Value="C:\FPCupDeluxe\lazarus\lcl\forms.pp"/>
         <UnitName Value="Forms"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1194"/>
         <CursorPos X="62" Y="1210"/>
         <UsageCount Value="7"/>
-      </Unit14>
-      <Unit15>
+      </Unit15>
+      <Unit16>
         <Filename Value="..\..\source\alsound.pas"/>
         <UnitName Value="ALSound"/>
         <EditorIndex Value="3"/>
@@ -145,96 +156,82 @@
         <CursorPos X="17" Y="976"/>
         <UsageCount Value="49"/>
         <Loaded Value="True"/>
-      </Unit15>
-      <Unit16>
+      </Unit16>
+      <Unit17>
         <Filename Value="..\..\source\als_capture_buffer.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="137"/>
         <CursorPos X="8" Y="161"/>
         <UsageCount Value="35"/>
-      </Unit16>
-      <Unit17>
+      </Unit17>
+      <Unit18>
         <Filename Value="..\..\source\als_loopback_buffer.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="82"/>
         <CursorPos Y="104"/>
         <UsageCount Value="35"/>
-      </Unit17>
-      <Unit18>
+      </Unit18>
+      <Unit19>
         <Filename Value="..\..\source\als_velocitycurve.pas"/>
         <EditorIndex Value="-1"/>
         <UsageCount Value="6"/>
-      </Unit18>
-      <Unit19>
+      </Unit19>
+      <Unit20>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="182"/>
         <CursorPos Y="195"/>
         <UsageCount Value="13"/>
-      </Unit19>
-      <Unit20>
+      </Unit20>
+      <Unit21>
         <Filename Value="..\..\source\als_auxiliarysend.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="12"/>
         <CursorPos X="21" Y="27"/>
         <UsageCount Value="34"/>
-      </Unit20>
-      <Unit21>
+      </Unit21>
+      <Unit22>
         <Filename Value="C:\FPCupDeluxe\fpcsrc\rtl\objpas\math.pp"/>
         <UnitName Value="Math"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2101"/>
         <CursorPos X="3" Y="2104"/>
         <UsageCount Value="7"/>
-      </Unit21>
-      <Unit22>
+      </Unit22>
+      <Unit23>
         <Filename Value="..\..\source\als_error.inc"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="76"/>
         <CursorPos Y="91"/>
         <UsageCount Value="29"/>
-        <Loaded Value="True"/>
-      </Unit22>
-      <Unit23>
+      </Unit23>
+      <Unit24>
         <Filename Value="C:\FPCupDeluxe\fpcsrc\rtl\inc\threadh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="143"/>
         <CursorPos X="31" Y="158"/>
         <UsageCount Value="8"/>
-      </Unit23>
-      <Unit24>
+      </Unit24>
+      <Unit25>
         <Filename Value="C:\FPCupDeluxe\lazarus\lcl\include\buttoncontrol.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="36"/>
         <CursorPos X="36" Y="52"/>
         <UsageCount Value="9"/>
-      </Unit24>
-      <Unit25>
+      </Unit25>
+      <Unit26>
         <Filename Value="..\..\source\als_frame_buffers.inc"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="69"/>
         <CursorPos X="28" Y="84"/>
         <UsageCount Value="32"/>
-        <Loaded Value="True"/>
-      </Unit25>
-      <Unit26>
+      </Unit26>
+      <Unit27>
         <Filename Value="C:\FPCupDeluxe\lazarus\lcl\include\progressbar.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="125"/>
         <CursorPos Y="139"/>
         <UsageCount Value="9"/>
-      </Unit26>
-      <Unit27>
-        <Filename Value="frame_channel_level.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FrameChannelsLevel"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Frame"/>
-        <EditorIndex Value="1"/>
-        <CursorPos X="16" Y="14"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit27>
     </Units>
     <OtherDefines Count="1">
