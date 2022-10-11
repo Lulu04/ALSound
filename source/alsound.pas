@@ -1018,6 +1018,7 @@ type
     function GetChannelsPeak(Index: integer): single;
     function GetChannelsPeakdB(Index: integer): single;
     procedure SetMonitoringEnabled(AValue: boolean);
+    procedure SetOnCaptureBuffer(AValue: TALSOnCaptureBuffer);
     procedure SetPreAmp(AValue: single);
   public
     // Don't call this contructor directly, instead use
@@ -1066,7 +1067,7 @@ type
 
     // This event is fired when the capture context have a new buffer with audio
     // data. This event is called by the context's thread throught Queue method.
-    property OnCaptureBuffer: TALSOnCaptureBuffer read FOnCaptureBuffer write FOnCaptureBuffer;
+    property OnCaptureBuffer: TALSOnCaptureBuffer read FOnCaptureBuffer write SetOnCaptureBuffer;
 
     property Frequency: longword read FSampleRate;
     // Sets this property to True to remove the DC bias signal while recording.
@@ -1897,6 +1898,18 @@ begin
     FCapturedFrames.ResetChannelsLevelToZero;
   end
   else StartThread;
+end;
+
+procedure TALSCaptureContext.SetOnCaptureBuffer(AValue: TALSOnCaptureBuffer);
+begin
+  if FOnCaptureBuffer=AValue then Exit;
+
+  EnterCriticalSection(FCriticalSection);
+  try
+    FOnCaptureBuffer := AValue;
+  finally
+    LeaveCriticalSection(FCriticalSection);
+  end;
 end;
 
 procedure TALSCaptureContext.SetPreAmp(AValue: single);
