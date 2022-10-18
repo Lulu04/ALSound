@@ -329,6 +329,10 @@ type
     property StrError: string read GetStrError;
   end;
 
+
+  TALSOnCustomDSP = procedure(Sender: TALSSound;
+                              const aBuffer: TALSPlaybackBuffer) of object;
+
   { TALSSound }
 
   TALSSound = class( TALSErrorHandling )
@@ -396,6 +400,9 @@ type
     procedure InternalRewind; virtual;
     procedure CreateParameters;
     procedure FreeParameters;
+  private
+    FOnCustomDSP: TALSOnCustomDSP;
+    procedure SetOnCustomDSP(AValue: TALSOnCustomDSP);
   public
     // Plays the sound or resume it if it is paused.
      procedure Play(aFromBegin: boolean = True);
@@ -524,6 +531,14 @@ type
     // For more info see  https://openal-soft.org/openal-extensions/SOFT_source_resampler.txt
     property ResamplerIndex: integer read GetResamplerIndex write SetResamplerIndex;
 
+    // Use this callback to apply your custom DSP effects on the given buffer.
+    // This callback is called when a buffer is filled with new raw audio data
+    // and before send it to OpenAL-Soft.
+    // Only once for a static sound, when data are loaded or generated in memory.
+    // Each time a new buffer is read from a streamed sound.
+    // Your callback must be fast and mustn't update any GUI items.
+    property OnNewBuffer: TALSOnCustomDSP read FOnCustomDSP write SetOnCustomDSP;
+
     // State of the sound. Possible value are ALS_STOPPED, ALS_PLAYING, ALS_PAUSED
     property State: TALSState read GetState;
     // general purpose
@@ -544,8 +559,15 @@ type
     procedure InitLevelsFromBuffer(const aBuf: TALSPlaybackBuffer);
     function GetChannelLevel(index: integer): single; override;
   public
-    constructor CreateFromFile(aParent: TALSPlaybackContext; const aFilename: string; aEnableMonitor: boolean);
-    constructor CreateWhiteNoise(aParent: TALSPlaybackContext; aDuration: single; aChannelCount: integer; aEnableMonitor: boolean);
+    constructor CreateFromFile(aParent: TALSPlaybackContext;
+                               const aFilename: string;
+                               aEnableMonitor: boolean;
+                               aOnCustomDSP: TALSOnCustomDSP);
+    constructor CreateWhiteNoise(aParent: TALSPlaybackContext;
+                                 aDuration: single;
+                                 aChannelCount: integer;
+                                 aEnableMonitor: boolean;
+                                 aOnCustomDSP: TALSOnCustomDSP);
     destructor Destroy; override;
   end;
 
@@ -577,8 +599,14 @@ type
     procedure Update(const aElapsedTime: single); override;
     procedure InternalRewind; override;
   public
-    constructor CreateFromFile(aParent: TALSPlaybackContext; const aFilename: string; aEnableMonitor: boolean);
-    //constructor CreateFromUrl(aParent: TALSPlaybackContext; const aUrl: string; aEnableMonitor: boolean);
+    constructor CreateFromFile(aParent: TALSPlaybackContext;
+                               const aFilename: string;
+                               aEnableMonitor: boolean;
+                               aOnCustomDSP: TALSOnCustomDSP);
+    {constructor CreateFromUrl(aParent: TALSPlaybackContext;
+                              const aUrl: string;
+                               aEnableMonitor: boolean;
+                               aOnCustomDSP: TALSOnCustomDSP); }
     destructor Destroy; override;
 
     function GetTimePosition: single; override;
@@ -595,8 +623,9 @@ type
     FBufferIndexToQueue: integer;
     FTempBufID: array[0..NUM_BUFFERS-1] of ALuint;
   public
-    constructor CreateFromCapture(aParent: TALSPlaybackContext; aSampleRate: integer;
-                               aBuffer: PALSCaptureFrameBuffer);
+    constructor CreateFromCapture(aParent: TALSPlaybackContext;
+                                  aSampleRate: integer;
+                                  aBuffer: PALSCaptureFrameBuffer);
     destructor Destroy; override;
     procedure QueueBuffer(aBuffer: PALSCaptureFrameBuffer);
   end;
@@ -790,18 +819,25 @@ type
     // Loads a sound file into memory and return its instance.
     // Set aEnableMonitoring to True if you need the channel's level of the
     // sound (it take some ram and cpu resources).
-    function AddSound(const aFilename: string; aEnableMonitoring: boolean=False): TALSSound;
+    function AddSound(const aFilename: string;
+                      aEnableMonitoring: boolean=False;
+                      aOnCustomDSP: TALSOnCustomDSP=NIL): TALSSound;
     // Opens the sound file as stream and return its instance.
     // Set aEnableMonitoring to True if you need the channel's level of the
     // sound (it take some ram and cpu resources).
-    function AddStream(const aFilename: string; aEnableMonitoring: boolean=False): TALSSound;
+    function AddStream(const aFilename: string;
+                       aEnableMonitoring: boolean=False;
+                       aOnCustomDSP: TALSOnCustomDSP=NIL): TALSSound;
 
   { TODO : AddWebStream( const aUrl: string ): TOALSound; to play audio from url }
 
     // Creates a memory sound filled with white noise.
     // Set aEnableMonitoring to True if you need the channel's level of the
     // sound (it take some ram and cpu resources).
-    function CreateWhiteNoise(aDuration: single; aChannelCount: integer; aEnableMonitoring: boolean=False): TALSSound;
+    function CreateWhiteNoise(aDuration: single;
+                              aChannelCount: integer;
+                              aEnableMonitoring: boolean=False;
+                              aOnCustomDSP: TALSOnCustomDSP=NIL): TALSSound;
 
     // stops the sound and free it
     procedure Delete(ASound: TALSSound);
@@ -1849,7 +1885,8 @@ end;
 
 procedure TALSCaptureContext.DoOnCaptureBufferEvent;
 begin
-  FOnCaptureBuffer(Self, FCapturedFrames);
+  if FOnCaptureBuffer <> NIL then
+    FOnCaptureBuffer(Self, FCapturedFrames);
 end;
 
 function TALSCaptureContext.GetChannelsLevel(Index: integer): single;
@@ -2842,7 +2879,7 @@ procedure TALSPlaylist.LoadCurrentMusic;
 begin
   FreeCurrentMusic;
   try
-    FMusic := TALSStreamBufferSound.CreateFromFile(FParentContext, FList.Strings[FMusicIndex], False);
+    FMusic := TALSStreamBufferSound.CreateFromFile(FParentContext, FList.Strings[FMusicIndex], False, NIL);
   except
     FMusic.Free;
     FMusic := nil;
@@ -3753,6 +3790,9 @@ begin
     if readCount < 1 then
       break;
 
+    if FOnCustomDSP <> NIL then
+      FOnCustomDSP(Self, FBuffers[i]);
+
     // refill AL buffer with audio
     alBufferData(FBuffers[i].BufferID, FFormatForAL, FBuffers[i].Data,
       FBuffers[i].FrameCount*FBuffers[i].BytePerFrame, ALsizei(Fsfinfo.SampleRate));
@@ -3820,6 +3860,9 @@ begin
 
     if readCount > 0 then
     begin
+      // callback OnNewBuffer
+      if FOnCustomDSP <> NIL then
+        FOnCustomDSP(Self, FBuffers[bufferIndex]);
       // refill the openAL buffer with...
       alBufferData(bufid, ALenum(FFormatForAL), FBuffers[bufferIndex].Data,
         ALsizei(readCount * FFrameSize), ALsizei(Fsfinfo.SampleRate));
@@ -3854,7 +3897,8 @@ begin
 end;
 
 constructor TALSStreamBufferSound.CreateFromFile(aParent: TALSPlaybackContext;
-  const aFilename: string; aEnableMonitor: boolean);
+  const aFilename: string; aEnableMonitor: boolean;
+  aOnCustomDSP: TALSOnCustomDSP);
 var
   fileopened: boolean;
 begin
@@ -3864,6 +3908,7 @@ begin
   fileopened := False;
   FFilename := aFilename;
   FMonitoringEnabled := aEnableMonitor;
+  FOnCustomDSP := aOnCustomDSP;
 
   FDoReadFromStream := @DoReadStreamFromFile;
 
@@ -4011,7 +4056,7 @@ begin
 end;
 
 constructor TALSSingleStaticBufferSound.CreateFromFile(aParent: TALSPlaybackContext;
-  const aFilename: string; aEnableMonitor: boolean);
+  const aFilename: string; aEnableMonitor: boolean; aOnCustomDSP: TALSOnCustomDSP);
 var
   sndfile: PSNDFILE;
   sfinfo: TSF_INFO;
@@ -4024,6 +4069,7 @@ begin
   fileopened := False;
   FFilename := aFilename;
   FMonitoringEnabled := aEnableMonitor;
+  FOnCustomDSP := aOnCustomDSP;
 
   if not Error then
   begin
@@ -4062,10 +4108,15 @@ begin
 
             if frameRead < 1 then
               SetError(als_FailToReadSample)
-            else if frameRead < sfinfo.frames then
+            else
             begin
-              FFrameCount := frameRead;
-              FByteCount := frameRead*FFrameSize;
+              if frameRead < sfinfo.frames then
+              begin
+                FFrameCount := frameRead;
+                FByteCount := frameRead*FFrameSize;
+              end;
+              if FOnCustomDSP <> NIL then
+                FOnCustomDSP(Self, FBuffers[0]);
             end;
           end;
         end;
@@ -4104,12 +4155,14 @@ end;
 
 // White noise generation from OpenAL example "altonegen.c"
 constructor TALSSingleStaticBufferSound.CreateWhiteNoise(aParent: TALSPlaybackContext;
-  aDuration: single; aChannelCount: integer; aEnableMonitor: boolean);
+  aDuration: single; aChannelCount: integer; aEnableMonitor: boolean;
+  aOnCustomDSP: TALSOnCustomDSP);
 begin
   FParentContext := aParent;
   InitializeErrorStatus;
   FFilename := '';
   FMonitoringEnabled := aEnableMonitor;
+  FOnCustomDSP := aOnCustomDSP;
 
   if not Error then
   begin
@@ -4147,6 +4200,9 @@ begin
               dsp_FillWithWhiteNoise_Single(FBuffers[0].Data, FFrameCount, FBuffers[0].ChannelCount)
             else
               dsp_FillWithWhiteNoise_Smallint(FBuffers[0].Data, FFrameCount, FBuffers[0].ChannelCount);
+
+            if FOnCustomDSP <> NIL then
+              FOnCustomDSP(Self, FBuffers[0]);
 
             alBufferData(FBuffers[0].BufferID, FFormatForAL, FBuffers[0].Data, FByteCount, FSampleRate);
             CheckALError(als_ALCanNotFillBuffer);
@@ -4262,12 +4318,13 @@ begin
   inherited Destroy;
 end;
 
-function TALSPlaybackContext.AddStream(const aFilename: string; aEnableMonitoring: boolean): TALSSound;
+function TALSPlaybackContext.AddStream(const aFilename: string; aEnableMonitoring: boolean;
+  aOnCustomDSP: TALSOnCustomDSP): TALSSound;
 begin
   EnterCriticalSection(FCriticalSection);
   LockContext( FContext );
   try
-    Result := TALSStreamBufferSound.CreateFromFile(Self, aFilename, aEnableMonitoring);
+    Result := TALSStreamBufferSound.CreateFromFile(Self, aFilename, aEnableMonitoring, aOnCustomDSP);
     FList.Add(Result);
   finally
     LeaveCriticalSection(FCriticalSection);
@@ -4276,12 +4333,13 @@ begin
 end;
 
 function TALSPlaybackContext.CreateWhiteNoise(aDuration: single;
-  aChannelCount: integer; aEnableMonitoring: boolean): TALSSound;
+  aChannelCount: integer; aEnableMonitoring: boolean; aOnCustomDSP: TALSOnCustomDSP): TALSSound;
 begin
   EnterCriticalSection(FCriticalSection);
   LockContext( FContext );
   try
-    Result := TALSSingleStaticBufferSound.CreateWhiteNoise(Self, aDuration, aChannelCount, aEnableMonitoring);
+    Result := TALSSingleStaticBufferSound.CreateWhiteNoise(Self, aDuration,
+       aChannelCount, aEnableMonitoring, aOnCustomDSP);
     FList.Add(Result);
   finally
     LeaveCriticalSection(FCriticalSection);
@@ -4861,14 +4919,15 @@ begin
   FExecutingConstructor := False;
 end;
 
-function TALSPlaybackContext.AddSound(const aFilename: string; aEnableMonitoring: boolean): TALSSound;
+function TALSPlaybackContext.AddSound(const aFilename: string; aEnableMonitoring: boolean;
+  aOnCustomDSP: TALSOnCustomDSP): TALSSound;
 begin
   LockContext( FContext );
   try
 
     EnterCriticalSection(FCriticalSection);
     try
-      Result := TALSSingleStaticBufferSound.CreateFromFile(Self, aFilename, aEnableMonitoring);
+      Result := TALSSingleStaticBufferSound.CreateFromFile(Self, aFilename, aEnableMonitoring, aOnCustomDSP);
       FList.Add(Result);
     finally
       LeaveCriticalSection(FCriticalSection);
@@ -4972,6 +5031,16 @@ begin
   if not Error then
     for i:=0 to High(FAuxiliarySend) do
       FAuxiliarySend[i].Disconnect;
+end;
+
+procedure TALSSound.SetOnCustomDSP(AValue: TALSOnCustomDSP);
+begin
+  EnterCS;
+  try
+    FOnCustomDSP := AValue;
+  finally
+    LeaveCS;
+  end;
 end;
 
 function TALSSound.GetFormatForAL(aChannelCount: integer; aContextUseFloat,
