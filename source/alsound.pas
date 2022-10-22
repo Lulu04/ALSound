@@ -620,7 +620,6 @@ type
   const
     NUM_BUFFERS = 32;
   private
-    FBufferIndexToQueue: integer;
     FTempBufID: array[0..NUM_BUFFERS-1] of ALuint;
   public
     constructor CreateFromCapture(aParent: TALSPlaybackContext;
@@ -3627,6 +3626,7 @@ end;
 procedure TALSPlaybackCapturedSound.QueueBuffer(aBuffer: PALSCaptureFrameBuffer);
 var
   processed, stat: ALint;
+   i, Index: integer;
 begin
   if Error or
      (aBuffer^.FrameCount = 0) then
@@ -3643,34 +3643,56 @@ begin
     begin
       alSourceUnqueueBuffers(FSource, processed, @FTempBufID[0]);
       alGetError();
-    end;
-
-    // next buffer index
-    inc(FBufferIndexToQueue);
-    if FBufferIndexToQueue >= NUM_BUFFERS then
-      FBufferIndexToQueue := 0;
-
-    // refill the openAL buffer with passed audio data
-    alBufferData(FBuffers[FBufferIndexToQueue].BufferID,
-                 ALenum(FFormatForAL),
-                 aBuffer^.Data,
-                 ALsizei(aBuffer^.FrameCount*aBuffer^.BytePerFrame),
-                 ALsizei(FSampleRate));
-    alGetError(); //CheckALError(als_ErrorWhileBufferingData);
-
-    // and queue it back on the source
-    alSourceQueueBuffers(FSource, 1, @FBuffers[FBufferIndexToQueue].BufferID);
-    alGetError(); //CheckALError(als_ErrorWhileQueuingBuffer);
-
-    stat := 0;
-    alGetSourcei(FSource, AL_SOURCE_STATE, stat);
-    case stat of
-      AL_INITIAL, AL_STOPPED, AL_PAUSED: begin
-        alSourcePlay(FSource);
-        alGetError();
+      // marks buffer as unqueued
+      while processed > 0 do
+      begin
+        dec(processed);
+        for i:=0 to High(FBuffers) do
+          if FBuffers[i].BufferID = FTempBufID[processed] then
+          begin
+            FBuffers[i].FQueued := False;
+            break;
+          end;
       end;
     end;
 
+    // search the index of the first unqueued buffer -> only its ID will be used
+    Index := -1;
+    for i:=0 to High(FBuffers) do
+      if not FBuffers[i].Queued then
+      begin
+        Index := i;
+        break;
+      end;
+
+    if Index <> -1 then
+    begin
+      // refill the openAL buffer with passed audio data
+      alBufferData(FBuffers[Index].BufferID,  // unqueued buffer ID
+                   ALenum(FFormatForAL),
+                   aBuffer^.Data,
+                   ALsizei(aBuffer^.FrameCount*aBuffer^.BytePerFrame),
+                   ALsizei(FSampleRate));
+      alGetError(); //CheckALError(als_ErrorWhileBufferingData);
+
+      // and queue it back on the source
+      alSourceQueueBuffers(FSource, 1, @FBuffers[Index].BufferID);
+      if alGetError() = AL_NO_ERROR then //CheckALError(als_ErrorWhileQueuingBuffer);
+      begin
+        FBuffers[Index].Queued := True;
+        stat := 0;
+        alGetSourcei(FSource, AL_SOURCE_STATE, stat);
+        case stat of
+          AL_INITIAL, AL_STOPPED, AL_PAUSED:
+          begin
+            alSourcePlay(FSource);
+            alGetError();
+          end;
+        end;
+      end
+      else alSourceStop(FSource); // an error occurs while queuing a buffer:
+                                  // -> we reset the playback until an another buffer is queued
+    end;
   finally
     UnlockContext;
     LeaveCS;
@@ -3706,7 +3728,6 @@ begin
     end;
   end;
 
-  FBufferIndexToQueue := -1;
   CreateParameters;
 end;
 

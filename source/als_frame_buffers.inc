@@ -63,6 +63,7 @@ type
   private
     FFormat: TALSPlaybackSampleType;
     FBufferID: ALuint;
+    FQueued: boolean;
     function GenerateBufferID: ALenum;
     procedure DeleteBufferID;
   public
@@ -70,6 +71,7 @@ type
 
     property Format: TALSPlaybackSampleType read FFormat;
     property BufferID: ALuint read FBufferID;
+    property Queued: boolean read FQueued write FQueued;
   end;
 
   function ALSPlaybackSampleTypeToBytePerChannel(aFormat: TALSPlaybackSampleType): integer;
@@ -240,6 +242,7 @@ begin
   FBytePerFrame := ChannelCount * BytePerChannel;
   FUseFloat := (aFormat = ALS_SAMPLE_FLOAT32);
   FBufferID := 0;
+  FQueued := False;
 end;
 
 { TALSFrameBufferBase }
