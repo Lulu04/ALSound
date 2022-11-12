@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, ctypes, Types,
-  {$ifdef LCL}ExtCtrls, Graphics, Forms, LCLTranslator,{$endif}
+  {$ifdef LCL}ExtCtrls, Graphics, Forms,{$endif}
   openalsoft,
   libsndfile,
   als_dsp_utils;
@@ -627,6 +627,11 @@ type
                                   aBuffer: PALSCaptureFrameBuffer);
     destructor Destroy; override;
     procedure QueueBuffer(aBuffer: PALSCaptureFrameBuffer);
+
+    // Because this sound's instance is not associated with a file, use this
+    // method to give it a name.
+    // Usefull when this sound's instance is shown in a list
+    procedure SetFileName(const aName: string);
   end;
 
   { TALSPlaylist }
@@ -1074,9 +1079,9 @@ type
     // Ask to playback the captured audio.
     // This method creates a streamed sound in the specified playback context
     // that will receive the captured audio to playback. You can Add any affects
-    // to the returned TALSSound before starting the capture but do not use
+    // to the returned sound's instance before starting the capture but do not use
     // methods that affect its playing state (Play, Pause, Stop, FadeIn, FadeOut)
-    function PrepareToPlayback(aTargetContext: TALSPlaybackContext): TALSSound;
+    function PrepareToPlayback(aTargetContext: TALSPlaybackContext): TALSPlaybackCapturedSound;
 
     // Start sample capture
     procedure StartCapture;
@@ -2057,7 +2062,7 @@ begin
   Result := FCaptureError = als_NoError;
 end;
 
-function TALSCaptureContext.PrepareToPlayback(aTargetContext: TALSPlaybackContext): TALSSound;
+function TALSCaptureContext.PrepareToPlayback(aTargetContext: TALSPlaybackContext): TALSPlaybackCapturedSound;
 begin
   if FPlaybackSound <> NIL then
     FPlaybackSound.Kill;
@@ -3699,6 +3704,11 @@ begin
   end;
 end;
 
+procedure TALSPlaybackCapturedSound.SetFileName(const aName: string);
+begin
+  FFilename := aName;
+end;
+
 constructor TALSPlaybackCapturedSound.CreateFromCapture(aParent: TALSPlaybackContext;
   aSampleRate: integer; aBuffer: PALSCaptureFrameBuffer);
 begin
@@ -3707,7 +3717,6 @@ begin
   FChannelCount := aBuffer^.ChannelCount;
   FMonitoringEnabled := False;
   FSampleRate := aSampleRate;
-  FFilename := StrALS_Capture;
 
   if not Error then
   begin
