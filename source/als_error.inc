@@ -82,7 +82,6 @@ resourcestring
   // other
   StrALS_AudioFile = 'Audio files';
   StrALS_AllFile = 'All files';
-  StrALS_Capture = 'Capture';
 {$endif}
 
 {$ifdef ALS_IMPLEMENTATION}
