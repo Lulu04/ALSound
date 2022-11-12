@@ -35,7 +35,7 @@ uses
   als_dsp_utils;
 
 const
-  ALS_VERSION = '1.2.1';
+  ALS_VERSION = '1.2.2';
 
 
 type
