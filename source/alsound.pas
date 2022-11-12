@@ -1287,8 +1287,10 @@ type
 
     // Gives the supported list of audio file extension formatted to be used
     // directly with TOpenDialog.Filter and TSaveDialog.Filter property.
-    // If aIncludeAllFilesFilter is True, adds also 'All files|*.*'
-    function DialogFileFilters(aIncludeAllFilesFilter: boolean): string;
+    // StringForAudioFile will be shown in the dialog near audio file filters.
+    // StringForAllFile will be shown in the dialog near '*.*' filter.
+    // If you don't want the all file filter, keep StringForAllFile empty.
+    function DialogFileFilters(const StringForAudioFile, StringForAllFile: string): string;
 
     // Gives the list of available output mode expressed in string. Output mode
     // can be applyed only on playback context. this is the way OpenAL-Soft will
@@ -2537,7 +2539,7 @@ begin
   end;
 end;
 
-function TALSManager.DialogFileFilters(aIncludeAllFilesFilter: boolean): string;
+function TALSManager.DialogFileFilters(const StringForAudioFile, StringForAllFile: string): string;
 var
   A: ArrayOfALSSimplifiedAudioFileFormat;
   i: integer;
@@ -2548,7 +2550,7 @@ begin
   if not Error then
   begin
     A := ListOfAudioFileFormat_Simplified;
-    Result := StrALS_AudioFile+'|';
+    Result := StringForAudioFile+'|';
     flag := False;
     for i:=0 to High(A) do
       if Pos(A[i].FileExt, Result) = 0 then
@@ -2560,11 +2562,11 @@ begin
       end;
   end;
 
-  if aIncludeAllFilesFilter or Error then
+  if (Length(StringForAllFile) > 0) or Error then
   begin
     if Result<>'' then
       Result := Result + '|';
-    Result := Result + StrALS_AllFile+'|*.*';
+    Result := Result + StringForAllFile+'|*.*';
   end;
 end;
 
