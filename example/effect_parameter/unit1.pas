@@ -339,7 +339,7 @@ begin
   ALSManager.LoadLibraries;
 
   // Updates the file open dialog filter property with supported audio file types.
-  OpenDialog1.Filter := ALSManager.DialogFileFilters(True);
+  OpenDialog1.Filter := ALSManager.DialogFileFilters('Audio files', 'All files');
 
   // Create a playback context on the default playback device
   FPlaybackContext := ALSManager.CreateDefaultPlaybackContext;

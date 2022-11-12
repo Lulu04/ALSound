@@ -15,7 +15,7 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poDesktopCenter
-  LCLVersion = '2.2.3.0'
+  LCLVersion = '2.2.4.0'
   object SpeedButton1: TSpeedButton
     AnchorSideTop.Control = SpeedButton3
     AnchorSideRight.Control = SpeedButton2

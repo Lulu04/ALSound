@@ -68,7 +68,7 @@ begin
   FPlaybackContext := ALSManager.CreateDefaultPlaybackContext;
 
   // Updates the file open dialog filter property with supported audio file types.
-  OpenDialog1.Filter := ALSManager.DialogFileFilters(True);
+  OpenDialog1.Filter := ALSManager.DialogFileFilters('Sound files', 'All files');
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);

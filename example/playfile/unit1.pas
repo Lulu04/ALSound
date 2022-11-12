@@ -72,7 +72,7 @@ begin
   FPlaybackContext := ALSManager.CreateDefaultPlaybackContext;
 
   // Fill the file open dialog filter property with supported audio file types.
-  OD1.Filter := ALSManager.DialogFileFilters(True);
+  OD1.Filter := ALSManager.DialogFileFilters('Sound files', 'All files');
 
   FrameChannelsLevel1 := TFrameChannelsLevel.Create(Self);
   FrameChannelsLevel1.Parent := Panel2;

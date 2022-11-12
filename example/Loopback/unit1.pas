@@ -160,7 +160,7 @@ begin
   ALSManager.LoadLibraries;
 
   // Updates the file open dialog filter property with supported audio file types.
-  OpenDialog1.Filter := ALSManager.DialogFileFilters(True);
+  OpenDialog1.Filter := ALSManager.DialogFileFilters('Sound files', 'All files');
 
   // We configure the progress bar that show the mixing channel levels, to fit
   // decibel range from -60dB to 0dB

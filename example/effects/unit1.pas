@@ -339,7 +339,7 @@ begin
   ALSManager.LoadLibraries;
 
   // Fill the file open dialog filter property with supported audio file types.
-  OD1.Filter := ALSManager.DialogFileFilters(True);
+  OD1.Filter := ALSManager.DialogFileFilters('Sound files', 'All files');
 
   // In this demo we need 6 auxiliary sends. By default, OpenAL-Soft provide
   // only 2. So we have to pass a customized attributes to the context creation.

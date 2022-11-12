@@ -96,6 +96,8 @@ begin
   // load OpenAL-Soft and LibSndFile libraries
   ALSManager.LoadLibraries;
 
+  OD1.Filter := ALSManager.DialogFileFilters('Sound files', 'All files');
+
   // configure custom attributes to ask the playback context to use float
   FAttribs.InitDefault;
 //  FAttribs.ContextUseFloat := True;
