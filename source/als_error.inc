@@ -79,9 +79,6 @@ resourcestring
   StrALS_OutOfMemory = 'ALSound: Not enough memory';
 
   StrALS_Undefined = 'OALSSoundManager: Undefined error';
-  // other
-  StrALS_AudioFile = 'Audio files';
-  StrALS_AllFile = 'All files';
 {$endif}
 
 {$ifdef ALS_IMPLEMENTATION}
