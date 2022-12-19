@@ -403,6 +403,9 @@ type
   private
     FOnCustomDSP: TALSOnCustomDSP;
     procedure SetOnCustomDSP(AValue: TALSOnCustomDSP);
+  private
+    function GetTimePosition: single; virtual;
+    procedure SetTimePosition(AValue: single); virtual;
   public
     // Plays the sound or resume it if it is paused.
      procedure Play(aFromBegin: boolean = True);
@@ -434,8 +437,8 @@ type
     function TotalDuration: single;
 
     // The playback position expressed in seconds.
-    function GetTimePosition: single; virtual;
-
+    property TimePosition: single read GetTimePosition write SetTimePosition;
+  public
     function Byte2Seconds(aPosition: QWord): single;
     function Seconds2Byte(aTimePosition: single): QWord;
 
@@ -598,6 +601,8 @@ type
     FUsedBuffer: ALsizei;
     procedure Update(const aElapsedTime: single); override;
     procedure InternalRewind; override;
+    function GetTimePosition: single; override;
+    procedure SetTimePosition(AValue: single); override;
   public
     constructor CreateFromFile(aParent: TALSPlaybackContext;
                                const aFilename: string;
@@ -608,8 +613,6 @@ type
                                aEnableMonitor: boolean;
                                aOnCustomDSP: TALSOnCustomDSP); }
     destructor Destroy; override;
-
-    function GetTimePosition: single; override;
   end;
 
 
@@ -621,6 +624,7 @@ type
     NUM_BUFFERS = 32;
   private
     FTempBufID: array[0..NUM_BUFFERS-1] of ALuint;
+    procedure SetTimePosition(AValue: single); override;
   public
     constructor CreateFromCapture(aParent: TALSPlaybackContext;
                                   aSampleRate: integer;
@@ -3711,6 +3715,11 @@ begin
   FFilename := aName;
 end;
 
+procedure TALSPlaybackCapturedSound.SetTimePosition(AValue: single);
+begin
+  // Do nothing here
+end;
+
 constructor TALSPlaybackCapturedSound.CreateFromCapture(aParent: TALSPlaybackContext;
   aSampleRate: integer; aBuffer: PALSCaptureFrameBuffer);
 begin
@@ -4025,6 +4034,22 @@ begin
     Result := FFrameReadAccu / FSampleRate;
     if Result > TotalDuration then
       Result := TotalDuration;
+  end;
+end;
+
+procedure TALSStreamBufferSound.SetTimePosition(AValue: single);
+begin
+  if Error then exit;
+  if (AValue < 0) or (AValue > TotalDuration) then exit;
+
+  LockContext( FParentContext.FContext );
+  EnterCS;
+  try
+    FFrameReadAccu := Round(AValue/TotalDuration*FFrameCount);
+    sf_seek(Fsndfile, sf_count_t(FFrameReadAccu), SF_SEEK_SET);
+  finally
+    LeaveCS;
+    UnlockContext;
   end;
 end;
 
@@ -5652,6 +5677,19 @@ begin
       LeaveCS;
       UnlockContext;
     end;
+  end;
+end;
+
+procedure TALSSound.SetTimePosition(AValue: single);
+begin
+  if Error then exit;
+  LockContext( FParentContext.FContext );
+  EnterCS;
+  try
+    alSourcef(FSource, AL_SEC_OFFSET, AValue);
+  finally
+    LeaveCS;
+    UnlockContext;
   end;
 end;
 
