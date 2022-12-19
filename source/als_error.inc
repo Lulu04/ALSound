@@ -40,7 +40,7 @@ TALSError = ( als_NoError = 0,
               als_OutOfMemory
               );
 
-resourcestring
+const
   // error messages
   StrALS_NoError = 'No error';
   StrALS_ALLibraryNotLoaded = 'OpenAL: Library not loaded';
