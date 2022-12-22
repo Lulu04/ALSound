@@ -3854,6 +3854,7 @@ begin
     begin
       alSourceQueueBuffers(FSource, 1, @FBuffers[i].BufferID);
       CheckALError(als_ErrorWhileQueuingBuffer);
+      FBuffers[i].Queued := True;
     end;
   end;
 end;
@@ -4038,6 +4039,9 @@ begin
 end;
 
 procedure TALSStreamBufferSound.SetTimePosition(AValue: single);
+var
+  sta: TALSState;
+  i: integer;
 begin
   if Error then exit;
   if (AValue < 0) or (AValue > TotalDuration) then exit;
@@ -4045,8 +4049,20 @@ begin
   LockContext( FParentContext.FContext );
   EnterCS;
   try
+    sta := State;
+    if sta <> ALS_STOPPED then
+      alSourceStop(FSource);
+
+    alSourcei(FSource, AL_BUFFER, 0); // unqueue all buffer from source
+    for i:=0 to High(FBuffers) do
+      FBuffers[i].Queued := False;
+
     FFrameReadAccu := Round(AValue/TotalDuration*FFrameCount);
     sf_seek(Fsndfile, sf_count_t(FFrameReadAccu), SF_SEEK_SET);
+    PreBuffAudio;
+
+    if sta = ALS_PLAYING then
+      alSourcePlay(FSource);
   finally
     LeaveCS;
     UnlockContext;
@@ -5905,7 +5921,8 @@ begin
     case GetState of
       ALS_STOPPED:
       begin
-        InternalRewind;
+        if aFromBegin then
+          InternalRewind;
         alSourcePlay(FSource);
         SetALVolume;
       end;
