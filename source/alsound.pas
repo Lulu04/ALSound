@@ -1090,6 +1090,9 @@ type
     // Start sample capture
     procedure StartCapture;
 
+    // Pause capture
+    procedure PauseCapture;
+
     // Stop sample capture.
     procedure StopCapture;
 
@@ -1116,7 +1119,8 @@ type
     property Frequency: longword read FSampleRate;
     // Sets this property to True to remove the DC bias signal while recording.
     property RemoveDCBias: boolean read FRemoveDCBiasWhileRecording write FRemoveDCBiasWhileRecording;
-    // return the state of this recording context: ALS_STOPPED or ALS_RECORDING.
+    // return the state of this recording context: ALS_STOPPED, ALS_RECORDING or
+    // ALS_PAUSED
     property State: TALSState read FState;
 
     // Return True if an error occured while capturing audio.
@@ -2084,12 +2088,37 @@ begin
     exit;
   if FState = ALS_RECORDING then
     exit;
+  if FState = ALS_PAUSED then
+  begin
+    EnterCriticalSection(FCriticalSection);
+    try
+     FState := ALS_RECORDING;
+    finally
+      LeaveCriticalSection(FCriticalSection);
+    end;
+    exit;
+  end;
 
   FFileWriteErrorWhileCapturing := False;
   FALErrorWhileCapturing := False;
 
   StartThread;
   FState := ALS_RECORDING;
+end;
+
+procedure TALSCaptureContext.PauseCapture;
+begin
+  if Error or (FState = ALS_STOPPED) then exit;
+
+  EnterCriticalSection(FCriticalSection);
+  try
+    if FState = ALS_PAUSED then
+      FState := ALS_RECORDING
+    else if FState = ALS_RECORDING then
+      FState := ALS_PAUSED;
+  finally
+    LeaveCriticalSection(FCriticalSection);
+  end;
 end;
 
 procedure TALSCaptureContext.StopCapture;
