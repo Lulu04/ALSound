@@ -1006,7 +1006,7 @@ type
     property OnProgress: TALSProgressEvent read FOnProgress write FOnProgress;
 
     // By default the mixing process use a buffer capacity of 10ms.
-    // This means that callback OnProgress is fired every 10ms.
+    // This means that callback OnProgress is fired every 10ms of audio.
     // With this property, you can adjust this setting according to your need.
     property TimeSlice: double read FTimeSlice write SetTimeSlice;
 
