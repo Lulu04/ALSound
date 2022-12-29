@@ -28,11 +28,11 @@ type
     function GetChannelsPeak(aIndex: integer): single;
     function GetChannelsPeakdB(aIndex: integer): single;
   private
-    procedure FreeMemory;
     function GetDataOffset(frameOffset: longword): Pointer;
 
     procedure ResetChannelsLevelToZero;
   public
+    procedure FreeMemory;
     procedure ComputeChannelsLevel;
 
     procedure Amplify(aGain: single);
