@@ -1354,16 +1354,6 @@ begin
 {$endif}
 end;
 
-function SFL_OpenAudioFile(const aFilename: string; aMode: cint; Asfinfo: PSF_INFO): PSNDFILE;
-begin
-  {$ifdef windows}
-    Result := sf_wchar_open(PWideChar(UnicodeString(aFilename)), aMode, Asfinfo);
-  {$else}
-    Result := sf_open(PChar(aFilename), aMode, Asfinfo);
-  {$endif}
-end;
-
-
 {$undef ALS_INTERFACE}
 {$define ALS_IMPLEMENTATION}
 {$include als_error.inc}
@@ -1534,7 +1524,7 @@ begin
   FFileInfo.SampleRate := FSampleRate;
   FFileInfo. Format := aFileFormat;
   FFileInfo.Channels := FFrameBuffer.ChannelCount;
-  FFile := SFL_OpenAudioFile(aFilename, SFM_WRITE, @FFileInfo);
+  FFile := ALSOpenAudioFile(aFilename, SFM_WRITE, @FFileInfo);
 {  if FFile = NIL then
     SetMixingError(als_CanNotCreateTargetMixFile); }
 
@@ -2073,7 +2063,7 @@ begin
   tempInfo.SampleRate := FSampleRate;
   tempInfo.Format := Ord(SF_ENDIAN_CPU) or Ord(SF_FORMAT_AU) or FTempFileSubFormat;
   tempInfo.Channels := FCapturedFrames.ChannelCount;
-  FTempFile := SFL_OpenAudioFile(FTempFileName, SFM_WRITE, @tempInfo);
+  FTempFile := ALSOpenAudioFile(FTempFileName, SFM_WRITE, @tempInfo);
   if FTempFile = nil then
     FCaptureError := als_CanNotOpenTemporaryCaptureFile;
 
@@ -2175,14 +2165,14 @@ begin
     begin
       // reopen the temporary '.au' file for reading
       fileInfo.Format := 0;
-      FTempFile := SFL_OpenAudioFile(FTempFileName, SFM_READ, @fileInfo);
+      FTempFile := ALSOpenAudioFile(FTempFileName, SFM_READ, @fileInfo);
       if FTempFile = nil then
         SetCaptureError(als_CanNotOpenTemporaryCaptureFile);
 
       if not CaptureError then
       begin
         // open the 'final' file with the requested format
-        finalFile := SFL_OpenAudioFile(FUserFileName, SFM_WRITE, @FUserFileInfo);
+        finalFile := ALSOpenAudioFile(FUserFileName, SFM_WRITE, @FUserFileInfo);
         if finalFile = nil then
         begin
           SetCaptureError(als_CanNotCreateTargetCaptureFile);
@@ -3994,7 +3984,7 @@ begin
 
   if not Error then
   begin
-    Fsndfile := SFL_OpenAudioFile(aFilename, SFM_READ, @Fsfinfo);
+    Fsndfile := ALSOpenAudioFile(aFilename, SFM_READ, @Fsfinfo);
     if Fsndfile = nil then
       SetError(als_FileNotOpened)
     else
@@ -4180,7 +4170,7 @@ begin
 
   if not Error then
   begin
-    sndfile := SFL_OpenAudioFile(aFilename, SFM_READ, @sfinfo);
+    sndfile := ALSOpenAudioFile(aFilename, SFM_READ, @sfinfo);
     if sndfile = nil then
       SetError(als_FileNotOpened)
     else

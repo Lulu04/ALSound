@@ -906,6 +906,9 @@ var
 function LoadSndFileLibrary( const aFilename: string ): boolean;
 procedure UnloadSndFileLibrary;
 
+// open an audio file in a cross platform way
+function ALSOpenAudioFile(const aFilename: string; aMode: cint; Asfinfo: PSF_INFO): PSNDFILE;
+
 
 implementation
 
@@ -1009,5 +1012,16 @@ begin
     _LibSndFile_Handle := DynLibs.NilHandle;
   end;
 end;
+
+function ALSOpenAudioFile(const aFilename: string; aMode: cint; Asfinfo: PSF_INFO): PSNDFILE;
+begin
+  {$ifdef windows}
+    Result := sf_wchar_open(PWideChar(UnicodeString(aFilename)), aMode, Asfinfo);
+  {$else}
+    Result := sf_open(PChar(aFilename), aMode, Asfinfo);
+  {$endif}
+end;
+
+
 
 end.
