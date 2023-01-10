@@ -35,6 +35,7 @@ type
     procedure FreeMemory;
     procedure ComputeChannelsLevel;
 
+    procedure FillWithSilence;
     procedure Amplify(aGain: single);
 
     property OutOfMemory: boolean read FOutOfMemory;
@@ -319,6 +320,12 @@ begin
  for i:=0 to High(FChannelsPeak) do
    if FChannelsPeak[i] < FChannelsLevel[i] then
      FChannelsPeak[i] := FChannelsLevel[i];
+end;
+
+procedure TALSFrameBufferBase.FillWithSilence;
+begin
+  if FUseFloat then
+    FillChar(FData^, FFrameCapacity*FBytePerFrame, $00);
 end;
 
 procedure TALSFrameBufferBase.Amplify(aGain: single);
