@@ -4068,6 +4068,7 @@ var
   i: integer;
 begin
   if Error then exit;
+  if TotalDuration = 0 then exit;
   if (AValue < 0) or (AValue > TotalDuration) then exit;
 
   LockContext( FParentContext.FContext );
