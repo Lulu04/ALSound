@@ -73,7 +73,6 @@ type
     FValue, FConstPerSecond: single;
     FState: TParamState;
     FCurve: TVelocityCurve;
-    procedure OnElapse(const AElapsedSec: single); virtual;
   private
     FOnLockParam: TALSLockParamProc;
     FOnUnlockParam: TALSUnlockParamProc;
@@ -86,6 +85,7 @@ type
     constructor Create;
     destructor Destroy; override;
 
+    procedure OnElapse(const AElapsedSec: single); virtual;
     // use velocity curve
     procedure ChangeTo(aNewValue, aSecond: single; aCurveID: TALSCurveID = ALS_Linear); virtual;
     // add a constant per second
@@ -105,7 +105,6 @@ type
     FMaxValue: single;
     FLoop: boolean;
     procedure ApplyBounds(var AValue: single);
-    procedure OnElapse(const AElapsedSec: single); override;
   protected
     function GetValue: single; override;
     procedure SetValue(AValue: single); override;
@@ -113,6 +112,7 @@ type
     // if Loop is set to TRUE, value can loop between bounds (usefull for i.e. [0..360] angle)
     // if it's set to FALSE, value is clamped to FMinValue and FMaxValue.
     constructor Create(aMin, aMax, aStartValue: single; aLooped: boolean=False);
+    procedure OnElapse(const AElapsedSec: single); override;
   end;
 
 
