@@ -38,8 +38,10 @@ type
   ArrayOfSmallint = array of SmallInt;
   ArrayOfSingle = array of single;
 
-  // convert a percent value (range is [0..1]) to decibel
-  function ALSPercentToDecibel(aValue: single): single;
+  // use LinearTodB instead
+  function ALSPercentToDecibel(aValue: single): single; deprecated;
+  function LinearTodB(aLinearValue: single): single;
+  function dBToLinear(adBValue: single): single;
 
   // convert an array of values in range [0..1] to dB.
   procedure als_dsp_ValuesToDecibel(p: PSingle; aCount: integer);
@@ -74,10 +76,20 @@ uses Math;
 
 function ALSPercentToDecibel(aValue: single): single;
 begin
-  if aValue > 0.0 then
-    Result := Max(20*Log10(aValue), ALS_DECIBEL_MIN_VALUE)
+  Result := LinearTodB(aValue);
+end;
+
+function LinearTodB(aLinearValue: single): single;
+begin
+  if aLinearValue > 0.0 then
+    Result := Max(20*Log10(aLinearValue), ALS_DECIBEL_MIN_VALUE)
   else
     Result := ALS_DECIBEL_MIN_VALUE;
+end;
+
+function dBToLinear(adBValue: single): single;
+begin
+  Result := Power(10, adBValue*0.05); // *0.05 same than /20
 end;
 
 procedure als_dsp_ValuesToDecibel(p: PSingle; aCount: integer);

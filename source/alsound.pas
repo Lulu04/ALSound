@@ -1919,7 +1919,7 @@ end;
 
 function TALSCaptureContext.GetChannelsLeveldB(Index: integer): single;
 begin
-  Result := ALSPercentToDecibel(GetChannelsLevel(Index));
+  Result := LinearTodB(GetChannelsLevel(Index));
 end;
 
 function TALSCaptureContext.GetChannelsPeak(Index: integer): single;
@@ -1934,7 +1934,7 @@ end;
 
 function TALSCaptureContext.GetChannelsPeakdB(Index: integer): single;
 begin
-  Result := ALSPercentToDecibel(GetChannelsPeak(Index));
+  Result := LinearTodB(GetChannelsPeak(Index));
 end;
 
 procedure TALSCaptureContext.SetMonitoringEnabled(AValue: boolean);
@@ -5528,7 +5528,7 @@ end;
 
 function TALSSound.GetChannelLeveldB(index: integer): single;
 begin
-  Result := ALSPercentToDecibel( GetChannelLevel(index) );
+  Result := LinearTodB( GetChannelLevel(index) );
 end;
 
 procedure TALSSound.SetMute(AValue: boolean);

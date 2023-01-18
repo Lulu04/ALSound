@@ -350,7 +350,7 @@ end;
 function TALSFrameBufferBase.GetChannelsLeveldB(aIndex: integer): single;
 begin
   if (aIndex >= 0) and (aIndex < Length(FChannelsLevel)) then
-    Result := ALSPercentToDecibel(FChannelsLevel[aIndex])
+    Result := LinearTodB(FChannelsLevel[aIndex])
   else
     Result := ALS_DECIBEL_MIN_VALUE;
 end;
@@ -366,7 +366,7 @@ end;
 function TALSFrameBufferBase.GetChannelsPeakdB(aIndex: integer): single;
 begin
   if (aIndex >= 0) and (aIndex < Length(FChannelsPeak)) then
-    Result := ALSPercentToDecibel(FChannelsPeak[aIndex])
+    Result := LinearTodB(FChannelsPeak[aIndex])
   else
     Result := ALS_DECIBEL_MIN_VALUE;
 end;
