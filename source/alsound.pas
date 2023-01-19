@@ -330,6 +330,7 @@ type
   end;
 
 
+  TALSNotifyEvent = procedure(Sender: TALSSound) of object;
   TALSOnCustomDSP = procedure(Sender: TALSSound;
                               const aBuffer: TALSPlaybackBuffer) of object;
 
@@ -403,6 +404,10 @@ type
   private
     FOnCustomDSP: TALSOnCustomDSP;
     procedure SetOnCustomDSP(AValue: TALSOnCustomDSP);
+  private
+    FPreviousState: TALSState;
+    FOnStopped: TALSNotifyEvent;
+    procedure SetOnStopped(AValue: TALSNotifyEvent);
   private
     function GetTimePosition: single; virtual;
     procedure SetTimePosition(AValue: single); virtual;
@@ -541,6 +546,8 @@ type
     // Each time a new buffer is read from a streamed sound.
     // Your callback must be fast and mustn't update any GUI items.
     property OnNewBuffer: TALSOnCustomDSP read FOnCustomDSP write SetOnCustomDSP;
+
+    property OnStopped: TALSNotifyEvent read FOnStopped write SetOnStopped;
 
     // State of the sound. Possible value are ALS_STOPPED, ALS_PLAYING, ALS_PAUSED
     property State: TALSState read GetState;
@@ -760,7 +767,9 @@ type
     FCriticalSection: TRTLCriticalSection;
     FThread: TALSThread;
     FThreadIsStarted: boolean;
+    FSoundToProcess: TALSSound;
     procedure DoUpdate(const aElapsedTime: single);
+    procedure DoSoundOnStopped;
     procedure EnterCS;
     procedure LeaveCS;
   protected
@@ -4444,7 +4453,6 @@ end;
 procedure TALSPlaybackContext.DoUpdate(const aElapsedTime: single);
 var
   i: integer;
-  s: TALSSound;
 begin
   EnterCriticalSection(FCriticalSection);
   FThreadIsStarted:=True;
@@ -4467,11 +4475,11 @@ begin
     // Kill or update sounds
     for i := FList.Count - 1 downto 0 do
     begin
-      s := TALSSound(FList.Items[i]);
-      if s.FKill then
+      FSoundToProcess := TALSSound(FList.Items[i]);
+      if FSoundToProcess.FKill then
         InternalDeleteSound(i)
       else
-        s.Update(aElapsedTime);
+        FSoundToProcess.Update(aElapsedTime);
     end;
     // update playlist (if exists)
     if FPlaylist <> nil then
@@ -4487,6 +4495,12 @@ begin
     end;
     LeaveCriticalSection(FCriticalSection);
   end;
+end;
+
+procedure TALSPlaybackContext.DoSoundOnStopped;
+begin
+  if FSoundToProcess.FOnStopped <> NIL then
+    FSoundToProcess.FOnStopped(FSoundToProcess);
 end;
 
 procedure TALSPlaybackContext.EnterCS;
@@ -5137,6 +5151,16 @@ begin
   end;
 end;
 
+procedure TALSSound.SetOnStopped(AValue: TALSNotifyEvent);
+begin
+  EnterCS;
+  try
+    FOnStopped := AValue;
+  finally
+    LeaveCS;
+  end;
+end;
+
 function TALSSound.GetFormatForAL(aChannelCount: integer; aContextUseFloat,
   aWantBFormatAmbisonic: boolean): DWord;
 begin
@@ -5664,7 +5688,10 @@ end;
 procedure TALSSound.Update(const aElapsedTime: single);
 var
   v: single;
+  flagDoOnStopped: boolean;
 begin
+  flagDoOnStopped := False;
+
   EnterCriticalSection(FCriticalSection);
   try
     v := Volume.Value;
@@ -5689,9 +5716,16 @@ begin
       FKill := FKill or FKillAfterFadeOut;
     end;
 
+    flagDoOnStopped := (State = ALS_STOPPED) and
+                       (FPreviousState <> ALS_STOPPED);
+    FPreviousState := State;
   finally
     LeaveCriticalSection(FCriticalSection);;
   end;
+
+  if flagDoOnStopped and (FOnStopped <> NIL) then
+      FParentContext.FThread.Synchronize(FParentContext.FThread,
+                                         @FParentContext.DoSoundOnStopped);
 end;
 
 procedure TALSSound.InternalRewind;
