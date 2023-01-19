@@ -131,20 +131,23 @@ end;
 
 function dsp_Mean_Float(p: PSingle; aFrameCount: longword; aChannelCount: Smallint): ArrayOfSingle;
 var
-  i: longword;
+  i, fc: longword;
 begin
   Result := NIL;
   SetLength( Result, aChannelCount );
-  FillChar( Result, SizeOf(single)*aChannelCount, $00);
-  while aFrameCount>0 do
+  FillChar( Result[0], SizeOf(single)*aChannelCount, $00);
+
+  fc := aFrameCount;
+  while fc>0 do
   begin
     for i:=0 to aChannelCount-1 do
     begin
       Result[i] := Result[i] + p^;
       inc( p );
     end;
-    dec( aFrameCount );
+    dec( fc );
   end;
+
   for i:=0 to aChannelCount-1 do
     Result[i] := Result[i] / aFrameCount;
 end;
