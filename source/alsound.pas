@@ -992,19 +992,19 @@ type
     function PrepareSavingToFile(const aFilename: string; aFileFormat: TALSFileFormat): boolean;
 
     // Start the mixing and keeps the hand until the mixing is done or canceled.
-    // Callback OnProgress is fired each time the buffer is filled with audio,
-    // (by default every 10ms) and, for LCL based application,
+    // Callback OnProgress must be defined and is fired each time the buffer is
+    // filled with audio, (by default every 10ms) and, for LCL based application,
     // Application.ProcessMessage is called regularly.
     procedure StartMixing;
 
-    // Cancel the current mixing process. If the mix is saved to an output file,
-    // the file is deleted.
+    // Cancel a mixing process previously started with StartMixing. If the mix
+    // is saved to an output file, the file is deleted.
     // This method should be used e.g when user click cancel button to
     // interrupt a mixing process.
     procedure CancelMix;
 
-    // This callback is fired after a call to StartMixing, each time the buffer
-    // is filled with audio. It allows your application to:
+    // This callback is triggered each time the buffer is filled with audio.
+    // It allows your application to:
     //     - control if the current audio buffer content must be saved to the
     //         output file. Usefull to save only a portion of the mix.
     //     - control if the mixing must be stopped.
