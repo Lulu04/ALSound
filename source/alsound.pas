@@ -971,6 +971,9 @@ type
     FFile: PSNDFILE;
   private
     procedure RenderAudioToBuffer;
+    procedure SaveBufferToFile;
+    procedure CloseFile;
+    procedure DoExceptionNoCallback;
   public
     // Don't call directly this constructor. Instead, use method
     // ALSManager.CreateDefaultLoopbackContext.
@@ -1443,6 +1446,44 @@ begin
   end;
 end;
 
+procedure TALSLoopbackContext.SaveBufferToFile;
+var written: sf_count_t;
+begin
+  if (FFile <> NIL) then
+  begin
+    case FFrameBuffer.SampleType of
+      ALC_SHORT_SOFT: written := sf_writef_short(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
+      ALC_INT_SOFT: written := sf_writef_int(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
+      ALC_FLOAT_SOFT: written := sf_writef_float(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
+    end;
+
+    // check write file error
+    if written <> sf_count_t(FFrameBuffer.FrameCount) then
+      SetMixingError(als_FileWriteErrorWhileMixing);
+  end;
+end;
+
+procedure TALSLoopbackContext.CloseFile;
+begin
+  if FFile <> NIL then
+  begin
+    // close file
+    sf_write_sync(FFile);
+    sf_close(FFile);
+
+    // operation was canceled ?
+    if FCancelMixing then
+      DeleteFile(FFilename);
+
+    FFile := NIL;
+  end;
+end;
+
+procedure TALSLoopbackContext.DoExceptionNoCallback;
+begin
+  Raise Exception.Create('TALSLoopbackContext.StartMixing - Callback OnProgress must be defined');
+end;
+
 procedure TALSLoopbackContext.SetTimeSlice(AValue: double);
 begin
   if FIsMixing then exit;
@@ -1543,7 +1584,6 @@ end;
 procedure TALSLoopbackContext.StartMixing;
 var
   posTime: double;
-  written: sf_count_t;
   done, flagSaveToFile: boolean;
 begin
   if Error or
@@ -1551,7 +1591,7 @@ begin
     exit;
 
   if FOnProgress = NIL then
-    Raise Exception.Create('TALSLoopbackContext.StartMixing - Callback OnProgress must be defined');
+    DoExceptionNoCallback;
 
   ResetMixingError;
 
@@ -1574,18 +1614,8 @@ begin
     // Call the callback
     FOnProgress(Self, posTime+FTimeSlice, FFrameBuffer, flagSaveToFile, done);
 
-    if (FFile <> NIL) and flagSaveToFile then
-    begin// save audio to file
-      case FFrameBuffer.SampleType of
-        ALC_SHORT_SOFT: written := sf_writef_short(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
-        ALC_INT_SOFT: written := sf_writef_int(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
-        ALC_FLOAT_SOFT: written := sf_writef_float(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
-      end;
-
-      // check write file error
-      if written <> sf_count_t(FFrameBuffer.FrameCount) then
-        SetMixingError(als_FileWriteErrorWhileMixing);
-    end;
+    if flagSaveToFile then
+      SaveBufferToFile;
 
     {$ifdef LCL}
     Application.ProcessMessages;
@@ -1596,18 +1626,7 @@ begin
     posTime := posTime + FTimeSlice;
   end;
 
-  if FFile <> NIL then
-  begin
-    // close file
-    sf_write_sync(FFile);
-    sf_close(FFile);
-
-    // operation was canceled ?
-    if FCancelMixing then
-      DeleteFile(FFilename);
-
-    FFile := NIL;
-  end;
+  CloseFile;
 
   FFrameBuffer.FreeMemory;
   FIsMixing := False;
