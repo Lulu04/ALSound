@@ -1583,7 +1583,7 @@ end;
 
 procedure TALSLoopbackContext.StartMixing;
 var
-  posTime: double;
+  posTime, deltaTime: double;
   done, flagSaveToFile: boolean;
 begin
   if Error or
@@ -1611,8 +1611,11 @@ begin
     // Render some audio
     RenderAudioToBuffer;
 
+    deltaTime := FFrameBuffer.FrameCount/FSampleRate;
+    posTime := posTime + deltaTime;
+
     // Call the callback
-    FOnProgress(Self, posTime+FTimeSlice, FFrameBuffer, flagSaveToFile, done);
+    FOnProgress(Self, posTime, FFrameBuffer, flagSaveToFile, done);
 
     if flagSaveToFile then
       SaveBufferToFile;
@@ -1621,9 +1624,7 @@ begin
     Application.ProcessMessages;
     {$endif}
 
-    Update(FTimeSlice);
-
-    posTime := posTime + FTimeSlice;
+    Update(deltaTime);
   end;
 
   CloseFile;
