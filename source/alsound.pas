@@ -944,8 +944,7 @@ type
   TALSProgressEvent = procedure(Sender: TALSLoopbackContext;
                                 aTimePos: double;
                                 const aFrameBuffer: TALSLoopbackFrameBuffer;
-                                var SaveBufferToFile: boolean;
-                                var Done: boolean) of object;
+                                var SaveBufferToFile: boolean) of object;
 
   { TALSLoopbackContext }
 
@@ -958,10 +957,10 @@ type
     function GetMixingStrError: string;
   private
     FOnProgress: TALSProgressEvent;
-    FTimeSlice: double;
+    FTimeSlice,
+    FMixTime: double;
     FFrameBuffer: TALSLoopbackFrameBuffer;
-    FIsMixing,
-    FCancelMixing: boolean;
+    FIsMixing: boolean;
     procedure SetTimeSlice(AValue: double);
     procedure Update(const aElapsedTime: double);
     procedure InternalCloseDevice; override;
@@ -994,17 +993,20 @@ type
     // ALSManager.ListOfSimpleAudioFileFormat[].Format
     function PrepareSavingToFile(const aFilename: string; aFileFormat: TALSFileFormat): boolean;
 
-    // Start the mixing and keeps the hand until the mixing is done or canceled.
-    // Callback OnProgress must be defined and is fired each time the buffer is
-    // filled with audio, (by default every 10ms) and, for LCL based application,
-    // Application.ProcessMessage is called regularly.
-    procedure StartMixing;
+    // Call this method before start your mixing process, before any calls to
+    // Mix(...)
+    procedure BeginOfMix;
 
-    // Cancel a mixing process previously started with StartMixing. If the mix
-    // is saved to an output file, the file is deleted.
-    // This method should be used e.g when user click cancel button to
-    // interrupt a mixing process.
-    procedure CancelMix;
+    // Call this method to render audio. "OnProgress" event is triggered every
+    // time a buffer is filled.
+    // The buffer length can be adjusted with property "TimeSlice"
+    // Don't forget to put some sounds in playing state otherwise the result
+    // will be nothing but silence !
+    procedure Mix(aDuration: single);
+
+    // Call this method at the end of your mixing process. It close the output
+    // file (if any), free buffer memory, etc...
+    procedure EndOfMix;
 
     // This callback is triggered each time the buffer is filled with audio.
     // It allows your application to:
@@ -1471,10 +1473,6 @@ begin
     sf_write_sync(FFile);
     sf_close(FFile);
 
-    // operation was canceled ?
-    if FCancelMixing then
-      DeleteFile(FFilename);
-
     FFile := NIL;
   end;
 end;
@@ -1575,67 +1573,68 @@ begin
   FFileInfo. Format := aFileFormat;
   FFileInfo.Channels := FFrameBuffer.ChannelCount;
   FFile := ALSOpenAudioFile(aFilename, SFM_WRITE, @FFileInfo);
-{  if FFile = NIL then
-    SetMixingError(als_CanNotCreateTargetMixFile); }
 
   Result := FFile <> NIL;
 end;
 
-procedure TALSLoopbackContext.StartMixing;
-var
-  posTime, deltaTime: double;
-  done, flagSaveToFile: boolean;
+procedure TALSLoopbackContext.BeginOfMix;
 begin
-  if Error or
-     FIsMixing then
+  if FOnProgress = NIL then
+    DoExceptionNoCallback
+  else begin
+    FIsMixing := True;
+    FMixTime := 0.0;
+  end;
+end;
+
+procedure TALSLoopbackContext.Mix(aDuration: single);
+var
+  deltaTime: double;
+  flagSaveToFile: boolean;
+begin
+  if Error or MixingError then
     exit;
 
-  if FOnProgress = NIL then
-    DoExceptionNoCallback;
+  flagSaveToFile := (FFile <> NIL);
 
-  ResetMixingError;
-
-  FIsMixing := True;
-  FCancelMixing := False;
-
-  // reserves buffer memory
-  FFrameBuffer.FrameCapacity := Round(FSampleRate*FTimeSlice);
-
-  posTime := 0.0;
-  done := False;
-  flagSaveToFile := True;
-
-  while not MixingError and
-        not FCancelMixing and not done do
+  while (aDuration > 0) and not MixingError do
   begin
-    // Render some audio
+    // we need to mix slice of time defined by user
+    deltaTime := Min(aDuration, FTimeSlice);
+    aDuration := aDuration - deltaTime;
+
+    // reserves buffer memory
+    if FFrameBuffer.FrameCapacity <> Round(FSampleRate*deltaTime) then
+      FFrameBuffer.FrameCapacity := Round(FSampleRate*deltaTime);
+
+    // Render audio
     RenderAudioToBuffer;
 
+    // update the context
     deltaTime := FFrameBuffer.FrameCount/FSampleRate;
-    posTime := posTime + deltaTime;
+    Update(deltaTime);
+    FMixTime := FMixTime + deltaTime;
 
-    // Call the callback
-    FOnProgress(Self, posTime, FFrameBuffer, flagSaveToFile, done);
+    // Callback
+    FOnProgress(Self, FMixTime, FFrameBuffer, flagSaveToFile);
 
     if flagSaveToFile then
       SaveBufferToFile;
 
     {$ifdef LCL}
-    Application.ProcessMessages;
+    if aDuration > 0 then
+      Application.ProcessMessages;
     {$endif}
-
-    Update(deltaTime);
   end;
-
-  CloseFile;
-
-  FFrameBuffer.FreeMemory;
-  FIsMixing := False;
 end;
 
-procedure TALSLoopbackContext.CancelMix;
+procedure TALSLoopbackContext.EndOfMix;
 begin
-  FCancelMixing := True;
+  if FIsMixing then begin
+    CloseFile;
+    FFrameBuffer.FreeMemory;
+    FIsMixing := False;
+  end;
 end;
 
 { TALSLoopbackDeviceItem }
@@ -3775,6 +3774,7 @@ end;
 procedure TALSPlaybackCapturedSound.SetTimePosition(AValue: single);
 begin
   // Do nothing here
+  AValue := AValue; // avoid hint
 end;
 
 constructor TALSPlaybackCapturedSound.CreateFromCapture(aParent: TALSPlaybackContext;
