@@ -944,7 +944,8 @@ type
   TALSProgressEvent = procedure(Sender: TALSLoopbackContext;
                                 aTimePos: double;
                                 const aFrameBuffer: TALSLoopbackFrameBuffer;
-                                var SaveBufferToFile: boolean) of object;
+                                var SaveBufferToFile: boolean;
+                                var Cancel: boolean) of object;
 
   { TALSLoopbackContext }
 
@@ -1590,14 +1591,15 @@ end;
 procedure TALSLoopbackContext.Mix(aDuration: single);
 var
   deltaTime: double;
-  flagSaveToFile: boolean;
+  flagSaveToFile, flagCancel: boolean;
 begin
   if Error or MixingError then
     exit;
 
   flagSaveToFile := (FFile <> NIL);
+  flagCancel := False;
 
-  while (aDuration > 0) and not MixingError do
+  while (aDuration > 0.0005) and not MixingError and not flagCancel do
   begin
     // we need to mix slice of time defined by user
     deltaTime := Min(aDuration, FTimeSlice);
@@ -1616,15 +1618,10 @@ begin
     FMixTime := FMixTime + deltaTime;
 
     // Callback
-    FOnProgress(Self, FMixTime, FFrameBuffer, flagSaveToFile);
+    FOnProgress(Self, FMixTime, FFrameBuffer, flagSaveToFile, flagCancel);
 
     if flagSaveToFile then
       SaveBufferToFile;
-
-    {$ifdef LCL}
-    if aDuration > 0 then
-      Application.ProcessMessages;
-    {$endif}
   end;
 end;
 
