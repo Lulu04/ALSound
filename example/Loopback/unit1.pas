@@ -87,6 +87,7 @@ type
     // tracks instance
     FTracks: array[0..2] of TTrack;
     FMixingTime: double;
+    FCanceled: boolean;
     procedure InitTracks;
     function GetSampleRate: integer;
     function GetChannel: TALSLoopbackChannel;
@@ -95,7 +96,7 @@ type
   private
     procedure ProcessLoopbackContextOnProgress(Sender: TALSLoopbackContext;
       aTimePos: double; const aFrameBuffer: TALSLoopbackFrameBuffer;
-      var SaveBufferToFile: boolean);
+      var SaveBufferToFile, Cancel: boolean);
   public
 
   end;
@@ -127,7 +128,7 @@ end;
 procedure TForm1.BCancelClick(Sender: TObject);
 begin
   // User want to cancel the mix
-  BCancel.Tag := 1;
+  FCanceled := True;
 end;
 
 procedure TForm1.ComboBox2Select(Sender: TObject);
@@ -311,6 +312,8 @@ begin
   // filled with audio
   FLoopbackContext.OnProgress := @ProcessLoopbackContextOnProgress;
 
+  FCanceled := False;
+
   // We have to call this method before render audio.
   FLoopbackContext.BeginOfMix;
 
@@ -318,13 +321,13 @@ begin
        // Ask the context to render 10Ms of audio.
        FLoopbackContext.Mix(0.010);
       until (FMixingTime >= FloatSpinEdit2.Value) or // mixing time reach the end of the interval
-            (BCancel.Tag <> 0);                      // user click cancel button
+            FCanceled;                               // user click cancel button
 
   // We have to call this method at the end, to finalize the mixing process.
   FLoopbackContext.EndOfMix;
 
   // Checks error only if the mix was not canceled
-  if BCancel.Tag = 0 then // if user clicks cancel button, its Tag is sets to 1.
+  if not FCanceled then
   begin
     // Check mixing error
     if FLoopbackContext.MixingError then
@@ -332,8 +335,7 @@ begin
     else
       ShowMessage('Mixdown saved to' + lineending +
                   outputFilename + lineending + 'WITH SUCCESS');
-  end
-  else BCancel.Tag := 0;
+  end;
 
   // Free loopback context (and loopback device)
   FreeAndNil(FLoopbackContext);
@@ -433,7 +435,7 @@ end;
 //
 procedure TForm1.ProcessLoopbackContextOnProgress(Sender: TALSLoopbackContext;
   aTimePos: double; const aFrameBuffer: TALSLoopbackFrameBuffer;
-  var SaveBufferToFile: boolean);
+  var SaveBufferToFile, Cancel: boolean);
 begin
   FMixingTime := aTimePos;
 
@@ -451,6 +453,8 @@ begin
   // position is inside the interval the user entered.
   SaveBufferToFile := (aTimePos >= FloatSpinEdit1.Value) and
                       (aTimePos <= FloatSpinEdit2.Value);
+
+  Cancel := FCanceled;
 end;
 
 end.
