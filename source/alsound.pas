@@ -305,6 +305,7 @@ type
   {$include als_directfilter.inc}
   {$include als_frame_buffers.inc}
   {$include als_velocity_curve.inc}
+  {$include als_deviceitem.inc}
 
 type
   { TALSErrorHandling }
@@ -775,8 +776,10 @@ type
   protected
     FExecutingConstructor: boolean;
   private
+    FHaveExt_ALC_SOFT_HRTF: boolean;
     FList: TFPList;
     FPlaylist: TALSPlaylist;
+    FParentDeviceItem: PALSDeviceItem;
     FParentDevice: PALCdevice;
     FContext: PALCcontext;
     FDistanceModel: TALSDistanceModel;
@@ -786,19 +789,14 @@ type
     FAuxiliarySendAvailable: ALCInt;
     FDefaultResamplerIndex: integer;
 
-    FHaveEXT_ALC_EXT_EFX,
     FHaveLowPassFilter,
     FHaveBandPassFilter,
     FHaveHighPassFilter,
     FHaveExt_AL_SOFT_effect_target,
     FHaveExt_AL_EXT_STEREO_ANGLES,
     FHaveExt_AL_EXT_BFORMAT,
-    FHaveExt_ALC_SOFT_HRTF,
-    FHaveExt_ALC_SOFT_output_mode,
     FHaveExt_AL_SOFT_deferred_updates,
     FHaveExt_AL_SOFT_source_resampler,
-    FHaveExt_ALC_SOFT_loopback,
-    FHaveExt_ALC_SOFT_output_limiter,
     FHaveExt_AL_SOFT_source_spatialize,
     FHaveExt_AL_SOFT_gain_clamp_ex,
     FHaveExt_AL_EXT_source_distance_model,
@@ -809,6 +807,8 @@ type
 
     FInternalSampleType: TALSPlaybackSampleType;
 
+    function GetHaveEXT_ALC_EXT_EFX: boolean;
+    function GetHaveExt_ALC_SOFT_HRTF: boolean;
     function GetHaveFilter: boolean;
     function GetHRTFEnabled: boolean;
     function GetHRTFList: TStringArray;
@@ -830,7 +830,7 @@ type
     // Don't create playback context directly.
     // Use ALSManager.CreateDefaultPlaybackContext
     // or  ALSManager.CreatePlaybackContext(...) method for this
-    constructor Create(aDevice: PALCDevice; const aAttribs: TALSContextAttributes);
+    constructor Create(aDevice: PALSPlaybackDeviceItem; const aAttribs: TALSContextAttributes);
     destructor Destroy; override;
 
     // Loads a sound file into memory and return its instance.
@@ -916,7 +916,7 @@ type
     property ObtainedAuxiliarySendCount: integer read GetObtainedAuxiliarySendCount;
 
     property HaveStereoAngle: boolean read FHaveExt_AL_EXT_STEREO_ANGLES;
-    property HaveEFX: boolean read FHaveEXT_ALC_EXT_EFX;
+    property HaveEFX: boolean read GetHaveEXT_ALC_EXT_EFX;
     property HaveFilter: boolean read GetHaveFilter;
 
     // The list of available resampler.
@@ -926,7 +926,7 @@ type
     property HaveExt_AL_SOFT_source_resampler: boolean read FHaveExt_AL_SOFT_source_resampler;
 
     // True if the context have the HRTF capability.
-    property HaveHRTF: boolean read FHaveExt_ALC_SOFT_HRTF;
+    property HaveHRTF: boolean read GetHaveExt_ALC_SOFT_HRTF;
     // Gives the list of available HRTF.
     property HRTFList: TStringArray read GetHRTFList;
     // Return the success (True) or failure (False) of a HRTF change after a
@@ -977,7 +977,7 @@ type
   public
     // Don't call directly this constructor. Instead, use method
     // ALSManager.CreateDefaultLoopbackContext.
-    constructor Create(aDevice: PALCDevice);
+    constructor Create(aDevice: PALSLoopbackDeviceItem);
 
     // Checks if the specified attributes are supported by a loopback context.
     function IsAttributesSupported( aSampleRate: integer;
@@ -1144,32 +1144,6 @@ type
     property StrCaptureError: string read GetStrCaptureError;
   end;
 
-  { TALSPlaybackDeviceItem }
-
-  TALSPlaybackDeviceItem = record
-    Name: string;
-    Handle: PALCDevice;
-    OpenedCount: integer;
-    procedure InitDefault;
-    procedure Open;
-    procedure Close;
-    procedure DoCloseDevice;
-  end;
-  ArrayOfALSPlaybackDeviceItem = array of TALSPlaybackDeviceItem;
-
-  { TALSLoopbackDeviceItem }
-
-  TALSLoopbackDeviceItem = record
-    Name: string;
-    Handle: PALCDevice;
-    OpenedCount: integer;
-    procedure InitDefault;
-    procedure Open;
-    procedure Close;
-    procedure DoCloseDevice;
-  end;
-
-
   TALSAudioFileSubFormat = record
     Name: string;
     Format: longint; //cint;
@@ -1261,7 +1235,7 @@ type
     function CreateDefaultPlaybackContext: TALSPlaybackContext;
 
     // Opens the specified playback device and creates a context on it with
-    // custom context attributes.
+    // custom attributes.
     // aNameIndex is an index in the list provided by ListOfPlaybackDeviceName.
     // You can set aNameIndex to -1 to refer to the default playback device.
     function CreatePlaybackContext(aNameIndex: integer;
@@ -1377,6 +1351,7 @@ end;
 {$include als_directfilter.inc}
 {$include als_frame_buffers.inc}
 {$include als_velocity_curve.inc}
+{$include als_deviceitem.inc}
 {$undef ALS_IMPLEMENTATION}
 
 function ALSMakeFileFormat(aFileMajorFormat: TALSFileMajorFormat;
@@ -1442,7 +1417,8 @@ procedure TALSLoopbackContext.RenderAudioToBuffer;
 begin
   LockContext(FContext);
   try
-    alcRenderSamplesSOFT(FParentDevice, FFrameBuffer.Data, ALCsizei(FFrameBuffer.FrameCapacity));
+    FParentDeviceItem^.alcRenderSamplesSOFT(FParentDevice,
+       FFrameBuffer.Data, ALCsizei(FFrameBuffer.FrameCapacity));
     FFrameBuffer.FrameCount := FFrameBuffer.FrameCapacity;
   finally
     UnlockContext;
@@ -1502,16 +1478,17 @@ begin
   Result := ALSound.GetStrError(FLoopbackError);
 end;
 
-constructor TALSLoopbackContext.Create(aDevice: PALCDevice);
+constructor TALSLoopbackContext.Create(aDevice: PALSLoopbackDeviceItem);
 begin
   FExecutingConstructor := True;
   InitializeErrorStatus;
   ResetMixingError;
-  FParentDevice := aDevice;
+  FParentDevice := aDevice^.Handle;
+  FParentDeviceItem := PALSDeviceItem(aDevice);
 
-  if aDevice = NIL then
+  if aDevice^.Handle = NIL then
     SetError(als_ALCanNotOpenLoopbackDevice)
-  else if not alcIsExtensionPresent(aDevice, PChar('ALC_SOFT_loopback')) then
+  else if not aDevice^.FHaveExt_ALC_SOFT_loopback then
          SetError(als_ALContextCanNotLoopback);
 
   InitCriticalSection( FCriticalSection );
@@ -1529,7 +1506,7 @@ begin
     Result := False
   else
   begin
-    Result := alcIsRenderFormatSupportedSOFT(FParentDevice,
+    Result := FParentDeviceItem^.alcIsRenderFormatSupportedSOFT(FParentDevice,
         ALCsizei(aSampleRate), ALCsizei(Ord(aChannels)), ALCenum(Ord(aSampleType)));
     alcGetError(FPArentDevice);
   end;
@@ -1633,96 +1610,6 @@ begin
     FIsMixing := False;
   end;
 end;
-
-{ TALSLoopbackDeviceItem }
-
-procedure TALSLoopbackDeviceItem.InitDefault;
-begin
-  Name := '';
-  Handle := nil;
-  OpenedCount := 0;
-end;
-
-procedure TALSLoopbackDeviceItem.Open;
-begin
-  if not ALSManager.Error then
-  begin
-    if Handle = NIL then
-    begin
-      if alcIsExtensionPresent(NIL, PChar('ALC_SOFT_loopback')) then
-      begin
-        if LoadExt_ALC_SOFT_loopback(NIL) then
-          if Name = '' then
-            Handle := alcLoopbackOpenDeviceSOFT(nil)
-          else
-            Handle := alcLoopbackOpenDeviceSOFT(PChar(Name));
-      end;
-    end;
-    inc( OpenedCount );
-  end;
-end;
-
-procedure TALSLoopbackDeviceItem.Close;
-begin
-  if not ALSManager.Error then
-  begin
-    {$ifndef ALS_ENABLE_CONTEXT_SWITCHING}
-      _SingleContextIsCurrent := False;
-    {$endif}
-    if OpenedCount = 0 then
-      exit;
-    dec( OpenedCount );
-    if OpenedCount = 0 then
-      DoCloseDevice;
-  end;
-end;
-
-procedure TALSLoopbackDeviceItem.DoCloseDevice;
-begin
-  alcCloseDevice(Handle);
-  Handle := NIL;
-end;
-
-{ TALSPlaybackDeviceItem }
-
-procedure TALSPlaybackDeviceItem.InitDefault;
-begin
-  Name := '';
-  Handle := nil;
-  OpenedCount := 0;
-end;
-
-procedure TALSPlaybackDeviceItem.Open;
-begin
-  if not ALSManager.Error then
-  begin
-    if Handle = NIL then
-      Handle := alcOpenDevice(PChar(Name));
-    inc( OpenedCount );
-  end;
-end;
-
-procedure TALSPlaybackDeviceItem.Close;
-begin
-  if not ALSManager.Error then
-  begin
-    {$ifndef ALS_ENABLE_CONTEXT_SWITCHING}
-      _SingleContextIsCurrent := False;
-    {$endif}
-    if OpenedCount = 0 then
-      exit;
-    dec( OpenedCount );
-    if OpenedCount = 0 then
-      DoCloseDevice;
-  end;
-end;
-
-procedure TALSPlaybackDeviceItem.DoCloseDevice;
-begin
-  alcCloseDevice( Handle );
-  Handle := NIL;
-end;
-
 
 { TALSAudioFileFormat }
 
@@ -2401,10 +2288,13 @@ var
 begin
   FPlaybackDevices := NIL;
   FDefaultPlaybackDeviceIndex := -1;
+
   if not Error then
   begin
-    _defaultDeviceName := openalsoft.GetDefaultDeviceName;
     A := openalsoft.GetDeviceNames;
+    if Length(A) = 0 then exit;
+
+    _defaultDeviceName := openalsoft.GetDefaultDeviceName;
     SetLength(FPlaybackDevices, Length(A));
     for i:=0 to High(A) do
     begin
@@ -2683,7 +2573,7 @@ end;
 function TALSManager.CreateDefaultLoopbackContext: TALSLoopbackContext;
 begin
   FDefaultLoopbackDevice.Open;
-  Result := TALSLoopbackContext.Create(FDefaultLoopbackDevice.Handle);
+  Result := TALSLoopbackContext.Create(@FDefaultLoopbackDevice);
 end;
 
 function TALSManager.CreateDefaultPlaybackContext: TALSPlaybackContext;
@@ -2700,18 +2590,14 @@ begin
   if aNameIndex = -1 then
     aNameIndex := FDefaultPlaybackDeviceIndex;
 
-  if not Error then
-  begin
-    if (aNameIndex < 0) or (aNameIndex > High(ListOfPlaybackDeviceName)) then
-      Result := TALSPlaybackContext.Create(NIL, aAttribs)
-    else
-    begin
-      FPlaybackDevices[aNameIndex].Open;
-      Result := TALSPlaybackContext.Create(FPlaybackDevices[aNameIndex].Handle, aAttribs);
-    end;
-  end
-  else
-    Result := TALSPlaybackContext.Create(NIL, aAttribs);
+  if Error or
+     (aNameIndex < 0) or
+     (aNameIndex >= Length(ListOfPlaybackDeviceName)) then
+    Result := TALSPlaybackContext.Create(NIL, aAttribs)
+  else begin
+    FPlaybackDevices[aNameIndex].Open;
+    Result := TALSPlaybackContext.Create(@FPlaybackDevices[aNameIndex], aAttribs);
+  end;
 end;
 
 function TALSManager.CreateDefaultCaptureContext: TALSCaptureContext;
@@ -3463,7 +3349,7 @@ begin
      not FReady then
     exit;
   if FParentContext.Error or
-     not FParentContext.FHaveEXT_ALC_EXT_EFX then
+     not FParentContext.FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX then
     exit;
 
   LockContext( FParentContext.FContext );
@@ -3630,7 +3516,7 @@ begin
   FApplyDistanceAttenuation:=AValue;
 
   if FParentContext.Error or
-     not FParentContext.FHaveEXT_ALC_EXT_EFX or
+     not FParentContext.FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX or
      not Ready then
     Exit;
 
@@ -4565,7 +4451,7 @@ var
 begin
   Result.InitDefault(Self);
 
-  if not ALSManager.Error and FHaveEXT_ALC_EXT_EFX then
+  if not ALSManager.Error and FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX then
   begin
     LockContext( FContext );
     try
@@ -4634,7 +4520,7 @@ begin
   begin
     LockContext( FContext );
     try
-      Result := alcResetDeviceSOFT( FParentDevice, @aAttribs );
+      Result := FParentDeviceItem^.alcResetDeviceSOFT( FParentDevice, @aAttribs );
     finally
       UnlockContext;
     end;
@@ -4754,8 +4640,18 @@ end;
 
 function TALSPlaybackContext.GetHaveFilter: boolean;
 begin
-  Result := FHaveEXT_ALC_EXT_EFX and
+  Result := FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX and
            (FHaveLowPassFilter or FHaveBandPassFilter or FHaveHighPassFilter);
+end;
+
+function TALSPlaybackContext.GetHaveEXT_ALC_EXT_EFX: boolean;
+begin
+  Result := FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX;
+end;
+
+function TALSPlaybackContext.GetHaveExt_ALC_SOFT_HRTF: boolean;
+begin
+  Result := FParentDeviceItem^.FHaveExt_ALC_SOFT_HRTF;
 end;
 
 function TALSPlaybackContext.GetHRTFList: TStringArray;
@@ -4773,7 +4669,7 @@ begin
       alcGetIntegerv(FParentDevice, ALC_NUM_HRTF_SPECIFIERS_SOFT, 1, @num_hrtf);
       SetLength(Result, num_hrtf);
       for i:=0 to num_hrtf-1 do
-        Result[i] := alcGetStringiSOFT(FParentDevice, ALC_HRTF_SPECIFIER_SOFT, ALCSizei(i));
+        Result[i] := FParentDeviceItem^.alcGetStringiSOFT(FParentDevice, ALC_HRTF_SPECIFIER_SOFT, ALCSizei(i));
     end;
   finally
     UnlockContext;
@@ -4869,31 +4765,31 @@ begin
 
   // Look for some extensions before the creation of the context because
   // some attributes use them.
-  FHaveEXT_ALC_EXT_EFX := alcIsExtensionPresent(FParentDevice, PChar('ALC_EXT_EFX'));
+{  FHaveEXT_ALC_EXT_EFX := alcIsExtensionPresent(FParentDevice, PChar('ALC_EXT_EFX'));
   if FHaveEXT_ALC_EXT_EFX then
     FHaveEXT_ALC_EXT_EFX := LoadExt_ALC_EXT_EFX;
 
   FHaveExt_ALC_SOFT_HRTF := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_HRTF'));
   if FHaveExt_ALC_SOFT_HRTF then
-    FHaveExt_ALC_SOFT_HRTF := LoadExt_ALC_SOFT_HRTF(FParentDevice);
+    FHaveExt_ALC_SOFT_HRTF := LoadExt_ALC_SOFT_HRTF(FParentDevice);  }
 
   FHaveExt_AL_SOFT_source_resampler := alcIsExtensionPresent(FParentDevice, PChar('AL_SOFT_source_resampler'));
   if FHaveExt_AL_SOFT_source_resampler then
     FHaveExt_AL_SOFT_source_resampler := LoadExt_AL_SOFT_source_resampler;
 
-  FHaveExt_ALC_SOFT_output_mode := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_output_mode'));
+//  FHaveExt_ALC_SOFT_output_mode := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_output_mode'));
 
-  FHaveExt_ALC_SOFT_loopback := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_loopback'));
+//  FHaveExt_ALC_SOFT_loopback := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_loopback'));
   // extension is loaded in TALSLoopbackDeviceItem.Open
 
-  FHaveExt_ALC_SOFT_output_limiter := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_output_limiter'));
+//  FHaveExt_ALC_SOFT_output_limiter := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_output_limiter'));
 
   FContext := alcCreateContext(FParentDevice,
-    @aAttribs.ToArray(FHaveEXT_ALC_EXT_EFX,
-                      FHaveExt_ALC_SOFT_output_mode,
-                      FHaveExt_ALC_SOFT_HRTF,
-                      FHaveExt_ALC_SOFT_loopback,
-                      FHaveExt_ALC_SOFT_output_limiter)[0]);
+    @aAttribs.ToArray(FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX,
+                      FParentDeviceItem^.FHaveExt_ALC_SOFT_output_mode,
+                      FParentDeviceItem^.FHaveExt_ALC_SOFT_HRTF,
+                      FParentDeviceItem^.FHaveExt_ALC_SOFT_loopback,
+                      FParentDeviceItem^.FHaveExt_ALC_SOFT_output_limiter)[0]);
   CheckALCError(FParentDevice, als_ALContextNotCreated);
 
   if FContext <> nil then
@@ -4920,7 +4816,7 @@ begin
       alListenerfv(AL_ORIENTATION, @A[0]);
 
       //check for available filter
-      if FHaveEXT_ALC_EXT_EFX then
+      if FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX then
       begin
         alGenFilters(1, @obj);
         alGetError();
@@ -5021,14 +4917,16 @@ begin
   end;
 end;
 
-constructor TALSPlaybackContext.Create(aDevice: PALCDevice; const aAttribs: TALSContextAttributes);
+constructor TALSPlaybackContext.Create(aDevice: PALSPlaybackDeviceItem;
+  const aAttribs: TALSContextAttributes);
 begin
   FExecutingConstructor := True;
   InitializeErrorStatus;
-  FParentDevice := aDevice;
+  FParentDeviceItem := PALSDeviceItem(aDevice);
+  FParentDevice := aDevice^.Handle;
   FObtainedSampleRate := aAttribs.SampleRate;
 
-  if aDevice = NIL then
+  if aDevice^.Handle = NIL then
     SetError(als_ALCanNotOpenPlaybackDevice)
   else
     InitializeALContext(aAttribs);
@@ -5131,7 +5029,7 @@ begin
   Tone.FOnLockParam := @EnterCS;
   Tone.FOnUnlockParam := @LeaveCS;
 
-  if not Error and FParentContext.FHaveEXT_ALC_EXT_EFX then
+  if not Error and FParentContext.FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX then
   begin
     SetLength(FAuxiliarySend, FParentContext.ObtainedAuxiliarySendCount);
     for i := 0 to High(FAuxiliarySend) do
