@@ -3805,63 +3805,71 @@ var
   bufid: ALuint;
   readCount: sf_count_t;
   bufferIndex: integer;
+  res: ALenum;
 begin
   inherited Update(aElapsedTime);
 
   if Error then
     exit;
 
-  // Get the number of processed buffer
-  alGetSourceiv(FSource, AL_BUFFERS_PROCESSED, @processed);
-  if processed < 1 then
-    exit;
+  EnterCS;
+  try
+    // Get the number of processed buffer
+    alGetSourceiv(FSource, AL_BUFFERS_PROCESSED, @processed);
+    if processed < 1 then
+      exit;
 
-  FFrameReadAccu := FFrameReadAccu + int64(processed * FBufferFrameCount);
+    FFrameReadAccu := FFrameReadAccu + int64(processed * FBufferFrameCount);
 
-  // Unqueue and fill each processed buffer
-  while (processed > 0) do
-  begin
-    alSourceUnqueueBuffers(FSource, 1, @bufid);
-    Dec(processed);
-
-    // increment the index of the played buffer. we use this index to retrieve
-    // the channel's level.
-    inc(FPlayedBufferIndex);
-    if FPlayedBufferIndex >= FUsedBuffer then
-      FPlayedBufferIndex := 0;
-
-    // retrieves the index of the buffer to refill with audio
-    bufferIndex := 0;
-    while FBuffers[bufferIndex].BufferID <> bufid do
-     inc(bufferIndex);
-
-    // Read data from opened file
-    readCount := FDoReadFromStream(FBuffers[bufferIndex].Data,
-                                   FBuffers[bufferIndex].FrameCapacity);
-    FBuffers[bufferIndex].FrameCount := readCount;
-
-    if readCount > 0 then
+    // Unqueue and fill each processed buffer
+    while (processed > 0) do
     begin
-      // callback OnNewBuffer
-      if FOnCustomDSP <> NIL then
-        FOnCustomDSP(Self, FBuffers[bufferIndex]);
-      // refill the openAL buffer with...
-      alBufferData(bufid, ALenum(FFormatForAL), FBuffers[bufferIndex].Data,
-        ALsizei(readCount * FFrameSize), ALsizei(Fsfinfo.SampleRate));
-      // and queue it back on the source
-      alSourceQueueBuffers(FSource, 1, @bufid);
-      // Set the opened file read cursor to the beginning if LOOP mode is enabled,
-      // and the buffer was not completely filled
-      if FLoop and (readCount < FBuffers[bufferIndex].FrameCapacity) then
-      begin
-        sf_seek(Fsndfile, 0, SF_SEEK_SET);
-        FFrameReadAccu := 0;
-      end;
+      alSourceUnqueueBuffers(FSource, 1, @bufid);
+      Dec(processed);
+      res := alGetError();
+      if res <> AL_NO_ERROR then continue;
 
-      // retrieve the channels level
-      if FMonitoringEnabled then
-        FBuffers[bufferIndex].ComputeChannelsLevel;
+      // increment the index of the played buffer. we use this index to retrieve
+      // the channel's level.
+      inc(FPlayedBufferIndex);
+      if FPlayedBufferIndex >= FUsedBuffer then
+        FPlayedBufferIndex := 0;
+
+      // retrieves the index of the buffer to refill with audio
+      bufferIndex := 0;
+      while FBuffers[bufferIndex].BufferID <> bufid do
+       inc(bufferIndex);
+
+      // Read data from opened file
+      readCount := FDoReadFromStream(FBuffers[bufferIndex].Data,
+                                     FBuffers[bufferIndex].FrameCapacity);
+      FBuffers[bufferIndex].FrameCount := readCount;
+
+      if readCount > 0 then
+      begin
+        // callback OnNewBuffer
+        if FOnCustomDSP <> NIL then
+          FOnCustomDSP(Self, FBuffers[bufferIndex]);
+        // refill the openAL buffer with...
+        alBufferData(bufid, ALenum(FFormatForAL), FBuffers[bufferIndex].Data,
+          ALsizei(readCount * FFrameSize), ALsizei(Fsfinfo.SampleRate));
+        // and queue it back on the source
+        alSourceQueueBuffers(FSource, 1, @bufid);
+        // Set the opened file read cursor to the beginning if LOOP mode is enabled,
+        // and the buffer was not completely filled
+        if FLoop and (readCount < FBuffers[bufferIndex].FrameCapacity) then
+        begin
+          sf_seek(Fsndfile, 0, SF_SEEK_SET);
+          FFrameReadAccu := 0;
+        end;
+
+        // retrieve the channels level
+        if FMonitoringEnabled then
+          FBuffers[bufferIndex].ComputeChannelsLevel;
+      end;
     end;
+  finally
+    LeaveCS;
   end;
 end;
 
