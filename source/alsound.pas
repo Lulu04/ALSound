@@ -3856,7 +3856,7 @@ begin
 
       if readCount > 0 then
       begin
-        // callback OnNewBuffer
+        // callback custom DSP
         if FOnCustomDSP <> NIL then
           FOnCustomDSP(Self, FBuffers[bufferIndex], FOnCustomDSPUserData);
         // refill the openAL buffer with...
