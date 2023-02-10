@@ -71,6 +71,8 @@ type
   procedure dsp_Amplify_Smallint(p: PSmallint; aFrameCount: longword; aChannelCount: Smallint; aGain: single);
   procedure dsp_Amplify_Float(p: PSingle; aFrameCount: longword; aChannelCount: Smallint; aGain: single);
 
+  procedure dsp_AmplifySample_Smallint(p: PSmallint; aFrameIndex: longword; aChannelCount: Smallint; aGain: single); inline;
+  procedure dsp_AmplifySample_Float(p: PSingle; aFrameIndex: longword; aChannelCount: Smallint; aGain: single); inline;
 implementation
 uses Math;
 
@@ -376,6 +378,30 @@ begin
       inc(p);
     end;
     dec(aFrameCount);
+  end;
+end;
+
+procedure dsp_AmplifySample_Smallint(p: PSmallint; aFrameIndex: longword;
+  aChannelCount: Smallint; aGain: single);
+begin
+  inc(p, aFrameIndex*aChannelCount);
+  while aChannelCount > 0 do
+  begin
+    p^ := Smallint(EnsureRange(Round(p^*aGain), -32768, 32767));
+    inc(p);
+    dec(aChannelCount);
+  end;
+end;
+
+procedure dsp_AmplifySample_Float(p: PSingle; aFrameIndex: longword;
+  aChannelCount: Smallint; aGain: single);
+begin
+  inc(p, aFrameIndex*aChannelCount);
+  while aChannelCount > 0 do
+  begin
+    p^ := p^ * aGain;
+    inc(p);
+    dec(aChannelCount);
   end;
 end;
 
