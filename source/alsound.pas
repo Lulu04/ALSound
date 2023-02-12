@@ -2663,6 +2663,7 @@ begin
   SampleRate := ALint(aSampleRate);
   FLoopbackChannelType := aChannels;
   FLoopbackSampleType := aSampleType;
+  ContextUseFloat := aSampleType = ALC_FLOAT_SOFT;
 end;
 
 function TALSContextAttributes.ToArray( aEFXPresent, aOutputModePresent,
