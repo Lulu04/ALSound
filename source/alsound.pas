@@ -4959,6 +4959,7 @@ begin
   InitCriticalSection( FCriticalSection );
   FThreadIsStarted:=False;
   FThread := TALSThread.Create(@DoUpdate, 10, True);
+  FThread.Priority := tpHighest;
   // waits for the thread to be started to prevent any problems
   while not FThreadIsStarted do
     Sleep(1);
