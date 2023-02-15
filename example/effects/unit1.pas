@@ -492,11 +492,11 @@ begin
   else
   begin
     Label1.Caption := 'time: ' +
-      FormatFloat('0.00', FSound.GetTimePosition) + ' / ' +
+      FormatFloat('0.00', FSound.TimePosition) + ' / ' +
       FormatFloat('0.00', FSound.TotalDuration) + 's';
 
     ProgressBar1.Max := FSound.Seconds2Byte( FSound.TotalDuration ); // FSound.SampleCount div FSound.ChannelCount;
-    ProgressBar1.Position := FSound.Seconds2Byte( FSound.GetTimePosition );
+    ProgressBar1.Position := FSound.Seconds2Byte( FSound.TimePosition );
 
     case FSound.State of
       ALS_STOPPED: s := 'STOPPED';

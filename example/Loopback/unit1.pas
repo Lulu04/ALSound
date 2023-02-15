@@ -86,15 +86,17 @@ type
     FLoopbackContext: TALSLoopbackContext;
     // tracks instance
     FTracks: array[0..2] of TTrack;
+    FMixingTime: double;
+    FCanceled: boolean;
     procedure InitTracks;
     function GetSampleRate: integer;
     function GetChannel: TALSLoopbackChannel;
     function GetSampleType: TALSLoopbackSampleType;
-    procedure EnableMix(aState: boolean);
+    procedure EnableMixGUI(aState: boolean);
   private
     procedure ProcessLoopbackContextOnProgress(Sender: TALSLoopbackContext;
       aTimePos: double; const aFrameBuffer: TALSLoopbackFrameBuffer;
-      var SaveBufferToFile: boolean; var Done: boolean);
+      var SaveBufferToFile, Cancel: boolean);
   public
 
   end;
@@ -126,9 +128,7 @@ end;
 procedure TForm1.BCancelClick(Sender: TObject);
 begin
   // User want to cancel the mix
-  FLoopbackContext.CancelMix;
-
-  BCancel.Tag := 1;
+  FCanceled := True;
 end;
 
 procedure TForm1.ComboBox2Select(Sender: TObject);
@@ -259,7 +259,7 @@ begin
   end;
 
 
-  EnableMix(False); // Avoid any user's interaction.
+  EnableMixGUI(False); // Avoid any user's interaction.
 
   // Customize our context attributes for a loopback context
   FAttribs.InitDefault;  // don't forget this first !
@@ -289,7 +289,7 @@ begin
   outputFilename := ChangeFileExt(Edit1.Text, '.wav');
   outputFilename := ConcatPaths([DirectoryEdit1.Text, outputFilename]);
 
-  // In this demo, the file output major format is wav file and the bit width is
+  // In this demo, the file output major format is 'wav' and the bit width is
   // the same as the loopback context.
   case ComboBox3.ItemIndex of
     0: fileFormat := ALSMakeFileFormat( SF_FORMAT_WAV, SF_FORMAT_PCM_16);
@@ -303,30 +303,39 @@ begin
   begin
     ShowMessage('Can not create output file' + LineEnding + outputFilename);
     FreeAndNil(FLoopbackContext);
-    EnableMix(True);
+    EnableMixGUI(True);
     Exit;
   end;
 
-  // Define a callback to update our progress bar, vu-meters and controls
-  // the mixing process. This callback will be fired each time a buffer is
+  // Define a callback to update our progress bar, vu-meters and controls the
+  // mixing process. This callback will be fired each time a buffer is
   // filled with audio
   FLoopbackContext.OnProgress := @ProcessLoopbackContextOnProgress;
 
-  // Start the mixing -> keep the hand until the mixing is done or canceled.
-  // In the meantime OnProgress callback is fired.
-  FLoopbackContext.StartMixing;
+  FCanceled := False;
+
+  // We have to call this method before render audio.
+  FLoopbackContext.BeginOfMix;
+
+     repeat
+       // Ask the context to render 10Ms of audio.
+       FLoopbackContext.Mix(0.010);
+      until (FMixingTime >= FloatSpinEdit2.Value) or // mixing time reach the end of the interval
+            FCanceled;                               // user click cancel button
+
+  // We have to call this method at the end, to finalize the mixing process.
+  FLoopbackContext.EndOfMix;
 
   // Checks error only if the mix was not canceled
-  if BCancel.Tag = 0 then // if user clicks cancel button, its Tag is sets to 1.
+  if not FCanceled then
   begin
     // Check mixing error
     if FLoopbackContext.MixingError then
       Showmessage(FLoopbackContext.MixingStrError)
     else
       ShowMessage('Mixdown saved to' + lineending +
-                  outputFilename + lineending + 'SUCCESS');
-  end
-  else BCancel.Tag := 0;
+                  outputFilename + lineending + 'WITH SUCCESS');
+  end;
 
   // Free loopback context (and loopback device)
   FreeAndNil(FLoopbackContext);
@@ -337,7 +346,7 @@ begin
   ProgressBar1.Position := 0;
   ProgressBar2.Position := ALS_DECIBEL_MIN_VALUE;
   ProgressBar3.Position := ALS_DECIBEL_MIN_VALUE;
-  EnableMix(True);
+  EnableMixGUI(True);
 end;
 
 procedure TForm1.TrackBar1Change(Sender: TObject);
@@ -405,7 +414,7 @@ begin
   end;
 end;
 
-procedure TForm1.EnableMix(aState: boolean);
+procedure TForm1.EnableMixGUI(aState: boolean);
 begin
   Panel1.Enabled := aState;
   Panel2.Enabled := aState;
@@ -426,8 +435,10 @@ end;
 //
 procedure TForm1.ProcessLoopbackContextOnProgress(Sender: TALSLoopbackContext;
   aTimePos: double; const aFrameBuffer: TALSLoopbackFrameBuffer;
-  var SaveBufferToFile: boolean; var Done: boolean);
+  var SaveBufferToFile, Cancel: boolean);
 begin
+  FMixingTime := aTimePos;
+
   // update the progress bar according to the current mixing time position
   ProgressBar1.Position := Round(ProgressBar1.Max*aTimePos/FloatSpinEdit2.Value);
 
@@ -443,8 +454,7 @@ begin
   SaveBufferToFile := (aTimePos >= FloatSpinEdit1.Value) and
                       (aTimePos <= FloatSpinEdit2.Value);
 
-  // Stops the mixing when the current mixing time position reach the end time.
-  Done := aTimePos >= FloatSpinEdit2.Value;
+  Cancel := FCanceled;
 end;
 
 end.

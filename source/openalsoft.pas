@@ -63,21 +63,23 @@ const
 function LoadOpenALCoreLibrary( const aFilename: string ): boolean;
 procedure UnloadOpenALSoftLibrary;
 
-// load extension
-function LoadExt_ALC_EXT_EFX: boolean; // loaded in playback/loopback context
+// Device dependant extensions
 function LoadExt_ALC_EXT_thread_local_context(aDevice: PALCDevice): boolean;
+function LoadExt_ALC_SOFT_loopback(aDevice: PALCDevice): boolean;
+function LoadExt_ALC_SOFT_pause_device(aDevice: PALCDevice): boolean;
+function LoadExt_ALC_SOFT_HRTF(aDevice: PALCDevice): boolean;             // loaded in playback/loopback context
+function LoadExt_ALC_SOFT_device_clock(aDevice: PALCDevice): boolean;
+function LoadExt_ALC_SOFT_reopen_device(aDevice: PALCDevice): boolean;
+
+// Other extensions
+function LoadExt_ALC_EXT_EFX: boolean; // loaded in playback/loopback context
 function LoadExt_AL_SOFT_buffer_samples: boolean;
 function LoadExt_AL_SOFT_buffer_sub_data: boolean;
 function LoadExt_AL_SOFT_callback_buffer: boolean;
-function LoadExt_ALC_SOFT_loopback(aDevice: PALCDevice): boolean;
 function LoadExt_AL_SOFT_source_latency: boolean;
 function LoadExt_AL_SOFT_deferred_updates: boolean;  // loaded in playback/loopback context
-function LoadExt_ALC_SOFT_pause_device(aDevice: PALCDevice): boolean;
-function LoadExt_ALC_SOFT_HRTF(aDevice: PALCDevice): boolean;             // loaded in playback/loopback context
 function LoadExt_AL_SOFT_source_resampler: boolean;  // loaded in playback/loopback context
-function LoadExt_ALC_SOFT_device_clock(aDevice: PALCDevice): boolean;
 function LoadExt_AL_SOFT_events: boolean;
-function LoadExt_ALC_SOFT_reopen_device(aDevice: PALCDevice): boolean;
 
 // some functions to ease things
 function GetDeviceNames: TStringArray;
@@ -94,18 +96,12 @@ function StringToNullTerminated(const s: string): PChar;
 var
   FLoaded_OpenALCore_: boolean=False;
   FExtensionLoaded_ALC_EXT_EFX: boolean=False;
-  FExtensionLoaded_ALC_EXT_thread_local_context: boolean=False;
   FExtensionLoaded_AL_SOFT_buffer_samples: boolean=False;
   FExtensionLoaded_AL_SOFT_buffer_sub_data: boolean=False;
   FExtensionLoaded_AL_SOFT_callback_buffer: boolean=False;
-  FExtensionLoaded_ALC_SOFT_loopback: boolean=False;
-  FExtensionLoaded_ALC_SOFT_reopen_device: boolean=False;
   FExtensionLoaded_AL_SOFT_source_latency: boolean=False;
   FExtensionLoaded_AL_SOFT_deferred_updates: boolean=False;
-  FExtensionLoaded_ALC_SOFT_pause_device: boolean=False;
-  FExtensionLoaded_ALC_SOFT_HRTF: boolean=False;
   FExtensionLoaded_AL_SOFT_source_resampler: boolean=False;
-  FExtensionLoaded_ALC_SOFT_device_clock: boolean=False;
   FExtensionLoaded_AL_SOFT_events: boolean=False;
 
 implementation
@@ -329,17 +325,17 @@ end;
 
 function LoadExt_ALC_EXT_thread_local_context(aDevice: PALCDevice): boolean;
 begin
-  Result := FExtensionLoaded_ALC_EXT_thread_local_context;
-  if Result then exit;
-  if _OpenALLib_Handle <> DynLibs.NilHandle then
+  Result := alcIsExtensionPresent(NIL, PChar('ALC_EXT_thread_local_context'));
+  if Result then
   begin
-    FExtensionLoaded_ALC_EXT_thread_local_context := True;
-    Pointer(alcSetThreadContext) := GetALCExtProc(aDevice, 'alcSetThreadContext', FExtensionLoaded_ALC_EXT_thread_local_context);
-    Pointer(alcGetThreadContext) := GetALCExtProc(aDevice, 'alcGetThreadContext', FExtensionLoaded_ALC_EXT_thread_local_context);
-    Result := FExtensionLoaded_ALC_EXT_thread_local_context;
+    Pointer(_alcSetThreadContext) := GetALCExtProc(aDevice, 'alcSetThreadContext', Result);
+    Pointer(_alcGetThreadContext) := GetALCExtProc(aDevice, 'alcGetThreadContext', Result);
   end
   else
-    Result := False;
+  begin
+    _alcSetThreadContext := NIL;
+    _alcGetThreadContext := NIL;
+  end;
 end;
 
 function LoadExt_AL_SOFT_buffer_samples: boolean;
@@ -393,18 +389,19 @@ end;
 
 function LoadExt_ALC_SOFT_loopback(aDevice: PALCDevice): boolean;
 begin
-  Result := FExtensionLoaded_ALC_SOFT_loopback;
-  if Result then exit;
-  if _OpenALLib_Handle <> DynLibs.NilHandle then
+  Result := alcIsExtensionPresent(aDevice, PChar('ALC_SOFT_loopback'));
+  if Result then
   begin
-    FExtensionLoaded_ALC_SOFT_loopback := True;
-    Pointer(alcLoopbackOpenDeviceSOFT) := GetALCExtProc(aDevice, 'alcLoopbackOpenDeviceSOFT', FExtensionLoaded_ALC_SOFT_loopback);
-    Pointer(alcIsRenderFormatSupportedSOFT) := GetALCExtProc(aDevice, 'alcIsRenderFormatSupportedSOFT', FExtensionLoaded_ALC_SOFT_loopback);
-    Pointer(alcRenderSamplesSOFT) := GetALCExtProc(aDevice, 'alcRenderSamplesSOFT', FExtensionLoaded_ALC_SOFT_loopback);
-    Result := FExtensionLoaded_ALC_SOFT_loopback;
+    Pointer(_alcLoopbackOpenDeviceSOFT) := GetALCExtProc(aDevice, 'alcLoopbackOpenDeviceSOFT', Result);
+    Pointer(_alcIsRenderFormatSupportedSOFT) := GetALCExtProc(aDevice, 'alcIsRenderFormatSupportedSOFT', Result);
+    Pointer(_alcRenderSamplesSOFT) := GetALCExtProc(aDevice, 'alcRenderSamplesSOFT', Result);
   end
   else
-    Result := False;
+  begin
+    _alcLoopbackOpenDeviceSOFT := NIL;
+    _alcIsRenderFormatSupportedSOFT := NIL;
+    _alcRenderSamplesSOFT := NIL;
+  end;
 end;
 
 function LoadExt_AL_SOFT_source_latency: boolean;
@@ -449,32 +446,32 @@ end;
 
 function LoadExt_ALC_SOFT_pause_device(aDevice: PALCDevice): boolean;
 begin
-  Result := FExtensionLoaded_ALC_SOFT_pause_device;
-  if Result then exit;
-  if _OpenALLib_Handle <> DynLibs.NilHandle then
+  Result := alcIsExtensionPresent(NIL, PChar('ALC_SOFT_pause_device'));
+  if Result then
   begin
-    FExtensionLoaded_ALC_SOFT_pause_device := True;
-    Pointer(alcDevicePauseSOFT) := GetALCExtProc(aDevice, 'alcDevicePauseSOFT', FExtensionLoaded_ALC_SOFT_pause_device);
-    Pointer(alcDeviceResumeSOFT) := GetALCExtProc(aDevice, 'alcDeviceResumeSOFT', FExtensionLoaded_ALC_SOFT_pause_device);
-    Result := FExtensionLoaded_ALC_SOFT_pause_device;
+    Pointer(_alcDevicePauseSOFT) := GetALCExtProc(aDevice, 'alcDevicePauseSOFT', Result);
+    Pointer(_alcDeviceResumeSOFT) := GetALCExtProc(aDevice, 'alcDeviceResumeSOFT', Result);
   end
   else
-    Result := False;
+  begin
+    _alcDevicePauseSOFT := NIL;
+    _alcDeviceResumeSOFT := NIL;
+  end;
 end;
 
 function LoadExt_ALC_SOFT_HRTF(aDevice: PALCDevice): boolean;
 begin
-  Result := FExtensionLoaded_ALC_SOFT_HRTF;
-  if Result then exit;
-  if _OpenALLib_Handle <> DynLibs.NilHandle then
+  Result := alcIsExtensionPresent(aDevice, PChar('ALC_SOFT_HRTF'));
+  if Result then
   begin
-    FExtensionLoaded_ALC_SOFT_HRTF := True;
-    Pointer(alcGetStringiSOFT) := GetALCExtProc(aDevice, 'alcGetStringiSOFT', FExtensionLoaded_ALC_SOFT_HRTF);
-    Pointer(alcResetDeviceSOFT) := GetALCExtProc(aDevice, 'alcResetDeviceSOFT', FExtensionLoaded_ALC_SOFT_HRTF);
-    Result := FExtensionLoaded_ALC_SOFT_HRTF;
+    Pointer(_alcGetStringiSOFT) := GetALCExtProc(aDevice, 'alcGetStringiSOFT', Result);
+    Pointer(_alcResetDeviceSOFT) := GetALCExtProc(aDevice, 'alcResetDeviceSOFT', Result);
   end
   else
-    Result := False;
+  begin
+    _alcGetStringiSOFT := NIL;
+    _alcResetDeviceSOFT := NIL;
+  end;
 end;
 
 function LoadExt_AL_SOFT_source_resampler: boolean;
@@ -493,16 +490,15 @@ end;
 
 function LoadExt_ALC_SOFT_device_clock(aDevice: PALCDevice): boolean;
 begin
-  Result := FExtensionLoaded_ALC_SOFT_device_clock;
-  if Result then exit;
-  if _OpenALLib_Handle <> DynLibs.NilHandle then
+  Result := alcIsExtensionPresent(NIL, PChar('ALC_SOFT_device_clock'));
+  if Result then
   begin
-    FExtensionLoaded_ALC_SOFT_device_clock := true;
-    Pointer(alcGetInteger64vSOFT) := GetALCExtProc(aDevice, 'alcGetInteger64vSOFT', FExtensionLoaded_ALC_SOFT_device_clock);
-    Result := FExtensionLoaded_ALC_SOFT_device_clock;
+    Pointer(_alcGetInteger64vSOFT) := GetALCExtProc(aDevice, 'alcGetInteger64vSOFT', Result);
   end
   else
-    Result := False;
+  begin
+    _alcGetInteger64vSOFT := NIL;
+  end;
 end;
 
 function LoadExt_AL_SOFT_events: boolean;
@@ -524,16 +520,15 @@ end;
 
 function LoadExt_ALC_SOFT_reopen_device(aDevice: PALCDevice): boolean;
 begin
-  Result := FExtensionLoaded_ALC_SOFT_reopen_device;
-  if Result then exit;
-  if _OpenALLib_Handle <> DynLibs.NilHandle then
+  Result := alcIsExtensionPresent(NIL, PChar('ALC_SOFT_reopen_device'));
+  if Result then
   begin
-    FExtensionLoaded_ALC_SOFT_reopen_device := True;
-    Pointer(alcReopenDeviceSOFT) := GetALCExtProc(aDevice, 'alcReopenDeviceSOFT', FExtensionLoaded_ALC_SOFT_reopen_device);
-    Result := FExtensionLoaded_ALC_SOFT_reopen_device;
+    Pointer(_alcReopenDeviceSOFT) := GetALCExtProc(aDevice, 'alcReopenDeviceSOFT', Result);
   end
   else
-    Result := False;
+  begin
+    _alcReopenDeviceSOFT := NIL;
+  end;
 end;
 
 

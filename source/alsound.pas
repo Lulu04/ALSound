@@ -35,7 +35,7 @@ uses
   als_dsp_utils;
 
 const
-  ALS_VERSION = '1.3.0';
+  ALS_VERSION = '2.0.0';
 
 
 type
@@ -305,6 +305,7 @@ type
   {$include als_directfilter.inc}
   {$include als_frame_buffers.inc}
   {$include als_velocity_curve.inc}
+  {$include als_deviceitem.inc}
 
 type
   { TALSErrorHandling }
@@ -330,8 +331,10 @@ type
   end;
 
 
+  TALSNotifyEvent = procedure(Sender: TALSSound) of object;
   TALSOnCustomDSP = procedure(Sender: TALSSound;
-                              const aBuffer: TALSPlaybackBuffer) of object;
+                              const aBuffer: TALSPlaybackBuffer;
+                              aUserData: Pointer) of object;
 
   { TALSSound }
 
@@ -402,7 +405,11 @@ type
     procedure FreeParameters;
   private
     FOnCustomDSP: TALSOnCustomDSP;
-    procedure SetOnCustomDSP(AValue: TALSOnCustomDSP);
+    FOnCustomDSPUserData: pointer;
+  private
+    FPreviousState: TALSState;
+    FOnStopped: TALSNotifyEvent;
+    procedure SetOnStopped(AValue: TALSNotifyEvent);
   private
     function GetTimePosition: single; virtual;
     procedure SetTimePosition(AValue: single); virtual;
@@ -478,6 +485,15 @@ type
     procedure Position3D( aX, aY, aZ: single );
 
   public
+    // Use this method to define a callback to apply your custom DSP effects.
+    // This callback is called when a buffer is filled with new raw audio data
+    // and before send it to OpenAL-Soft pipeline.
+    // Only once for a static sound, when data are loaded or generated in memory.
+    // Each time a new buffer is read from a streamed sound.
+    // Your callback must be fast and mustn't update any GUI items.
+    procedure SetOnCustomDSP(aProc: TALSOnCustomDSP; aUserData: Pointer);
+
+  public
     // The volume of the sound. Range is [0.0 to 8.0]
     // 0.0=silence  1.0=original volume  >1.0=amplification
     Volume: TALSBoundedFParam;
@@ -534,13 +550,7 @@ type
     // For more info see  https://openal-soft.org/openal-extensions/SOFT_source_resampler.txt
     property ResamplerIndex: integer read GetResamplerIndex write SetResamplerIndex;
 
-    // Use this callback to apply your custom DSP effects on the given buffer.
-    // This callback is called when a buffer is filled with new raw audio data
-    // and before send it to OpenAL-Soft.
-    // Only once for a static sound, when data are loaded or generated in memory.
-    // Each time a new buffer is read from a streamed sound.
-    // Your callback must be fast and mustn't update any GUI items.
-    property OnNewBuffer: TALSOnCustomDSP read FOnCustomDSP write SetOnCustomDSP;
+    property OnStopped: TALSNotifyEvent read FOnStopped write SetOnStopped;
 
     // State of the sound. Possible value are ALS_STOPPED, ALS_PLAYING, ALS_PAUSED
     property State: TALSState read GetState;
@@ -565,12 +575,14 @@ type
     constructor CreateFromFile(aParent: TALSPlaybackContext;
                                const aFilename: string;
                                aEnableMonitor: boolean;
-                               aOnCustomDSP: TALSOnCustomDSP);
+                               aOnCustomDSP: TALSOnCustomDSP;
+                               aCustomDSPUserData: Pointer);
     constructor CreateWhiteNoise(aParent: TALSPlaybackContext;
                                  aDuration: single;
                                  aChannelCount: integer;
                                  aEnableMonitor: boolean;
-                                 aOnCustomDSP: TALSOnCustomDSP);
+                                 aOnCustomDSP: TALSOnCustomDSP;
+                                 aCustomDSPUserData: Pointer);
     destructor Destroy; override;
   end;
 
@@ -607,11 +619,13 @@ type
     constructor CreateFromFile(aParent: TALSPlaybackContext;
                                const aFilename: string;
                                aEnableMonitor: boolean;
-                               aOnCustomDSP: TALSOnCustomDSP);
+                               aOnCustomDSP: TALSOnCustomDSP;
+                               aCustomDSPUserData: Pointer);
     {constructor CreateFromUrl(aParent: TALSPlaybackContext;
                               const aUrl: string;
                                aEnableMonitor: boolean;
-                               aOnCustomDSP: TALSOnCustomDSP); }
+                               aOnCustomDSP: TALSOnCustomDSP;
+                               aCustomDSPUserData: Pointer); }
     destructor Destroy; override;
   end;
 
@@ -760,14 +774,18 @@ type
     FCriticalSection: TRTLCriticalSection;
     FThread: TALSThread;
     FThreadIsStarted: boolean;
+    FSoundToProcess: TALSSound;
     procedure DoUpdate(const aElapsedTime: single);
+    procedure DoSoundOnStopped;
     procedure EnterCS;
     procedure LeaveCS;
   protected
     FExecutingConstructor: boolean;
   private
+    FHaveExt_ALC_SOFT_HRTF: boolean;
     FList: TFPList;
     FPlaylist: TALSPlaylist;
+    FParentDeviceItem: PALSDeviceItem;
     FParentDevice: PALCdevice;
     FContext: PALCcontext;
     FDistanceModel: TALSDistanceModel;
@@ -777,19 +795,14 @@ type
     FAuxiliarySendAvailable: ALCInt;
     FDefaultResamplerIndex: integer;
 
-    FHaveEXT_ALC_EXT_EFX,
     FHaveLowPassFilter,
     FHaveBandPassFilter,
     FHaveHighPassFilter,
     FHaveExt_AL_SOFT_effect_target,
     FHaveExt_AL_EXT_STEREO_ANGLES,
     FHaveExt_AL_EXT_BFORMAT,
-    FHaveExt_ALC_SOFT_HRTF,
-    FHaveExt_ALC_SOFT_output_mode,
     FHaveExt_AL_SOFT_deferred_updates,
     FHaveExt_AL_SOFT_source_resampler,
-    FHaveExt_ALC_SOFT_loopback,
-    FHaveExt_ALC_SOFT_output_limiter,
     FHaveExt_AL_SOFT_source_spatialize,
     FHaveExt_AL_SOFT_gain_clamp_ex,
     FHaveExt_AL_EXT_source_distance_model,
@@ -800,6 +813,8 @@ type
 
     FInternalSampleType: TALSPlaybackSampleType;
 
+    function GetHaveEXT_ALC_EXT_EFX: boolean;
+    function GetHaveExt_ALC_SOFT_HRTF: boolean;
     function GetHaveFilter: boolean;
     function GetHRTFEnabled: boolean;
     function GetHRTFList: TStringArray;
@@ -821,7 +836,7 @@ type
     // Don't create playback context directly.
     // Use ALSManager.CreateDefaultPlaybackContext
     // or  ALSManager.CreatePlaybackContext(...) method for this
-    constructor Create(aDevice: PALCDevice; const aAttribs: TALSContextAttributes);
+    constructor Create(aDevice: PALSPlaybackDeviceItem; const aAttribs: TALSContextAttributes);
     destructor Destroy; override;
 
     // Loads a sound file into memory and return its instance.
@@ -829,13 +844,15 @@ type
     // sound (it take some ram and cpu resources).
     function AddSound(const aFilename: string;
                       aEnableMonitoring: boolean=False;
-                      aOnCustomDSP: TALSOnCustomDSP=NIL): TALSSound;
+                      aOnCustomDSP: TALSOnCustomDSP=NIL;
+                      aCustomDSPUserData: Pointer=NIL): TALSSound;
     // Opens the sound file as stream and return its instance.
     // Set aEnableMonitoring to True if you need the channel's level of the
     // sound (it take some ram and cpu resources).
     function AddStream(const aFilename: string;
                        aEnableMonitoring: boolean=False;
-                       aOnCustomDSP: TALSOnCustomDSP=NIL): TALSSound;
+                       aOnCustomDSP: TALSOnCustomDSP=NIL;
+                       aCustomDSPUserData: Pointer=NIL): TALSSound;
 
   { TODO : AddWebStream( const aUrl: string ): TOALSound; to play audio from url }
 
@@ -845,7 +862,8 @@ type
     function CreateWhiteNoise(aDuration: single;
                               aChannelCount: integer;
                               aEnableMonitoring: boolean=False;
-                              aOnCustomDSP: TALSOnCustomDSP=NIL): TALSSound;
+                              aOnCustomDSP: TALSOnCustomDSP=NIL;
+                              aCustomDSPUserData: Pointer=NIL): TALSSound;
 
     // stops the sound and free it
     procedure Delete(ASound: TALSSound);
@@ -907,7 +925,7 @@ type
     property ObtainedAuxiliarySendCount: integer read GetObtainedAuxiliarySendCount;
 
     property HaveStereoAngle: boolean read FHaveExt_AL_EXT_STEREO_ANGLES;
-    property HaveEFX: boolean read FHaveEXT_ALC_EXT_EFX;
+    property HaveEFX: boolean read GetHaveEXT_ALC_EXT_EFX;
     property HaveFilter: boolean read GetHaveFilter;
 
     // The list of available resampler.
@@ -917,7 +935,7 @@ type
     property HaveExt_AL_SOFT_source_resampler: boolean read FHaveExt_AL_SOFT_source_resampler;
 
     // True if the context have the HRTF capability.
-    property HaveHRTF: boolean read FHaveExt_ALC_SOFT_HRTF;
+    property HaveHRTF: boolean read GetHaveExt_ALC_SOFT_HRTF;
     // Gives the list of available HRTF.
     property HRTFList: TStringArray read GetHRTFList;
     // Return the success (True) or failure (False) of a HRTF change after a
@@ -936,7 +954,7 @@ type
                                 aTimePos: double;
                                 const aFrameBuffer: TALSLoopbackFrameBuffer;
                                 var SaveBufferToFile: boolean;
-                                var Done: boolean) of object;
+                                var Cancel: boolean) of object;
 
   { TALSLoopbackContext }
 
@@ -949,10 +967,10 @@ type
     function GetMixingStrError: string;
   private
     FOnProgress: TALSProgressEvent;
-    FTimeSlice: double;
+    FTimeSlice,
+    FMixTime: double;
     FFrameBuffer: TALSLoopbackFrameBuffer;
-    FIsMixing,
-    FCancelMixing: boolean;
+    FIsMixing: boolean;
     procedure SetTimeSlice(AValue: double);
     procedure Update(const aElapsedTime: double);
     procedure InternalCloseDevice; override;
@@ -962,10 +980,13 @@ type
     FFile: PSNDFILE;
   private
     procedure RenderAudioToBuffer;
+    procedure SaveBufferToFile;
+    procedure CloseFile;
+    procedure DoExceptionNoCallback;
   public
     // Don't call directly this constructor. Instead, use method
     // ALSManager.CreateDefaultLoopbackContext.
-    constructor Create(aDevice: PALCDevice);
+    constructor Create(aDevice: PALSLoopbackDeviceItem);
 
     // Checks if the specified attributes are supported by a loopback context.
     function IsAttributesSupported( aSampleRate: integer;
@@ -982,20 +1003,23 @@ type
     // ALSManager.ListOfSimpleAudioFileFormat[].Format
     function PrepareSavingToFile(const aFilename: string; aFileFormat: TALSFileFormat): boolean;
 
-    // Start the mixing and keeps the hand until the mixing is done or canceled.
-    // Callback OnProgress is fired each time the buffer is filled with audio,
-    // (by default every 10ms) and, for LCL based application,
-    // Application.ProcessMessage is called regularly.
-    procedure StartMixing;
+    // Call this method before start your mixing process, before any calls to
+    // Mix(...)
+    procedure BeginOfMix;
 
-    // Cancel the current mixing process. If the mix is saved to an output file,
-    // the file is deleted.
-    // This method should be used e.g when user click cancel button to
-    // interrupt a mixing process.
-    procedure CancelMix;
+    // Call this method to render audio. "OnProgress" event is triggered every
+    // time a buffer is filled.
+    // The buffer length can be adjusted with property "TimeSlice"
+    // Don't forget to put some sounds in playing state otherwise the result
+    // will be nothing but silence !
+    procedure Mix(aDuration: single);
 
-    // This callback is fired after a call to StartMixing, each time the buffer
-    // is filled with audio. It allows your application to:
+    // Call this method at the end of your mixing process. It close the output
+    // file (if any), free buffer memory, etc...
+    procedure EndOfMix;
+
+    // This callback is triggered each time the buffer is filled with audio.
+    // It allows your application to:
     //     - control if the current audio buffer content must be saved to the
     //         output file. Usefull to save only a portion of the mix.
     //     - control if the mixing must be stopped.
@@ -1129,32 +1153,6 @@ type
     property StrCaptureError: string read GetStrCaptureError;
   end;
 
-  { TALSPlaybackDeviceItem }
-
-  TALSPlaybackDeviceItem = record
-    Name: string;
-    Handle: PALCDevice;
-    OpenedCount: integer;
-    procedure InitDefault;
-    procedure Open;
-    procedure Close;
-    procedure DoCloseDevice;
-  end;
-  ArrayOfALSPlaybackDeviceItem = array of TALSPlaybackDeviceItem;
-
-  { TALSLoopbackDeviceItem }
-
-  TALSLoopbackDeviceItem = record
-    Name: string;
-    Handle: PALCDevice;
-    OpenedCount: integer;
-    procedure InitDefault;
-    procedure Open;
-    procedure Close;
-    procedure DoCloseDevice;
-  end;
-
-
   TALSAudioFileSubFormat = record
     Name: string;
     Format: longint; //cint;
@@ -1246,7 +1244,7 @@ type
     function CreateDefaultPlaybackContext: TALSPlaybackContext;
 
     // Opens the specified playback device and creates a context on it with
-    // custom context attributes.
+    // custom attributes.
     // aNameIndex is an index in the list provided by ListOfPlaybackDeviceName.
     // You can set aNameIndex to -1 to refer to the default playback device.
     function CreatePlaybackContext(aNameIndex: integer;
@@ -1354,7 +1352,6 @@ begin
 {$endif}
 end;
 
-
 {$undef ALS_INTERFACE}
 {$define ALS_IMPLEMENTATION}
 {$include als_error.inc}
@@ -1363,6 +1360,7 @@ end;
 {$include als_directfilter.inc}
 {$include als_frame_buffers.inc}
 {$include als_velocity_curve.inc}
+{$include als_deviceitem.inc}
 {$undef ALS_IMPLEMENTATION}
 
 function ALSMakeFileFormat(aFileMajorFormat: TALSFileMajorFormat;
@@ -1428,11 +1426,46 @@ procedure TALSLoopbackContext.RenderAudioToBuffer;
 begin
   LockContext(FContext);
   try
-    alcRenderSamplesSOFT(FParentDevice, FFrameBuffer.Data, ALCsizei(FFrameBuffer.FrameCapacity));
+    FParentDeviceItem^.alcRenderSamplesSOFT(FParentDevice,
+       FFrameBuffer.Data, ALCsizei(FFrameBuffer.FrameCapacity));
     FFrameBuffer.FrameCount := FFrameBuffer.FrameCapacity;
   finally
     UnlockContext;
   end;
+end;
+
+procedure TALSLoopbackContext.SaveBufferToFile;
+var written: sf_count_t;
+begin
+  if (FFile <> NIL) then
+  begin
+    case FFrameBuffer.SampleType of
+      ALC_SHORT_SOFT: written := sf_writef_short(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
+      ALC_INT_SOFT: written := sf_writef_int(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
+      ALC_FLOAT_SOFT: written := sf_writef_float(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
+    end;
+
+    // check write file error
+    if written <> sf_count_t(FFrameBuffer.FrameCount) then
+      SetMixingError(als_FileWriteErrorWhileMixing);
+  end;
+end;
+
+procedure TALSLoopbackContext.CloseFile;
+begin
+  if FFile <> NIL then
+  begin
+    // close file
+    sf_write_sync(FFile);
+    sf_close(FFile);
+
+    FFile := NIL;
+  end;
+end;
+
+procedure TALSLoopbackContext.DoExceptionNoCallback;
+begin
+  Raise Exception.Create('TALSLoopbackContext.StartMixing - Callback OnProgress must be defined');
 end;
 
 procedure TALSLoopbackContext.SetTimeSlice(AValue: double);
@@ -1454,16 +1487,17 @@ begin
   Result := ALSound.GetStrError(FLoopbackError);
 end;
 
-constructor TALSLoopbackContext.Create(aDevice: PALCDevice);
+constructor TALSLoopbackContext.Create(aDevice: PALSLoopbackDeviceItem);
 begin
   FExecutingConstructor := True;
   InitializeErrorStatus;
   ResetMixingError;
-  FParentDevice := aDevice;
+  FParentDevice := aDevice^.Handle;
+  FParentDeviceItem := PALSDeviceItem(aDevice);
 
-  if aDevice = NIL then
+  if aDevice^.Handle = NIL then
     SetError(als_ALCanNotOpenLoopbackDevice)
-  else if not alcIsExtensionPresent(aDevice, PChar('ALC_SOFT_loopback')) then
+  else if not aDevice^.FHaveExt_ALC_SOFT_loopback then
          SetError(als_ALContextCanNotLoopback);
 
   InitCriticalSection( FCriticalSection );
@@ -1481,7 +1515,7 @@ begin
     Result := False
   else
   begin
-    Result := alcIsRenderFormatSupportedSOFT(FParentDevice,
+    Result := FParentDeviceItem^.alcIsRenderFormatSupportedSOFT(FParentDevice,
         ALCsizei(aSampleRate), ALCsizei(Ord(aChannels)), ALCenum(Ord(aSampleType)));
     alcGetError(FPArentDevice);
   end;
@@ -1523,182 +1557,68 @@ begin
   FFilename := aFilename;
   // Create output audio file
   FFileInfo.SampleRate := FSampleRate;
-  FFileInfo.Format := aFileFormat;
+  FFileInfo. Format := aFileFormat;
   FFileInfo.Channels := FFrameBuffer.ChannelCount;
-  FFile := sf_open(PChar(aFilename), SFM_WRITE, @FFileInfo);
-{  if FFile = NIL then
-    SetMixingError(als_CanNotCreateTargetMixFile); }
+  FFile := ALSOpenAudioFile(aFilename, SFM_WRITE, @FFileInfo);
 
   Result := FFile <> NIL;
 end;
 
-procedure TALSLoopbackContext.StartMixing;
-var
-  posTime: double;
-  written: sf_count_t;
-  done, flagSaveToFile: boolean;
+procedure TALSLoopbackContext.BeginOfMix;
 begin
-  if Error or
-     FIsMixing then
+  if FOnProgress = NIL then
+    DoExceptionNoCallback
+  else begin
+    FIsMixing := True;
+    FMixTime := 0.0;
+  end;
+end;
+
+procedure TALSLoopbackContext.Mix(aDuration: single);
+var
+  deltaTime: double;
+  flagSaveToFile, flagCancel: boolean;
+begin
+  if Error or MixingError then
     exit;
 
-  if FOnProgress = NIL then
-    Raise Exception.Create('TALSLoopbackContext.StartMixing - Callback OnProgress must be defined');
+  flagSaveToFile := (FFile <> NIL);
+  flagCancel := False;
 
-  ResetMixingError;
-
-  FIsMixing := True;
-  FCancelMixing := False;
-
-  // reserves buffer memory
-  FFrameBuffer.FrameCapacity := Round(FSampleRate*FTimeSlice);
-
-  posTime := 0.0;
-  done := False;
-  flagSaveToFile := True;
-
-  while not MixingError and
-        not FCancelMixing and not done do
+  while (aDuration > 0.0005) and not MixingError and not flagCancel do
   begin
-    // Render some audio
+    // we need to mix slice of time defined by user
+    deltaTime := Min(aDuration, FTimeSlice);
+    aDuration := aDuration - deltaTime;
+
+    // reserves buffer memory
+    if FFrameBuffer.FrameCapacity <> Round(FSampleRate*deltaTime) then
+      FFrameBuffer.FrameCapacity := Round(FSampleRate*deltaTime);
+
+    // Render audio
     RenderAudioToBuffer;
 
-    // Call the callback
-    FOnProgress(Self, posTime+FTimeSlice, FFrameBuffer, flagSaveToFile, done);
+    // update the context
+    deltaTime := FFrameBuffer.FrameCount/FSampleRate;
+    Update(deltaTime);
+    FMixTime := FMixTime + deltaTime;
 
-    if (FFile <> NIL) and flagSaveToFile then
-    begin// save audio to file
-      case FFrameBuffer.SampleType of
-        ALC_SHORT_SOFT: written := sf_writef_short(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
-        ALC_INT_SOFT: written := sf_writef_int(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
-        ALC_FLOAT_SOFT: written := sf_writef_float(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
-      end;
+    // Callback
+    FOnProgress(Self, FMixTime, FFrameBuffer, flagSaveToFile, flagCancel);
 
-      // check write file error
-      if written <> sf_count_t(FFrameBuffer.FrameCount) then
-        SetMixingError(als_FileWriteErrorWhileMixing);
-    end;
-
-    {$ifdef LCL}
-    Application.ProcessMessages;
-    {$endif}
-
-    Update(FTimeSlice);
-
-    posTime := posTime + FTimeSlice;
-  end;
-
-  if FFile <> NIL then
-  begin
-    // close file
-    sf_write_sync(FFile);
-    sf_close(FFile);
-
-    // operation was canceled ?
-    if FCancelMixing then
-      DeleteFile(FFilename);
-
-    FFile := NIL;
-  end;
-
-  FFrameBuffer.FreeMemory;
-  FIsMixing := False;
-end;
-
-procedure TALSLoopbackContext.CancelMix;
-begin
-  FCancelMixing := True;
-end;
-
-{ TALSLoopbackDeviceItem }
-
-procedure TALSLoopbackDeviceItem.InitDefault;
-begin
-  Name := '';
-  Handle := nil;
-  OpenedCount := 0;
-end;
-
-procedure TALSLoopbackDeviceItem.Open;
-begin
-  if not ALSManager.Error then
-  begin
-    if Handle = NIL then
-    begin
-      if alcIsExtensionPresent(NIL, PChar('ALC_SOFT_loopback')) then
-      begin
-        if LoadExt_ALC_SOFT_loopback(NIL) then
-          if Name = '' then
-            Handle := alcLoopbackOpenDeviceSOFT(nil)
-          else
-            Handle := alcLoopbackOpenDeviceSOFT(PChar(Name));
-      end;
-    end;
-    inc( OpenedCount );
+    if flagSaveToFile then
+      SaveBufferToFile;
   end;
 end;
 
-procedure TALSLoopbackDeviceItem.Close;
+procedure TALSLoopbackContext.EndOfMix;
 begin
-  if not ALSManager.Error then
-  begin
-    {$ifndef ALS_ENABLE_CONTEXT_SWITCHING}
-      _SingleContextIsCurrent := False;
-    {$endif}
-    if OpenedCount = 0 then
-      exit;
-    dec( OpenedCount );
-    if OpenedCount = 0 then
-      DoCloseDevice;
+  if FIsMixing then begin
+    CloseFile;
+    FFrameBuffer.FreeMemory;
+    FIsMixing := False;
   end;
 end;
-
-procedure TALSLoopbackDeviceItem.DoCloseDevice;
-begin
-  alcCloseDevice(Handle);
-  Handle := NIL;
-end;
-
-{ TALSPlaybackDeviceItem }
-
-procedure TALSPlaybackDeviceItem.InitDefault;
-begin
-  Name := '';
-  Handle := nil;
-  OpenedCount := 0;
-end;
-
-procedure TALSPlaybackDeviceItem.Open;
-begin
-  if not ALSManager.Error then
-  begin
-    if Handle = NIL then
-      Handle := alcOpenDevice(PChar(Name));
-    inc( OpenedCount );
-  end;
-end;
-
-procedure TALSPlaybackDeviceItem.Close;
-begin
-  if not ALSManager.Error then
-  begin
-    {$ifndef ALS_ENABLE_CONTEXT_SWITCHING}
-      _SingleContextIsCurrent := False;
-    {$endif}
-    if OpenedCount = 0 then
-      exit;
-    dec( OpenedCount );
-    if OpenedCount = 0 then
-      DoCloseDevice;
-  end;
-end;
-
-procedure TALSPlaybackDeviceItem.DoCloseDevice;
-begin
-  alcCloseDevice( Handle );
-  Handle := NIL;
-end;
-
 
 { TALSAudioFileFormat }
 
@@ -1920,7 +1840,7 @@ end;
 
 function TALSCaptureContext.GetChannelsLeveldB(Index: integer): single;
 begin
-  Result := ALSPercentToDecibel(GetChannelsLevel(Index));
+  Result := LinearTodB(GetChannelsLevel(Index));
 end;
 
 function TALSCaptureContext.GetChannelsPeak(Index: integer): single;
@@ -1935,7 +1855,7 @@ end;
 
 function TALSCaptureContext.GetChannelsPeakdB(Index: integer): single;
 begin
-  Result := ALSPercentToDecibel(GetChannelsPeak(Index));
+  Result := LinearTodB(GetChannelsPeak(Index));
 end;
 
 procedure TALSCaptureContext.SetMonitoringEnabled(AValue: boolean);
@@ -2064,7 +1984,7 @@ begin
   tempInfo.SampleRate := FSampleRate;
   tempInfo.Format := Ord(SF_ENDIAN_CPU) or Ord(SF_FORMAT_AU) or FTempFileSubFormat;
   tempInfo.Channels := FCapturedFrames.ChannelCount;
-  FTempFile := sf_open(PChar(FTempFileName), SFM_WRITE, @tempInfo);
+  FTempFile := ALSOpenAudioFile(FTempFileName, SFM_WRITE, @tempInfo);
   if FTempFile = nil then
     FCaptureError := als_CanNotOpenTemporaryCaptureFile;
 
@@ -2166,14 +2086,14 @@ begin
     begin
       // reopen the temporary '.au' file for reading
       fileInfo.Format := 0;
-      FTempFile := sf_open(PChar(FTempFileName), SFM_READ, @fileInfo);
+      FTempFile := ALSOpenAudioFile(FTempFileName, SFM_READ, @fileInfo);
       if FTempFile = nil then
         SetCaptureError(als_CanNotOpenTemporaryCaptureFile);
 
       if not CaptureError then
       begin
         // open the 'final' file with the requested format
-        finalFile := sf_open(PChar(FUserFileName), SFM_WRITE, @FUserFileInfo);
+        finalFile := ALSOpenAudioFile(FUserFileName, SFM_WRITE, @FUserFileInfo);
         if finalFile = nil then
         begin
           SetCaptureError(als_CanNotCreateTargetCaptureFile);
@@ -2377,10 +2297,13 @@ var
 begin
   FPlaybackDevices := NIL;
   FDefaultPlaybackDeviceIndex := -1;
+
   if not Error then
   begin
-    _defaultDeviceName := openalsoft.GetDefaultDeviceName;
     A := openalsoft.GetDeviceNames;
+    if Length(A) = 0 then exit;
+
+    _defaultDeviceName := openalsoft.GetDefaultDeviceName;
     SetLength(FPlaybackDevices, Length(A));
     for i:=0 to High(A) do
     begin
@@ -2659,7 +2582,7 @@ end;
 function TALSManager.CreateDefaultLoopbackContext: TALSLoopbackContext;
 begin
   FDefaultLoopbackDevice.Open;
-  Result := TALSLoopbackContext.Create(FDefaultLoopbackDevice.Handle);
+  Result := TALSLoopbackContext.Create(@FDefaultLoopbackDevice);
 end;
 
 function TALSManager.CreateDefaultPlaybackContext: TALSPlaybackContext;
@@ -2676,18 +2599,14 @@ begin
   if aNameIndex = -1 then
     aNameIndex := FDefaultPlaybackDeviceIndex;
 
-  if not Error then
-  begin
-    if (aNameIndex < 0) or (aNameIndex > High(ListOfPlaybackDeviceName)) then
-      Result := TALSPlaybackContext.Create(NIL, aAttribs)
-    else
-    begin
-      FPlaybackDevices[aNameIndex].Open;
-      Result := TALSPlaybackContext.Create(FPlaybackDevices[aNameIndex].Handle, aAttribs);
-    end;
-  end
-  else
-    Result := TALSPlaybackContext.Create(NIL, aAttribs);
+  if Error or
+     (aNameIndex < 0) or
+     (aNameIndex >= Length(ListOfPlaybackDeviceName)) then
+    Result := TALSPlaybackContext.Create(NIL, aAttribs)
+  else begin
+    FPlaybackDevices[aNameIndex].Open;
+    Result := TALSPlaybackContext.Create(@FPlaybackDevices[aNameIndex], aAttribs);
+  end;
 end;
 
 function TALSManager.CreateDefaultCaptureContext: TALSCaptureContext;
@@ -2744,6 +2663,7 @@ begin
   SampleRate := ALint(aSampleRate);
   FLoopbackChannelType := aChannels;
   FLoopbackSampleType := aSampleType;
+  ContextUseFloat := aSampleType = ALC_FLOAT_SOFT;
 end;
 
 function TALSContextAttributes.ToArray( aEFXPresent, aOutputModePresent,
@@ -2918,7 +2838,7 @@ procedure TALSPlaylist.LoadCurrentMusic;
 begin
   FreeCurrentMusic;
   try
-    FMusic := TALSStreamBufferSound.CreateFromFile(FParentContext, FList.Strings[FMusicIndex], False, NIL);
+    FMusic := TALSStreamBufferSound.CreateFromFile(FParentContext, FList.Strings[FMusicIndex], False, NIL, NIL);
   except
     FMusic.Free;
     FMusic := nil;
@@ -3439,7 +3359,7 @@ begin
      not FReady then
     exit;
   if FParentContext.Error or
-     not FParentContext.FHaveEXT_ALC_EXT_EFX then
+     not FParentContext.FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX then
     exit;
 
   LockContext( FParentContext.FContext );
@@ -3606,7 +3526,7 @@ begin
   FApplyDistanceAttenuation:=AValue;
 
   if FParentContext.Error or
-     not FParentContext.FHaveEXT_ALC_EXT_EFX or
+     not FParentContext.FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX or
      not Ready then
     Exit;
 
@@ -3747,6 +3667,7 @@ end;
 procedure TALSPlaybackCapturedSound.SetTimePosition(AValue: single);
 begin
   // Do nothing here
+  AValue := AValue; // avoid hint
 end;
 
 constructor TALSPlaybackCapturedSound.CreateFromCapture(aParent: TALSPlaybackContext;
@@ -3861,7 +3782,7 @@ begin
       break;
 
     if FOnCustomDSP <> NIL then
-      FOnCustomDSP(Self, FBuffers[i]);
+      FOnCustomDSP(Self, FBuffers[i], FOnCustomDSPUserData);
 
     // refill AL buffer with audio
     alBufferData(FBuffers[i].BufferID, FFormatForAL, FBuffers[i].Data,
@@ -3894,63 +3815,71 @@ var
   bufid: ALuint;
   readCount: sf_count_t;
   bufferIndex: integer;
+  res: ALenum;
 begin
   inherited Update(aElapsedTime);
 
   if Error then
     exit;
 
-  // Get the number of processed buffer
-  alGetSourceiv(FSource, AL_BUFFERS_PROCESSED, @processed);
-  if processed < 1 then
-    exit;
+  EnterCS;
+  try
+    // Get the number of processed buffer
+    alGetSourceiv(FSource, AL_BUFFERS_PROCESSED, @processed);
+    if processed < 1 then
+      exit;
 
-  FFrameReadAccu := FFrameReadAccu + int64(processed * FBufferFrameCount);
+    FFrameReadAccu := FFrameReadAccu + int64(processed * FBufferFrameCount);
 
-  // Unqueue and fill each processed buffer
-  while (processed > 0) do
-  begin
-    alSourceUnqueueBuffers(FSource, 1, @bufid);
-    Dec(processed);
-
-    // increment the index of the played buffer. we use this index to retrieve
-    // the channel's level.
-    inc(FPlayedBufferIndex);
-    if FPlayedBufferIndex >= FUsedBuffer then
-      FPlayedBufferIndex := 0;
-
-    // retrieves the index of the buffer to refill with audio
-    bufferIndex := 0;
-    while FBuffers[bufferIndex].BufferID <> bufid do
-     inc(bufferIndex);
-
-    // Read data from opened file
-    readCount := FDoReadFromStream(FBuffers[bufferIndex].Data,
-                                   FBuffers[bufferIndex].FrameCapacity);
-    FBuffers[bufferIndex].FrameCount := readCount;
-
-    if readCount > 0 then
+    // Unqueue and fill each processed buffer
+    while (processed > 0) do
     begin
-      // callback OnNewBuffer
-      if FOnCustomDSP <> NIL then
-        FOnCustomDSP(Self, FBuffers[bufferIndex]);
-      // refill the openAL buffer with...
-      alBufferData(bufid, ALenum(FFormatForAL), FBuffers[bufferIndex].Data,
-        ALsizei(readCount * FFrameSize), ALsizei(Fsfinfo.SampleRate));
-      // and queue it back on the source
-      alSourceQueueBuffers(FSource, 1, @bufid);
-      // Set the opened file read cursor to the beginning if LOOP mode is enabled,
-      // and the buffer was not completely filled
-      if FLoop and (readCount < FBuffers[bufferIndex].FrameCapacity) then
-      begin
-        sf_seek(Fsndfile, 0, SF_SEEK_SET);
-        FFrameReadAccu := 0;
-      end;
+      alSourceUnqueueBuffers(FSource, 1, @bufid);
+      Dec(processed);
+      res := alGetError();
+      if res <> AL_NO_ERROR then continue;
 
-      // retrieve the channels level
-      if FMonitoringEnabled then
-        FBuffers[bufferIndex].ComputeChannelsLevel;
+      // increment the index of the played buffer. we use this index to retrieve
+      // the channel's level.
+      inc(FPlayedBufferIndex);
+      if FPlayedBufferIndex >= FUsedBuffer then
+        FPlayedBufferIndex := 0;
+
+      // retrieves the index of the buffer to refill with audio
+      bufferIndex := 0;
+      while FBuffers[bufferIndex].BufferID <> bufid do
+       inc(bufferIndex);
+
+      // Read data from opened file
+      readCount := FDoReadFromStream(FBuffers[bufferIndex].Data,
+                                     FBuffers[bufferIndex].FrameCapacity);
+      FBuffers[bufferIndex].FrameCount := readCount;
+
+      if readCount > 0 then
+      begin
+        // callback custom DSP
+        if FOnCustomDSP <> NIL then
+          FOnCustomDSP(Self, FBuffers[bufferIndex], FOnCustomDSPUserData);
+        // refill the openAL buffer with...
+        alBufferData(bufid, ALenum(FFormatForAL), FBuffers[bufferIndex].Data,
+          ALsizei(readCount * FFrameSize), ALsizei(Fsfinfo.SampleRate));
+        // and queue it back on the source
+        alSourceQueueBuffers(FSource, 1, @bufid);
+        // Set the opened file read cursor to the beginning if LOOP mode is enabled,
+        // and the buffer was not completely filled
+        if FLoop and (readCount < FBuffers[bufferIndex].FrameCapacity) then
+        begin
+          sf_seek(Fsndfile, 0, SF_SEEK_SET);
+          FFrameReadAccu := 0;
+        end;
+
+        // retrieve the channels level
+        if FMonitoringEnabled then
+          FBuffers[bufferIndex].ComputeChannelsLevel;
+      end;
     end;
+  finally
+    LeaveCS;
   end;
 end;
 
@@ -3969,7 +3898,7 @@ end;
 
 constructor TALSStreamBufferSound.CreateFromFile(aParent: TALSPlaybackContext;
   const aFilename: string; aEnableMonitor: boolean;
-  aOnCustomDSP: TALSOnCustomDSP);
+  aOnCustomDSP: TALSOnCustomDSP; aCustomDSPUserData: Pointer);
 var
   fileopened: boolean;
 begin
@@ -3980,16 +3909,13 @@ begin
   FFilename := aFilename;
   FMonitoringEnabled := aEnableMonitor;
   FOnCustomDSP := aOnCustomDSP;
+  FOnCustomDSPUserData := aCustomDSPUserData;
 
   FDoReadFromStream := @DoReadStreamFromFile;
 
   if not Error then
   begin
-  {$ifdef windows}
-    Fsndfile := sf_wchar_open(PWideChar(UnicodeString(aFilename)), SFM_READ, @Fsfinfo);
-  {$else}
-    Fsndfile := sf_open(PChar(aFilename), SFM_READ, @Fsfinfo);
-  {$endif}
+    Fsndfile := ALSOpenAudioFile(aFilename, SFM_READ, @Fsfinfo);
     if Fsndfile = nil then
       SetError(als_FileNotOpened)
     else
@@ -4073,6 +3999,7 @@ var
   i: integer;
 begin
   if Error then exit;
+  if TotalDuration = 0 then exit;
   if (AValue < 0) or (AValue > TotalDuration) then exit;
 
   LockContext( FParentContext.FContext );
@@ -4158,7 +4085,8 @@ begin
 end;
 
 constructor TALSSingleStaticBufferSound.CreateFromFile(aParent: TALSPlaybackContext;
-  const aFilename: string; aEnableMonitor: boolean; aOnCustomDSP: TALSOnCustomDSP);
+  const aFilename: string; aEnableMonitor: boolean; aOnCustomDSP: TALSOnCustomDSP;
+  aCustomDSPUserData: Pointer);
 var
   sndfile: PSNDFILE;
   sfinfo: TSF_INFO;
@@ -4172,14 +4100,11 @@ begin
   FFilename := aFilename;
   FMonitoringEnabled := aEnableMonitor;
   FOnCustomDSP := aOnCustomDSP;
+  FOnCustomDSPUserData := aCustomDSPUserData;
 
   if not Error then
   begin
-    {$ifdef windows}
-      sndfile := sf_wchar_open(PWideChar(UnicodeString(aFilename)), SFM_READ, @sfinfo);
-    {$else}
-      sndfile := sf_open(PChar(aFilename), SFM_READ, @sfinfo);
-    {$endif}
+    sndfile := ALSOpenAudioFile(aFilename, SFM_READ, @sfinfo);
     if sndfile = nil then
       SetError(als_FileNotOpened)
     else
@@ -4218,7 +4143,7 @@ begin
                 FByteCount := frameRead*FFrameSize;
               end;
               if FOnCustomDSP <> NIL then
-                FOnCustomDSP(Self, FBuffers[0]);
+                FOnCustomDSP(Self, FBuffers[0], FOnCustomDSPUserData);
             end;
           end;
         end;
@@ -4258,13 +4183,14 @@ end;
 // White noise generation from OpenAL example "altonegen.c"
 constructor TALSSingleStaticBufferSound.CreateWhiteNoise(aParent: TALSPlaybackContext;
   aDuration: single; aChannelCount: integer; aEnableMonitor: boolean;
-  aOnCustomDSP: TALSOnCustomDSP);
+  aOnCustomDSP: TALSOnCustomDSP; aCustomDSPUserData: Pointer);
 begin
   FParentContext := aParent;
   InitializeErrorStatus;
   FFilename := '';
   FMonitoringEnabled := aEnableMonitor;
   FOnCustomDSP := aOnCustomDSP;
+  FOnCustomDSPUserData := aCustomDSPUserData;
 
   if not Error then
   begin
@@ -4304,7 +4230,7 @@ begin
               dsp_FillWithWhiteNoise_Smallint(FBuffers[0].Data, FFrameCount, FBuffers[0].ChannelCount);
 
             if FOnCustomDSP <> NIL then
-              FOnCustomDSP(Self, FBuffers[0]);
+              FOnCustomDSP(Self, FBuffers[0], FOnCustomDSPUserData);
 
             alBufferData(FBuffers[0].BufferID, FFormatForAL, FBuffers[0].Data, FByteCount, FSampleRate);
             CheckALError(als_ALCanNotFillBuffer);
@@ -4421,12 +4347,13 @@ begin
 end;
 
 function TALSPlaybackContext.AddStream(const aFilename: string; aEnableMonitoring: boolean;
-  aOnCustomDSP: TALSOnCustomDSP): TALSSound;
+  aOnCustomDSP: TALSOnCustomDSP; aCustomDSPUserData: Pointer): TALSSound;
 begin
   EnterCriticalSection(FCriticalSection);
   LockContext( FContext );
   try
-    Result := TALSStreamBufferSound.CreateFromFile(Self, aFilename, aEnableMonitoring, aOnCustomDSP);
+    Result := TALSStreamBufferSound.CreateFromFile(Self, aFilename,
+                  aEnableMonitoring, aOnCustomDSP, aCustomDSPUserData);
     FList.Add(Result);
   finally
     LeaveCriticalSection(FCriticalSection);
@@ -4435,13 +4362,14 @@ begin
 end;
 
 function TALSPlaybackContext.CreateWhiteNoise(aDuration: single;
-  aChannelCount: integer; aEnableMonitoring: boolean; aOnCustomDSP: TALSOnCustomDSP): TALSSound;
+  aChannelCount: integer; aEnableMonitoring: boolean;
+  aOnCustomDSP: TALSOnCustomDSP; aCustomDSPUserData: Pointer): TALSSound;
 begin
   EnterCriticalSection(FCriticalSection);
   LockContext( FContext );
   try
     Result := TALSSingleStaticBufferSound.CreateWhiteNoise(Self, aDuration,
-       aChannelCount, aEnableMonitoring, aOnCustomDSP);
+       aChannelCount, aEnableMonitoring, aOnCustomDSP, aCustomDSPUserData);
     FList.Add(Result);
   finally
     LeaveCriticalSection(FCriticalSection);
@@ -4452,7 +4380,6 @@ end;
 procedure TALSPlaybackContext.DoUpdate(const aElapsedTime: single);
 var
   i: integer;
-  s: TALSSound;
 begin
   EnterCriticalSection(FCriticalSection);
   FThreadIsStarted:=True;
@@ -4475,11 +4402,11 @@ begin
     // Kill or update sounds
     for i := FList.Count - 1 downto 0 do
     begin
-      s := TALSSound(FList.Items[i]);
-      if s.FKill then
+      FSoundToProcess := TALSSound(FList.Items[i]);
+      if FSoundToProcess.FKill then
         InternalDeleteSound(i)
       else
-        s.Update(aElapsedTime);
+        FSoundToProcess.Update(aElapsedTime);
     end;
     // update playlist (if exists)
     if FPlaylist <> nil then
@@ -4495,6 +4422,12 @@ begin
     end;
     LeaveCriticalSection(FCriticalSection);
   end;
+end;
+
+procedure TALSPlaybackContext.DoSoundOnStopped;
+begin
+  if FSoundToProcess.FOnStopped <> NIL then
+    FSoundToProcess.FOnStopped(FSoundToProcess);
 end;
 
 procedure TALSPlaybackContext.EnterCS;
@@ -4542,7 +4475,7 @@ var
 begin
   Result.InitDefault(Self);
 
-  if not ALSManager.Error and FHaveEXT_ALC_EXT_EFX then
+  if not ALSManager.Error and FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX then
   begin
     LockContext( FContext );
     try
@@ -4611,7 +4544,7 @@ begin
   begin
     LockContext( FContext );
     try
-      Result := alcResetDeviceSOFT( FParentDevice, @aAttribs );
+      Result := FParentDeviceItem^.alcResetDeviceSOFT( FParentDevice, @aAttribs );
     finally
       UnlockContext;
     end;
@@ -4731,8 +4664,18 @@ end;
 
 function TALSPlaybackContext.GetHaveFilter: boolean;
 begin
-  Result := FHaveEXT_ALC_EXT_EFX and
+  Result := FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX and
            (FHaveLowPassFilter or FHaveBandPassFilter or FHaveHighPassFilter);
+end;
+
+function TALSPlaybackContext.GetHaveEXT_ALC_EXT_EFX: boolean;
+begin
+  Result := FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX;
+end;
+
+function TALSPlaybackContext.GetHaveExt_ALC_SOFT_HRTF: boolean;
+begin
+  Result := FParentDeviceItem^.FHaveExt_ALC_SOFT_HRTF;
 end;
 
 function TALSPlaybackContext.GetHRTFList: TStringArray;
@@ -4750,7 +4693,7 @@ begin
       alcGetIntegerv(FParentDevice, ALC_NUM_HRTF_SPECIFIERS_SOFT, 1, @num_hrtf);
       SetLength(Result, num_hrtf);
       for i:=0 to num_hrtf-1 do
-        Result[i] := alcGetStringiSOFT(FParentDevice, ALC_HRTF_SPECIFIER_SOFT, ALCSizei(i));
+        Result[i] := FParentDeviceItem^.alcGetStringiSOFT(FParentDevice, ALC_HRTF_SPECIFIER_SOFT, ALCSizei(i));
     end;
   finally
     UnlockContext;
@@ -4846,31 +4789,31 @@ begin
 
   // Look for some extensions before the creation of the context because
   // some attributes use them.
-  FHaveEXT_ALC_EXT_EFX := alcIsExtensionPresent(FParentDevice, PChar('ALC_EXT_EFX'));
+{  FHaveEXT_ALC_EXT_EFX := alcIsExtensionPresent(FParentDevice, PChar('ALC_EXT_EFX'));
   if FHaveEXT_ALC_EXT_EFX then
     FHaveEXT_ALC_EXT_EFX := LoadExt_ALC_EXT_EFX;
 
   FHaveExt_ALC_SOFT_HRTF := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_HRTF'));
   if FHaveExt_ALC_SOFT_HRTF then
-    FHaveExt_ALC_SOFT_HRTF := LoadExt_ALC_SOFT_HRTF(FParentDevice);
+    FHaveExt_ALC_SOFT_HRTF := LoadExt_ALC_SOFT_HRTF(FParentDevice);  }
 
   FHaveExt_AL_SOFT_source_resampler := alcIsExtensionPresent(FParentDevice, PChar('AL_SOFT_source_resampler'));
   if FHaveExt_AL_SOFT_source_resampler then
     FHaveExt_AL_SOFT_source_resampler := LoadExt_AL_SOFT_source_resampler;
 
-  FHaveExt_ALC_SOFT_output_mode := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_output_mode'));
+//  FHaveExt_ALC_SOFT_output_mode := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_output_mode'));
 
-  FHaveExt_ALC_SOFT_loopback := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_loopback'));
+//  FHaveExt_ALC_SOFT_loopback := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_loopback'));
   // extension is loaded in TALSLoopbackDeviceItem.Open
 
-  FHaveExt_ALC_SOFT_output_limiter := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_output_limiter'));
+//  FHaveExt_ALC_SOFT_output_limiter := alcIsExtensionPresent(FParentDevice, PChar('ALC_SOFT_output_limiter'));
 
   FContext := alcCreateContext(FParentDevice,
-    @aAttribs.ToArray(FHaveEXT_ALC_EXT_EFX,
-                      FHaveExt_ALC_SOFT_output_mode,
-                      FHaveExt_ALC_SOFT_HRTF,
-                      FHaveExt_ALC_SOFT_loopback,
-                      FHaveExt_ALC_SOFT_output_limiter)[0]);
+    @aAttribs.ToArray(FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX,
+                      FParentDeviceItem^.FHaveExt_ALC_SOFT_output_mode,
+                      FParentDeviceItem^.FHaveExt_ALC_SOFT_HRTF,
+                      FParentDeviceItem^.FHaveExt_ALC_SOFT_loopback,
+                      FParentDeviceItem^.FHaveExt_ALC_SOFT_output_limiter)[0]);
   CheckALCError(FParentDevice, als_ALContextNotCreated);
 
   if FContext <> nil then
@@ -4897,7 +4840,7 @@ begin
       alListenerfv(AL_ORIENTATION, @A[0]);
 
       //check for available filter
-      if FHaveEXT_ALC_EXT_EFX then
+      if FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX then
       begin
         alGenFilters(1, @obj);
         alGetError();
@@ -4998,14 +4941,16 @@ begin
   end;
 end;
 
-constructor TALSPlaybackContext.Create(aDevice: PALCDevice; const aAttribs: TALSContextAttributes);
+constructor TALSPlaybackContext.Create(aDevice: PALSPlaybackDeviceItem;
+  const aAttribs: TALSContextAttributes);
 begin
   FExecutingConstructor := True;
   InitializeErrorStatus;
-  FParentDevice := aDevice;
+  FParentDeviceItem := PALSDeviceItem(aDevice);
+  FParentDevice := aDevice^.Handle;
   FObtainedSampleRate := aAttribs.SampleRate;
 
-  if aDevice = NIL then
+  if aDevice^.Handle = NIL then
     SetError(als_ALCanNotOpenPlaybackDevice)
   else
     InitializeALContext(aAttribs);
@@ -5015,6 +4960,7 @@ begin
   InitCriticalSection( FCriticalSection );
   FThreadIsStarted:=False;
   FThread := TALSThread.Create(@DoUpdate, 10, True);
+  FThread.Priority := tpHighest;
   // waits for the thread to be started to prevent any problems
   while not FThreadIsStarted do
     Sleep(1);
@@ -5022,14 +4968,15 @@ begin
 end;
 
 function TALSPlaybackContext.AddSound(const aFilename: string; aEnableMonitoring: boolean;
-  aOnCustomDSP: TALSOnCustomDSP): TALSSound;
+  aOnCustomDSP: TALSOnCustomDSP; aCustomDSPUserData: Pointer): TALSSound;
 begin
   LockContext( FContext );
   try
 
     EnterCriticalSection(FCriticalSection);
     try
-      Result := TALSSingleStaticBufferSound.CreateFromFile(Self, aFilename, aEnableMonitoring, aOnCustomDSP);
+      Result := TALSSingleStaticBufferSound.CreateFromFile(Self, aFilename,
+              aEnableMonitoring, aOnCustomDSP, aCustomDSPUserData);
       FList.Add(Result);
     finally
       LeaveCriticalSection(FCriticalSection);
@@ -5108,7 +5055,7 @@ begin
   Tone.FOnLockParam := @EnterCS;
   Tone.FOnUnlockParam := @LeaveCS;
 
-  if not Error and FParentContext.FHaveEXT_ALC_EXT_EFX then
+  if not Error and FParentContext.FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX then
   begin
     SetLength(FAuxiliarySend, FParentContext.ObtainedAuxiliarySendCount);
     for i := 0 to High(FAuxiliarySend) do
@@ -5135,11 +5082,22 @@ begin
       FAuxiliarySend[i].Disconnect;
 end;
 
-procedure TALSSound.SetOnCustomDSP(AValue: TALSOnCustomDSP);
+procedure TALSSound.SetOnCustomDSP(aProc: TALSOnCustomDSP; aUserData: Pointer);
 begin
   EnterCS;
   try
-    FOnCustomDSP := AValue;
+    FOnCustomDSP := aProc;
+    FOnCustomDSPUserData := aUserData;
+  finally
+    LeaveCS;
+  end;
+end;
+
+procedure TALSSound.SetOnStopped(AValue: TALSNotifyEvent);
+begin
+  EnterCS;
+  try
+    FOnStopped := AValue;
   finally
     LeaveCS;
   end;
@@ -5536,7 +5494,7 @@ end;
 
 function TALSSound.GetChannelLeveldB(index: integer): single;
 begin
-  Result := ALSPercentToDecibel( GetChannelLevel(index) );
+  Result := LinearTodB( GetChannelLevel(index) );
 end;
 
 procedure TALSSound.SetMute(AValue: boolean);
@@ -5672,7 +5630,10 @@ end;
 procedure TALSSound.Update(const aElapsedTime: single);
 var
   v: single;
+  flagDoOnStopped: boolean;
 begin
+  flagDoOnStopped := False;
+
   EnterCriticalSection(FCriticalSection);
   try
     v := Volume.Value;
@@ -5697,9 +5658,16 @@ begin
       FKill := FKill or FKillAfterFadeOut;
     end;
 
+    flagDoOnStopped := (State = ALS_STOPPED) and
+                       (FPreviousState <> ALS_STOPPED);
+    FPreviousState := State;
   finally
     LeaveCriticalSection(FCriticalSection);;
   end;
+
+  if flagDoOnStopped and (FOnStopped <> NIL) then
+      FParentContext.FThread.Synchronize(FParentContext.FThread,
+                                         @FParentContext.DoSoundOnStopped);
 end;
 
 procedure TALSSound.InternalRewind;

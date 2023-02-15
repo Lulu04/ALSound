@@ -114,11 +114,14 @@ const
  ALC_CONNECTED=$313;
 
 
+type
+ TProc_alcSetThreadContext = function(context: PALCcontext): ALCboolean; cdecl;
+ TProc_alcGetThreadContext = function(): PALCcontext; cdecl;
 var
 //ALC_API ALCboolean  ALC_APIENTRY alcSetThreadContext(ALCcontext *context);
 //ALC_API ALCcontext* ALC_APIENTRY alcGetThreadContext(void);
-  alcSetThreadContext: function(context: PALCcontext): ALCboolean; cdecl;
-  alcGetThreadContext: function(): PALCcontext; cdecl;
+  _alcSetThreadContext: TProc_alcSetThreadContext; //function(context: PALCcontext): ALCboolean; cdecl;
+  _alcGetThreadContext: TProc_alcGetThreadContext; //function(): PALCcontext; cdecl;
 
 const
  AL_SOURCE_DISTANCE_MODEL=$200;
@@ -238,10 +241,14 @@ const
  ALC_6POINT1_SOFT=$1505;
  ALC_7POINT1_SOFT=$1506;
 
+type
+  TProc_alcLoopbackOpenDeviceSOFT = function(const deviceName: PALCchar): PALCdevice; cdecl;
+  TProc_alcIsRenderFormatSupportedSOFT = function(device: PALCdevice; freq: ALCsizei; channels, _type: ALCenum): ALCboolean; cdecl;
+  TProc_alcRenderSamplesSOFT = procedure(device: PALCdevice; buffer: PALCvoid; samples: ALCsizei); cdecl;
 var
-  alcLoopbackOpenDeviceSOFT: function(const deviceName: PALCchar): PALCdevice; cdecl;
-  alcIsRenderFormatSupportedSOFT: function(device: PALCdevice; freq: ALCsizei; channels, _type: ALCenum): ALCboolean; cdecl;
-  alcRenderSamplesSOFT: procedure(device: PALCdevice; buffer: PALCvoid; samples: ALCsizei); cdecl;
+  _alcLoopbackOpenDeviceSOFT: TProc_alcLoopbackOpenDeviceSOFT;
+  _alcIsRenderFormatSupportedSOFT: TProc_alcIsRenderFormatSupportedSOFT;
+  _alcRenderSamplesSOFT: TProc_alcRenderSamplesSOFT;
 
 const
  AL_STEREO_ANGLES=$1030;
@@ -293,9 +300,12 @@ const
 //#define AL_SAMPLE_LENGTH_SOFT=$200A;
 //#define AL_SEC_LENGTH_SOFT=$200B;
 
+type
+  TProc_alcDevicePauseSOFT = procedure(device: PALCdevice); cdecl;
+  TProc_alcDeviceResumeSOFT = procedure(device: PALCdevice); cdecl;
 var
-  alcDevicePauseSOFT: procedure(device: PALCdevice); cdecl;
-  alcDeviceResumeSOFT: procedure(device: PALCdevice); cdecl;
+  _alcDevicePauseSOFT: TProc_alcDevicePauseSOFT;
+  _alcDeviceResumeSOFT: TProc_alcDeviceResumeSOFT;
 
 
 const
@@ -334,9 +344,12 @@ const
  ALC_HRTF_SPECIFIER_SOFT=$1995;
  ALC_HRTF_ID_SOFT=$1996;
 
+type
+  TProc_alcGetStringiSOFT = function(device: PALCdevice; paramName: ALCenum; index: ALCsizei): PALCchar; cdecl;
+  TProc_alcResetDeviceSOFT = function(device: PALCdevice; const attribs: PALCint): ALCboolean; cdecl;
 var
-  alcGetStringiSOFT: function(device: PALCdevice; paramName: ALCenum; index: ALCsizei): PALCchar; cdecl;
-  alcResetDeviceSOFT: function(device: PALCdevice; const attribs: PALCint): ALCboolean; cdecl;
+  _alcGetStringiSOFT: TProc_alcGetStringiSOFT;
+  _alcResetDeviceSOFT: TProc_alcResetDeviceSOFT;
 
 const
  AL_GAIN_LIMIT_SOFT=$200E;
@@ -361,6 +374,7 @@ type
   ALCint64SOFT=_alsoft_int64_t;
   PALCint64SOFT = ^ALCint64SOFT;
   ALCuint64SOFT=_alsoft_uint64_t;
+  TProc_alcGetInteger64vSOFT = procedure(device: PALCdevice; pname: ALCenum; size: ALsizei; values: PALCint64SOFT); cdecl;
 const
  ALC_DEVICE_CLOCK_SOFT=$1600;
  ALC_DEVICE_LATENCY_SOFT=$1601;
@@ -369,7 +383,7 @@ const
  AL_SEC_OFFSET_CLOCK_SOFT=$1203;
 
 var
-  alcGetInteger64vSOFT: procedure(device: PALCdevice; pname: ALCenum; size: ALsizei; values: PALCint64SOFT); cdecl;
+  _alcGetInteger64vSOFT: TProc_alcGetInteger64vSOFT;
 
 
 const
@@ -429,7 +443,7 @@ var
 type
   TProc_alcReopenDeviceSOFT = function(device: PALCdevice; const deviceName: PALCchar; const attribs: PALCint): ALCboolean;
 var
-  alcReopenDeviceSOFT: TProc_alcReopenDeviceSOFT;
+  _alcReopenDeviceSOFT: TProc_alcReopenDeviceSOFT;
 
 
 // AL_SOFT_callback_buffer

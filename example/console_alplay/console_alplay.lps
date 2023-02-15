@@ -4,13 +4,12 @@
     <PathDelim Value="\"/>
     <Version Value="12"/>
     <BuildModes Active="Release"/>
-    <Units Count="9">
+    <Units Count="10">
       <Unit0>
         <Filename Value="console_alplay.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="4"/>
-        <CursorPos X="18" Y="24"/>
+        <TopLine Value="42"/>
+        <CursorPos X="41" Y="61"/>
         <UsageCount Value="35"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -67,17 +66,26 @@
       <Unit8>
         <Filename Value="..\..\source\alsound.pas"/>
         <UnitName Value="ALSound"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="37"/>
         <CursorPos Y="23"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit8>
+      <Unit9>
+        <Filename Value="..\..\source\als_frame_buffers.inc"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="128"/>
+        <CursorPos Y="143"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit9>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="ALS_ENABLE_CONTEXT_SWITCHING"/>
     </OtherDefines>
-    <JumpHistory Count="17" HistoryIndex="16">
+    <JumpHistory Count="19" HistoryIndex="18">
       <Position1>
         <Filename Value="console_alplay.lpr"/>
         <Caret Line="29" Column="53" TopLine="11"/>
@@ -146,6 +154,14 @@
         <Filename Value="..\..\source\alsound.pas"/>
         <Caret Line="1115" Column="60" TopLine="1096"/>
       </Position17>
+      <Position18>
+        <Filename Value="console_alplay.lpr"/>
+        <Caret Line="24" Column="18" TopLine="4"/>
+      </Position18>
+      <Position19>
+        <Filename Value="console_alplay.lpr"/>
+        <Caret Line="61" Column="41" TopLine="42"/>
+      </Position19>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

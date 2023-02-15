@@ -58,7 +58,7 @@ begin
     while OurMusic.State = ALS_PLAYING do
     begin
       write(#13+'Press a key to stop  -  Played '+
-            FormatFloat('0.0', OurMusic.GetTimePosition)+'/'+
+            FormatFloat('0.0', OurMusic.TimePosition)+'/'+
             FormatFloat('0.0', OurMusic.TotalDuration)+' s');
       sleep(200);
       if KeyPressed then OurMusic.Stop;

@@ -28,13 +28,14 @@ type
     function GetChannelsPeak(aIndex: integer): single;
     function GetChannelsPeakdB(aIndex: integer): single;
   private
-    procedure FreeMemory;
     function GetDataOffset(frameOffset: longword): Pointer;
 
     procedure ResetChannelsLevelToZero;
   public
+    procedure FreeMemory;
     procedure ComputeChannelsLevel;
 
+    procedure FillWithSilence;
     procedure Amplify(aGain: single);
 
     property OutOfMemory: boolean read FOutOfMemory;
@@ -321,6 +322,12 @@ begin
      FChannelsPeak[i] := FChannelsLevel[i];
 end;
 
+procedure TALSFrameBufferBase.FillWithSilence;
+begin
+  if FUseFloat then
+    FillChar(FData^, FFrameCapacity*FBytePerFrame, $00);
+end;
+
 procedure TALSFrameBufferBase.Amplify(aGain: single);
 begin
   if aGain = 1.0 then
@@ -343,7 +350,7 @@ end;
 function TALSFrameBufferBase.GetChannelsLeveldB(aIndex: integer): single;
 begin
   if (aIndex >= 0) and (aIndex < Length(FChannelsLevel)) then
-    Result := ALSPercentToDecibel(FChannelsLevel[aIndex])
+    Result := LinearTodB(FChannelsLevel[aIndex])
   else
     Result := ALS_DECIBEL_MIN_VALUE;
 end;
@@ -359,7 +366,7 @@ end;
 function TALSFrameBufferBase.GetChannelsPeakdB(aIndex: integer): single;
 begin
   if (aIndex >= 0) and (aIndex < Length(FChannelsPeak)) then
-    Result := ALSPercentToDecibel(FChannelsPeak[aIndex])
+    Result := LinearTodB(FChannelsPeak[aIndex])
   else
     Result := ALS_DECIBEL_MIN_VALUE;
 end;

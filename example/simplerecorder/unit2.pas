@@ -33,7 +33,6 @@ var
   Form2: TForm2;
 
 implementation
-uses unit1;
 
 {$R *.lfm}
 
@@ -46,7 +45,7 @@ begin
   // update progress bar position
   if FMusic.TotalDuration <> 0 then
     with FMusic do
-      ProgressBar1.Position := Round( GetTimePosition / TotalDuration * ProgressBar1.Max );
+      ProgressBar1.Position := Round( TimePosition / TotalDuration * ProgressBar1.Max );
 
   Timer1.Enabled := True;
 end;

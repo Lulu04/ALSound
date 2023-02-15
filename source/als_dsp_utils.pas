@@ -38,8 +38,10 @@ type
   ArrayOfSmallint = array of SmallInt;
   ArrayOfSingle = array of single;
 
-  // convert a percent value (range is [0..1]) to decibel
-  function ALSPercentToDecibel(aValue: single): single;
+  // use LinearTodB instead
+  function ALSPercentToDecibel(aValue: single): single; deprecated;
+  function LinearTodB(aLinearValue: single): single;
+  function dBToLinear(adBValue: single): single;
 
   // convert an array of values in range [0..1] to dB.
   procedure als_dsp_ValuesToDecibel(p: PSingle; aCount: integer);
@@ -69,15 +71,27 @@ type
   procedure dsp_Amplify_Smallint(p: PSmallint; aFrameCount: longword; aChannelCount: Smallint; aGain: single);
   procedure dsp_Amplify_Float(p: PSingle; aFrameCount: longword; aChannelCount: Smallint; aGain: single);
 
+  procedure dsp_AmplifySample_Smallint(p: PSmallint; aFrameIndex: longword; aChannelCount: Smallint; aGain: single); inline;
+  procedure dsp_AmplifySample_Float(p: PSingle; aFrameIndex: longword; aChannelCount: Smallint; aGain: single); inline;
 implementation
 uses Math;
 
 function ALSPercentToDecibel(aValue: single): single;
 begin
-  if aValue > 0.0 then
-    Result := Max(20*Log10(aValue), ALS_DECIBEL_MIN_VALUE)
+  Result := LinearTodB(aValue);
+end;
+
+function LinearTodB(aLinearValue: single): single;
+begin
+  if aLinearValue > 0.0 then
+    Result := Max(20*Log10(aLinearValue), ALS_DECIBEL_MIN_VALUE)
   else
     Result := ALS_DECIBEL_MIN_VALUE;
+end;
+
+function dBToLinear(adBValue: single): single;
+begin
+  Result := Power(10, adBValue*0.05); // *0.05 same than /20
 end;
 
 procedure als_dsp_ValuesToDecibel(p: PSingle; aCount: integer);
@@ -119,20 +133,23 @@ end;
 
 function dsp_Mean_Float(p: PSingle; aFrameCount: longword; aChannelCount: Smallint): ArrayOfSingle;
 var
-  i: longword;
+  i, fc: longword;
 begin
   Result := NIL;
   SetLength( Result, aChannelCount );
-  FillChar( Result, SizeOf(single)*aChannelCount, $00);
-  while aFrameCount>0 do
+  FillChar( Result[0], SizeOf(single)*aChannelCount, $00);
+
+  fc := aFrameCount;
+  while fc>0 do
   begin
     for i:=0 to aChannelCount-1 do
     begin
       Result[i] := Result[i] + p^;
       inc( p );
     end;
-    dec( aFrameCount );
+    dec( fc );
   end;
+
   for i:=0 to aChannelCount-1 do
     Result[i] := Result[i] / aFrameCount;
 end;
@@ -361,6 +378,30 @@ begin
       inc(p);
     end;
     dec(aFrameCount);
+  end;
+end;
+
+procedure dsp_AmplifySample_Smallint(p: PSmallint; aFrameIndex: longword;
+  aChannelCount: Smallint; aGain: single);
+begin
+  inc(p, aFrameIndex*aChannelCount);
+  while aChannelCount > 0 do
+  begin
+    p^ := Smallint(EnsureRange(Round(p^*aGain), -32768, 32767));
+    inc(p);
+    dec(aChannelCount);
+  end;
+end;
+
+procedure dsp_AmplifySample_Float(p: PSingle; aFrameIndex: longword;
+  aChannelCount: Smallint; aGain: single);
+begin
+  inc(p, aFrameIndex*aChannelCount);
+  while aChannelCount > 0 do
+  begin
+    p^ := p^ * aGain;
+    inc(p);
+    dec(aChannelCount);
   end;
 end;
 
