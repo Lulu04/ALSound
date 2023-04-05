@@ -983,6 +983,8 @@ type
     procedure SaveBufferToFile;
     procedure CloseFile;
     procedure DoExceptionNoCallback;
+  private
+    FFileMetaData: TALSFileMetaData;
   public
     // Don't call directly this constructor. Instead, use method
     // ALSManager.CreateDefaultLoopbackContext.
@@ -1002,6 +1004,12 @@ type
     // You can also retrieve the available file formats from
     // ALSManager.ListOfSimpleAudioFileFormat[].Format
     function PrepareSavingToFile(const aFilename: string; aFileFormat: TALSFileFormat): boolean;
+
+    // If you save the mixing to a file you can call this method to set the
+    // meta data embeded within.
+    procedure SetFileMetaData(const aTitle, aCopyright, aSoftware, aArtist,
+                              aComment, aDate, aAlbum, aLicense,
+                              aTrackNumber, aGenre: string);
 
     // Call this method before start your mixing process, before any calls to
     // Mix(...)
@@ -1088,6 +1096,8 @@ type
     procedure SetMonitoringEnabled(AValue: boolean);
     procedure SetOnCaptureBuffer(AValue: TALSOnCaptureBuffer);
     procedure SetPreAmp(AValue: single);
+  private
+    FFileMetaData: TALSFileMetaData;
   public
     // Don't call this contructor directly, instead use
     // ALSManager.CreateDefaultCaptureContext or
@@ -1103,6 +1113,12 @@ type
     // You can also retrieve the available file formats from
     // ALSManager.ListOfSimpleAudioFileFormat[].Format
     function PrepareSavingToFile(const aFileName: string; aFormat: longint): boolean;
+
+    // If you save the captured audio to a file you can call this method to set
+    // the meta data embeded within.
+    procedure SetFileMetaData(const aTitle, aCopyright, aSoftware, aArtist,
+                              aComment, aDate, aAlbum, aLicense,
+                              aTrackNumber, aGenre: string);
 
     // Ask to playback the captured audio.
     // This method creates a streamed sound in the specified playback context
@@ -1504,6 +1520,7 @@ begin
 
   CreateParameters;
   FTimeSlice := 0.010;
+  FFileMetaData.InitDefault;
 
   FExecutingConstructor := False;
 end;
@@ -1562,6 +1579,15 @@ begin
   FFile := ALSOpenAudioFile(aFilename, SFM_WRITE, @FFileInfo);
 
   Result := FFile <> NIL;
+end;
+
+procedure TALSLoopbackContext.SetFileMetaData(const aTitle, aCopyright,
+  aSoftware, aArtist, aComment, aDate, aAlbum, aLicense, aTrackNumber,
+  aGenre: string);
+begin
+  FFileMetaData.Create(aTitle, aCopyright, aSoftware, aArtist, aComment, aDate,
+     aAlbum, aLicense, aTrackNumber, aGenre);
+  FFileMetaData.WriteMetaDataTo(FFile);
 end;
 
 procedure TALSLoopbackContext.BeginOfMix;
@@ -1938,6 +1964,7 @@ begin
 
   InitCriticalSection(FCriticalSection);
   FPreAmp := 1.0;
+  FFileMetaData.InitDefault;
 end;
 
 destructor TALSCaptureContext.Destroy;
@@ -1990,6 +2017,14 @@ begin
 
   FCaptureToFileIsReady := FTempFile <> nil;
   Result := FCaptureError = als_NoError;
+end;
+
+procedure TALSCaptureContext.SetFileMetaData(const aTitle, aCopyright,
+  aSoftware, aArtist, aComment, aDate, aAlbum, aLicense, aTrackNumber,
+  aGenre: string);
+begin
+  FFileMetaData.Create(aTitle, aCopyright, aSoftware, aArtist, aComment, aDate,
+     aAlbum, aLicense, aTrackNumber, aGenre);
 end;
 
 function TALSCaptureContext.PrepareToPlayback(aTargetContext: TALSPlaybackContext): TALSPlaybackCapturedSound;
@@ -2099,6 +2134,8 @@ begin
           SetCaptureError(als_CanNotCreateTargetCaptureFile);
           sf_close(FTempFile);
         end;
+
+        FFileMetaData.WriteMetaDataTo(finalFile);
 
         if not CaptureError then
         begin
