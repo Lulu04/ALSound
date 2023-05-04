@@ -51,6 +51,7 @@
 unit libsndfile;
 
 {$mode objfpc}{$H+}
+{$ModeSwitch AdvancedRecords}
 {$PACKRECORDS C}
 
 interface
@@ -261,9 +262,20 @@ const
 
   SFC_SET_VBR_ENCODING_QUALITY = $1300;
   SFC_SET_COMPRESSION_LEVEL = $1301;
+
   SFC_SET_OGG_PAGE_LATENCY_MS = $1302;
   SFC_SET_OGG_PAGE_LATENCY = $1303;
 
+  SFC_GET_BITRATE_MODE = $1304;
+  SFC_SET_BITRATE_MODE = $1305;
+
+type
+  // Bitrate mode values (for use with SFC_GET/SET_BITRATE_MODE)
+  TSFBitrateMode = ( SF_BITRATE_MODE_CONSTANT = 0,
+  	             SF_BITRATE_MODE_AVERAGE,
+  	             SF_BITRATE_MODE_VARIABLE);
+
+const
   // Cart Chunk support
   SFC_SET_CART_INFO = $1400;
   SFC_GET_CART_INFO = $1401;
@@ -903,6 +915,27 @@ var
 
 
 
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+type
+
+  { TALSFileMetaData }
+
+  TALSFileMetaData = record
+    Title, Copyright, Software, Artist,
+    Comment, Date, Album, License, TrackNumber, Genre: string;
+    // Set all field to empty string
+    procedure InitDefault;
+    // Initialize all fields
+    procedure Create(const aTitle, aCopyright, aSoftware, aArtist, aComment,
+                   aDate, aAlbum, aLicense, aTrackNumber, aGenre: string);
+    // Write the metadata into a file opened in write or read/write mode.
+    // Note: read/write mode don't work with MP3 file.
+    procedure WriteMetaDataTo(aSNDFile: PSNDFILE);
+  end;
+
+
 function LoadSndFileLibrary( const aFilename: string ): boolean;
 procedure UnloadSndFileLibrary;
 
@@ -912,7 +945,7 @@ function ALSOpenAudioFile(const aFilename: string; aMode: cint; Asfinfo: PSF_INF
 
 implementation
 
-uses SysUtils;
+uses SysUtils, LazUTF8;
 
 var
   _LibSndFile_ReferenceCounter: cardinal = 0;
@@ -1020,6 +1053,62 @@ begin
   {$else}
     Result := sf_open(PChar(aFilename), aMode, Asfinfo);
   {$endif}
+end;
+
+{ TALSFileMetaData }
+
+procedure TALSFileMetaData.InitDefault;
+begin
+  Title := '';
+  Copyright := '';
+  Software := '';
+  Artist := '';
+  Comment := '';
+  Date := '';
+  Album := '';
+  License := '';
+  TrackNumber := '';
+  Genre := '';
+end;
+
+procedure TALSFileMetaData.Create(const aTitle, aCopyright, aSoftware, aArtist,
+  aComment, aDate, aAlbum, aLicense, aTrackNumber, aGenre: string);
+begin
+  Title := aTitle;
+  Copyright := aCopyright;
+  Software := aSoftware;
+  Artist := aArtist;
+  Comment := aComment;
+  Date := aDate;
+  Album := aAlbum;
+  License := aLicense;
+  TrackNumber := aTrackNumber;
+  Genre := aGenre;
+end;
+
+procedure TALSFileMetaData.WriteMetaDataTo(aSNDFile: PSNDFILE);
+  procedure WriteStrMeta(aStrType: cint; const aValue: string);
+  begin
+    if aValue = '' then exit;
+    {$ifdef windows}
+      sf_set_string(aSNDFile, aStrType, PChar(UTF8ToWinCP(aValue)));
+    {$else}
+      sf_set_string(aSNDFile, aStrType, PChar(aValue));
+    {$endif}
+  end;
+begin
+  if aSNDFile = NIL then exit;
+
+  WriteStrMeta(SF_STR_TITLE, PChar(Title));
+  WriteStrMeta(SF_STR_COPYRIGHT, PChar(Copyright));
+  WriteStrMeta(SF_STR_SOFTWARE, PChar(Software));
+  WriteStrMeta(SF_STR_ARTIST, PChar(Artist));
+  WriteStrMeta(SF_STR_COMMENT, PChar(Comment));
+  WriteStrMeta(SF_STR_DATE, PChar(Date));
+  WriteStrMeta(SF_STR_ALBUM, PChar(Album));
+  WriteStrMeta(SF_STR_LICENSE, PChar(License));
+  WriteStrMeta(SF_STR_TRACKNUMBER, PChar(TrackNumber));
+  WriteStrMeta(SF_STR_GENRE, PChar(Genre));
 end;
 
 

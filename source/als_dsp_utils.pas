@@ -36,12 +36,27 @@ type
   ArrayOfByte = array of byte;
   ArrayOfQWord = array of QWord;
   ArrayOfSmallint = array of SmallInt;
-  ArrayOfSingle = array of single;
+  ArrayOfSingle = array of Single;
+  ArrayOfDouble = array of Double;
+
+  TSplittedChannelsSmallInt = array of ArrayOfSmallint;
+  TSplittedChannelsSingle = array of ArrayOfSingle;
+  TSplittedChannelsDouble = array of ArrayOfDouble;
 
   // use LinearTodB instead
   function ALSPercentToDecibel(aValue: single): single; deprecated;
   function LinearTodB(aLinearValue: single): single;
   function dBToLinear(adBValue: single): single;
+
+  // Splits interleaved channels
+  function InterleavedToSplitted_Smallint(p: PSmallInt; aFrameCount: longword; aChannelCount: Smallint): TSplittedChannelsSmallInt;
+  function InterleavedToSplitted_Float(p: PSingle; aFrameCount: longword; aChannelCount: Smallint): TSplittedChannelsSingle;
+  function InterleavedToSplitted_Double(p: PDouble; aFrameCount: longword; aChannelCount: Smallint): TSplittedChannelsDouble;
+
+  // Recompose interleaved channels
+  procedure SplittedToInterleaved_Smallint(const A: TSplittedChannelsSmallInt; p: PSmallInt);
+  procedure SplittedToInterleaved_Float(const A: TSplittedChannelsSingle; p: PSingle);
+  procedure SplittedToInterleaved_Double(const A: TSplittedChannelsDouble; p: PDouble);
 
   // convert an array of values in range [0..1] to dB.
   procedure als_dsp_ValuesToDecibel(p: PSingle; aCount: integer);
@@ -92,6 +107,107 @@ end;
 function dBToLinear(adBValue: single): single;
 begin
   Result := Power(10, adBValue*0.05); // *0.05 same than /20
+end;
+
+function InterleavedToSplitted_Smallint(p: PSmallInt; aFrameCount: longword;
+  aChannelCount: Smallint): TSplittedChannelsSmallInt;
+var ichan: integer;
+  isamp: longword;
+begin
+  Result := NIL;
+  if aChannelCount = 0 then exit;
+  if aFrameCount = 0 then exit;
+
+  SetLength(Result, aChannelCount, aFrameCount);
+  while aFrameCount > 0 do begin
+    isamp := 0;
+    for ichan:=0 to aChannelCount-1 do begin
+      Result[ichan, isamp] := p^;
+      inc(p);
+      inc(isamp);
+    end;
+
+    dec(aFrameCount);
+  end;
+end;
+
+function InterleavedToSplitted_Float(p: PSingle; aFrameCount: longword;
+  aChannelCount: Smallint): TSplittedChannelsSingle;
+var ichan: integer;
+  isamp: longword;
+begin
+  Result := NIL;
+  if aChannelCount = 0 then exit;
+  if aFrameCount = 0 then exit;
+
+  SetLength(Result, aChannelCount, aFrameCount);
+  while aFrameCount > 0 do begin
+    isamp := 0;
+    for ichan:=0 to aChannelCount-1 do begin
+      Result[ichan, isamp] := p^;
+      inc(p);
+      inc(isamp);
+    end;
+
+    dec(aFrameCount);
+  end;
+end;
+
+function InterleavedToSplitted_Double(p: PDouble; aFrameCount: longword;
+  aChannelCount: Smallint): TSplittedChannelsDouble;
+var ichan: integer;
+  isamp: longword;
+begin
+  Result := NIL;
+  if aChannelCount <= 0 then exit;
+  if aFrameCount <= 0 then exit;
+
+  SetLength(Result, aChannelCount, aFrameCount);
+
+  while aFrameCount > 0 do begin
+    isamp := 0;
+    for ichan:=0 to aChannelCount-1 do begin
+      Result[ichan, isamp] := p^;
+      inc(p);
+      inc(isamp);
+    end;
+
+    dec(aFrameCount);
+  end;
+end;
+
+procedure SplittedToInterleaved_Smallint(const A: TSplittedChannelsSmallInt;
+  p: PSmallInt);
+var
+  samp, chan: Integer;
+begin
+  for samp:=0 to High(A[0]) do
+   for chan:=0 to High(A) do begin
+    p^ := A[chan, samp];
+    inc(p);
+   end;
+end;
+
+procedure SplittedToInterleaved_Float(const A: TSplittedChannelsSingle; p: PSingle);
+var
+  samp, chan: Integer;
+begin
+  for samp:=0 to High(A[0]) do
+   for chan:=0 to High(A) do begin
+    p^ := A[chan, samp];
+    inc(p);
+   end;
+end;
+
+procedure SplittedToInterleaved_Double(const A: TSplittedChannelsDouble; p: PDouble);
+var
+  samp, chan: Integer;
+begin
+  for samp:=0 to High(A[0]) do
+   for chan:=0 to High(A) do begin
+    p^ := A[chan, samp];
+    inc(p);
+   end;
 end;
 
 procedure als_dsp_ValuesToDecibel(p: PSingle; aCount: integer);
