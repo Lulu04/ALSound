@@ -929,9 +929,11 @@ type
     // Initialize all fields
     procedure Create(const aTitle, aCopyright, aSoftware, aArtist, aComment,
                    aDate, aAlbum, aLicense, aTrackNumber, aGenre: string);
+    procedure Create(const aMetaData: TALSFileMetaData);
     // Write the metadata into a file opened in write or read/write mode.
     // Note: read/write mode don't work with MP3 file.
-    procedure WriteMetaDataTo(aSNDFile: PSNDFILE);
+    // Return True if succed
+    function WriteMetaDataTo(aSNDFile: PSNDFILE): boolean;
   end;
 
 
@@ -1085,19 +1087,35 @@ begin
   Genre := aGenre;
 end;
 
-procedure TALSFileMetaData.WriteMetaDataTo(aSNDFile: PSNDFILE);
+procedure TALSFileMetaData.Create(const aMetaData: TALSFileMetaData);
+begin
+  Create(aMetaData.Title,
+         aMetaData.Copyright,
+         aMetaData.Software,
+         aMetaData.Artist,
+         aMetaData.Comment,
+         aMetaData.Date,
+         aMetaData.Album,
+         aMetaData.License,
+         aMetaData.TrackNumber,
+         aMetaData.Genre);
+end;
+
+function TALSFileMetaData.WriteMetaDataTo(aSNDFile: PSNDFILE): boolean;
+var res: boolean;
   procedure WriteStrMeta(aStrType: cint; const aValue: string);
   begin
     if aValue = '' then exit;
     {$ifdef windows}
-      sf_set_string(aSNDFile, aStrType, PChar(UTF8ToWinCP(aValue)));
+      res := res and (sf_set_string(aSNDFile, aStrType, PChar(UTF8ToWinCP(aValue))) = 0);
     {$else}
-      sf_set_string(aSNDFile, aStrType, PChar(aValue));
+      res := res and (sf_set_string(aSNDFile, aStrType, PChar(aValue)) = 0);
     {$endif}
   end;
 begin
   if aSNDFile = NIL then exit;
 
+  res := True;
   WriteStrMeta(SF_STR_TITLE, PChar(Title));
   WriteStrMeta(SF_STR_COPYRIGHT, PChar(Copyright));
   WriteStrMeta(SF_STR_SOFTWARE, PChar(Software));
@@ -1108,6 +1126,7 @@ begin
   WriteStrMeta(SF_STR_LICENSE, PChar(License));
   WriteStrMeta(SF_STR_TRACKNUMBER, PChar(TrackNumber));
   WriteStrMeta(SF_STR_GENRE, PChar(Genre));
+  Result := res;
 end;
 
 
