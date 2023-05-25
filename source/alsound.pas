@@ -194,10 +194,6 @@ type
   function ALSMakeFileFormat(aFileMajorFormat: TALSFileMajorFormat;
                              aFileSubformat: TALSFileSubFormat;
                              aFileEndian: TALSFileEndian = SF_ENDIAN_FILE): TALSFileFormat;
-type
-  TALSBitrateMode = ( BITRATE_MODE_CONSTANT = 0,
-  	              BITRATE_MODE_AVERAGE,
-  	              BITRATE_MODE_VARIABLE);
 
 type
   // Distance model
@@ -987,8 +983,6 @@ type
     procedure SaveBufferToFile;
     procedure CloseFile;
     procedure DoExceptionNoCallback;
-  private
-    FFileMetaData: TALSFileMetaData;
   public
     // Don't call directly this constructor. Instead, use method
     // ALSManager.CreateDefaultLoopbackContext.
@@ -1008,17 +1002,6 @@ type
     // You can also retrieve the available file formats from
     // ALSManager.ListOfSimpleAudioFileFormat[].Format
     function PrepareSavingToFile(const aFilename: string; aFileFormat: TALSFileFormat): boolean;
-
-    // If you save the mixing to a file with a compressed audio like MP3, OGG...
-    // you can call this method to set the compression level.
-    // compression Level is in range [0..1]
-    function SetCompressionLevel(aLevel: double): boolean;
-
-    // If you save the mixing to a file you can call this method to set the
-    // meta data embeded within.
-    procedure SetFileMetaData(const aTitle, aCopyright, aSoftware, aArtist,
-                              aComment, aDate, aAlbum, aLicense,
-                              aTrackNumber, aGenre: string);
 
     // Call this method before start your mixing process, before any calls to
     // Mix(...)
@@ -1053,6 +1036,9 @@ type
 
     property MixingError: boolean read GetMixingError;
     property MixingStrError: string read GetMixingStrError;
+    // the handle returned from libsndfile. Usefull to set the bitrate mode
+    // or other stuff before starting the mixing to an MP3 file.
+    property LibSndFileHandle: PSNDFILE read FFile;
   end;
 
 
@@ -1529,7 +1515,6 @@ begin
 
   CreateParameters;
   FTimeSlice := 0.010;
-  FFileMetaData.InitDefault;
 
   FExecutingConstructor := False;
 end;
@@ -1588,20 +1573,6 @@ begin
   FFile := ALSOpenAudioFile(aFilename, SFM_WRITE, @FFileInfo);
 
   Result := FFile <> NIL;
-end;
-
-function TALSLoopbackContext.SetCompressionLevel(aLevel: double): boolean;
-begin
-  Result := sf_command(FFile, SFC_SET_COMPRESSION_LEVEL, @aLevel, SizeOf(double)) = SF_TRUE;
-end;
-
-procedure TALSLoopbackContext.SetFileMetaData(const aTitle, aCopyright,
-  aSoftware, aArtist, aComment, aDate, aAlbum, aLicense, aTrackNumber,
-  aGenre: string);
-begin
-  FFileMetaData.Create(aTitle, aCopyright, aSoftware, aArtist, aComment, aDate,
-     aAlbum, aLicense, aTrackNumber, aGenre);
-  FFileMetaData.WriteMetaDataTo(FFile);
 end;
 
 procedure TALSLoopbackContext.BeginOfMix;
