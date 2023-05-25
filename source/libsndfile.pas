@@ -269,11 +269,10 @@ const
   SFC_GET_BITRATE_MODE = $1304;
   SFC_SET_BITRATE_MODE = $1305;
 
-type
   // Bitrate mode values (for use with SFC_GET/SET_BITRATE_MODE)
-  TSFBitrateMode = ( SF_BITRATE_MODE_CONSTANT = 0,
-  	             SF_BITRATE_MODE_AVERAGE,
-  	             SF_BITRATE_MODE_VARIABLE);
+  SF_BITRATE_MODE_CONSTANT = 0;
+  SF_BITRATE_MODE_AVERAGE = 1;
+  SF_BITRATE_MODE_VARIABLE = 2;
 
 const
   // Cart Chunk support
