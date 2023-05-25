@@ -1036,8 +1036,11 @@ type
 
     property MixingError: boolean read GetMixingError;
     property MixingStrError: string read GetMixingStrError;
-    // the handle returned from libsndfile. Usefull to set the bitrate mode
-    // or other stuff before starting the mixing to an MP3 file.
+
+    // The handle returned by libsndfile, after a call to PrepareSavingToFile.
+    // Usefull to do some tasks directly with the LibSndFile API, like writing
+    // metadata, setting the bitrate mode and/or compression level...
+    // Do this tasks before starting the mixing
     property LibSndFileHandle: PSNDFILE read FFile;
   end;
 
