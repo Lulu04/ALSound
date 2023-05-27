@@ -1077,10 +1077,7 @@ type
     FCaptureToFileIsReady: boolean;
     FUserFileName: string;
     FUserFileInfo: TSF_INFO;
-
-    FTempFileName: string;
-    FTempFile: PSNDFILE;
-    FTempFileSubFormat: longint;
+    FUserFile: PSNDFILE;
 
     FPlaybackSound: TALSPlaybackCapturedSound;
 
@@ -1094,8 +1091,6 @@ type
     procedure SetMonitoringEnabled(AValue: boolean);
     procedure SetOnCaptureBuffer(AValue: TALSOnCaptureBuffer);
     procedure SetPreAmp(AValue: single);
-  private
-    FFileMetaData: TALSFileMetaData;
   public
     // Don't call this contructor directly, instead use
     // ALSManager.CreateDefaultCaptureContext or
@@ -1110,13 +1105,7 @@ type
     // e.g: ALSMakeFileFormat( SF_FORMAT_WAV, SF_FORMAT_PCM_16)
     // You can also retrieve the available file formats from
     // ALSManager.ListOfSimpleAudioFileFormat[].Format
-    function PrepareSavingToFile(const aFileName: string; aFormat: longint): boolean;
-
-    // If you save the captured audio to a file you can call this method to set
-    // the meta data embeded within.
-    procedure SetFileMetaData(const aTitle, aCopyright, aSoftware, aArtist,
-                              aComment, aDate, aAlbum, aLicense,
-                              aTrackNumber, aGenre: string);
+    function PrepareSavingToFile(const aFileName: string; aFormat: TALSFileFormat): boolean;
 
     // Ask to playback the captured audio.
     // This method creates a streamed sound in the specified playback context
@@ -1125,13 +1114,13 @@ type
     // methods that affect its playing state (Play, Pause, Stop, FadeIn, FadeOut)
     function PrepareToPlayback(aTargetContext: TALSPlaybackContext): TALSPlaybackCapturedSound;
 
-    // Start sample capture
+    // Start capture
     procedure StartCapture;
 
     // Pause capture
     procedure PauseCapture;
 
-    // Stop sample capture.
+    // Stop capture.
     procedure StopCapture;
 
     // Start(True) or Stop(False) monitoring of the channel's level and peak.
@@ -1733,13 +1722,23 @@ end;
 
 procedure TALSCaptureContext.SetCaptureError(aError: TALSError);
 begin
-  if FCaptureError = als_NoError then
-    FCaptureError := aError;
+  EnterCriticalSection(FCriticalSection);
+  try
+    if FCaptureError = als_NoError then
+      FCaptureError := aError;
+  finally
+    LeaveCriticalSection(FCriticalSection);
+  end;
 end;
 
 function TALSCaptureContext.GetStrCaptureError: string;
 begin
-  Result := ALSound.GetStrError(FCaptureError);
+  EnterCriticalSection(FCriticalSection);
+  try
+    Result := ALSound.GetStrError(FCaptureError);
+  finally
+    LeaveCriticalSection(FCriticalSection);
+  end;
 end;
 
 procedure TALSCaptureContext.StartThread;
@@ -1794,6 +1793,7 @@ begin
       begin
         SetCaptureError(als_ALErrorWhileCapturing);
         FALErrorWhileCapturing := True;
+        SetCaptureError(als_ALErrorWhileCapturing);
       end;
 
       // Remove DC bias from the signal
@@ -1821,10 +1821,12 @@ begin
         begin
           writtenOnFile := 0;
           case FCapturedFrames.UseFloat of
-            False: writtenOnFile := sf_writef_short(FTempFile, FCapturedFrames.Data, FCapturedFrames.FrameCount);
-            True: writtenOnFile := sf_writef_float(FTempFile, FCapturedFrames.Data, FCapturedFrames.FrameCount);
+            False: writtenOnFile := sf_writef_short(FUserFile, FCapturedFrames.Data, FCapturedFrames.FrameCount);
+            True: writtenOnFile := sf_writef_float(FUserFile, FCapturedFrames.Data, FCapturedFrames.FrameCount);
           end;
           FFileWriteErrorWhileCapturing := writtenOnFile <> sf_count_t(FCapturedFrames.FrameCount);
+          if FFileWriteErrorWhileCapturing then
+          SetCaptureError(als_FileWriteErrorWhileCapturing);
         end;
 
       end;
@@ -1925,20 +1927,6 @@ begin
   FState := ALS_STOPPED;
   FSampleRate := aFrequency;
 
-  case aFormat of
-    ALS_CAPTUREFORMAT_MONO16:
-      FTempFileSubFormat := Ord(SF_FORMAT_PCM_16);
-
-    ALS_CAPTUREFORMAT_STEREO16:
-      FTempFileSubFormat := Ord(SF_FORMAT_PCM_16);
-
-    ALS_CAPTUREFORMAT_MONO_FLOAT32:
-      FTempFileSubFormat := Ord(SF_FORMAT_FLOAT);
-
-    ALS_CAPTUREFORMAT_STEREO_FLOAT32:
-      FTempFileSubFormat := Ord(SF_FORMAT_FLOAT);
-  end;
-
   FCapturedFrames.Init( aFormat );
   FCapturedFrames.FrameCapacity := Round(aFrequency * aBufferTimeSize);
 
@@ -1958,7 +1946,6 @@ begin
 
   InitCriticalSection(FCriticalSection);
   FPreAmp := 1.0;
-  FFileMetaData.InitDefault;
 end;
 
 destructor TALSCaptureContext.Destroy;
@@ -1981,7 +1968,7 @@ begin
   inherited Destroy;
 end;
 
-function TALSCaptureContext.PrepareSavingToFile(const aFileName: string; aFormat: longint): boolean;
+function TALSCaptureContext.PrepareSavingToFile(const aFileName: string; aFormat: TALSFileFormat): boolean;
 var
   tempInfo: TSF_INFO;
 begin
@@ -1996,29 +1983,10 @@ begin
   FUserFileInfo.SampleRate := FSampleRate;
   FUserFileInfo.Format := aFormat;
   FUserFileInfo.Channels := FCapturedFrames.ChannelCount;
+  FUserFile := ALSOpenAudioFile(aFilename, SFM_WRITE, @FUserFileInfo);
 
-  // see Question 6 on https://github.com/libsndfile/libsndfile/blob/master/docs/FAQ.md#Q006
-  // Create an '.au' temporary audio file with the same bit format than the capture context
-  // e.g. 'myfile.ogg' => 'myfile_Temporary.au'
-  FTempFileName := ChangeFileExt(ExtractFileName(aFileName), '')+'_Temporary.au';
-  FTempFileName := ConcatPaths([ExtractFilePath(aFileName), FTempFileName]);
-  tempInfo.SampleRate := FSampleRate;
-  tempInfo.Format := Ord(SF_ENDIAN_CPU) or Ord(SF_FORMAT_AU) or FTempFileSubFormat;
-  tempInfo.Channels := FCapturedFrames.ChannelCount;
-  FTempFile := ALSOpenAudioFile(FTempFileName, SFM_WRITE, @tempInfo);
-  if FTempFile = nil then
-    FCaptureError := als_CanNotOpenTemporaryCaptureFile;
-
-  FCaptureToFileIsReady := FTempFile <> nil;
-  Result := FCaptureError = als_NoError;
-end;
-
-procedure TALSCaptureContext.SetFileMetaData(const aTitle, aCopyright,
-  aSoftware, aArtist, aComment, aDate, aAlbum, aLicense, aTrackNumber,
-  aGenre: string);
-begin
-  FFileMetaData.Create(aTitle, aCopyright, aSoftware, aArtist, aComment, aDate,
-     aAlbum, aLicense, aTrackNumber, aGenre);
+  FCaptureToFileIsReady := FUserFile <> nil;
+  Result := FCaptureToFileIsReady;
 end;
 
 function TALSCaptureContext.PrepareToPlayback(aTargetContext: TALSPlaybackContext): TALSPlaybackCapturedSound;
@@ -2078,18 +2046,7 @@ var
   buf: TALSCaptureFrameBuffer;
   err: cint;
 begin
-  // Release the sound instance for playback
-  if FPlaybackSound <> NIL then
-  begin
-    FPlaybackSound.Kill;
-    FPlaybackSound := NIL;
-  end;
-
   if Error or
-     (FState = ALS_STOPPED) then
-    exit;
-
-  if (FCaptureError = als_CanNotOpenTemporaryCaptureFile) or
      (FState = ALS_STOPPED) then
     exit;
 
@@ -2097,68 +2054,22 @@ begin
   StopThread;
   FState := ALS_STOPPED;
 
-  // retrieve thread error
-  if FFileWriteErrorWhileCapturing then
-    SetCaptureError(als_FileWriteErrorWhileCapturing);
-  if FALErrorWhileCapturing then
-    SetCaptureError(als_ALErrorWhileCapturing);
+  // Release the sound instance for playback
+  if FPlaybackSound <> NIL then
+  begin
+    FPlaybackSound.Kill;
+    FPlaybackSound := NIL;
+  end;
 
   if FCaptureToFileIsReady then
   begin
-    // close the temporary '.au' audio file and convert it to the user format
-    sf_write_sync(FTempFile);
-    err := sf_close(FTempFile);
+    // close the capture file
+    sf_write_sync(FUserFile);
+    err := sf_close(FUserFile);
     if err <> 0 then
-      SetCaptureError(als_CanNotCloseTemporaryCaptureFile);
-
-    if not CaptureError then
-    begin
-      // reopen the temporary '.au' file for reading
-      fileInfo.Format := 0;
-      FTempFile := ALSOpenAudioFile(FTempFileName, SFM_READ, @fileInfo);
-      if FTempFile = nil then
-        SetCaptureError(als_CanNotOpenTemporaryCaptureFile);
-
-      if not CaptureError then
-      begin
-        // open the 'final' file with the requested format
-        finalFile := ALSOpenAudioFile(FUserFileName, SFM_WRITE, @FUserFileInfo);
-        if finalFile = nil then
-        begin
-          SetCaptureError(als_CanNotCreateTargetCaptureFile);
-          sf_close(FTempFile);
-        end;
-
-        FFileMetaData.WriteMetaDataTo(finalFile);
-
-        if not CaptureError then
-        begin
-          if FCapturedFrames.ChannelCount = 1 then
-            buf.Init( ALS_CAPTUREFORMAT_MONO_FLOAT32 )
-          else
-            buf.Init( ALS_CAPTUREFORMAT_STEREO_FLOAT32 );
-
-          buf.FrameCapacity := 2048;
-          repeat
-            readCount := sf_read_float(FTempFile, buf.Data, sf_count_t(buf.FrameCapacity));
-            if readCount > 0 then
-            begin
-              writeCount := sf_write_float(finalFile, buf.Data, readcount);
-              if writeCount <> readcount then
-                SetCaptureError(als_FileWriteErrorOnTargetCaptureFile);
-            end;
-          until readCount = 0;
-          buf.FreeMemory;
-
-          sf_close(FTempFile);
-          sf_write_sync(finalFile);
-          sf_close(finalFile);
-          DeleteFile(FTempFileName);
-        end;
-      end;
-    end;
+      SetCaptureError(als_CanNotCloseCaptureFile);
+    FCaptureToFileIsReady := False;
   end;
-  FCaptureToFileIsReady := False;
 end;
 
 
