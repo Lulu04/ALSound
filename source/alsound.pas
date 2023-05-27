@@ -1165,6 +1165,12 @@ type
     property CaptureError: boolean read GetCaptureError;
     // Give an human readable error message of the error.
     property StrCaptureError: string read GetStrCaptureError;
+
+    // The handle returned by libsndfile, after a call to PrepareSavingToFile.
+    // Usefull to do some tasks directly with the LibSndFile API, like writing
+    // metadata, setting the bitrate mode and/or compression level...
+    // Do this tasks after a call to PrepareSavingToFile and before StartCapture
+    property LibSndFileHandle: PSNDFILE read FUserFile;
   end;
 
   TALSAudioFileSubFormat = record
