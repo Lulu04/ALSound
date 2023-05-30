@@ -1969,8 +1969,6 @@ begin
 end;
 
 function TALSCaptureContext.PrepareSavingToFile(const aFileName: string; aFormat: TALSFileFormat): boolean;
-var
-  tempInfo: TSF_INFO;
 begin
   ResetCaptureError;
   if Error then
