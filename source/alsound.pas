@@ -2039,12 +2039,6 @@ begin
 end;
 
 procedure TALSCaptureContext.StopCapture;
-var
-  fileInfo: TSF_INFO;
-  finalFile: PSNDFILE;
-  readCount, writeCount: longint;
-  buf: TALSCaptureFrameBuffer;
-  err: cint;
 begin
   if Error or
      (FState = ALS_STOPPED) then
@@ -2065,8 +2059,7 @@ begin
   begin
     // close the capture file
     sf_write_sync(FUserFile);
-    err := sf_close(FUserFile);
-    if err <> 0 then
+    if sf_close(FUserFile) <> 0 then
       SetCaptureError(als_CanNotCloseCaptureFile);
     FCaptureToFileIsReady := False;
   end;
