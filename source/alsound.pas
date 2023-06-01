@@ -1034,6 +1034,8 @@ type
     // With this property, you can adjust this setting according to your need.
     property TimeSlice: double read FTimeSlice write SetTimeSlice;
 
+    property SampleRate: integer read FSampleRate;
+
     property MixingError: boolean read GetMixingError;
     property MixingStrError: string read GetMixingStrError;
 
