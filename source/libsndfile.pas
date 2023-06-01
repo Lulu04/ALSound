@@ -934,6 +934,8 @@ type
     // Note: read/write mode don't work with MP3 file.
     // Return True if succed
     function WriteMetaDataTo(aSNDFile: PSNDFILE): boolean;
+    // Read the metadata from a file opened in read or read/write mode
+    procedure ReadMetaDataFrom(aSNDFile: PSNDFILE);
   end;
 
 
@@ -1127,6 +1129,31 @@ begin
   WriteStrMeta(SF_STR_TRACKNUMBER, PChar(TrackNumber));
   WriteStrMeta(SF_STR_GENRE, PChar(Genre));
   Result := res;
+end;
+
+procedure TALSFileMetaData.ReadMetaDataFrom(aSNDFile: PSNDFILE);
+  function ReadStrMeta(aStrType: cint): string;
+  begin
+    {$ifdef windows}
+      Result := {WinCPToUTF8}(sf_get_string(aSNDFile, aStrType));
+    {$else}
+      Result := sf_get_string(aSNDFile, aStrType);
+    {$endif}
+  end;
+begin
+  InitDefault;
+  if aSNDFile = NIL then exit;
+
+  Title := ReadStrMeta(SF_STR_TITLE);
+  Copyright := ReadStrMeta(SF_STR_COPYRIGHT);
+  Software := ReadStrMeta(SF_STR_SOFTWARE);
+  Artist := ReadStrMeta(SF_STR_ARTIST);
+  Comment := ReadStrMeta(SF_STR_COMMENT);
+  Date := ReadStrMeta(SF_STR_DATE);
+  Album := ReadStrMeta(SF_STR_ALBUM);
+  License := ReadStrMeta(SF_STR_LICENSE);
+  TrackNumber := ReadStrMeta(SF_STR_TRACKNUMBER);
+  Genre := ReadStrMeta(SF_STR_GENRE);
 end;
 
 
