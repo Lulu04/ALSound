@@ -30,12 +30,9 @@ TALSError = ( als_NoError = 0,
               als_FloatSampleNotSupported,
               als_FailToReadSample,
 
-              als_CanNotOpenTemporaryCaptureFile,
-              als_CanNotCloseTemporaryCaptureFile,
+              als_CanNotCloseCaptureFile,
               als_FileWriteErrorWhileCapturing,
               als_ALErrorWhileCapturing,
-              als_CanNotCreateTargetCaptureFile,
-              als_FileWriteErrorOnTargetCaptureFile,
 
               als_OutOfMemory
               );
@@ -69,12 +66,10 @@ const
   StrALS_UnSupportedFormat = 'OpenAL: Unsupported format';
   StrALS_FloatSampleNotSupported = 'OpenAL: Float samples not supported';
   StrALS_FailToReadSample = 'LibSndFile: Failed to read sample';
-  StrALS_CanNotOpenTemporaryCaptureFile = 'LibSndFile: Failed to open the temporary capture file';
-  StrALS_CanNotCloseTemporaryCaptureFile = 'LibSndFile: Failed to close the temporary capture file';
-  StrALS_FileWriteErrorWhileCapturing = 'LibSndFile: File write error while capturing audio';
-  StrALS_ALErrorWhileCapturing = 'OpenAL: An error appears while capturing audio';
-  StrALS_CanNotCreateTargetCaptureFile = 'LibSndFile: Can not create target capture file';
-  StrALS_FileWriteErrorOnTargetCaptureFile = 'LibSndFile: File write error while converting temporary capture file to final file';
+
+  StrALS_CanNotCloseCaptureFile = 'LibSndFile: Failed to close the capture file';
+  StrALS_FileWriteErrorWhileCapturing = 'LibSndFile: a file write error occurs when saving captured audio';
+  StrALS_ALErrorWhileCapturing = 'OpenAL: An error occurs when capturing audio';
 
   StrALS_OutOfMemory = 'ALSound: Not enough memory';
 
@@ -113,12 +108,10 @@ begin
     als_UnSupportedFormat: Result := StrALS_UnSupportedFormat;
     als_FloatSampleNotSupported: Result := StrALS_FloatSampleNotSupported;
     als_FailToReadSample: Result := StrALS_FailToReadSample;
-    als_CanNotOpenTemporaryCaptureFile: Result := StrALS_CanNotOpenTemporaryCaptureFile;
-    als_CanNotCloseTemporaryCaptureFile: Result := StrALS_CanNotCloseTemporaryCaptureFile;
+
+    als_CanNotCloseCaptureFile: Result := StrALS_CanNotCloseCaptureFile;
     als_FileWriteErrorWhileCapturing: Result := StrALS_FileWriteErrorWhileCapturing;
     als_ALErrorWhileCapturing: Result := StrALS_ALErrorWhileCapturing;
-    als_CanNotCreateTargetCaptureFile: Result := StrALS_CanNotCreateTargetCaptureFile;
-    als_FileWriteErrorOnTargetCaptureFile: Result := StrALS_FileWriteErrorOnTargetCaptureFile;
 
     als_OutOfMemory: Result := StrALS_OutOfMemory;
     else
