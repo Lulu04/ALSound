@@ -1,1 +1,0 @@
-in this folder (UnitsCommon/ALSound), please download the FreePascal ALSound library from https://github.com/Lulu04/ALSound
