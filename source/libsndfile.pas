@@ -1115,6 +1115,7 @@ var res: boolean;
     {$endif}
   end;
 begin
+  Result := False;
   if aSNDFile = NIL then exit;
 
   res := True;
