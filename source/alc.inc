@@ -219,4 +219,11 @@ var
   alcCaptureStop: procedure(device: PALCdevice); cdecl;
   alcCaptureSamples: procedure(device: PALCdevice; buffer: PALCvoid; samples: ALCsizei); cdecl;
 
+(*
+ * Log Callback
+ *)
+type
+  TALSoft_LogCallback = procedure(aUserPtr: pointer; aLevel: char; aMessage: PChar; aMessageLength: cint);
+var
+  alsoft_set_log_callback: procedure(aCallback: TALSoft_LogCallback; UserPtr: pointer); cdecl;
 

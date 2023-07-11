@@ -104,6 +104,9 @@ var
   FExtensionLoaded_AL_SOFT_source_resampler: boolean=False;
   FExtensionLoaded_AL_SOFT_events: boolean=False;
 
+
+function SetALSoft_LogCallback(aCallback: TALSoft_LogCallback; aUserPtr: pointer): boolean;
+
 implementation
 
 var
@@ -518,6 +521,11 @@ begin
     Result := False;
 end;
 
+function LoadExt_LogCallBack: boolean;
+begin
+
+end;
+
 function LoadExt_ALC_SOFT_reopen_device(aDevice: PALCDevice): boolean;
 begin
   Result := alcIsExtensionPresent(NIL, PChar('ALC_SOFT_reopen_device'));
@@ -637,6 +645,14 @@ end;
 function StringToNullTerminated(const s: string): PChar;
 begin
   Result := PChar(s + #0);
+end;
+
+function SetALSoft_LogCallback(aCallback: TALSoft_LogCallback; aUserPtr: pointer): boolean;
+begin
+  Result := True;
+  Pointer(alsoft_set_log_callback) := GetALCExtProc(NIL, 'alsoft_set_log_callback', Result);
+  if Result then
+    alsoft_set_log_callback(aCallback, aUserPtr);
 end;
 
 end.
