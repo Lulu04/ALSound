@@ -1215,12 +1215,22 @@ type
   private
     FDefaultLoopbackDevice: TALSLoopbackDeviceItem;
     procedure CloseLoopbackDevice( aDeviceHandle: PALCDevice );
+  private
+    FALSoftLogCallback: TALSoft_LogCallback;
+    FALSoftLogCallback_UserPtr: pointer;
+    FALSoftLogCallbackIsActive: boolean;
   public
     // Don't use ! Only one instance is allowed and it is created at startup.
     constructor Create;
     destructor Destroy; override;
 
   public // LIBRARIES
+
+    // OpenAL-Soft provide a callback for its log messages. Use this method to
+    // define this callback to be able to save OpenAL-Soft log messages with
+    // those from your application.
+    // NOTE: this callback must be define BEFORE the call to LoadLibraries.
+    procedure SetOpenALSoftLogCallback(aCallback: TALSoft_LogCallback; aUserPtr: pointer);
 
     // Call this method at the begining of your application to load OpenAL-Soft
     // and LibSndFile library. Librarie's binaries must be located in the
@@ -1241,6 +1251,8 @@ type
     property OpenAlSoftVersion: string read GetOpenAlSoftVersion;
     // Version of LibSndFile library.
     property LibSndFileVersion: string read GetLibSndFileVersion;
+    // True if the log callback for OpenALSoft succed.
+    property ALSoftLogCallbackIsActive: boolean read FALSoftLogCallbackIsActive;
 
   public // PLAYBACK DEVICE AND CONTEXT
 
@@ -2306,10 +2318,23 @@ begin
   inherited Destroy;
 end;
 
+procedure TALSManager.SetOpenALSoftLogCallback(aCallback: TALSoft_LogCallback;
+  aUserPtr: pointer);
+begin
+  FALSoftLogCallback := aCallback;
+  FALSoftLogCallback_UserPtr := aUserPtr;
+end;
+
 procedure TALSManager.LoadLibraries;
 begin
   DoUnloadLibrary;
   DoLoadLibrary;
+
+  FALSoftLogCallbackIsActive := False;
+  if FALSoftLogCallback <> NIL then begin
+    FALSoftLogCallbackIsActive := SetALSoft_LogCallback(FALSoftLogCallback, FALSoftLogCallback_UserPtr);
+  end;
+
   RetrievePlaybackDevices;
 end;
 
