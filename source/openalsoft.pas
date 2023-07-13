@@ -520,11 +520,6 @@ begin
     Result := False;
 end;
 
-function LoadExt_LogCallBack: boolean;
-begin
-
-end;
-
 function LoadExt_ALC_SOFT_reopen_device(aDevice: PALCDevice): boolean;
 begin
   Result := alcIsExtensionPresent(NIL, PChar('ALC_SOFT_reopen_device'));
