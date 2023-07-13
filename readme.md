@@ -12,7 +12,7 @@ If a feature is not available, the requested action is simply ignored and in som
 Tested under Linux and Windows, i386 and x86-64.
 May work on other platforms with the appropriate compiled libraries.
 
-For FreePascal/Lazarus
+For FreePascal/Lazarus  
 lulu - 2022
 
 
