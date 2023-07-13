@@ -34,7 +34,6 @@ uses
   DynLibs, ctypes, SysUtils;
 
 const
-  ALSOFT_VERSION = '1.22.0';
 
 {$IFDEF LINUX}
   {$IFDEF CPU386}
