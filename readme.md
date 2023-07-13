@@ -13,21 +13,16 @@ Tested under Linux and Windows, i386 and x86-64.
 May work on other platforms with the appropriate compiled libraries.
 
 For FreePascal/Lazarus  
-lulu - 2022
-
-
+lulu - 2022  
 # Contents
 
 'source' -> the source of ALSound.
 
-'example' -> contains some examples to show how to integrate ALSound in your FreePascal/Lazarus programs.
+'example' -> contains some examples to show how to integrate ALSound in your FreePascal/Lazarus programs. After compilation, the example executable are placed in folder "binary\$(TargetCPU)-$(TargetOS)\"
 
 'docs' -> In progress. Contains a copy of OpenAL documentation.
 
-'binary' -> contains sub-folder for each actual supported platforms. The compiled binaries of OpenAL-Soft and LibSndFile are provided for Windows and Linux both i386 and x86-64 and can be found in their respective sub-folder. If you prefers to compile these libraries by yourself, please go to their respective github repository and follow the guideline.
-After compilation, all example's executables are placed in the appropriate sub-folder by Lazarus.
-
-
+'binary' -> contains sub-folder for each actual supported platforms. The compiled binaries of OpenAL-Soft and LibSndFile are provided for Windows and Linux both i386 and x86-64 and can be found in their respective sub-folder. If you prefers to compile these libraries by yourself, please go to their respective github repository and follow the guideline.  
 # Dynamic linking libraries
 
 ALSound loads and links automatically the libraries at startup. As under Windows, a copy of the libraries should be in the folder as your executable.
@@ -57,9 +52,7 @@ LibSndFile is searched in:
 **!!NOT TESTED!!** Under Mac, ALSound try to load OpenAL-Soft using:
 1. BundlePath+'/'+BundleName+'/Contents/Resources/libopenal.dylib' -> try to find it in Resources folder of application bundle.
 2. libopenal.dylib -> try to load without any path
-3. /System/Library/Frameworks/OpenAL.framework/OpenAL -> try to load desperately an old version on old machine
-
-
+3. /System/Library/Frameworks/OpenAL.framework/OpenAL -> try to load desperately an old version on old machine  
 # Building libraries from source
 
 If you choose to build OpenAl-Soft and LibSndFile from source, please rename the obtained binaries to:
