@@ -1232,6 +1232,12 @@ type
     // NOTE: this callback must be defined BEFORE the call to LoadLibraries.
     procedure SetOpenALSoftLogCallback(aCallback: TALSoft_LogCallback; aUserPtr: pointer);
 
+    // If the librarie's binaries are in a sub-folder of your application
+    // executable, you can inform ALSManager before a call to LoadLibraries.
+    // NOTE FOR Mac:(not tested) if you use a bundle, the sub-folder must be in
+    // the Resources folder.
+    procedure SetLibrariesSubFolder(const aAppLibrariesSubFolder: string);
+
     // Call this method at the begining of your application to load OpenAL-Soft
     // and LibSndFile library. Librarie's binaries must be located in the
     // application executable folder or sub-folder. In case of sub-folder, use
@@ -1239,11 +1245,12 @@ type
     // LoadLibraries.
     procedure LoadLibraries;
 
-    // If the librarie's binaries image are in a sub-folder of your application
-    // executable, you can inform ALSManager with this property.
-    // NOTE FOR Mac:(not tested)  the sub-folder must be in the Resources
-    // folder of the bundle.
-    property LibrariesSubFolder: string write FLibrariesSubFolder;
+    // If the librarie's binaries are in a sub-folder of your application
+    // executable, you can inform ALSManager before a call to LoadLibraries.
+    // NOTE FOR Mac:(not tested) if you use a bundle, the sub-folder must be in
+    // the Resources folder.
+    property LibrariesSubFolder: string write FLibrariesSubFolder; deprecated 'will be removed on future update. Use method SetLibrariesSubFolder instead';
+
     property OpenALSoftLibraryLoaded: boolean read FOpenALSoftLibraryLoaded;
     property LibSndFileLibraryLoaded: boolean read FLibSndFileLibraryLoaded;
 
@@ -2329,6 +2336,11 @@ procedure TALSManager.SetOpenALSoftLogCallback(aCallback: TALSoft_LogCallback;
 begin
   FALSoftLogCallback := aCallback;
   FALSoftLogCallback_UserPtr := aUserPtr;
+end;
+
+procedure TALSManager.SetLibrariesSubFolder(const aAppLibrariesSubFolder: string);
+begin
+  FLibrariesSubFolder := aAppLibrariesSubFolder;
 end;
 
 procedure TALSManager.LoadLibraries;
