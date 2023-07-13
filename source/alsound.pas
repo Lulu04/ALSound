@@ -1229,7 +1229,7 @@ type
     // OpenAL-Soft provide a callback for its log messages. Use this method to
     // define this callback to be able to save OpenAL-Soft log messages with
     // those from your application.
-    // NOTE: this callback must be define BEFORE the call to LoadLibraries.
+    // NOTE: this callback must be defined BEFORE the call to LoadLibraries.
     procedure SetOpenALSoftLogCallback(aCallback: TALSoft_LogCallback; aUserPtr: pointer);
 
     // Call this method at the begining of your application to load OpenAL-Soft
@@ -1247,11 +1247,14 @@ type
     property OpenALSoftLibraryLoaded: boolean read FOpenALSoftLibraryLoaded;
     property LibSndFileLibraryLoaded: boolean read FLibSndFileLibraryLoaded;
 
-    // Version of OpenAL-Soft library.
+    // Return the version of OpenAL-Soft library.
+    // You need to load the libraries and create a playback context before
+    // querying it.
     property OpenAlSoftVersion: string read GetOpenAlSoftVersion;
-    // Version of LibSndFile library.
+    // Return the version of LibSndFile library.
     property LibSndFileVersion: string read GetLibSndFileVersion;
-    // True if the log callback for OpenALSoft succed.
+
+    // Return True if the log callback for OpenALSoft succed.
     property ALSoftLogCallbackIsActive: boolean read FALSoftLogCallbackIsActive;
 
   public // PLAYBACK DEVICE AND CONTEXT
@@ -2224,7 +2227,10 @@ end;
 
 function TALSManager.GetOpenAlSoftVersion: string;
 begin
-  Result := openalsoft.ALSOFT_VERSION;
+  if FOpenALSoftLibraryLoaded and (alGetString <> NIL) then
+    Result := StrPas(alGetString(AL_VERSION))
+  else
+    Result := '';
 end;
 
 procedure TALSManager.InitializeErrorStatus;
