@@ -18,7 +18,7 @@ lulu - 2022
 
 'source' -> the source of ALSound.
 
-'example' -> contains some examples to show how to integrate ALSound in your FreePascal/Lazarus programs. After compilation, the example executable are placed in folder "binary\$(TargetCPU)-$(TargetOS)\"
+'example' -> contains some examples to show how to integrate ALSound in your FreePascal/Lazarus programs. After compilation, the example executable are placed in folder "binary", sub-folder "$(TargetCPU)-$(TargetOS)"
 
 'docs' -> In progress. Contains a copy of OpenAL documentation.
 
