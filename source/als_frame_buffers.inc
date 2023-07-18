@@ -127,6 +127,7 @@ begin
    ALC_5POINT1_SOFT: Result := 6;
    ALC_6POINT1_SOFT: Result := 7;
    ALC_7POINT1_SOFT: Result := 8;
+   else Raise Exception.Create('Missing enum item in case');
  end;
 end;
 
@@ -136,6 +137,7 @@ begin
    ALC_SHORT_SOFT: Result := 2;
    ALC_INT_SOFT: Result := 4;
    ALC_FLOAT_SOFT: Result := 4;
+   else Raise Exception.Create('Missing enum item in case');
  end;
 end;
 
@@ -145,6 +147,7 @@ begin
    ALC_SHORT_SOFT: Result := libsndfile.SF_FORMAT_PCM_16;
    ALC_INT_SOFT: Result := libsndfile.SF_FORMAT_PCM_32;
    ALC_FLOAT_SOFT: Result := libsndfile.SF_FORMAT_FLOAT;
+   else Raise Exception.Create('Missing enum item in case');
  end;
 end;
 
@@ -165,6 +168,7 @@ begin
  case aFormat of
    ALS_SAMPLE_INT16: Result := 2;
    ALS_SAMPLE_FLOAT32: Result := 4;
+   else Raise Exception.Create('Missing enum item in case');
  end;
 end;
 
@@ -177,6 +181,7 @@ begin
 
     ALS_CAPTUREFORMAT_STEREO16,
     ALS_CAPTUREFORMAT_STEREO_FLOAT32: Result := 2;
+    else Raise Exception.Create('Missing enum item in case');
   end;
 end;
 
@@ -188,6 +193,7 @@ begin
 
     ALS_CAPTUREFORMAT_MONO_FLOAT32,
     ALS_CAPTUREFORMAT_STEREO_FLOAT32: Result := SizeOf(Single);
+    else Raise Exception.Create('Missing enum item in case');
   end;
 end;
 
