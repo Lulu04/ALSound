@@ -1472,6 +1472,7 @@ var written: sf_count_t;
 begin
   if (FFile <> NIL) then
   begin
+    written := 0; // avoid compilation hint
     case FFrameBuffer.SampleType of
       ALC_SHORT_SOFT: written := sf_writef_short(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
       ALC_INT_SOFT: written := sf_writef_int(FFile, FFrameBuffer.Data, FFrameBuffer.FrameCount);
