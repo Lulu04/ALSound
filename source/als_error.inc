@@ -6,6 +6,7 @@ TALSError = ( als_NoError = 0,
               als_ALLibraryNotLoaded,
               als_ALCanNotOpenPlaybackDevice,
               als_ALCanNotOpenCaptureDevice,
+              als_ALTryToCreateContextOnNonExistentDevice,
               als_ALContextNotCreated,
               als_ALCanNotGenerateSource,
               als_ALCanNotGenerateBuffer,
@@ -43,6 +44,7 @@ const
   StrALS_ALLibraryNotLoaded = 'OpenAL: Library not loaded';
   StrALS_ALCanNotOpenPlaybackDevice = 'OpenAL: Can not open playback device';
   StrALS_ALCanNotOpenCaptureDevice = 'OpenAL: Can not open capture device';
+  StrALS_ALTryToOpenAContextOnNonExistentDevice = 'OpenAL: Try to open a context on non existent device';
   StrALS_ALContextNotCreated = 'OpenAL: Context not created';
   StrALS_ALCanNotGenerateSource = 'OpenAl: Can not generate source';
   StrALS_ALCanNotGenerateBuffer = 'OpenAL: Can not generate buffer';
@@ -85,6 +87,7 @@ begin
     als_ALLibraryNotLoaded: Result := StrALS_ALLibraryNotLoaded;
     als_ALCanNotOpenPlaybackDevice: Result := StrALS_ALCanNotOpenPlaybackDevice;
     als_ALCanNotOpenCaptureDevice: Result := StrALS_ALCanNotOpenCaptureDevice;
+    als_ALTryToCreateContextOnNonExistentDevice: Result := StrALS_ALTryToOpenAContextOnNonExistentDevice;
     als_ALContextNotCreated: Result := StrALS_ALContextNotCreated;
     als_ALCanNotGenerateSource: Result := StrALS_ALCanNotGenerateSource;
     als_ALCanNotGenerateBuffer: Result := StrALS_ALCanNotGenerateBuffer;
