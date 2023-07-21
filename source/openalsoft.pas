@@ -127,7 +127,9 @@ end;
 
 function GetALCExtProc(aDevice: PALCDevice; const aName: string; var aFlag: boolean): Pointer;
 begin
-  Result := alcGetProcAddress(aDevice, PChar(aName));
+  Result := NIL;
+  if FLoaded_OpenALCore_ then
+    Result := alcGetProcAddress(aDevice, PChar(aName));
   aFlag := aFlag and (Result <> nil);
 end;
 

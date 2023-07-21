@@ -1910,6 +1910,9 @@ begin
   if FMonitoringEnabled = AValue then Exit;
 
   FMonitoringEnabled := AValue;
+  if Error then
+    exit;
+
   if not AValue then
   begin
     StopThread;
@@ -2230,7 +2233,7 @@ begin
   if FLibSndFileLibraryLoaded then
     Result := StrPas(sf_version_string())
   else
-    Result := '';
+    Result := StrALS_LibSndFileNotLoaded;
 end;
 
 function TALSManager.GetOpenAlSoftVersion: string;
@@ -2238,7 +2241,7 @@ begin
   if FOpenALSoftLibraryLoaded and (alGetString <> NIL) then
     Result := StrPas(alGetString(AL_VERSION))
   else
-    Result := '';
+    Result := StrALS_ALLibraryNotLoaded;
 end;
 
 procedure TALSManager.InitializeErrorStatus;
@@ -2567,8 +2570,17 @@ end;
 function TALSManager.CreateDefaultPlaybackContext: TALSPlaybackContext;
 var
   attribs: TALSContextAttributes;
+  A: TStringArray;
+  i: integer;
 begin
   attribs.InitDefault;
+  A := ListOfPlaybackDeviceName;
+  for i:=0 to High(A) do
+    if A[i] = DefaultPlaybackDeviceName then begin
+      Result := CreatePlaybackContext( i, attribs );
+      exit;
+    end;
+
   Result := CreatePlaybackContext( -1, attribs );
 end;
 
@@ -4926,13 +4938,19 @@ begin
   FExecutingConstructor := True;
   InitializeErrorStatus;
   FParentDeviceItem := PALSDeviceItem(aDevice);
-  FParentDevice := aDevice^.Handle;
   FObtainedSampleRate := aAttribs.SampleRate;
 
-  if aDevice^.Handle = NIL then
-    SetError(als_ALCanNotOpenPlaybackDevice)
-  else
-    InitializeALContext(aAttribs);
+  if aDevice = NIL then begin
+    FParentDevice := NIL;
+    SetError(als_ALTryToCreateContextOnNonExistentDevice)
+  end else begin
+    FParentDevice := aDevice^.Handle;
+    if aDevice^.Handle = NIL then
+      SetError(als_ALCanNotOpenPlaybackDevice)
+    else
+      InitializeALContext(aAttribs);
+  end;
+
 
   CreateParameters;
 
