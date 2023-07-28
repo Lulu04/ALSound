@@ -2570,18 +2570,9 @@ end;
 function TALSManager.CreateDefaultPlaybackContext: TALSPlaybackContext;
 var
   attribs: TALSContextAttributes;
-  A: TStringArray;
-  i: integer;
 begin
   attribs.InitDefault;
-  A := ListOfPlaybackDeviceName;
-  for i:=0 to High(A) do
-    if A[i] = DefaultPlaybackDeviceName then begin
-      Result := CreatePlaybackContext( i, attribs );
-      exit;
-    end;
-
-  Result := CreatePlaybackContext( -1, attribs );
+  Result := CreatePlaybackContext(-1, attribs);
 end;
 
 function TALSManager.CreatePlaybackContext(aNameIndex: integer;
@@ -2591,6 +2582,7 @@ begin
     aNameIndex := FDefaultPlaybackDeviceIndex;
 
   if Error or
+     (Length(FPlaybackDevices) = 0) or
      (aNameIndex < 0) or
      (aNameIndex >= Length(ListOfPlaybackDeviceName)) then
     Result := TALSPlaybackContext.Create(NIL, aAttribs)
@@ -2611,7 +2603,7 @@ var
   A: TStringArray;
 begin
   A := ListOfCaptureDeviceName;
-  if (aNameIndex < 0) or (aNameIndex > High(A)) then
+  if (Length(A) = 0) or (aNameIndex < 0) or (aNameIndex > High(A)) then
     Result := TALSCaptureContext.Create('', aFrequency, aFormat, aBufferSize)
   else
     Result := TALSCaptureContext.Create(ListOfCaptureDeviceName[aNameIndex],
