@@ -43,6 +43,7 @@ const
   OPENAL_LIBNAME = 'libopenal.so';
   {$ENDIF}
 {$ENDIF}
+
 {$IFDEF WINDOWS}
   {$IFDEF CPU386}
   OPENAL_LIBNAME = 'soft_oal.dll';
@@ -51,6 +52,15 @@ const
   OPENAL_LIBNAME = 'soft_oal.dll';
   {$ENDIF}
 {$ENDIF}
+
+{$IFDEF DARWIN}
+  {$IFDEF CPUX86_64}
+  OPENAL_LIBNAME = 'libopenal.dylib';
+  {$ELSE}
+   {$error This Mac OS is not supported}
+  {$ENDIF}
+{$ENDIF}
+
 
 
 {$include al.inc}
