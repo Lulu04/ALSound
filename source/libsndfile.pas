@@ -71,12 +71,21 @@ const
   LIBSNDFILE_LIBNAME = 'libsndfile.so';
     {$ENDIF}
   {$ENDIF}
+
   {$IFDEF WINDOWS}
     {$IFDEF CPU386}
   LIBSNDFILE_LIBNAME = 'sndfile.dll';
     {$ENDIF}
     {$IFDEF CPUX86_64}
   LIBSNDFILE_LIBNAME = 'sndfile.dll';
+    {$ENDIF}
+  {$ENDIF}
+
+  {$IFDEF DARWIN}
+    {$IFDEF CPUX86_64}
+    LIBSNDFILE_LIBNAME = 'libsndfile.dylib';
+    {$ELSE}
+     {$error This Mac OS is not supported}
     {$ENDIF}
   {$ENDIF}
 
