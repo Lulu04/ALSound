@@ -4458,7 +4458,7 @@ var
 begin
   Result.InitDefault(Self);
 
-  if not ALSManager.Error and FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX then
+  if not Error and FParentDeviceItem^.FHaveEXT_ALC_EXT_EFX then
   begin
     LockContext( FContext );
     try
@@ -4496,6 +4496,8 @@ procedure TALSPlaybackContext.DeleteEffect(var aEffect: TALSEffect);
 var
   i: Integer;
 begin
+  if Error then exit;
+
   // disconnect effect from auxiliary send
   for i:=0 to SoundCount-1 do
     GetSoundByIndex(i).RemoveEffect(aEffect);
