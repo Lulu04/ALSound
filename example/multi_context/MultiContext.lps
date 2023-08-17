@@ -20,8 +20,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="172"/>
-        <CursorPos X="36" Y="181"/>
+        <CursorPos X="55" Y="182"/>
         <UsageCount Value="65"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -105,9 +106,8 @@
       <Unit13>
         <Filename Value="..\..\source\alsound.pas"/>
         <UnitName Value="ALSound"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="893"/>
+        <TopLine Value="891"/>
         <CursorPos X="15" Y="999"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
