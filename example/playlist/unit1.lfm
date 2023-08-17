@@ -22,7 +22,7 @@ object Form1: TForm1
     Left = 153
     Height = 35
     Hint = 'Start/Resume audio'
-    Top = 58
+    Top = 53
     Width = 35
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 15
@@ -40,7 +40,7 @@ object Form1: TForm1
     Left = 203
     Height = 35
     Hint = 'Pause'
-    Top = 58
+    Top = 53
     Width = 35
     Anchors = [akTop, akRight]
     Images = ImageList1
@@ -59,7 +59,7 @@ object Form1: TForm1
     Left = 253
     Height = 35
     Hint = 'Stop audio'
-    Top = 58
+    Top = 53
     Width = 35
     BorderSpacing.Left = 15
     BorderSpacing.Top = 10
@@ -76,8 +76,8 @@ object Form1: TForm1
     AnchorSideRight.Control = TrackBar1
     AnchorSideBottom.Control = Label3
     Left = 5
-    Height = 272
-    Top = 98
+    Height = 277
+    Top = 93
     Width = 433
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 5
@@ -96,7 +96,7 @@ object Form1: TForm1
     Left = 60
     Height = 35
     Hint = 'Add files to the playlist'
-    Top = 58
+    Top = 53
     Width = 35
     Anchors = [akLeft, akBottom]
     BorderSpacing.Left = 10
@@ -115,7 +115,7 @@ object Form1: TForm1
     Left = 15
     Height = 35
     Hint = 'Clear the playlist'
-    Top = 58
+    Top = 53
     Width = 35
     Anchors = [akLeft, akBottom]
     BorderSpacing.Left = 10
@@ -130,14 +130,13 @@ object Form1: TForm1
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Label2
     Left = 295
-    Height = 28
+    Height = 23
     Hint = 'Playlist apply a volume fadein/fadeout when you click the Play, Pause, Stop, Previous or Next button.'#13#10'If you don''t want this fade, just sets the time value to zero.'
     Top = 20
     Width = 86
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 20
     BorderSpacing.Right = 5
-    Font.Height = 20
     Font.Style = [fsBold]
     Increment = 0.5
     ParentFont = False
@@ -153,7 +152,7 @@ object Form1: TForm1
     AnchorSideBottom.Side = asrBottom
     Left = 235
     Height = 15
-    Top = 33
+    Top = 28
     Width = 55
     Anchors = [akRight, akBottom]
     BorderSpacing.Left = 10
@@ -171,7 +170,7 @@ object Form1: TForm1
     AnchorSideBottom.Side = asrBottom
     Left = 386
     Height = 15
-    Top = 33
+    Top = 28
     Width = 52
     Anchors = [akRight, akBottom]
     Caption = 'second(s)'
@@ -203,7 +202,7 @@ object Form1: TForm1
     AnchorSideRight.Side = asrBottom
     Left = 478
     Height = 184
-    Top = 142
+    Top = 139
     Width = 32
     Max = 100
     OnChange = TrackBar1Change
@@ -223,7 +222,7 @@ object Form1: TForm1
     AnchorSideBottom.Control = Label5
     Left = 473
     Height = 15
-    Top = 112
+    Top = 109
     Width = 42
     Anchors = [akLeft, akBottom]
     Caption = 'Volume'
@@ -237,7 +236,7 @@ object Form1: TForm1
     AnchorSideBottom.Control = TrackBar1
     Left = 480
     Height = 15
-    Top = 127
+    Top = 124
     Width = 28
     Anchors = [akLeft, akBottom]
     Caption = '100%'
@@ -253,7 +252,7 @@ object Form1: TForm1
     Left = 348
     Height = 35
     Hint = 'Previous'
-    Top = 58
+    Top = 53
     Width = 35
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 10
@@ -273,7 +272,7 @@ object Form1: TForm1
     Left = 393
     Height = 35
     Hint = 'Next'
-    Top = 58
+    Top = 53
     Width = 35
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 10

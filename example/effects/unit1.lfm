@@ -1,14 +1,13 @@
 object Form1: TForm1
   Left = 206
-  Height = 770
+  Height = 685
   Top = 84
   Width = 1039
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'ALSound demo  -  Effects in parallel on auxiliary send'
-  ClientHeight = 770
+  ClientHeight = 685
   ClientWidth = 1039
-  Color = 6651019
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -25,6 +24,8 @@ object Form1: TForm1
     Width = 752
     BorderSpacing.Left = 5
     BorderSpacing.Top = 5
+    BevelColor = 33023
+    BevelWidth = 2
     ClientHeight = 512
     ClientWidth = 752
     ParentColor = False
@@ -34,10 +35,10 @@ object Form1: TForm1
       AnchorSideTop.Control = BLoad
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = BLoad
-      Left = 11
+      Left = 12
       Height = 15
-      Top = 7
-      Width = 658
+      Top = 8
+      Width = 656
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       BorderSpacing.Left = 10
@@ -51,10 +52,10 @@ object Form1: TForm1
       AnchorSideTop.Control = Label11
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = BLoad
-      Left = 11
+      Left = 12
       Height = 15
-      Top = 22
-      Width = 658
+      Top = 23
+      Width = 656
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       BorderSpacing.Left = 10
@@ -65,10 +66,10 @@ object Form1: TForm1
       AnchorSideLeft.Control = Panel4
       AnchorSideTop.Control = Label15
       AnchorSideTop.Side = asrBottom
-      Left = 11
+      Left = 12
       Height = 15
-      Top = 37
-      Width = 1016
+      Top = 38
+      Width = 1015
       Anchors = [akTop, akLeft, akRight]
       AutoSize = False
       BorderSpacing.Left = 10
@@ -81,9 +82,9 @@ object Form1: TForm1
       AnchorSideRight.Control = Panel4
       AnchorSideRight.Side = asrBottom
       Cursor = crHandPoint
-      Left = 669
+      Left = 668
       Height = 26
-      Top = 1
+      Top = 2
       Width = 77
       Anchors = [akTop, akRight]
       AutoSize = True
@@ -134,9 +135,9 @@ object Form1: TForm1
       AnchorSideTop.Control = Label17
       AnchorSideTop.Side = asrBottom
       AnchorSideBottom.Control = Panel1
-      Left = 11
+      Left = 12
       Height = 15
-      Top = 52
+      Top = 53
       Width = 35
       Caption = 'State : '
       Font.Color = clBlack
@@ -148,9 +149,9 @@ object Form1: TForm1
       AnchorSideBottom.Control = BPlay
       AnchorSideBottom.Side = asrBottom
       Cursor = crHandPoint
-      Left = 11
+      Left = 12
       Height = 19
-      Top = 89
+      Top = 90
       Width = 47
       Anchors = [akLeft, akBottom]
       Caption = 'Loop'
@@ -167,9 +168,9 @@ object Form1: TForm1
       AnchorSideTop.Control = BPause
       AnchorSideTop.Side = asrCenter
       Cursor = crHandPoint
-      Left = 98
+      Left = 99
       Height = 36
-      Top = 72
+      Top = 73
       Width = 36
       AutoSize = True
       BorderSpacing.Left = 40
@@ -184,9 +185,9 @@ object Form1: TForm1
       AnchorSideTop.Control = Label4
       AnchorSideTop.Side = asrBottom
       Cursor = crHandPoint
-      Left = 154
+      Left = 155
       Height = 36
-      Top = 72
+      Top = 73
       Width = 36
       AutoSize = True
       BorderSpacing.Left = 20
@@ -202,9 +203,9 @@ object Form1: TForm1
       AnchorSideTop.Control = BPause
       AnchorSideTop.Side = asrCenter
       Cursor = crHandPoint
-      Left = 210
+      Left = 211
       Height = 36
-      Top = 72
+      Top = 73
       Width = 36
       AutoSize = True
       BorderSpacing.Left = 20
@@ -222,7 +223,7 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 416
       Height = 29
-      Top = 308
+      Top = 309
       Width = 198
       Max = 100
       OnChange = TBToneChange
@@ -239,7 +240,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TBTone
       Left = 500
       Height = 15
-      Top = 293
+      Top = 294
       Width = 31
       Anchors = [akLeft, akBottom]
       Caption = 'TONE'
@@ -255,7 +256,7 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 448
       Height = 19
-      Top = 337
+      Top = 338
       Width = 135
       Caption = 'Apply tone on effect'
       Checked = True
@@ -269,9 +270,9 @@ object Form1: TForm1
       AnchorSideLeft.Control = Panel4
       AnchorSideTop.Control = TBVolume
       AnchorSideTop.Side = asrCenter
-      Left = 6
+      Left = 7
       Height = 15
-      Top = 127
+      Top = 128
       Width = 40
       BorderSpacing.Left = 5
       Caption = 'Volume'
@@ -286,8 +287,8 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       Left = 72
       Height = 49
-      Top = 110
-      Width = 174
+      Top = 111
+      Width = 175
       Frequency = 100
       Max = 100
       OnChange = TBVolumeChange
@@ -305,9 +306,9 @@ object Form1: TForm1
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Side = asrBottom
       Cursor = crHandPoint
-      Left = 246
+      Left = 247
       Height = 30
-      Top = 119
+      Top = 120
       Width = 55
       BorderSpacing.Right = 10
       Constraints.MaxHeight = 30
@@ -326,9 +327,9 @@ object Form1: TForm1
       AnchorSideLeft.Control = Label2
       AnchorSideTop.Control = TBPan
       AnchorSideTop.Side = asrCenter
-      Left = 6
+      Left = 7
       Height = 15
-      Top = 197
+      Top = 198
       Width = 20
       Caption = 'Pan'
       Font.Color = clBlack
@@ -340,7 +341,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TBPan
       Left = 72
       Height = 12
-      Top = 168
+      Top = 169
       Width = 20
       Anchors = [akLeft, akBottom]
       Caption = 'LEFT'
@@ -359,7 +360,7 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 150
       Height = 21
-      Top = 159
+      Top = 160
       Width = 62
       Caption = 'CENTER'
       Font.Style = [fsBold]
@@ -372,7 +373,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TBPan
       Left = 264
       Height = 12
-      Top = 168
+      Top = 169
       Width = 27
       Anchors = [akRight, akBottom]
       BorderSpacing.Left = 10
@@ -390,7 +391,7 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       Left = 72
       Height = 49
-      Top = 180
+      Top = 181
       Width = 219
       Frequency = 100
       Max = 100
@@ -408,7 +409,7 @@ object Form1: TForm1
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 15
-      Top = 252
+      Top = 253
       Width = 51
       BorderSpacing.Left = 10
       BorderSpacing.Top = 40
@@ -424,7 +425,7 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 128
       Height = 20
-      Top = 229
+      Top = 230
       Width = 33
       Caption = 'reset'
       Font.Height = 12
@@ -441,7 +442,7 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       Left = 72
       Height = 49
-      Top = 249
+      Top = 250
       Width = 219
       Frequency = 1000
       Max = 600
@@ -460,10 +461,10 @@ object Form1: TForm1
       AnchorSideRight.Control = TBPitch
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = Label1
-      Left = 11
+      Left = 12
       Height = 16
-      Top = 308
-      Width = 280
+      Top = 309
+      Width = 279
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
       BorderSpacing.Top = 10
@@ -477,7 +478,7 @@ object Form1: TForm1
       AnchorSideTop.Side = asrBottom
       Left = 134
       Height = 15
-      Top = 324
+      Top = 325
       Width = 34
       Caption = 'Label1'
       Font.Color = clBlack
@@ -489,7 +490,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TBTone
       Left = 416
       Height = 12
-      Top = 296
+      Top = 297
       Width = 22
       Anchors = [akLeft, akBottom]
       Caption = 'BASS'
@@ -504,7 +505,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TBTone
       Left = 582
       Height = 12
-      Top = 296
+      Top = 297
       Width = 32
       Anchors = [akRight, akBottom]
       Caption = 'TREBLE'
@@ -518,9 +519,9 @@ object Form1: TForm1
       AnchorSideTop.Control = Label1
       AnchorSideTop.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
-      Left = 1
+      Left = 2
       Height = 15
-      Top = 339
+      Top = 340
       Width = 40
       Caption = 'Label16'
       ParentColor = False
@@ -530,15 +531,16 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = BPlay
       AnchorSideBottom.Side = asrBottom
-      Left = 311
+      Left = 312
       Height = 165
-      Top = 72
+      Top = 73
       Width = 181
       BorderSpacing.Left = 10
       BorderSpacing.Bottom = 5
+      BevelColor = clFuchsia
+      BevelWidth = 2
       ClientHeight = 165
       ClientWidth = 181
-      Color = 16636413
       ParentColor = False
       TabOrder = 9
       object Image1: TImage
@@ -550,10 +552,10 @@ object Form1: TForm1
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = Panel1
         AnchorSideBottom.Side = asrBottom
-        Left = 5
-        Height = 52
-        Top = 107
-        Width = 170
+        Left = 6
+        Height = 50
+        Top = 108
+        Width = 168
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Left = 5
         BorderSpacing.Top = 5
@@ -566,10 +568,10 @@ object Form1: TForm1
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = Panel1
         AnchorSideRight.Side = asrBottom
-        Left = 2
+        Left = 3
         Height = 20
-        Top = 82
-        Width = 177
+        Top = 83
+        Width = 175
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 1
         BorderSpacing.Top = 2
@@ -585,9 +587,9 @@ object Form1: TForm1
         AnchorSideLeft.Control = Panel1
         AnchorSideTop.Control = FSE1
         AnchorSideTop.Side = asrBottom
-        Left = 2
+        Left = 3
         Height = 15
-        Top = 65
+        Top = 66
         Width = 41
         Alignment = taCenter
         BorderSpacing.Left = 1
@@ -604,7 +606,7 @@ object Form1: TForm1
         AnchorSideBottom.Side = asrBottom
         Left = 140
         Height = 15
-        Top = 45
+        Top = 46
         Width = 17
         Anchors = [akLeft, akBottom]
         BorderSpacing.Left = 10
@@ -620,7 +622,7 @@ object Form1: TForm1
         AnchorSideTop.Side = asrBottom
         Left = 50
         Height = 23
-        Top = 37
+        Top = 38
         Width = 80
         BorderSpacing.Top = 5
         Font.Color = clBlack
@@ -636,7 +638,7 @@ object Form1: TForm1
         AnchorSideBottom.Side = asrBottom
         Left = 30
         Height = 15
-        Top = 45
+        Top = 46
         Width = 10
         Anchors = [akRight, akBottom]
         BorderSpacing.Right = 10
@@ -652,7 +654,7 @@ object Form1: TForm1
         Cursor = crHandPoint
         Left = 14
         Height = 26
-        Top = 6
+        Top = 7
         Width = 153
         BorderSpacing.Top = 5
         Caption = 'FADE IN'
@@ -671,15 +673,16 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = Panel1
       AnchorSideBottom.Side = asrBottom
-      Left = 495
+      Left = 496
       Height = 165
-      Top = 72
+      Top = 73
       Width = 182
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 3
+      BevelColor = clFuchsia
+      BevelWidth = 2
       ClientHeight = 165
       ClientWidth = 182
-      Color = 14876387
       ParentColor = False
       TabOrder = 10
       object Image2: TImage
@@ -692,9 +695,9 @@ object Form1: TForm1
         AnchorSideBottom.Control = Panel2
         AnchorSideBottom.Side = asrBottom
         Left = 7
-        Height = 55
-        Top = 104
-        Width = 169
+        Height = 53
+        Top = 105
+        Width = 168
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Left = 5
         BorderSpacing.Top = 5
@@ -708,10 +711,10 @@ object Form1: TForm1
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = Panel2
         AnchorSideRight.Side = asrBottom
-        Left = 2
+        Left = 3
         Height = 20
-        Top = 79
-        Width = 178
+        Top = 80
+        Width = 176
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 1
         BorderSpacing.Right = 1
@@ -726,9 +729,9 @@ object Form1: TForm1
         AnchorSideLeft.Control = Panel2
         AnchorSideTop.Control = FSE2
         AnchorSideTop.Side = asrBottom
-        Left = 2
+        Left = 3
         Height = 15
-        Top = 64
+        Top = 65
         Width = 41
         Alignment = taCenter
         BorderSpacing.Left = 1
@@ -761,7 +764,7 @@ object Form1: TForm1
         AnchorSideTop.Side = asrBottom
         Left = 51
         Height = 23
-        Top = 36
+        Top = 37
         Width = 80
         BorderSpacing.Top = 5
         Font.Color = clBlack
@@ -777,7 +780,7 @@ object Form1: TForm1
         AnchorSideBottom.Side = asrBottom
         Left = 31
         Height = 15
-        Top = 44
+        Top = 45
         Width = 10
         Anchors = [akRight, akBottom]
         BorderSpacing.Right = 10
@@ -793,7 +796,7 @@ object Form1: TForm1
         Cursor = crHandPoint
         Left = 15
         Height = 25
-        Top = 6
+        Top = 7
         Width = 152
         BorderSpacing.Top = 5
         Caption = 'FADE OUT'
@@ -809,7 +812,7 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = TrackBar1
       Cursor = crHelp
-      Left = 712
+      Left = 711
       Height = 15
       Hint = 'Sets the amount of original sound sent to the mixer. This is the DRY gain.'#13#10'DRY gain affects the sound volume only if an effect is connected to an auxiliary send.'
       Top = 177
@@ -828,7 +831,7 @@ object Form1: TForm1
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = Panel4
       AnchorSideRight.Side = asrBottom
-      Left = 712
+      Left = 711
       Height = 128
       Top = 192
       Width = 39
@@ -850,7 +853,7 @@ object Form1: TForm1
       Left = 40
       Height = 79
       Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
-      Top = 432
+      Top = 431
       Width = 44
       Frequency = 10
       Max = 100
@@ -869,7 +872,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TB1
       Left = 40
       Height = 45
-      Top = 387
+      Top = 386
       Width = 53
       Alignment = taCenter
       Anchors = [akLeft, akBottom]
@@ -886,7 +889,7 @@ object Form1: TForm1
       Left = 154
       Height = 79
       Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
-      Top = 432
+      Top = 431
       Width = 44
       Frequency = 10
       Max = 100
@@ -905,7 +908,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TB2
       Left = 154
       Height = 45
-      Top = 387
+      Top = 386
       Width = 53
       Alignment = taCenter
       Anchors = [akLeft, akBottom]
@@ -919,7 +922,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TB3
       Left = 272
       Height = 45
-      Top = 387
+      Top = 386
       Width = 53
       Alignment = taCenter
       Anchors = [akLeft, akBottom]
@@ -936,7 +939,7 @@ object Form1: TForm1
       Left = 272
       Height = 79
       Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
-      Top = 432
+      Top = 431
       Width = 44
       Frequency = 10
       Max = 100
@@ -958,7 +961,7 @@ object Form1: TForm1
       Left = 391
       Height = 79
       Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
-      Top = 432
+      Top = 431
       Width = 44
       Frequency = 10
       Max = 100
@@ -977,7 +980,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TB4
       Left = 391
       Height = 45
-      Top = 387
+      Top = 386
       Width = 53
       Alignment = taCenter
       Anchors = [akLeft, akBottom]
@@ -994,7 +997,7 @@ object Form1: TForm1
       Left = 509
       Height = 79
       Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
-      Top = 432
+      Top = 431
       Width = 44
       Frequency = 10
       Max = 100
@@ -1013,7 +1016,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TB5
       Left = 509
       Height = 45
-      Top = 387
+      Top = 386
       Width = 53
       Alignment = taCenter
       Anchors = [akLeft, akBottom]
@@ -1030,7 +1033,7 @@ object Form1: TForm1
       Left = 632
       Height = 79
       Hint = 'Dry/Wet mixer'#10'Left=100% Dry'#10'Center=50%Dry + 50%Wet'#10'Right=100% Wet'
-      Top = 432
+      Top = 431
       Width = 44
       Frequency = 10
       Max = 100
@@ -1049,7 +1052,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TB6
       Left = 632
       Height = 45
-      Top = 387
+      Top = 386
       Width = 53
       Alignment = taCenter
       Anchors = [akLeft, akBottom]
@@ -1065,12 +1068,13 @@ object Form1: TForm1
     AnchorSideTop.Control = Panel9
     Left = 474
     Height = 67
-    Top = 584
+    Top = 552
     Width = 116
     BorderSpacing.Left = 2
+    BevelColor = clAqua
+    BevelWidth = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 16766333
     ParentColor = False
     TabOrder = 1
     object CheckBox6: TCheckBox
@@ -1080,7 +1084,7 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 29
       Height = 19
-      Top = 1
+      Top = 2
       Width = 59
       Caption = 'Flanger'
       OnChange = CheckBox6Change
@@ -1093,12 +1097,13 @@ object Form1: TForm1
     AnchorSideTop.Control = Panel9
     Left = 592
     Height = 67
-    Top = 584
+    Top = 552
     Width = 116
     BorderSpacing.Left = 2
+    BevelColor = clAqua
+    BevelWidth = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 16766333
     ParentColor = False
     TabOrder = 2
     object CheckBox7: TCheckBox
@@ -1108,7 +1113,7 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 23
       Height = 19
-      Top = 1
+      Top = 2
       Width = 70
       Caption = 'AutoWah'
       OnChange = CheckBox7Change
@@ -1121,12 +1126,13 @@ object Form1: TForm1
     AnchorSideTop.Control = Panel9
     Left = 238
     Height = 67
-    Top = 584
+    Top = 552
     Width = 116
     BorderSpacing.Left = 2
+    BevelColor = clAqua
+    BevelWidth = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 16766333
     ParentColor = False
     TabOrder = 3
     object CheckBox4: TCheckBox
@@ -1136,7 +1142,7 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 22
       Height = 19
-      Top = 1
+      Top = 2
       Width = 73
       Caption = 'Distorsion'
       OnChange = CheckBox4Change
@@ -1149,12 +1155,13 @@ object Form1: TForm1
     AnchorSideTop.Control = Panel9
     Left = 356
     Height = 67
-    Top = 584
+    Top = 552
     Width = 116
     BorderSpacing.Left = 2
+    BevelColor = clAqua
+    BevelWidth = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 16766333
     ParentColor = False
     TabOrder = 4
     object CheckBox5: TCheckBox
@@ -1164,7 +1171,7 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 35
       Height = 19
-      Top = 1
+      Top = 2
       Width = 46
       Caption = 'Echo'
       OnChange = CheckBox5Change
@@ -1175,12 +1182,13 @@ object Form1: TForm1
     AnchorSideLeft.Control = Owner
     Left = 2
     Height = 67
-    Top = 584
+    Top = 552
     Width = 116
     BorderSpacing.Left = 2
+    BevelColor = clAqua
+    BevelWidth = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 16766333
     ParentColor = False
     TabOrder = 5
     object CheckBox2: TCheckBox
@@ -1190,7 +1198,7 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 18
       Height = 19
-      Top = 1
+      Top = 2
       Width = 80
       BorderSpacing.Left = 20
       Caption = 'EAX Reverb'
@@ -1204,12 +1212,13 @@ object Form1: TForm1
     AnchorSideTop.Control = Panel9
     Left = 120
     Height = 67
-    Top = 584
+    Top = 552
     Width = 116
     BorderSpacing.Left = 2
+    BevelColor = clAqua
+    BevelWidth = 2
     ClientHeight = 67
     ClientWidth = 116
-    Color = 16766333
     ParentColor = False
     TabOrder = 6
     object CheckBox3: TCheckBox
@@ -1219,7 +1228,7 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 9
       Height = 19
-      Top = 1
+      Top = 2
       Width = 98
       Caption = 'Vocal Morpher'
       OnChange = CheckBox3Change
@@ -1240,9 +1249,9 @@ object Form1: TForm1
     Width = 212
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 10
+    BevelWidth = 2
     ClientHeight = 240
     ClientWidth = 212
-    Color = 12713952
     ParentColor = False
     TabOrder = 7
     object Label18: TLabel
@@ -1250,13 +1259,12 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel11
       AnchorSideTop.Side = asrCenter
-      Left = 47
-      Height = 40
-      Top = 100
-      Width = 118
+      Left = 59
+      Height = 30
+      Top = 105
+      Width = 95
       Alignment = taCenter
       Caption = 'Playback context'#13#10'internal mixer'
-      Font.Height = 20
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
@@ -1282,7 +1290,7 @@ object Form1: TForm1
     AnchorSideBottom.Control = Shape25
     AnchorSideBottom.Side = asrBottom
     Left = 921
-    Height = 316
+    Height = 255
     Top = 401
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
@@ -1322,7 +1330,7 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape4
     Left = 58
-    Height = 47
+    Height = 15
     Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
@@ -1336,7 +1344,7 @@ object Form1: TForm1
     AnchorSideBottom.Control = Panel9
     Left = 53
     Height = 20
-    Top = 564
+    Top = 532
     Width = 15
     Anchors = [akLeft, akBottom]
     Brush.Color = clBlack
@@ -1349,7 +1357,7 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape6
     Left = 176
-    Height = 47
+    Height = 15
     Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
@@ -1363,7 +1371,7 @@ object Form1: TForm1
     AnchorSideBottom.Control = Panel9
     Left = 171
     Height = 20
-    Top = 564
+    Top = 532
     Width = 15
     Anchors = [akLeft, akBottom]
     Brush.Color = clBlack
@@ -1376,7 +1384,7 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape8
     Left = 294
-    Height = 47
+    Height = 15
     Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
@@ -1390,7 +1398,7 @@ object Form1: TForm1
     AnchorSideBottom.Control = Panel9
     Left = 289
     Height = 20
-    Top = 564
+    Top = 532
     Width = 15
     Anchors = [akLeft, akBottom]
     Brush.Color = clBlack
@@ -1403,7 +1411,7 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape10
     Left = 412
-    Height = 47
+    Height = 15
     Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
@@ -1417,7 +1425,7 @@ object Form1: TForm1
     AnchorSideBottom.Control = Panel9
     Left = 407
     Height = 20
-    Top = 564
+    Top = 532
     Width = 15
     Anchors = [akLeft, akBottom]
     Brush.Color = clBlack
@@ -1430,7 +1438,7 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape16
     Left = 530
-    Height = 47
+    Height = 15
     Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
@@ -1444,7 +1452,7 @@ object Form1: TForm1
     AnchorSideBottom.Control = Panel9
     Left = 525
     Height = 20
-    Top = 564
+    Top = 532
     Width = 15
     Anchors = [akLeft, akBottom]
     Brush.Color = clBlack
@@ -1457,7 +1465,7 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Shape18
     Left = 648
-    Height = 47
+    Height = 15
     Top = 517
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
@@ -1471,7 +1479,7 @@ object Form1: TForm1
     AnchorSideBottom.Control = Panel9
     Left = 643
     Height = 20
-    Top = 564
+    Top = 532
     Width = 15
     Anchors = [akLeft, akBottom]
     Brush.Color = clBlack
@@ -1483,8 +1491,8 @@ object Form1: TForm1
     AnchorSideTop.Control = Panel9
     AnchorSideTop.Side = asrBottom
     Left = 58
-    Height = 61
-    Top = 651
+    Height = 32
+    Top = 619
     Width = 5
     Brush.Color = clBlack
   end
@@ -1496,8 +1504,8 @@ object Form1: TForm1
     AnchorSideBottom.Control = Shape25
     AnchorSideBottom.Side = asrBottom
     Left = 176
-    Height = 66
-    Top = 651
+    Height = 37
+    Top = 619
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     Brush.Color = clBlack
@@ -1510,8 +1518,8 @@ object Form1: TForm1
     AnchorSideBottom.Control = Shape25
     AnchorSideBottom.Side = asrBottom
     Left = 294
-    Height = 66
-    Top = 651
+    Height = 37
+    Top = 619
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     Brush.Color = clBlack
@@ -1524,8 +1532,8 @@ object Form1: TForm1
     AnchorSideBottom.Control = Shape25
     AnchorSideBottom.Side = asrBottom
     Left = 412
-    Height = 66
-    Top = 651
+    Height = 37
+    Top = 619
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     Brush.Color = clBlack
@@ -1538,8 +1546,8 @@ object Form1: TForm1
     AnchorSideBottom.Control = Shape25
     AnchorSideBottom.Side = asrBottom
     Left = 530
-    Height = 66
-    Top = 651
+    Height = 37
+    Top = 619
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     Brush.Color = clBlack
@@ -1552,8 +1560,8 @@ object Form1: TForm1
     AnchorSideBottom.Control = Shape25
     AnchorSideBottom.Side = asrBottom
     Left = 648
-    Height = 66
-    Top = 651
+    Height = 37
+    Top = 619
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
     Brush.Color = clBlack
@@ -1566,7 +1574,7 @@ object Form1: TForm1
     AnchorSideRight.Side = asrBottom
     Left = 58
     Height = 5
-    Top = 712
+    Top = 651
     Width = 868
     Anchors = [akTop, akLeft, akRight]
     Brush.Color = clBlack

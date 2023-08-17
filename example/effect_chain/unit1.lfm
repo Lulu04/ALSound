@@ -1,11 +1,11 @@
 object Form1: TForm1
   Left = 261
-  Height = 658
+  Height = 590
   Top = 67
-  Width = 909
+  Width = 834
   Caption = 'ALSound demo - Effect chain'
-  ClientHeight = 658
-  ClientWidth = 909
+  ClientHeight = 590
+  ClientWidth = 834
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -240,7 +240,7 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     Left = 16
     Height = 241
-    Top = 359
+    Top = 316
     Width = 224
     BevelColor = clAqua
     BevelWidth = 2
@@ -312,7 +312,7 @@ object Form1: TForm1
     AnchorSideLeft.Side = asrCenter
     AnchorSideTop.Control = Panel5
     AnchorSideTop.Side = asrBottom
-    Left = 765
+    Left = 671
     Height = 20
     Top = 273
     Width = 15
@@ -325,8 +325,8 @@ object Form1: TForm1
     AnchorSideTop.Control = Shape1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Panel4
-    Left = 770
-    Height = 66
+    Left = 676
+    Height = 23
     Top = 293
     Width = 5
     Anchors = [akTop, akLeft, akBottom]
@@ -338,7 +338,7 @@ object Form1: TForm1
     AnchorSideTop.Control = Panel1
     AnchorSideTop.Side = asrBottom
     Left = 126
-    Height = 66
+    Height = 23
     Top = 273
     Width = 5
     BorderSpacing.Left = 50
@@ -351,7 +351,7 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     Left = 121
     Height = 20
-    Top = 339
+    Top = 296
     Width = 15
     Brush.Color = clBlack
     Shape = stTriangleDown
@@ -363,8 +363,8 @@ object Form1: TForm1
     AnchorSideTop.Side = asrCenter
     Left = 240
     Height = 5
-    Top = 477
-    Width = 78
+    Top = 434
+    Width = 32
     Brush.Color = clBlack
   end
   object Shape6: TShape
@@ -372,9 +372,9 @@ object Form1: TForm1
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Shape5
     AnchorSideTop.Side = asrCenter
-    Left = 318
+    Left = 272
     Height = 15
-    Top = 472
+    Top = 429
     Width = 20
     Brush.Color = clBlack
     Shape = stTriangleRight
@@ -383,9 +383,9 @@ object Form1: TForm1
     AnchorSideLeft.Control = Shape6
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Panel2
-    Left = 338
+    Left = 292
     Height = 241
-    Top = 359
+    Top = 316
     Width = 224
     BevelColor = clAqua
     BevelWidth = 2
@@ -457,10 +457,10 @@ object Form1: TForm1
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Panel3
     AnchorSideTop.Side = asrCenter
-    Left = 562
+    Left = 516
     Height = 5
-    Top = 477
-    Width = 78
+    Top = 434
+    Width = 30
     Brush.Color = clBlack
   end
   object Shape10: TShape
@@ -468,9 +468,9 @@ object Form1: TForm1
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Shape9
     AnchorSideTop.Side = asrCenter
-    Left = 640
+    Left = 546
     Height = 15
-    Top = 472
+    Top = 429
     Width = 20
     Brush.Color = clBlack
     Shape = stTriangleRight
@@ -479,9 +479,9 @@ object Form1: TForm1
     AnchorSideLeft.Control = Shape10
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Panel2
-    Left = 660
+    Left = 566
     Height = 241
-    Top = 359
+    Top = 316
     Width = 224
     BevelColor = clAqua
     BevelWidth = 2
@@ -582,11 +582,11 @@ object Form1: TForm1
     Left = 530
     Height = 265
     Top = 8
-    Width = 354
+    Width = 260
     Anchors = [akTop, akLeft, akRight, akBottom]
     BevelWidth = 2
     ClientHeight = 265
-    ClientWidth = 354
+    ClientWidth = 260
     ParentColor = False
     TabOrder = 4
     object Label8: TLabel
@@ -594,13 +594,12 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel5
       AnchorSideTop.Side = asrCenter
-      Left = 118
-      Height = 40
-      Top = 112
-      Width = 118
+      Left = 83
+      Height = 30
+      Top = 117
+      Width = 95
       Alignment = taCenter
       Caption = 'Playback context'#13#10'internal mixer'
-      Font.Height = 20
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
@@ -608,14 +607,14 @@ object Form1: TForm1
   end
   object OD1: TOpenDialog
     Title = 'Open an audio file'
-    Left = 304
-    Top = 288
+    Left = 320
+    Top = 200
   end
   object ImageList1: TImageList
     Height = 32
     Width = 32
-    Left = 240
-    Top = 288
+    Left = 264
+    Top = 192
     Bitmap = {
       4C7A030000002000000020000000BB0100000000000078DAEDD72D8B42411406
       E0AB60B1582C1693E51A2C2E6811168BC562B1582C268BC562D1DDB5582C168B
