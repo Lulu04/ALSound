@@ -10,6 +10,7 @@
       <SessionStorage Value="InProjectDir"/>
       <Title Value="MultiContext"/>
       <Scaled Value="True"/>
+      <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>

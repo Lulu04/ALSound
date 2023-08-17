@@ -16,7 +16,6 @@ object FrameChannelsLevel: TFrameChannelsLevel
     Align = alClient
     ClientHeight = 63
     ClientWidth = 316
-    Color = 7393672
     ParentColor = False
     TabOrder = 0
     object Label7: TLabel

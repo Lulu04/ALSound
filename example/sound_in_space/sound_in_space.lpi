@@ -10,6 +10,7 @@
       <SessionStorage Value="InProjectDir"/>
       <Title Value="sound_in_space"/>
       <Scaled Value="True"/>
+      <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
@@ -116,11 +117,6 @@
         </Win32>
       </Options>
     </Linking>
-    <Other>
-      <OtherDefines Count="1">
-        <Define0 Value="ALS_ENABLE_CONTEXT_SWITCHING"/>
-      </OtherDefines>
-    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">

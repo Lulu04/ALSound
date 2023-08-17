@@ -136,7 +136,7 @@
         <UsageCount Value="7"/>
       </Unit16>
       <Unit17>
-        <Filename Value="..\..\..\..\LazStyleHack\lazstylehacku.pas"/>
+        <Filename Value="C:\LazStyleHack\lazstylehacku.pas"/>
         <UnitName Value="LazStyleHackU"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="192"/>

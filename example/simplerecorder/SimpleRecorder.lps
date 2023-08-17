@@ -20,8 +20,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="288"/>
-        <CursorPos X="49" Y="299"/>
+        <CursorPos X="92" Y="303"/>
         <UsageCount Value="187"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -32,10 +33,9 @@
         <ComponentName Value="Form2"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="21"/>
-        <CursorPos Y="36"/>
+        <CursorPos X="23" Y="38"/>
         <UsageCount Value="139"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -133,7 +133,7 @@
         <UsageCount Value="13"/>
       </Unit13>
       <Unit14>
-        <Filename Value="..\..\..\..\LazStyleHack\lazstylehacku.pas"/>
+        <Filename Value="C:\LazStyleHack\lazstylehacku.pas"/>
         <UnitName Value="LazStyleHackU"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="31"/>

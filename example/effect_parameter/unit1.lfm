@@ -6,7 +6,6 @@ object Form1: TForm1
   Caption = 'ALSound demo  -  Effects parameters'
   ClientHeight = 603
   ClientWidth = 1024
-  Color = 10013436
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -64,7 +63,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object TB1: TTrackBar
@@ -290,7 +288,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object TB7: TTrackBar
@@ -583,7 +580,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object TB12: TTrackBar
@@ -876,7 +872,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object TB17: TTrackBar
@@ -1156,7 +1151,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object TB22: TTrackBar
@@ -1441,7 +1435,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object TB27: TTrackBar
@@ -1993,7 +1986,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object TB37: TTrackBar
@@ -2190,7 +2182,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object TB38: TTrackBar
@@ -2322,7 +2313,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object TB40: TTrackBar
@@ -2520,7 +2510,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object TB44: TTrackBar
@@ -2812,7 +2801,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object TB45: TTrackBar
@@ -3526,7 +3514,6 @@ object Form1: TForm1
         Align = alClient
         ClientHeight = 516
         ClientWidth = 800
-        Color = 13033981
         ParentColor = False
         TabOrder = 0
         object Label124: TLabel
