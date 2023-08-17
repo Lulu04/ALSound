@@ -1,10 +1,10 @@
 object Form1: TForm1
   Left = 281
-  Height = 765
+  Height = 661
   Top = 60
   Width = 812
   Caption = 'ALSound demo - Capture audio and save to file'
-  ClientHeight = 765
+  ClientHeight = 661
   ClientWidth = 812
   Font.Height = 20
   OnCreate = FormCreate
@@ -16,13 +16,12 @@ object Form1: TForm1
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 20
-    Height = 20
+    Height = 15
     Top = 5
-    Width = 357
+    Width = 278
     BorderSpacing.Left = 20
     BorderSpacing.Top = 5
     Caption = '1) Select a capture device and sets capture format'
-    Font.Height = 20
     Font.Style = [fsBold, fsItalic]
     ParentColor = False
     ParentFont = False
@@ -35,7 +34,7 @@ object Form1: TForm1
     AnchorSideRight.Side = asrBottom
     Left = 20
     Height = 143
-    Top = 25
+    Top = 20
     Width = 772
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 20
@@ -45,19 +44,19 @@ object Form1: TForm1
     ClientHeight = 143
     ClientWidth = 772
     ParentColor = False
+    ParentFont = False
     TabOrder = 0
     object Label1: TLabel
       AnchorSideLeft.Control = Panel1
       AnchorSideBottom.Control = ComboBox1
       AnchorSideBottom.Side = asrBottom
       Left = 7
-      Height = 20
+      Height = 15
       Top = 15
-      Width = 93
+      Width = 76
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 5
       Caption = 'Capture from :'
-      Font.Height = 20
       Font.Style = [fsItalic]
       ParentColor = False
       ParentFont = False
@@ -70,16 +69,15 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Cursor = crHandPoint
-      Left = 105
-      Height = 28
+      Left = 88
+      Height = 23
       Top = 7
-      Width = 660
+      Width = 677
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 5
       BorderSpacing.Top = 5
       BorderSpacing.Right = 5
-      Font.Height = 20
-      ItemHeight = 20
+      ItemHeight = 15
       OnSelect = ComboBox1Select
       ParentFont = False
       Style = csDropDownList
@@ -91,12 +89,11 @@ object Form1: TForm1
       AnchorSideBottom.Control = Panel1
       AnchorSideBottom.Side = asrBottom
       Left = 2
-      Height = 20
-      Top = 121
-      Width = 43
+      Height = 15
+      Top = 126
+      Width = 34
       Anchors = [akLeft, akBottom]
       Caption = 'Ready'
-      Font.Height = 20
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
@@ -107,14 +104,13 @@ object Form1: TForm1
       AnchorSideTop.Control = ComboBox1
       AnchorSideTop.Side = asrBottom
       Cursor = crHandPoint
-      Left = 237
-      Height = 28
-      Top = 45
+      Left = 220
+      Height = 23
+      Top = 40
       Width = 135
       BorderSpacing.Left = 20
       BorderSpacing.Top = 10
-      Font.Height = 20
-      ItemHeight = 20
+      ItemHeight = 15
       ItemIndex = 1
       Items.Strings = (
         '16 bits'
@@ -131,13 +127,12 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = ComboBox2
       Cursor = crHandPoint
-      Left = 392
-      Height = 28
-      Top = 45
+      Left = 375
+      Height = 23
+      Top = 40
       Width = 112
       BorderSpacing.Left = 20
-      Font.Height = 20
-      ItemHeight = 20
+      ItemHeight = 15
       ItemIndex = 1
       Items.Strings = (
         'MONO'
@@ -153,11 +148,11 @@ object Form1: TForm1
       AnchorSideLeft.Control = ComboBox1
       AnchorSideTop.Control = ComboBox3
       Cursor = crHandPoint
-      Left = 105
-      Height = 28
-      Top = 45
+      Left = 88
+      Height = 23
+      Top = 40
       Width = 112
-      ItemHeight = 20
+      ItemHeight = 15
       ItemIndex = 0
       Items.Strings = (
         '44100 Hz'
@@ -165,6 +160,7 @@ object Form1: TForm1
         '96000 Hz'
       )
       OnSelect = ComboBox1Select
+      ParentFont = False
       Style = csDropDownList
       TabOrder = 3
       Text = '44100 Hz'
@@ -203,13 +199,12 @@ object Form1: TForm1
     AnchorSideTop.Control = Panel1
     AnchorSideTop.Side = asrBottom
     Left = 20
-    Height = 20
-    Top = 173
-    Width = 430
+    Height = 15
+    Top = 168
+    Width = 333
     BorderSpacing.Left = 20
     BorderSpacing.Top = 5
     Caption = '2) Choose a path, enter a file name and selects a file format'
-    Font.Height = 20
     Font.Style = [fsBold, fsItalic]
     ParentColor = False
     ParentFont = False
@@ -222,8 +217,8 @@ object Form1: TForm1
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Label10
     Left = 20
-    Height = 446
-    Top = 193
+    Height = 357
+    Top = 183
     Width = 772
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 20
@@ -231,23 +226,23 @@ object Form1: TForm1
     BorderSpacing.Bottom = 5
     BevelColor = 33023
     BevelWidth = 2
-    ClientHeight = 446
+    ClientHeight = 357
     ClientWidth = 772
     ParentColor = False
+    ParentFont = False
     TabOrder = 1
     object Label4: TLabel
       AnchorSideLeft.Control = Panel2
       AnchorSideBottom.Control = DirectoryEdit1
       AnchorSideBottom.Side = asrBottom
       Left = 7
-      Height = 20
+      Height = 15
       Top = 15
-      Width = 38
+      Width = 31
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 5
       BorderSpacing.Top = 5
       Caption = 'Path :'
-      Font.Height = 20
       Font.Style = [fsItalic]
       ParentColor = False
       ParentFont = False
@@ -258,10 +253,10 @@ object Form1: TForm1
       AnchorSideTop.Control = Panel2
       AnchorSideRight.Control = Panel2
       AnchorSideRight.Side = asrBottom
-      Left = 50
-      Height = 28
+      Left = 43
+      Height = 23
       Top = 7
-      Width = 715
+      Width = 722
       ShowHidden = False
       ButtonWidth = 23
       DirectInput = False
@@ -270,7 +265,6 @@ object Form1: TForm1
       BorderSpacing.Left = 5
       BorderSpacing.Top = 5
       BorderSpacing.Right = 5
-      Font.Height = 20
       MaxLength = 0
       ParentFont = False
       TabOrder = 0
@@ -282,13 +276,12 @@ object Form1: TForm1
       AnchorSideBottom.Control = Edit1
       AnchorSideBottom.Side = asrBottom
       Left = 7
-      Height = 20
-      Top = 53
-      Width = 66
+      Height = 15
+      Top = 48
+      Width = 54
       Anchors = [akLeft, akBottom]
       BorderSpacing.Top = 10
       Caption = 'Filename :'
-      Font.Height = 20
       Font.Style = [fsItalic]
       ParentColor = False
       ParentFont = False
@@ -299,14 +292,13 @@ object Form1: TForm1
       AnchorSideTop.Control = DirectoryEdit1
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Side = asrBottom
-      Left = 78
-      Height = 28
-      Top = 45
+      Left = 66
+      Height = 23
+      Top = 40
       Width = 379
       BorderSpacing.Left = 5
       BorderSpacing.Top = 10
       BorderSpacing.Right = 5
-      Font.Height = 20
       OnChange = Edit1Change
       ParentFont = False
       TabOrder = 1
@@ -320,13 +312,12 @@ object Form1: TForm1
       AnchorSideBottom.Control = Panel2
       AnchorSideBottom.Side = asrBottom
       Left = 7
-      Height = 336
-      Top = 103
+      Height = 262
+      Top = 88
       Width = 758
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Right = 5
       BorderSpacing.Bottom = 5
-      Font.Height = 15
       ItemHeight = 0
       OnSelectionChange = ListBox1SelectionChange
       ParentFont = False
@@ -337,12 +328,11 @@ object Form1: TForm1
       AnchorSideTop.Control = Label5
       AnchorSideTop.Side = asrBottom
       Left = 7
-      Height = 20
-      Top = 83
-      Width = 47
+      Height = 15
+      Top = 73
+      Width = 38
       BorderSpacing.Top = 10
       Caption = 'Format'
-      Font.Height = 20
       Font.Style = [fsItalic]
       ParentColor = False
       ParentFont = False
@@ -353,13 +343,12 @@ object Form1: TForm1
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Panel3
     Left = 20
-    Height = 20
-    Top = 644
-    Width = 210
+    Height = 15
+    Top = 545
+    Width = 164
     Anchors = [akLeft, akBottom]
     BorderSpacing.Left = 20
     Caption = '3) Start/Stop recording audio'
-    Font.Height = 20
     Font.Style = [fsBold, fsItalic]
     ParentColor = False
     ParentFont = False
@@ -372,7 +361,7 @@ object Form1: TForm1
     AnchorSideBottom.Side = asrBottom
     Left = 20
     Height = 86
-    Top = 664
+    Top = 560
     Width = 772
     Anchors = [akLeft, akRight, akBottom]
     BorderSpacing.Left = 20
@@ -383,6 +372,7 @@ object Form1: TForm1
     ClientHeight = 86
     ClientWidth = 772
     ParentColor = False
+    ParentFont = False
     TabOrder = 2
     object BStart: TSpeedButton
       AnchorSideLeft.Control = Panel3
@@ -401,19 +391,19 @@ object Form1: TForm1
       Images = ImageList1
       ImageIndex = 0
       OnClick = BStartClick
+      ParentFont = False
     end
     object Label3: TLabel
       AnchorSideLeft.Control = Panel3
       AnchorSideLeft.Side = asrCenter
       AnchorSideBottom.Control = Panel3
       AnchorSideBottom.Side = asrBottom
-      Left = 351
-      Height = 20
-      Top = 64
-      Width = 71
+      Left = 358
+      Height = 15
+      Top = 69
+      Width = 57
       Anchors = [akLeft, akBottom]
       Caption = 'Recording'
-      Font.Height = 20
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
@@ -434,6 +424,7 @@ object Form1: TForm1
       Images = ImageList1
       ImageIndex = 1
       OnClick = BStopClick
+      ParentFont = False
     end
     object Shape1: TShape
       AnchorSideLeft.Control = Panel3
@@ -441,7 +432,7 @@ object Form1: TForm1
       AnchorSideTop.Control = Panel3
       AnchorSideBottom.Control = Label3
       Left = 386
-      Height = 59
+      Height = 64
       Top = 5
       Width = 1
       Anchors = [akTop, akLeft, akBottom]
