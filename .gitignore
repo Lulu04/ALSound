@@ -3,3 +3,4 @@
 *.exe
 backup/
 lib/
+*.dbg
