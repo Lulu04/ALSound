@@ -2135,7 +2135,7 @@ begin
      {$else}
      f := ExtractFilePath(ParamStr(0));
      {$endif}
-     SetLength(names, 3);
+     SetLength(names, 1);
      bundleName := '/'+ApplicationName+'.app';
      i := Pos(bundleName, ParamStr(0));
      if i <> 0 then
@@ -2194,7 +2194,7 @@ begin
     {$else}
     f := ExtractFilePath(ParamStr(0));
     {$endif}
-    SetLength(names, 2);
+    SetLength(names, 1);
     bundleName := '/'+ApplicationName+'.app';
     i := Pos(bundleName, ParamStr(0));
     if i <> 0 then
@@ -2211,7 +2211,6 @@ begin
       else
         names[0] := ConcatPaths([f, FLibrariesSubFolder, 'libsndfile.dylib']);
     end;
-    names[1] := 'libsndfile.dylib';
     {$endif}
 
     FLibSndFileLibraryLoaded := False;
