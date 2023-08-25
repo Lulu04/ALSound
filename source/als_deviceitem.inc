@@ -4,23 +4,23 @@ type
 
   TALSDeviceItem = object
   private
-    alcGetInteger64vSOFT: TProc_alcGetInteger64vSOFT;
+    FalcGetInteger64vSOFT: TProc_alcGetInteger64vSOFT;
 
-    alcSetThreadContext: TProc_alcSetThreadContext;
-    alcGetThreadContext: TProc_alcGetThreadContext;
+    FalcSetThreadContext: TProc_alcSetThreadContext;
+    FalcGetThreadContext: TProc_alcGetThreadContext;
 
-    alcDevicePauseSOFT: TProc_alcDevicePauseSOFT;
-    alcDeviceResumeSOFT: TProc_alcDeviceResumeSOFT;
+    FalcDevicePauseSOFT: TProc_alcDevicePauseSOFT;
+    FalcDeviceResumeSOFT: TProc_alcDeviceResumeSOFT;
 
-    alcGetStringiSOFT: TProc_alcGetStringiSOFT;
-    alcResetDeviceSOFT: TProc_alcResetDeviceSOFT;
+    FalcGetStringiSOFT: TProc_alcGetStringiSOFT;
+    FalcResetDeviceSOFT: TProc_alcResetDeviceSOFT;
 
-    alcReopenDeviceSOFT: TProc_alcReopenDeviceSOFT;
+    FalcReopenDeviceSOFT: TProc_alcReopenDeviceSOFT;
     procedure LoadExtension;
   private
-    alcLoopbackOpenDeviceSOFT: TProc_alcLoopbackOpenDeviceSOFT;
-    alcIsRenderFormatSupportedSOFT: TProc_alcIsRenderFormatSupportedSOFT;
-    alcRenderSamplesSOFT: TProc_alcRenderSamplesSOFT;
+    FalcLoopbackOpenDeviceSOFT: TProc_alcLoopbackOpenDeviceSOFT;
+    FalcIsRenderFormatSupportedSOFT: TProc_alcIsRenderFormatSupportedSOFT;
+    FalcRenderSamplesSOFT: TProc_alcRenderSamplesSOFT;
     procedure LoadLoopbackExtension;
     procedure FirstInitdefault;
   public
@@ -82,11 +82,11 @@ begin
     begin
       LoadLoopbackExtension;
 
-      if alcLoopbackOpenDeviceSOFT <> NIL then begin
+      if FalcLoopbackOpenDeviceSOFT <> NIL then begin
         if Name = '' then
-          Handle := alcLoopbackOpenDeviceSOFT(nil)
+          Handle := FalcLoopbackOpenDeviceSOFT(nil)
         else
-          Handle := alcLoopbackOpenDeviceSOFT(PChar(Name));
+          Handle := FalcLoopbackOpenDeviceSOFT(PChar(Name));
       end;
 
       LoadExtension;
@@ -165,14 +165,14 @@ end;
 procedure TALSDeviceItem.LoadExtension;
 begin
   if Handle = NIL then begin
-    alcSetThreadContext := NIL;
-    alcGetThreadContext := NIL;
-    alcDevicePauseSOFT := NIL;
-    alcDeviceResumeSOFT := NIL;
-    alcGetStringiSOFT := NIL;
-    alcResetDeviceSOFT := NIL;
-    alcGetInteger64vSOFT := NIL;
-    alcReopenDeviceSOFT := NIL;
+    FalcSetThreadContext := NIL;
+    FalcGetThreadContext := NIL;
+    FalcDevicePauseSOFT := NIL;
+    FalcDeviceResumeSOFT := NIL;
+    FalcGetStringiSOFT := NIL;
+    FalcResetDeviceSOFT := NIL;
+    FalcGetInteger64vSOFT := NIL;
+    FalcReopenDeviceSOFT := NIL;
   end else begin
     FHaveEXT_ALC_EXT_EFX := alcIsExtensionPresent(Handle, PChar('ALC_EXT_EFX'));
     if FHaveEXT_ALC_EXT_EFX then
@@ -181,35 +181,35 @@ begin
     FHaveExt_ALC_SOFT_output_mode := alcIsExtensionPresent(Handle, PChar('ALC_SOFT_output_mode'));
 
     FHaveExt_ALC_EXT_thread_local_context := LoadExt_ALC_EXT_thread_local_context(Handle);
-    alcSetThreadContext := openalsoft._alcSetThreadContext;
-    alcGetThreadContext := openalsoft._alcGetThreadContext;
+    FalcSetThreadContext := openalsoft.alcSetThreadContext;
+    FalcGetThreadContext := openalsoft.alcGetThreadContext;
 
     LoadLoopbackExtension;
 
     FHaveExt_ALC_SOFT_output_limiter := alcIsExtensionPresent(Handle, PChar('ALC_SOFT_output_limiter'));
 
     FHaveExt_ALC_SOFT_pause_device := LoadExt_ALC_SOFT_pause_device(Handle);
-    alcDevicePauseSOFT := openalsoft._alcDevicePauseSOFT;
-    alcDeviceResumeSOFT := openalsoft._alcDeviceResumeSOFT;
+    FalcDevicePauseSOFT := openalsoft.alcDevicePauseSOFT;
+    FalcDeviceResumeSOFT := openalsoft.alcDeviceResumeSOFT;
 
     FHaveExt_ALC_SOFT_HRTF := LoadExt_ALC_SOFT_HRTF(Handle);
-    alcGetStringiSOFT := openalsoft._alcGetStringiSOFT;
-    alcResetDeviceSOFT := openalsoft._alcResetDeviceSOFT;
+    FalcGetStringiSOFT := openalsoft.alcGetStringiSOFT;
+    FalcResetDeviceSOFT := openalsoft.alcResetDeviceSOFT;
 
     FHaveExt_ALC_SOFT_device_clock := LoadExt_ALC_SOFT_device_clock(Handle);
-    alcGetInteger64vSOFT := openalsoft._alcGetInteger64vSOFT;
+    FalcGetInteger64vSOFT := openalsoft.alcGetInteger64vSOFT;
 
     FHaveExt_ALC_SOFT_reopen_device := LoadExt_ALC_SOFT_reopen_device(Handle);
-    alcReopenDeviceSOFT := openalsoft._alcReopenDeviceSOFT;
+    FalcReopenDeviceSOFT := openalsoft.alcReopenDeviceSOFT;
   end;
 end;
 
 procedure TALSDeviceItem.LoadLoopbackExtension;
 begin
   FHaveExt_ALC_SOFT_loopback := LoadExt_ALC_SOFT_loopback(NIL);
-  alcLoopbackOpenDeviceSOFT := openalsoft._alcLoopbackOpenDeviceSOFT;
-  alcIsRenderFormatSupportedSOFT := openalsoft._alcIsRenderFormatSupportedSOFT;
-  alcRenderSamplesSOFT := openalsoft._alcRenderSamplesSOFT;
+  FalcLoopbackOpenDeviceSOFT := openalsoft.alcLoopbackOpenDeviceSOFT;
+  FalcIsRenderFormatSupportedSOFT := openalsoft.alcIsRenderFormatSupportedSOFT;
+  FalcRenderSamplesSOFT := openalsoft.alcRenderSamplesSOFT;
 end;
 
 procedure TALSDeviceItem.FirstInitdefault;

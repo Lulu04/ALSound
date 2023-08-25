@@ -4,11 +4,11 @@
     <PathDelim Value="\"/>
     <Version Value="12"/>
     <BuildModes Active="Debug"/>
-    <Units Count="19">
+    <Units Count="21">
       <Unit0>
         <Filename Value="playfile.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="10"/>
         <CursorPos X="24" Y="6"/>
         <UsageCount Value="136"/>
         <Loaded Value="True"/>
@@ -20,9 +20,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="58"/>
-        <CursorPos X="44" Y="80"/>
+        <CursorPos X="52" Y="68"/>
         <UsageCount Value="136"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -43,22 +42,24 @@
       <Unit3>
         <Filename Value="..\..\source\alsound.pas"/>
         <UnitName Value="ALSound"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="6098"/>
-        <CursorPos X="52" Y="26"/>
+        <TopLine Value="4666"/>
+        <CursorPos X="42" Y="4681"/>
         <UsageCount Value="66"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\..\source\alext.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="76"/>
-        <CursorPos X="18" Y="83"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="360"/>
+        <CursorPos X="40" Y="374"/>
         <UsageCount Value="50"/>
+        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="..\..\source\als_error.inc"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="100"/>
         <CursorPos X="4" Y="124"/>
         <UsageCount Value="55"/>
@@ -107,7 +108,7 @@
       </Unit11>
       <Unit12>
         <Filename Value="..\..\source\als_directfilter.inc"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="146"/>
         <CursorPos X="3" Y="148"/>
         <UsageCount Value="45"/>
@@ -115,7 +116,7 @@
       </Unit12>
       <Unit13>
         <Filename Value="..\..\source\als_frame_buffers.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="24"/>
         <CursorPos X="15" Y="38"/>
         <UsageCount Value="21"/>
@@ -123,7 +124,7 @@
       </Unit13>
       <Unit14>
         <Filename Value="..\..\source\als_dsp_utils.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="13"/>
         <CursorPos X="12" Y="62"/>
         <UsageCount Value="20"/>
@@ -158,11 +159,27 @@
         <CursorPos X="55" Y="119"/>
         <UsageCount Value="11"/>
       </Unit18>
+      <Unit19>
+        <Filename Value="..\..\source\openalsoft.pas"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="638"/>
+        <CursorPos X="5" Y="586"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="..\..\source\als_deviceitem.inc"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="202"/>
+        <CursorPos X="4" Y="212"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit20>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="ALS_ENABLE_CONTEXT_SWITCHING"/>
     </OtherDefines>
-    <JumpHistory Count="6" HistoryIndex="5">
+    <JumpHistory Count="17" HistoryIndex="16">
       <Position1>
         <Filename Value="..\..\source\als_frame_buffers.inc"/>
         <Caret Line="38" Column="19" TopLine="20"/>
@@ -187,6 +204,50 @@
         <Filename Value="unit1.pas"/>
         <Caret Line="76" Column="11" TopLine="58"/>
       </Position6>
+      <Position7>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="33" Column="7" TopLine="15"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\source\openalsoft.pas"/>
+        <Caret Line="68" Column="14" TopLine="58"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\..\source\openalsoft.pas"/>
+        <Caret Line="586" Column="5" TopLine="638"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\source\alext.inc"/>
+        <Caret Line="264" Column="18" TopLine="247"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\..\source\alext.inc"/>
+        <Caret Line="374" Column="40" TopLine="360"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\..\source\als_deviceitem.inc"/>
+        <Caret Line="210" Column="9" TopLine="202"/>
+      </Position12>
+      <Position13>
+        <Filename Value="..\..\source\als_deviceitem.inc"/>
+        <Caret Line="23" Column="6" TopLine="20"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\..\source\als_deviceitem.inc"/>
+        <Caret Line="212" Column="4" TopLine="202"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1462" Column="25" TopLine="1447"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1552" Column="35" TopLine="1537"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="4532" Column="37" TopLine="4517"/>
+      </Position17>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

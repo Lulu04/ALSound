@@ -348,13 +348,13 @@ begin
   Result := alcIsExtensionPresent(NIL, PChar('ALC_EXT_thread_local_context'));
   if Result then
   begin
-    Pointer(_alcSetThreadContext) := GetALCExtProc(aDevice, 'alcSetThreadContext', Result);
-    Pointer(_alcGetThreadContext) := GetALCExtProc(aDevice, 'alcGetThreadContext', Result);
+    Pointer(alcSetThreadContext) := GetALCExtProc(aDevice, 'alcSetThreadContext', Result);
+    Pointer(alcGetThreadContext) := GetALCExtProc(aDevice, 'alcGetThreadContext', Result);
   end
   else
   begin
-    _alcSetThreadContext := NIL;
-    _alcGetThreadContext := NIL;
+    alcSetThreadContext := NIL;
+    alcGetThreadContext := NIL;
   end;
 end;
 
@@ -424,15 +424,15 @@ begin
   Result := alcIsExtensionPresent(aDevice, PChar('ALC_SOFT_loopback'));
   if Result then
   begin
-    Pointer(_alcLoopbackOpenDeviceSOFT) := GetALCExtProc(aDevice, 'alcLoopbackOpenDeviceSOFT', Result);
-    Pointer(_alcIsRenderFormatSupportedSOFT) := GetALCExtProc(aDevice, 'alcIsRenderFormatSupportedSOFT', Result);
-    Pointer(_alcRenderSamplesSOFT) := GetALCExtProc(aDevice, 'alcRenderSamplesSOFT', Result);
+    Pointer(alcLoopbackOpenDeviceSOFT) := GetALCExtProc(aDevice, 'alcLoopbackOpenDeviceSOFT', Result);
+    Pointer(alcIsRenderFormatSupportedSOFT) := GetALCExtProc(aDevice, 'alcIsRenderFormatSupportedSOFT', Result);
+    Pointer(alcRenderSamplesSOFT) := GetALCExtProc(aDevice, 'alcRenderSamplesSOFT', Result);
   end
   else
   begin
-    _alcLoopbackOpenDeviceSOFT := NIL;
-    _alcIsRenderFormatSupportedSOFT := NIL;
-    _alcRenderSamplesSOFT := NIL;
+    alcLoopbackOpenDeviceSOFT := NIL;
+    alcIsRenderFormatSupportedSOFT := NIL;
+    alcRenderSamplesSOFT := NIL;
   end;
 end;
 
@@ -490,13 +490,13 @@ begin
   Result := alcIsExtensionPresent(NIL, PChar('ALC_SOFT_pause_device'));
   if Result then
   begin
-    Pointer(_alcDevicePauseSOFT) := GetALCExtProc(aDevice, 'alcDevicePauseSOFT', Result);
-    Pointer(_alcDeviceResumeSOFT) := GetALCExtProc(aDevice, 'alcDeviceResumeSOFT', Result);
+    Pointer(alcDevicePauseSOFT) := GetALCExtProc(aDevice, 'alcDevicePauseSOFT', Result);
+    Pointer(alcDeviceResumeSOFT) := GetALCExtProc(aDevice, 'alcDeviceResumeSOFT', Result);
   end
   else
   begin
-    _alcDevicePauseSOFT := NIL;
-    _alcDeviceResumeSOFT := NIL;
+    alcDevicePauseSOFT := NIL;
+    alcDeviceResumeSOFT := NIL;
   end;
 end;
 
@@ -508,13 +508,13 @@ begin
   Result := alcIsExtensionPresent(aDevice, PChar('ALC_SOFT_HRTF'));
   if Result then
   begin
-    Pointer(_alcGetStringiSOFT) := GetALCExtProc(aDevice, 'alcGetStringiSOFT', Result);
-    Pointer(_alcResetDeviceSOFT) := GetALCExtProc(aDevice, 'alcResetDeviceSOFT', Result);
+    Pointer(alcGetStringiSOFT) := GetALCExtProc(aDevice, 'alcGetStringiSOFT', Result);
+    Pointer(alcResetDeviceSOFT) := GetALCExtProc(aDevice, 'alcResetDeviceSOFT', Result);
   end
   else
   begin
-    _alcGetStringiSOFT := NIL;
-    _alcResetDeviceSOFT := NIL;
+    alcGetStringiSOFT := NIL;
+    alcResetDeviceSOFT := NIL;
   end;
 end;
 
@@ -543,11 +543,11 @@ begin
   Result := alcIsExtensionPresent(NIL, PChar('ALC_SOFT_device_clock'));
   if Result then
   begin
-    Pointer(_alcGetInteger64vSOFT) := GetALCExtProc(aDevice, 'alcGetInteger64vSOFT', Result);
+    Pointer(alcGetInteger64vSOFT) := GetALCExtProc(aDevice, 'alcGetInteger64vSOFT', Result);
   end
   else
   begin
-    _alcGetInteger64vSOFT := NIL;
+    alcGetInteger64vSOFT := NIL;
   end;
 end;
 
@@ -579,11 +579,11 @@ begin
   Result := alcIsExtensionPresent(NIL, PChar('ALC_SOFT_reopen_device'));
   if Result then
   begin
-    Pointer(_alcReopenDeviceSOFT) := GetALCExtProc(aDevice, 'alcReopenDeviceSOFT', Result);
+    Pointer(alcReopenDeviceSOFT) := GetALCExtProc(aDevice, 'alcReopenDeviceSOFT', Result);
   end
   else
   begin
-    _alcReopenDeviceSOFT := NIL;
+    alcReopenDeviceSOFT := NIL;
   end;
 end;
 
