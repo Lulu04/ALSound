@@ -33,7 +33,7 @@ The libraries must be named 'libopenal.dylib' and 'libsndfile.dylib'.
 - If your application don't use a bundle, put a copy of the libraries in the same folder (or in a sub-folder) as your executable and in your Lazarus->Project options->Application->**uncheck** 'use Application Bundle for running and debugging'.
 - If your application use a bundle, put a copy of the libraries in the Resources folder of the bundle (or sub-folder and in your Lazarus->Project options->Application->**check** 'use Application Bundle for running and debugging'.
 
-> **All platforms: if you use a sub-folder your application must call ALSManager.SetLibrariesSubFolder(OnlyTheNameOfTheSubfolder) before calling ALSManager.LoadLibraries.**
+> **NOTE for all platforms: if you use a sub-folder your application must call ALSManager.SetLibrariesSubFolder(OnlyTheNameOfTheSubfolder) before calling ALSManager.LoadLibraries.**
 
 # Thanks
 Thanks to Christopher Robinson, the author and maintainer of OpenAL-Soft, for its help.  
