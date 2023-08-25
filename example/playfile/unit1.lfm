@@ -6,7 +6,6 @@ object Form1: TForm1
   Caption = 'ALSound demo - playing an audio file'
   ClientHeight = 280
   ClientWidth = 442
-  Color = 14807551
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
