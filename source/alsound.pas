@@ -23,13 +23,14 @@ unit ALSound;
 
 {$mode objfpc}{$H+}
 {$MODESWITCH ADVANCEDRECORDS}
-{$pointerMath on}  // enable Inc() Dec() on pointer
+{$pointerMath on}
 
 interface
 
 uses
   Classes, SysUtils, ctypes, Types,
-  {$ifdef LCL}ExtCtrls, Graphics, Forms,{$endif}
+  {$ifdef LCL}ExtCtrls, Graphics, Forms,{$endif}  // needed to access Application.Location
+                                                  // and to render velocity curve on TImage
   openalsoft,
   libsndfile,
   als_dsp_utils;
