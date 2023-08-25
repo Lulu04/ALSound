@@ -243,7 +243,7 @@ end;
 
 var FDevice: PALCdevice;
     FContext: PALCcontext;
-    p, f: string;
+    p: string;
     names: TStringArray;
     i: integer;
     FOpenALSoftLibraryLoaded: boolean;

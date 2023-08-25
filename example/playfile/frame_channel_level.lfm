@@ -54,7 +54,7 @@ object FrameChannelsLevel: TFrameChannelsLevel
       Top = 19
       Width = 50
       Anchors = [akTop, akRight]
-      Color = 13302222
+      Color = clDefault
       Constraints.MaxHeight = 15
       Constraints.MaxWidth = 50
       Constraints.MinHeight = 15
@@ -105,7 +105,7 @@ object FrameChannelsLevel: TFrameChannelsLevel
       Top = 39
       Width = 50
       Anchors = [akTop, akRight]
-      Color = 13302222
+      Color = clDefault
       Constraints.MaxHeight = 15
       Constraints.MaxWidth = 50
       Constraints.MinHeight = 15

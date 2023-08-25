@@ -34,9 +34,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="66"/>
-        <CursorPos X="36" Y="75"/>
-        <UsageCount Value="33"/>
+        <TopLine Value="81"/>
+        <CursorPos X="32" Y="81"/>
+        <UsageCount Value="34"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
@@ -151,7 +151,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="584"/>
         <CursorPos X="21" Y="592"/>
-        <UsageCount Value="84"/>
+        <UsageCount Value="85"/>
         <Loaded Value="True"/>
       </Unit16>
       <Unit17>
@@ -229,7 +229,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="866"/>
         <CursorPos Y="869"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="42"/>
         <Loaded Value="True"/>
       </Unit27>
       <Unit28>
@@ -237,7 +237,7 @@
         <EditorIndex Value="4"/>
         <TopLine Value="2996"/>
         <CursorPos X="45" Y="3017"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="42"/>
         <Loaded Value="True"/>
       </Unit28>
       <Unit29>
