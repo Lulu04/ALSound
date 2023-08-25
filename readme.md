@@ -1,7 +1,7 @@
 # Introduction
 
-ALSound offer an easy way to play, capture and mix sounds for your FreePascal/Lazarus applications. It use OpenAL-Soft and LibSndFile libraries. You hardly have to know these libraries to use ALSound.
-Tested under Linux, Windows and MacOS (x86-64 only). May work on other platforms with the appropriate compiled libraries.
+ALSound offer an easy way to play, capture and mix sounds in your FreePascal/Lazarus applications. It use OpenAL-Soft and LibSndFile libraries. You hardly have to know these libraries to use ALSound.  
+Tested under Linux, Windows and MacOS (x86-64 only).
 
 # Contents
 
