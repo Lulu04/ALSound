@@ -389,8 +389,10 @@ type
     procedure SetALTone;
     procedure SetApplyToneOnAuxSend(AValue: boolean);
   private
+    FGlobalVolume,
     FMuteMultiplicator: single;
     FPositionRelativeToListener: boolean;
+    procedure SetGlobalVolume(AValue: single);
     function GetChannelLevel(index: integer): single; virtual;
     function GetChannelLeveldB(index: integer): single;
     function GetDistanceModel: TALSDistanceModel;
@@ -557,6 +559,15 @@ type
     property State: TALSState read GetState;
     // general purpose
     property Tag: integer read FTag write FTag;
+
+    // This is an additional volume control. To explain this, let's take an example:
+    // in the preferences of a game, the user adjusts the volume independently
+    // for musics to 50%, sounds effects to 80% and voices to 100%.
+    // This is the purpose of the GlobalVolume property, to have a volume control
+    // for the same type of sounds.
+    // (internaly, the final volume is equal to Volume.Value*GlobalVolume)
+    // Range is [0.0 to 1.0], default value is 1.0
+    property GlobalVolume: single read FGlobalVolume write SetGlobalVolume;
   end;
 
 
@@ -5020,6 +5031,7 @@ begin
   InitCriticalSection(FCriticalSection);
 
   FMuteMultiplicator := 1.0;
+  FGlobalVolume := 1.0;
 
   if FParentContext.FHaveExt_AL_SOFT_gain_clamp_ex then
     v := ALS_VOLUME_MAXAMP
@@ -5375,7 +5387,7 @@ begin
   LockContext( FParentContext.FContext );
   EnterCS;
   try
-    alSourcef(FSource, AL_GAIN, Volume.Value * FMuteMultiplicator);
+    alSourcef(FSource, AL_GAIN, Volume.Value * FMuteMultiplicator * FGlobalVolume);
   finally
     LeaveCS;
     UnlockContext;
@@ -5605,6 +5617,12 @@ begin
     LeaveCS;
     UnlockContext;
   end;
+end;
+
+procedure TALSSound.SetGlobalVolume(AValue: single);
+begin
+  FGlobalVolume := EnsureRange(AValue, 0.0, 1.0);
+  SetALVolume;
 end;
 
 procedure TALSSound.EnterCS;
