@@ -1,13 +1,7 @@
 # Introduction
 
-ALSound offer an easy way to play, capture and mix sounds for your FreePascal/Lazarus applications. It use OpenAL-Soft and LibSndFile libraries.
-
-OpenAL-Soft is an improved software implementation of OpenAL, actively maintained by Christopher Robinson (https://github.com/kcat/openal-soft).
-LibSndFile is a C library for reading and writing audio files (https://github.com/libsndfile/libsndfile).
-You hardly have to know these libraries to use ALSound.
-
-Tested under Linux, Windows and MacOS (x86-64 only).
-May work on other platforms with the appropriate compiled libraries.
+ALSound offer an easy way to play, capture and mix sounds for your FreePascal/Lazarus applications. It use OpenAL-Soft and LibSndFile libraries. You hardly have to know these libraries to use ALSound.
+Tested under Linux, Windows and MacOS (x86-64 only). May work on other platforms with the appropriate compiled libraries.
 
 # Contents
 
@@ -36,9 +30,8 @@ The libraries must be named 'libopenal.dylib' and 'libsndfile.dylib'.
 > **NOTE for all platforms: if you use a sub-folder your application must call ALSManager.SetLibrariesSubFolder(OnlyTheNameOfTheSubfolder) before calling ALSManager.LoadLibraries.**
 
 # Thanks
-Thanks to Christopher Robinson, the author and maintainer of OpenAL-Soft, for its help.  
-Thanks to the LibSndFile team.
-(https://github.com/libsndfile/libsndfile)  
+Thanks to Christopher Robinson, the author and maintainer of OpenAL-Soft, for its help. (https://github.com/kcat/openal-soft)  
+Thanks to the LibSndFile team. (https://github.com/libsndfile/libsndfile)  
 
 Thanks to Fred van Stappen, the author of United OpenLib of Sound (UOS) (https://github.com/fredvs/uos) who wrote pascal binding for LibSndFile and PortAudio. This inspired me to write pascal binding for OpenAL-Soft and LibSndFile used by ALSound.
 
