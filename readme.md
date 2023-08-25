@@ -25,48 +25,32 @@ lulu - 2022
 'binary' -> contains sub-folder for each actual supported platforms. The compiled binaries of OpenAL-Soft and LibSndFile are provided for Windows and Linux both i386 and x86-64 and can be found in their respective sub-folder. If you prefers to compile these libraries by yourself, please go to their respective github repository and follow the guideline.  
 # Dynamic linking libraries
 
-ALSound loads and links automatically the libraries at startup. As under Windows, a copy of the libraries should be in the folder as your executable.
+ALSound loads dynamically the two libraries at startup:
 
 ## Under Windows
-OpenAL-Soft is searched in:
-1. Application_Location\soft_oal.dll -> try to find it in application folder.
-2. soft_oal.dll -> try to find it in system folder.
-3. OpenAL32.dll -> try to load legacy implementation of OpenAL.  
-
-LibSndFile is searched in:
-1. application_Location\sndfile.dll -> try to find it in application folder.
-2. sndfile.dll -> try to find it in system folder.  
+The dlls must be named 'soft_oal.dll' and 'sndfile.dll' and copied in the same folder (or in a sub-folder) as your executable.
+If you use a sub-folder, your application must call ALSManager.SetLibrariesSubFolder(nameOfTheSubfolder) before calling ALSManager.LoadLibraries.
 
 
 ## Under Linux
-OpenAL-Soft is searched in:
-1. Application_Location/libopenal.so -> try to find it in application folder.
-2. libopenal.so -> try to find an installed version.
-3. libopenal.so.1 -> try to find an older installed version.
-4. libopenal.so.0 -> try to find an older installed version.  
+The libraries must be named 'libopenal.so' and 'libsndfile.so' and copied in the same folder (or in a sub-folder) as your executable. If you use a sub-folder, your application must call ALSManager.SetLibrariesSubFolder(nameOfTheSubfolder) before calling ALSManager.LoadLibraries.
 
-LibSndFile is searched in:
-1. Application_Location/libsndfile.so -> try to find it in application folder.
-2. libsndfile.so -> try to find an installed version.  
+## Under MacOS
+The libraries must be named 'libopenal.dylib' and 'libsndfile.dylib'.
+- If your application don't use a bundle:
+> put a copy of the libraries in the same folder (or in a sub-folder) as your executable and in your Lazarus->Project options->Application->uncheck 'use bundle for running and debugging'
+- If your application use a bundle:
+> put a copy of the libraries in the Resources folder of the bundle (or in a sub-folder). If you use a sub-folder, your application must call ALSManager.SetLibrariesSubFolder(nameOfTheSubfolder) before calling ALSManager.LoadLibraries.
 
-**!!NOT TESTED!!** Under Mac, ALSound try to load OpenAL-Soft using:
-1. BundlePath+'/'+BundleName+'/Contents/Resources/libopenal.dylib' -> try to find it in Resources folder of application bundle.
-2. libopenal.dylib -> try to load without any path
-3. /System/Library/Frameworks/OpenAL.framework/OpenAL -> try to load desperately an old version on old machine  
-# Building libraries from source
 
-If you choose to build OpenAl-Soft and LibSndFile from source, please rename the obtained binaries to:
-	soft_oal.dll and sndfile.dll            for Windows
-	libopenal.so and libsndfile.so          for Linux
-
-ALSound is not yet tested on Mac. If you decide to do, after building the libraries, rename them to:
-	libopenal.dylib and libsndfile.dylib
-and put a copy in your application bundle, sub-folder Resources.
-
+# Building libraries from source 
+Please refer to the instructions on
+(https://github.com/kcat/openal-soft) and (https://github.com/libsndfile/libsndfile)
 
 # Thanks
-
-Thanks to Christopher Robinson, the author and maintainer of OpenAL-Soft, for its help.
+Thanks to Christopher Robinson, the author and maintainer of OpenAL-Soft, for its help.  
+Thanks to the LibSndFile team.
+(https://github.com/libsndfile/libsndfile)  
 
 Thanks to Fred van Stappen, the author of United OpenLib of Sound (UOS) (https://github.com/fredvs/uos) who wrote pascal binding for LibSndFile and PortAudio. This inspired me to write pascal binding for OpenAL-Soft and LibSndFile used by ALSound.
 
