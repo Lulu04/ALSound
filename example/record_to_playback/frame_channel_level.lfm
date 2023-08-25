@@ -16,7 +16,6 @@ object FrameChannelsLevel: TFrameChannelsLevel
     Align = alClient
     ClientHeight = 63
     ClientWidth = 316
-    Color = 7393672
     ParentColor = False
     TabOrder = 0
     object Label7: TLabel
@@ -55,12 +54,11 @@ object FrameChannelsLevel: TFrameChannelsLevel
       Top = 19
       Width = 50
       Anchors = [akTop, akRight]
-      Color = 13302222
+      Color = clDefault
       Constraints.MaxHeight = 15
       Constraints.MaxWidth = 50
       Constraints.MinHeight = 15
       Constraints.MinWidth = 50
-      Font.Height = 13
       ParentColor = False
       ParentFont = False
       Transparent = False
@@ -106,12 +104,11 @@ object FrameChannelsLevel: TFrameChannelsLevel
       Top = 39
       Width = 50
       Anchors = [akTop, akRight]
-      Color = 13302222
+      Color = clDefault
       Constraints.MaxHeight = 15
       Constraints.MaxWidth = 50
       Constraints.MinHeight = 15
       Constraints.MinWidth = 50
-      Font.Height = 13
       ParentColor = False
       ParentFont = False
       Transparent = False
