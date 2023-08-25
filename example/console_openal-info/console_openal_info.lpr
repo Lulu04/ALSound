@@ -243,10 +243,9 @@ end;
 var FDevice: PALCdevice;
     FContext: PALCcontext;
     p: string;
-    names: TStringArray;
+    libName: string;
     i: integer;
-    FOpenALSoftLibraryLoaded: boolean;
-    {$if DEFINED(Darwin)}bundleName: string;{$endif}
+    {$if DEFINED(Darwin)}f, bundleName: string;{$endif}
 begin
   if (ParamCount > 1) and
      ((ParamStr(1)='--help') or (ParamStr(1)='-h')) then begin
@@ -255,51 +254,31 @@ begin
   end;
 
   {$if DEFINED(Windows)}
-  SetLength(names, 3);
-  names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), 'soft_oal.dll']);
-  names[1] := 'soft_oal.dll';
-  names[2] := 'OpenAL32.dll';
+  libName := ConcatPaths([ExtractFilePath(ParamStr(0)), 'soft_oal.dll']);
   {$endif}
 
   {$if DEFINED(Linux)}
-  SetLength(names, 4);
-  names[0] := ConcatPaths([ExtractFilePath(ParamStr(0)), 'libopenal.so']);
-  names[1] := 'libopenal.so';
-  names[2] := 'libopenal.so.0';
-  names[3] := 'libopenal.so.1';
+  libName := ConcatPaths([ExtractFilePath(ParamStr(0)), 'libopenal.so']);
   {$endif}
 
   {$if DEFINED(Darwin)}
-   // NOT TESTED !!
    {$ifdef LCL}
    f := Application.Location;
    {$else}
    f := ExtractFilePath(ParamStr(0));
    {$endif}
-   SetLength(names, 3);
    bundleName := '/'+ApplicationName+'.app';
-   i := Pos(bundleName, ParamStr(0));
+   i := Pos(bundleName, f);
    if i <> 0 then
-     names[0] := copy(f, 1, i-1)+bundleName+'/Contents/Resources/libopenal.dylib'
+     libName := copy(f, 1, i-1)+bundleName+'/Contents/Resources/libopenal.dylib'
    else
-     names[0] := ConcatPaths([f, '/libopenal.dylib']);
-   names[1] := 'libopenal.dylib';
-   names[2] := '/System/Library/Frameworks/OpenAL.framework/OpenAL';
+     libName := ConcatPaths([f, '/libopenal.dylib']);
   {$endif}
 
-  FOpenALSoftLibraryLoaded := False;
-  for i:=0 to High(names) do
-    if LoadOpenALCoreLibrary(names[i]) then
-    begin
-      FOpenALSoftLibraryLoaded := True;
-      writeln('Find ' + names[i]);
-      break;
-    end;
-
-  if not FOpenALSoftLibraryLoaded then begin
-    writeln('Failed to load OpenAL-Soft library...');
+  if not LoadOpenALCoreLibrary(libName) then begin
+    writeln('Failed to load OpenAL-Soft library from '+libName);
     exit;
-  end;
+   end;
 
   writeln('Available playback device:');
   PrintList( GetDeviceNames );
