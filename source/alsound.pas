@@ -2130,7 +2130,6 @@ begin
     {$endif}
 
     {$if DEFINED(Darwin)}
-     // NOT TESTED !!
      {$ifdef LCL}
      f := Application.Location;
      {$else}
@@ -2141,6 +2140,7 @@ begin
      i := Pos(bundleName, ParamStr(0));
      if i <> 0 then
      begin
+       // executable is included in a bundle
        if Length(FLibrariesSubFolder) = 0 then
          names[0] := ConcatPaths([copy(f, 1, i-1), bundleName, 'Contents/Resources/libopenal.dylib'])
        else
@@ -2148,13 +2148,12 @@ begin
      end
      else
      begin
+       // no bundle
        if Length(FLibrariesSubFolder) = 0 then
          names[0] := ConcatPaths([f, 'libopenal.dylib'])
        else
          names[0] := ConcatPaths([f, FLibrariesSubFolder, 'libopenal.dylib']);
      end;
-     names[1] := 'libopenal.dylib';
-     names[2] := '/System/Library/Frameworks/OpenAL.framework/OpenAL';
     {$endif}
 
     FOpenALSoftLibraryLoaded := False;
