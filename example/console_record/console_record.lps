@@ -8,9 +8,8 @@
       <Unit0>
         <Filename Value="console_record.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="66"/>
-        <CursorPos Y="85"/>
+        <TopLine Value="67"/>
+        <CursorPos X="35" Y="72"/>
         <UsageCount Value="71"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -24,9 +23,10 @@
       </Unit1>
       <Unit2>
         <Filename Value="..\..\source\libsndfile.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="31"/>
-        <CursorPos X="25" Y="51"/>
+        <TopLine Value="945"/>
+        <CursorPos X="19" Y="957"/>
         <UsageCount Value="36"/>
         <Loaded Value="True"/>
       </Unit2>
@@ -98,7 +98,7 @@
     <OtherDefines Count="1">
       <Define0 Value="ALS_ENABLE_CONTEXT_SWITCHING"/>
     </OtherDefines>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
         <Filename Value="console_record.lpr"/>
         <Caret Line="252" Column="4"/>
@@ -115,6 +115,10 @@
         <Filename Value="console_record.lpr"/>
         <Caret Line="12" Column="23"/>
       </Position4>
+      <Position5>
+        <Filename Value="console_record.lpr"/>
+        <Caret Line="72" Column="35" TopLine="67"/>
+      </Position5>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

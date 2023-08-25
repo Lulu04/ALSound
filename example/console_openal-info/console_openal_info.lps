@@ -3,31 +3,33 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
-    <Units Count="13">
+    <BuildModes Active="Release"/>
+    <Units Count="14">
       <Unit0>
         <Filename Value="console_openal_info.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="267"/>
-        <CursorPos X="36" Y="237"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="72"/>
+        <CursorPos X="22" Y="86"/>
         <UsageCount Value="58"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
+        <Filename Value="..\..\source\openalsoft.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="634"/>
+        <CursorPos X="5" Y="586"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
         <Filename Value="..\..\source\oalssoundmanager.pas"/>
         <UnitName Value="OALSSoundManager"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="490"/>
         <CursorPos Y="501"/>
         <UsageCount Value="9"/>
-      </Unit1>
-      <Unit2>
-        <Filename Value="..\..\source\openalsoft.pas"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="634"/>
-        <CursorPos X="5" Y="586"/>
-        <UsageCount Value="29"/>
-        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="..\..\source\alc.inc"/>
@@ -97,130 +99,145 @@
       <Unit12>
         <Filename Value="..\..\source\alsound.pas"/>
         <UnitName Value="ALSound"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="67"/>
-        <CursorPos X="6" Y="1946"/>
+        <TopLine Value="289"/>
+        <CursorPos X="20" Y="308"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit12>
+      <Unit13>
+        <Filename Value="..\..\source\als_deviceitem.inc"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="170"/>
+        <CursorPos X="6" Y="185"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit13>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <OtherDefines Count="1">
+      <Define0 Value="ALS_ENABLE_CONTEXT_SWITCHING"/>
+    </OtherDefines>
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="256" TopLine="245"/>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1033" Column="18" TopLine="1022"/>
       </Position1>
       <Position2>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="270" TopLine="245"/>
+        <Caret Line="302" Column="35" TopLine="261"/>
       </Position2>
       <Position3>
-        <Filename Value="..\..\source\alsound.pas"/>
+        <Filename Value="console_openal_info.lpr"/>
+        <Caret Line="292" TopLine="276"/>
       </Position3>
       <Position4>
-        <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="1033" Column="18" TopLine="1022"/>
+        <Filename Value="console_openal_info.lpr"/>
+        <Caret Line="296" Column="34" TopLine="256"/>
       </Position4>
       <Position5>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="302" Column="35" TopLine="261"/>
+        <Caret Line="259" TopLine="253"/>
       </Position5>
       <Position6>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="292" TopLine="276"/>
+        <Caret Line="260" TopLine="253"/>
       </Position6>
       <Position7>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="296" Column="34" TopLine="256"/>
+        <Caret Line="261" TopLine="253"/>
       </Position7>
       <Position8>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="259" TopLine="253"/>
+        <Caret Line="262" TopLine="253"/>
       </Position8>
       <Position9>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="260" TopLine="253"/>
+        <Caret Line="291" TopLine="278"/>
       </Position9>
       <Position10>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="261" TopLine="253"/>
+        <Caret Line="292" TopLine="278"/>
       </Position10>
       <Position11>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="262" TopLine="253"/>
+        <Caret Line="293" TopLine="278"/>
       </Position11>
       <Position12>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="291" TopLine="278"/>
+        <Caret Line="292" TopLine="278"/>
       </Position12>
       <Position13>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="292" TopLine="278"/>
+        <Caret Line="293" TopLine="278"/>
       </Position13>
       <Position14>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="293" TopLine="278"/>
+        <Caret Line="292" TopLine="278"/>
       </Position14>
       <Position15>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="292" TopLine="278"/>
+        <Caret Line="293" TopLine="278"/>
       </Position15>
       <Position16>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="293" TopLine="278"/>
+        <Caret Line="295" TopLine="278"/>
       </Position16>
       <Position17>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="292" TopLine="278"/>
+        <Caret Line="87" TopLine="72"/>
       </Position17>
       <Position18>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="293" TopLine="278"/>
+        <Caret Line="298" Column="32" TopLine="287"/>
       </Position18>
       <Position19>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="295" TopLine="278"/>
+        <Caret Line="9" Column="9"/>
       </Position19>
       <Position20>
-        <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="87" TopLine="72"/>
+        <Filename Value="..\..\source\openalsoft.pas"/>
+        <Caret Line="64" Column="27" TopLine="52"/>
       </Position20>
       <Position21>
-        <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="298" Column="32" TopLine="287"/>
+        <Filename Value="..\..\source\openalsoft.pas"/>
+        <Caret Line="511" Column="18" TopLine="487"/>
       </Position21>
       <Position22>
         <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="9" Column="9"/>
+        <Caret Line="26" Column="34"/>
       </Position22>
       <Position23>
         <Filename Value="..\..\source\openalsoft.pas"/>
-        <Caret Line="64" Column="27" TopLine="52"/>
+        <Caret Line="511" Column="21" TopLine="487"/>
       </Position23>
       <Position24>
         <Filename Value="..\..\source\openalsoft.pas"/>
-        <Caret Line="511" Column="18" TopLine="487"/>
+        <Caret Line="76" Column="14" TopLine="61"/>
       </Position24>
       <Position25>
-        <Filename Value="console_openal_info.lpr"/>
-        <Caret Line="26" Column="34"/>
-      </Position25>
-      <Position26>
-        <Filename Value="..\..\source\openalsoft.pas"/>
-        <Caret Line="511" Column="21" TopLine="487"/>
-      </Position26>
-      <Position27>
-        <Filename Value="..\..\source\openalsoft.pas"/>
-        <Caret Line="76" Column="14" TopLine="61"/>
-      </Position27>
-      <Position28>
         <Filename Value="..\..\source\alext.inc"/>
         <Caret Line="264" Column="18" TopLine="247"/>
-      </Position28>
-      <Position29>
+      </Position25>
+      <Position26>
         <Filename Value="..\..\source\alext.inc"/>
         <Caret Line="373" Column="48" TopLine="359"/>
+      </Position26>
+      <Position27>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="308" Column="20" TopLine="289"/>
+      </Position27>
+      <Position28>
+        <Filename Value="..\..\source\als_deviceitem.inc"/>
+        <Caret Line="19" Column="22" TopLine="12"/>
+      </Position28>
+      <Position29>
+        <Filename Value="..\..\source\als_deviceitem.inc"/>
+        <Caret Line="185" Column="6" TopLine="170"/>
       </Position29>
+      <Position30>
+        <Filename Value="console_openal_info.lpr"/>
+        <Caret Line="16" Column="35"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

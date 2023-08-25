@@ -21,8 +21,8 @@
 
 type
 // Define int64 and uint64 types */
- _alsoft_int64_t = Int64;
- _alsoft_uint64_t = QWord;
+ alsoft_int64_t = Int64;
+ alsoft_uint64_t = QWord;
 
 
 const
@@ -120,8 +120,8 @@ type
 var
 //ALC_API ALCboolean  ALC_APIENTRY alcSetThreadContext(ALCcontext *context);
 //ALC_API ALCcontext* ALC_APIENTRY alcGetThreadContext(void);
-  _alcSetThreadContext: TProc_alcSetThreadContext; //function(context: PALCcontext): ALCboolean; cdecl;
-  _alcGetThreadContext: TProc_alcGetThreadContext; //function(): PALCcontext; cdecl;
+  alcSetThreadContext: TProc_alcSetThreadContext; //function(context: PALCcontext): ALCboolean; cdecl;
+  alcGetThreadContext: TProc_alcGetThreadContext; //function(): PALCcontext; cdecl;
 
 const
  AL_SOURCE_DISTANCE_MODEL=$200;
@@ -246,9 +246,9 @@ type
   TProc_alcIsRenderFormatSupportedSOFT = function(device: PALCdevice; freq: ALCsizei; channels, _type: ALCenum): ALCboolean; cdecl;
   TProc_alcRenderSamplesSOFT = procedure(device: PALCdevice; buffer: PALCvoid; samples: ALCsizei); cdecl;
 var
-  _alcLoopbackOpenDeviceSOFT: TProc_alcLoopbackOpenDeviceSOFT;
-  _alcIsRenderFormatSupportedSOFT: TProc_alcIsRenderFormatSupportedSOFT;
-  _alcRenderSamplesSOFT: TProc_alcRenderSamplesSOFT;
+  alcLoopbackOpenDeviceSOFT: TProc_alcLoopbackOpenDeviceSOFT;
+  alcIsRenderFormatSupportedSOFT: TProc_alcIsRenderFormatSupportedSOFT;
+  alcRenderSamplesSOFT: TProc_alcRenderSamplesSOFT;
 
 const
  AL_STEREO_ANGLES=$1030;
@@ -259,9 +259,9 @@ const
  AL_SAMPLE_OFFSET_LATENCY_SOFT=$1200;
  AL_SEC_OFFSET_LATENCY_SOFT=$1201;
 type
-  ALint64SOFT = _alsoft_int64_t;
+  ALint64SOFT = alsoft_int64_t;
   PALint64SOFT = ^ALint64SOFT;
-  ALuint64SOFT = _alsoft_uint64_t;
+  ALuint64SOFT = alsoft_uint64_t;
 
 var
   alSourcedSOFT: procedure( source: ALuint; param: ALenum; value: ALdouble); cdecl;
@@ -304,8 +304,8 @@ type
   TProc_alcDevicePauseSOFT = procedure(device: PALCdevice); cdecl;
   TProc_alcDeviceResumeSOFT = procedure(device: PALCdevice); cdecl;
 var
-  _alcDevicePauseSOFT: TProc_alcDevicePauseSOFT;
-  _alcDeviceResumeSOFT: TProc_alcDeviceResumeSOFT;
+  alcDevicePauseSOFT: TProc_alcDevicePauseSOFT;
+  alcDeviceResumeSOFT: TProc_alcDeviceResumeSOFT;
 
 
 const
@@ -348,8 +348,8 @@ type
   TProc_alcGetStringiSOFT = function(device: PALCdevice; paramName: ALCenum; index: ALCsizei): PALCchar; cdecl;
   TProc_alcResetDeviceSOFT = function(device: PALCdevice; const attribs: PALCint): ALCboolean; cdecl;
 var
-  _alcGetStringiSOFT: TProc_alcGetStringiSOFT;
-  _alcResetDeviceSOFT: TProc_alcResetDeviceSOFT;
+  alcGetStringiSOFT: TProc_alcGetStringiSOFT;
+  alcResetDeviceSOFT: TProc_alcResetDeviceSOFT;
 
 const
  AL_GAIN_LIMIT_SOFT=$200E;
@@ -371,9 +371,9 @@ const
  ALC_OUTPUT_LIMITER_SOFT=$199A;
 
 type
-  ALCint64SOFT=_alsoft_int64_t;
+  ALCint64SOFT=alsoft_int64_t;
   PALCint64SOFT = ^ALCint64SOFT;
-  ALCuint64SOFT=_alsoft_uint64_t;
+  ALCuint64SOFT=alsoft_uint64_t;
   TProc_alcGetInteger64vSOFT = procedure(device: PALCdevice; pname: ALCenum; size: ALsizei; values: PALCint64SOFT); cdecl;
 const
  ALC_DEVICE_CLOCK_SOFT=$1600;
@@ -383,7 +383,7 @@ const
  AL_SEC_OFFSET_CLOCK_SOFT=$1203;
 
 var
-  _alcGetInteger64vSOFT: TProc_alcGetInteger64vSOFT;
+  alcGetInteger64vSOFT: TProc_alcGetInteger64vSOFT;
 
 
 const
@@ -443,7 +443,7 @@ var
 type
   TProc_alcReopenDeviceSOFT = function(device: PALCdevice; const deviceName: PALCchar; const attribs: PALCint): ALCboolean;
 var
-  _alcReopenDeviceSOFT: TProc_alcReopenDeviceSOFT;
+  alcReopenDeviceSOFT: TProc_alcReopenDeviceSOFT;
 
 
 // AL_SOFT_callback_buffer

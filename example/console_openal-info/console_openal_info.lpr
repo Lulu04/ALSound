@@ -5,8 +5,7 @@ uses
   {$IFDEF UNIX}
   cthreads,
   {$ENDIF}
-  Classes, SysUtils,
-  openalsoft;
+  Classes, SysUtils, openalsoft;
 
 
 procedure PrintList( const A: TStringArray );

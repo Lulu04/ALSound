@@ -1459,7 +1459,7 @@ procedure TALSLoopbackContext.RenderAudioToBuffer;
 begin
   LockContext(FContext);
   try
-    FParentDeviceItem^.alcRenderSamplesSOFT(FParentDevice,
+    FParentDeviceItem^.FalcRenderSamplesSOFT(FParentDevice,
        FFrameBuffer.Data, ALCsizei(FFrameBuffer.FrameCapacity));
     FFrameBuffer.FrameCount := FFrameBuffer.FrameCapacity;
   finally
@@ -1549,7 +1549,7 @@ begin
     Result := False
   else
   begin
-    Result := FParentDeviceItem^.alcIsRenderFormatSupportedSOFT(FParentDevice,
+    Result := FParentDeviceItem^.FalcIsRenderFormatSupportedSOFT(FParentDevice,
         ALCsizei(aSampleRate), ALCsizei(Ord(aChannels)), ALCenum(Ord(aSampleType)));
     alcGetError(FPArentDevice);
   end;
@@ -4529,7 +4529,7 @@ begin
   begin
     LockContext( FContext );
     try
-      Result := FParentDeviceItem^.alcResetDeviceSOFT( FParentDevice, @aAttribs );
+      Result := FParentDeviceItem^.FalcResetDeviceSOFT( FParentDevice, @aAttribs );
     finally
       UnlockContext;
     end;
@@ -4678,7 +4678,7 @@ begin
       alcGetIntegerv(FParentDevice, ALC_NUM_HRTF_SPECIFIERS_SOFT, 1, @num_hrtf);
       SetLength(Result, num_hrtf);
       for i:=0 to num_hrtf-1 do
-        Result[i] := FParentDeviceItem^.alcGetStringiSOFT(FParentDevice, ALC_HRTF_SPECIFIER_SOFT, ALCSizei(i));
+        Result[i] := FParentDeviceItem^.FalcGetStringiSOFT(FParentDevice, ALC_HRTF_SPECIFIER_SOFT, ALCSizei(i));
     end;
   finally
     UnlockContext;
