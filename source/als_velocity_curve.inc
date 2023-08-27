@@ -11,9 +11,9 @@ function ALSStringToCurveID(ACurveName: string): TALSCurveID;
 
 type
 
-  { TDataCurve }
+  { TALSDataCurve }
 
-  TDataCurve = class
+  TALSDataCurve = class
   protected
     FID: word;
     FName: string;
@@ -39,11 +39,11 @@ type
   end;
 
 
-  { TVelocityCurve }
+  { TALSVelocityCurve }
 
-  TVelocityCurve = class
+  TALSVelocityCurve = class
   private
-    FDataCurveToUse: TDataCurve;
+    FDataCurveToUse: TALSDataCurve;
     FFinished, FInvert: boolean;
     FX, FDuration, FYOrigin, FYTarget, FDeltaY: single;
     FCurrentIndexPoint1: integer;
@@ -62,17 +62,17 @@ type
 
 type
 
-  TParamState = (psNO_CHANGE, psADD_CONSTANT, psUSE_CURVE);
+  TALSParamState = (psNO_CHANGE, psADD_CONSTANT, psUSE_CURVE);
   TALSLockParamProc = procedure of object;
   TALSUnlockParamProc = TALSLockParamProc;
 
-  { TFParam }
+  { TALSFParam }
 
-  TFParam = class
+  TALSFParam = class
   private
     FValue, FConstPerSecond: single;
-    FState: TParamState;
-    FCurve: TVelocityCurve;
+    FState: TALSParamState;
+    FCurve: TALSVelocityCurve;
   private
     FOnLockParam: TALSLockParamProc;
     FOnUnlockParam: TALSUnlockParamProc;
@@ -92,14 +92,14 @@ type
     procedure AddConstant(aConstPerSecond: single);
     // Current value of the parameter. Setting a value, stop an "ChangeTo" or "AddConstant" action.
     property Value: single read GetValue write SetValue;
-    property State: TParamState read FState;
+    property State: TALSParamState read FState;
   end;
 
 type
-  { TBoundedFParam }
+  { TALSCustomBoundedFParam }
   // parameter with boundary
 
-  TBoundedFParam = class(TFParam)
+  TALSCustomBoundedFParam = class(TALSFParam)
   private
     FMinValue,
     FMaxValue: single;
@@ -120,7 +120,7 @@ type
 
   { TALSBoundedFParam }
 
-  TALSBoundedFParam = class(TBoundedFParam)
+  TALSBoundedFParam = class(TALSCustomBoundedFParam)
   private
     FProc: TALSSimpleCallBack;
   protected
@@ -129,9 +129,9 @@ type
 
 
 type
-  { TDataCurveList }
+  { TALSDataCurveList }
 
-  TDataCurveList = class
+  TALSDataCurveList = class
   private
     FList: TList;
     FNumID: integer;
@@ -147,14 +147,14 @@ type
     destructor Destroy; override;
     // Add new curve to the list. Return the ID of the created curve
     function AddCurve(const aName: string; const Pts: array of TPointF): word;
-    function GetCurveByID(aID: TALSCurveID): TDataCurve;
-    function GetCurveByIndex(aIndex: integer): TDataCurve;
+    function GetCurveByID(aID: TALSCurveID): TALSDataCurve;
+    function GetCurveByIndex(aIndex: integer): TALSDataCurve;
     function CurveNameAlreadyExist(const aCurveName: string): boolean;
     property Count: integer read GetDataCurveCount;
   end;
 
 var
-  ALSVelocityCurveList: TDataCurveList;
+  ALSVelocityCurveList: TALSDataCurveList;
 
 {$endif}
 
@@ -184,40 +184,40 @@ begin
   Result := ALS_Linear;
 end;
 
-{ TDataCurve }
+{ TALSDataCurve }
 
-function TDataCurve.GetPointCount: integer;
+function TALSDataCurve.GetPointCount: integer;
 begin
   Result := Length(Points);
 end;
 
-procedure TDataCurve.CreateExtremities;
+procedure TALSDataCurve.CreateExtremities;
 begin
   SetLength(Points, 2);
   Points[0] := PointF(0, 1);
   Points[1] := PointF(1, 0);
 end;
 
-constructor TDataCurve.Create;
+constructor TALSDataCurve.Create;
 begin
   inherited Create;
   CreateExtremities;
 end;
 
-destructor TDataCurve.Destroy;
+destructor TALSDataCurve.Destroy;
 begin
   Clear(False);
   inherited Destroy;
 end;
 
-procedure TDataCurve.Clear(aCreateExtremities: boolean);
+procedure TALSDataCurve.Clear(aCreateExtremities: boolean);
 begin
   SetLength(Points, 0);
   if aCreateExtremities then
     CreateExtremities;
 end;
 
-procedure TDataCurve.DeletePoint(aIndex: integer);
+procedure TALSDataCurve.DeletePoint(aIndex: integer);
 var
   i: integer;
 begin
@@ -228,7 +228,7 @@ begin
   SetLength(Points, Length(Points) - 1);
 end;
 
-procedure TDataCurve.CopyPointsFrom(const aSource: array of TPointf);
+procedure TALSDataCurve.CopyPointsFrom(const aSource: array of TPointf);
 var
   i: integer;
 begin
@@ -238,13 +238,13 @@ begin
     Points[i] := aSource[i];
 end;
 
-function TDataCurve.ValidIndex(aIndex: integer): boolean;
+function TALSDataCurve.ValidIndex(aIndex: integer): boolean;
 begin
   Result := (aIndex >= 0) and (aIndex < GetPointCount);
 end;
 
 {$ifdef LCL}
-procedure TDataCurve.DrawOn(aImage: TImage);
+procedure TALSDataCurve.DrawOn(aImage: TImage);
 var
   x1, y1, x2, y2, i: integer;
   cline, clineinvert: TColor;
@@ -306,9 +306,9 @@ begin
   FProc();
 end;
 
-{ TBoundedFParam }
+{ TALSCustomBoundedFParam }
 
-function TBoundedFParam.GetValue: single;
+function TALSCustomBoundedFParam.GetValue: single;
 begin
   DoLock;
   try
@@ -319,13 +319,13 @@ begin
   end;
 end;
 
-procedure TBoundedFParam.SetValue(AValue: single);
+procedure TALSCustomBoundedFParam.SetValue(AValue: single);
 begin
   ApplyBounds(AValue);
   inherited SetValue(AValue);
 end;
 
-constructor TBoundedFParam.Create(aMin, aMax, aStartValue: single; aLooped: boolean);
+constructor TALSCustomBoundedFParam.Create(aMin, aMax, aStartValue: single; aLooped: boolean);
 begin
   inherited Create;
 
@@ -344,7 +344,7 @@ begin
   FValue := EnsureRange(aStartValue, FMinValue, FMaxValue);
 end;
 
-procedure TBoundedFParam.ApplyBounds(var AValue: single);
+procedure TALSCustomBoundedFParam.ApplyBounds(var AValue: single);
 var
   delta: single;
 begin
@@ -363,7 +363,7 @@ begin
   end;
 end;
 
-procedure TBoundedFParam.OnElapse(const AElapsedSec: single);
+procedure TALSCustomBoundedFParam.OnElapse(const AElapsedSec: single);
 begin
   case FState of
     psADD_CONSTANT:
@@ -394,10 +394,10 @@ begin
 end;
 
 
-{ TFParam }
+{ TALSFParam }
 
 
-function TFParam.GetValue: single;
+function TALSFParam.GetValue: single;
 begin
   DoLock;
   try
@@ -407,7 +407,7 @@ begin
   end;
 end;
 
-procedure TFParam.SetValue(AValue: single);
+procedure TALSFParam.SetValue(AValue: single);
 begin
   DoLock;
   try
@@ -418,21 +418,21 @@ begin
   end;
 end;
 
-constructor TFParam.Create;
+constructor TALSFParam.Create;
 begin
   FState := psNO_CHANGE;
   FValue := 0.0;
   FConstPerSecond := 0.0;
-  FCurve := TVelocityCurve.Create;
+  FCurve := TALSVelocityCurve.Create;
 end;
 
-destructor TFParam.Destroy;
+destructor TALSFParam.Destroy;
 begin
   FreeAndNil(FCurve);
   inherited Destroy;
 end;
 
-procedure TFParam.ChangeTo(aNewValue, aSecond: single; aCurveID: TALSCurveID);
+procedure TALSFParam.ChangeTo(aNewValue, aSecond: single; aCurveID: TALSCurveID);
 begin
   if aSecond <= 0 then
   begin
@@ -454,7 +454,7 @@ begin
   end;
 end;
 
-procedure TFParam.AddConstant(aConstPerSecond: single);
+procedure TALSFParam.AddConstant(aConstPerSecond: single);
 begin
   DoLock;
   try
@@ -470,7 +470,7 @@ begin
   end;
 end;
 
-procedure TFParam.OnElapse(const AElapsedSec: single);
+procedure TALSFParam.OnElapse(const AElapsedSec: single);
 begin
   case FState of
     psADD_CONSTANT: FValue += FConstPerSecond * AElapsedSec;
@@ -482,28 +482,28 @@ begin
   end;
 end;
 
-procedure TFParam.DoLock;
+procedure TALSFParam.DoLock;
 begin
   if FOnLockParam <> NIL then
     FOnLockParam();
 end;
 
-procedure TFParam.DoUnlock;
+procedure TALSFParam.DoUnlock;
 begin
   if FOnUnlockParam <> NIL then
     FOnUnlockParam();
 end;
 
-{ TVelocityCurve }
+{ TALSVelocityCurve }
 
-constructor TVelocityCurve.Create;
+constructor TALSVelocityCurve.Create;
 begin
   inherited Create;
   FFinished := True;
   FInvert := False;
 end;
 
-procedure TVelocityCurve.GetSegmentCoor;
+procedure TALSVelocityCurve.GetSegmentCoor;
 var
   fp, fp1: TPointF;
 begin
@@ -526,7 +526,7 @@ begin
   Fa := (Fy2 - Fy1) / (Fx2 - Fx1);
 end;
 
-procedure TVelocityCurve.InitParameters(aCurrentValue, aTargetValue,
+procedure TALSVelocityCurve.InitParameters(aCurrentValue, aTargetValue,
   aSeconds: single; aCurveID: TALSCurveID);
 begin
   FX := 0;
@@ -548,7 +548,7 @@ begin
   GetSegmentCoor;
 end;
 
-function TVelocityCurve.Compute(const AElapsedSec: single): single;
+function TALSVelocityCurve.Compute(const AElapsedSec: single): single;
 var
   xcurve, ycurve: single;
 begin
@@ -578,49 +578,49 @@ begin
 end;
 
 
-{ TDataCurveList }
+{ TALSDataCurveList }
 
-constructor TDataCurveList.Create;
+constructor TALSDataCurveList.Create;
 begin
   inherited Create;
   FList := TList.Create;
   FNumID := -1;
 end;
 
-destructor TDataCurveList.Destroy;
+destructor TALSDataCurveList.Destroy;
 begin
   Clear;
   FList.Free;
   inherited Destroy;
 end;
 
-procedure TDataCurveList.Clear;
+procedure TALSDataCurveList.Clear;
 var
   i: integer;
 begin
   for i := 0 to FList.Count - 1 do
-    TDataCurve(FList.Items[i]).Free;
+    TALSDataCurve(FList.Items[i]).Free;
   FList.Clear;
   FNumID := -1;
 end;
 
-function TDataCurveList.GetDataCurveCount: integer;
+function TALSDataCurveList.GetDataCurveCount: integer;
 begin
   Result := FList.Count;
 end;
 
-function TDataCurveList.NextID: integer;
+function TALSDataCurveList.NextID: integer;
 begin
   Inc(FNumID);
   Result := FNumID;
 end;
 
 
-function TDataCurveList.AddCurve(const aName: string; const Pts: array of TPointF): word;
+function TALSDataCurveList.AddCurve(const aName: string; const Pts: array of TPointF): word;
 var
-  o: TDataCurve;
+  o: TALSDataCurve;
 begin
-  o := TDataCurve.Create;
+  o := TALSDataCurve.Create;
   o.Name := aName;
   o.FID := NextID;
   o.CopyPointsFrom(Pts);
@@ -628,15 +628,15 @@ begin
   Result := o.ID;
 end;
 
-procedure TDataCurveList.DeleteByIndex(aIndex: integer);
+procedure TALSDataCurveList.DeleteByIndex(aIndex: integer);
 begin
   if (aIndex < 0) or (aIndex >= FList.Count) then
     exit;
-  TDataCurve(FList.Items[aIndex]).Free;
+  TALSDataCurve(FList.Items[aIndex]).Free;
   FList.Delete(aIndex);
 end;
 
-procedure TDataCurveList.DeleteByID(aIDCurve: word);
+procedure TALSDataCurveList.DeleteByID(aIDCurve: word);
 var
   i: integer;
 begin
@@ -648,7 +648,7 @@ begin
     end;
 end;
 
-procedure TDataCurveList.DeleteByName(ACurveName: string);
+procedure TALSDataCurveList.DeleteByName(ACurveName: string);
 var
   i: integer;
 begin
@@ -660,10 +660,10 @@ begin
     end;
 end;
 
-function TDataCurveList.GetCurveByID(aID: TALSCurveID): TDataCurve;
+function TALSDataCurveList.GetCurveByID(aID: TALSCurveID): TALSDataCurve;
 var
   i: integer;
-  dc: TDataCurve;
+  dc: TALSDataCurve;
 begin
   for i := 0 to FList.Count - 1 do
   begin
@@ -677,15 +677,15 @@ begin
   Result := GetCurveByIndex(0); // Linear curve by default
 end;
 
-function TDataCurveList.GetCurveByIndex(aIndex: integer): TDataCurve;
+function TALSDataCurveList.GetCurveByIndex(aIndex: integer): TALSDataCurve;
 begin
   if (aIndex < 0) or (aIndex >= FList.Count) then
-    Result := TDataCurve(FList.Items[0])  // Linear curve by default
+    Result := TALSDataCurve(FList.Items[0])  // Linear curve by default
   else
-    Result := TDataCurve(FList.Items[aIndex]);
+    Result := TALSDataCurve(FList.Items[aIndex]);
 end;
 
-function TDataCurveList.CurveNameAlreadyExist(const aCurveName: string): boolean;
+function TALSDataCurveList.CurveNameAlreadyExist(const aCurveName: string): boolean;
 var
   i: integer;
 begin
@@ -702,7 +702,7 @@ end;
 
 {$ifdef ALS_INITIALIZATION}
 
-  ALSVelocityCurveList := TDataCurveList.Create;
+  ALSVelocityCurveList := TALSDataCurveList.Create;
 
   ALSVelocityCurveList.AddCurve('Linear', [PointF(0, 1), PointF(1, 0)]);
 
