@@ -62,7 +62,7 @@ type
 
 type
 
-  TALSParamState = (psNO_CHANGE, psADD_CONSTANT, psUSE_CURVE);
+  TALSParamState = (alspsNO_CHANGE, alspsADD_CONSTANT, alspsUSE_CURVE);
   TALSLockParamProc = procedure of object;
   TALSUnlockParamProc = TALSLockParamProc;
 
@@ -366,7 +366,7 @@ end;
 procedure TALSCustomBoundedFParam.OnElapse(const AElapsedSec: single);
 begin
   case FState of
-    psADD_CONSTANT:
+    alspsADD_CONSTANT:
     begin
       FValue += FConstPerSecond * AElapsedSec;
       if not FLoop then
@@ -374,21 +374,21 @@ begin
         if FValue <= FMinValue then
         begin
           FValue := FMinValue;
-          FState := psNO_CHANGE;
+          FState := alspsNO_CHANGE;
         end
         else if FValue >= FMaxValue then
         begin
           FValue := FMaxValue;
-          FState := psNO_CHANGE;
+          FState := alspsNO_CHANGE;
         end;
       end;
     end;
 
-    psUSE_CURVE:
+    alspsUSE_CURVE:
     begin
       FValue := FCurve.Compute(AElapsedSec);
       if FCurve.Finished then
-        FState := psNO_CHANGE;
+        FState := alspsNO_CHANGE;
     end;
   end;
 end;
@@ -412,7 +412,7 @@ begin
   DoLock;
   try
     FValue := AValue;
-    FState := psNO_CHANGE;
+    FState := alspsNO_CHANGE;
   finally
     DoUnlock;
   end;
@@ -420,7 +420,7 @@ end;
 
 constructor TALSFParam.Create;
 begin
-  FState := psNO_CHANGE;
+  FState := alspsNO_CHANGE;
   FValue := 0.0;
   FConstPerSecond := 0.0;
   FCurve := TALSVelocityCurve.Create;
@@ -444,11 +444,11 @@ begin
   try
     if aNewValue <> FValue then
     begin
-      FState := psUSE_CURVE;
+      FState := alspsUSE_CURVE;
       FCurve.InitParameters(FValue, aNewValue, aSecond, aCurveID);
     end
     else
-      FState := psNO_CHANGE;
+      FState := alspsNO_CHANGE;
   finally
     DoUnlock;
   end;
@@ -460,11 +460,11 @@ begin
   try
     if aConstPerSecond <> 0 then
     begin
-      FState := psADD_CONSTANT;
+      FState := alspsADD_CONSTANT;
       FConstPerSecond := aConstPerSecond;
     end
     else
-      FState := psNO_CHANGE;
+      FState := alspsNO_CHANGE;
   finally
     DoUnlock;
   end;
@@ -473,11 +473,11 @@ end;
 procedure TALSFParam.OnElapse(const AElapsedSec: single);
 begin
   case FState of
-    psADD_CONSTANT: FValue += FConstPerSecond * AElapsedSec;
-    psUSE_CURVE: begin
+    alspsADD_CONSTANT: FValue += FConstPerSecond * AElapsedSec;
+    alspsUSE_CURVE: begin
       FValue := FCurve.Compute(AElapsedSec);
       if FCurve.FFinished then
-        FState := psNO_CHANGE;
+        FState := alspsNO_CHANGE;
     end;
   end;
 end;

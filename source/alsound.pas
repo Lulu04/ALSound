@@ -1438,7 +1438,7 @@ begin
     LockContext( FContext );
 
   try
-    if FMasterGain.State <> psNo_CHANGE then
+    if FMasterGain.State <> alspsNo_CHANGE then
     begin
       FMasterGain.OnElapse( aElapsedTime );
       if not Error then
@@ -2776,7 +2776,7 @@ begin
   case FState of
     ALS_PAUSED:
     begin
-      if (FMusic.Volume.State = psNO_CHANGE) and (FMusic.State <> ALS_PAUSED)
+      if (FMusic.Volume.State = alspsNO_CHANGE) and (FMusic.State <> ALS_PAUSED)
       then
         FMusic.Pause;
     end;
@@ -4386,7 +4386,7 @@ begin
         alcSuspendContext(FContext);
     end;
 
-    if FMasterGain.State <> psNo_CHANGE then
+    if FMasterGain.State <> alspsNo_CHANGE then
     begin
       FMasterGain.OnElapse( aElapsedTime );
       if not Error then
@@ -5659,7 +5659,7 @@ begin
     if v <> Pitch.Value then
       SetALPitch;
 
-    if (Volume.State = psNO_CHANGE) and FFadeOutEnabled then
+    if (Volume.State = alspsNO_CHANGE) and FFadeOutEnabled then
     begin
       FFadeOutEnabled := False;
       Stop;
