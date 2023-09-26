@@ -398,8 +398,8 @@ const
 
 type
   // A SNDFILE* pointer can be passed around much like stdio.h's FILE* pointer.
-  PSNDFILE = ^TSNDFILE;
-  TSNDFILE = record
+  PSNDFILE = ^_TSNDFILE;
+  _TSNDFILE = record
   end;
 
 
@@ -952,7 +952,7 @@ function LoadSndFileLibrary( const aFilename: string ): boolean;
 procedure UnloadSndFileLibrary;
 
 // open an audio file in a cross platform way
-function ALSOpenAudioFile(const aFilename: string; aMode: cint; Asfinfo: PSF_INFO): PSNDFILE;
+function ALSOpenAudioFile(const aFilename: string; aMode: cint; var aSFInfo: TSF_INFO): PSNDFILE;
 
 
 implementation
@@ -1058,13 +1058,10 @@ begin
   end;
 end;
 
-function ALSOpenAudioFile(const aFilename: string; aMode: cint; Asfinfo: PSF_INFO): PSNDFILE;
+function ALSOpenAudioFile(const aFilename: string; aMode: cint; var aSFInfo: TSF_INFO): PSNDFILE;
 begin
-  {$ifdef windows}
-    Result := sf_wchar_open(PWideChar(UnicodeString(aFilename)), aMode, Asfinfo);
-  {$else}
-    Result := sf_open(PChar(aFilename), aMode, Asfinfo);
-  {$endif}
+  FillChar(aSFInfo, SizeOf(TSF_INFO), 0);
+  Result := sf_open(PChar(aFilename), aMode, @aSFInfo);
 end;
 
 { TALSFileMetaData }
