@@ -1605,7 +1605,7 @@ begin
   FFileInfo.SampleRate := FSampleRate;
   FFileInfo. Format := aFileFormat;
   FFileInfo.Channels := FFrameBuffer.ChannelCount;
-  FFile := ALSOpenAudioFile(aFilename, SFM_WRITE, @FFileInfo);
+  FFile := ALSOpenAudioFile(aFilename, SFM_WRITE, FFileInfo);
 
   Result := FFile <> NIL;
 end;
@@ -2021,7 +2021,7 @@ begin
   FUserFileInfo.SampleRate := FSampleRate;
   FUserFileInfo.Format := aFormat;
   FUserFileInfo.Channels := FCapturedFrames.ChannelCount;
-  FUserFile := ALSOpenAudioFile(aFilename, SFM_WRITE, @FUserFileInfo);
+  FUserFile := ALSOpenAudioFile(aFilename, SFM_WRITE, FUserFileInfo);
 
   FCaptureToFileIsReady := FUserFile <> nil;
   Result := FCaptureToFileIsReady;
@@ -3908,7 +3908,7 @@ begin
 
   if not Error then
   begin
-    Fsndfile := ALSOpenAudioFile(aFilename, SFM_READ, @Fsfinfo);
+    Fsndfile := ALSOpenAudioFile(aFilename, SFM_READ, Fsfinfo);
     if Fsndfile = nil then
       SetError(als_FileNotOpened)
     else
@@ -4097,7 +4097,7 @@ begin
 
   if not Error then
   begin
-    sndfile := ALSOpenAudioFile(aFilename, SFM_READ, @sfinfo);
+    sndfile := ALSOpenAudioFile(aFilename, SFM_READ, sfinfo);
     if sndfile = nil then
       SetError(als_FileNotOpened)
     else
