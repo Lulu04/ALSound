@@ -4097,7 +4097,7 @@ begin
 
   if not Error then
   begin
-    sndfile := ALSOpenAudioFile(aFilename, SFM_READ, sfinfo);
+    sndfile := ALSOpenAudioFile(aFilename, SFM_READ, sfinfo{%H-});
     if sndfile = nil then
       SetError(als_FileNotOpened)
     else
