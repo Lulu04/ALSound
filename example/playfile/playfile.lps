@@ -4,11 +4,11 @@
     <PathDelim Value="\"/>
     <Version Value="12"/>
     <BuildModes Active="Debug"/>
-    <Units Count="21">
+    <Units Count="22">
       <Unit0>
         <Filename Value="playfile.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <CursorPos X="24" Y="6"/>
         <UsageCount Value="136"/>
         <Loaded Value="True"/>
@@ -20,8 +20,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <TopLine Value="58"/>
-        <CursorPos X="44" Y="63"/>
+        <TopLine Value="128"/>
+        <CursorPos X="34" Y="142"/>
         <UsageCount Value="136"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -44,8 +44,8 @@
         <UnitName Value="ALSound"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="5649"/>
-        <CursorPos X="27" Y="5662"/>
+        <TopLine Value="3891"/>
+        <CursorPos X="3" Y="3898"/>
         <UsageCount Value="66"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -85,7 +85,7 @@
       </Unit8>
       <Unit9>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="453"/>
         <CursorPos X="8" Y="477"/>
         <UsageCount Value="35"/>
@@ -169,130 +169,138 @@
         <CursorPos X="4" Y="212"/>
         <UsageCount Value="10"/>
       </Unit20>
+      <Unit21>
+        <Filename Value="..\..\source\libsndfile.pas"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="1046"/>
+        <CursorPos X="46" Y="1063"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit21>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="ALS_ENABLE_CONTEXT_SWITCHING"/>
     </OtherDefines>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="1552" Column="35" TopLine="1537"/>
+        <Filename Value="..\..\source\als_velocity_curve.inc"/>
+        <Caret Line="40" Column="3" TopLine="28"/>
       </Position1>
       <Position2>
-        <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="4532" Column="37" TopLine="4517"/>
+        <Filename Value="..\..\source\als_velocity_curve.inc"/>
+        <Caret Line="551" Column="27" TopLine="527"/>
       </Position2>
       <Position3>
-        <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="308" Column="19" TopLine="295"/>
+        <Filename Value="..\..\source\als_velocity_curve.inc"/>
+        <Caret Line="63" Column="8" TopLine="47"/>
       </Position3>
       <Position4>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="12" Column="11"/>
+        <Caret Line="95" Column="35" TopLine="71"/>
       </Position4>
       <Position5>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="13" Column="10" TopLine="7"/>
+        <Caret Line="67" Column="2" TopLine="53"/>
       </Position5>
       <Position6>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="685" Column="28" TopLine="661"/>
+        <Caret Line="491" Column="21" TopLine="467"/>
       </Position6>
       <Position7>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="40" Column="3" TopLine="28"/>
+        <Caret Line="97" Column="10" TopLine="83"/>
       </Position7>
       <Position8>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="551" Column="27" TopLine="527"/>
+        <Caret Line="366" Column="28" TopLine="342"/>
       </Position8>
       <Position9>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="63" Column="8" TopLine="47"/>
+        <Caret Line="67" Column="2" TopLine="60"/>
       </Position9>
       <Position10>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="95" Column="35" TopLine="71"/>
+        <Caret Line="491" Column="21" TopLine="467"/>
       </Position10>
       <Position11>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="67" Column="2" TopLine="53"/>
+        <Caret Line="98" Column="6" TopLine="92"/>
       </Position11>
       <Position12>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="491" Column="21" TopLine="467"/>
+        <Caret Line="366" Column="34" TopLine="342"/>
       </Position12>
       <Position13>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="97" Column="10" TopLine="83"/>
+        <Caret Line="130" Column="2" TopLine="117"/>
       </Position13>
       <Position14>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="366" Column="28" TopLine="342"/>
+        <Caret Line="705" Column="44" TopLine="681"/>
       </Position14>
       <Position15>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="67" Column="2" TopLine="60"/>
+        <Caret Line="163" Column="2" TopLine="149"/>
       </Position15>
       <Position16>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="491" Column="21" TopLine="467"/>
+        <Caret Line="63" Column="15" TopLine="55"/>
       </Position16>
       <Position17>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="98" Column="6" TopLine="92"/>
+        <Caret Line="480" Column="33" TopLine="456"/>
       </Position17>
       <Position18>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="366" Column="34" TopLine="342"/>
+        <Caret Line="62" Column="22" TopLine="50"/>
       </Position18>
       <Position19>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="130" Column="2" TopLine="117"/>
+        <Caret Line="476" Column="22" TopLine="452"/>
       </Position19>
       <Position20>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="705" Column="44" TopLine="681"/>
+        <Caret Line="63" Column="37" TopLine="50"/>
       </Position20>
       <Position21>
         <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="163" Column="2" TopLine="149"/>
+        <Caret Line="477" Column="8" TopLine="453"/>
       </Position21>
       <Position22>
-        <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="63" Column="15" TopLine="55"/>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1441" Column="32" TopLine="1426"/>
       </Position22>
       <Position23>
-        <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="480" Column="33" TopLine="456"/>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="2779" Column="36" TopLine="2765"/>
       </Position23>
       <Position24>
-        <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="62" Column="22" TopLine="50"/>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="4389" Column="32" TopLine="4376"/>
       </Position24>
       <Position25>
-        <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="476" Column="22" TopLine="452"/>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="35" Column="10" TopLine="13"/>
       </Position25>
       <Position26>
-        <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="63" Column="37" TopLine="50"/>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="63" Column="44" TopLine="58"/>
       </Position26>
       <Position27>
-        <Filename Value="..\..\source\als_velocity_curve.inc"/>
-        <Caret Line="477" Column="8" TopLine="453"/>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="142" Column="34" TopLine="128"/>
       </Position27>
       <Position28>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="1441" Column="32" TopLine="1426"/>
+        <Caret Line="864" Column="14" TopLine="851"/>
       </Position28>
       <Position29>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="2779" Column="36" TopLine="2765"/>
+        <Caret Line="4348" Column="43" TopLine="4340"/>
       </Position29>
       <Position30>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="4389" Column="32" TopLine="4376"/>
+        <Caret Line="631" Column="17" TopLine="617"/>
       </Position30>
     </JumpHistory>
     <RunParams>
