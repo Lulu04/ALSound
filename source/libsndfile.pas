@@ -965,7 +965,7 @@ var
 
 function LoadSndFileLibrary( const aFilename: string ): boolean;
 var
-  f: UnicodeString;
+  f: string;
   flag: boolean;
 
   function GetProc(const aName: string): Pointer;
@@ -982,12 +982,9 @@ begin
   end
   else
   begin
-    if Length( aFilename ) = 0 then
-      f := UnicodeString( LIBSNDFILE_LIBNAME )
-    else
-      f := UnicodeString( aFilename );
-
-    _LibSndFile_Handle := DynLibs.LoadLibrary( f );
+    if Length( aFilename ) = 0 then f := LIBSNDFILE_LIBNAME
+      else f := aFilename;
+    _LibSndFile_Handle := DynLibs.LoadLibrary(f);
     if _LibSndFile_Handle <> DynLibs.NilHandle then
     begin
       Pointer(sf_open) := GetProc('sf_open');
