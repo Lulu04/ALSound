@@ -145,7 +145,7 @@ end;
 
 function LoadOpenALCoreLibrary( const aFilename: string ): boolean;
 var
-  f: UnicodeString;
+  f: string;
 begin
   if _OpenALLib_Handle <> dynlibs.NilHandle then
   begin
@@ -153,12 +153,10 @@ begin
     Result := FLoaded_OpenALCore_;
   end;
 
-  if Length(aFilename) = 0 then
-    f := UnicodeString( OPENAL_LIBNAME )
-  else
-    f := UnicodeString( aFilename );
-  _OpenALLib_Handle := DynLibs.SafeLoadLibrary( f );
+  if Length(aFilename) = 0 then f := OPENAL_LIBNAME
+    else f := aFilename;
 
+  _OpenALLib_Handle := DynLibs.SafeLoadLibrary(f);
   if _OpenALLib_Handle <> DynLibs.NilHandle then
   begin
     FLoaded_OpenALCore_ := True;
