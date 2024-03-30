@@ -1058,7 +1058,7 @@ end;
 function ALSOpenAudioFile(const aFilename: string; aMode: cint; var aSFInfo: TSF_INFO): PSNDFILE;
 {$ifdef windows}var s: UNICODESTRING; {$endif}
 begin
-  FillChar(aSFInfo, SizeOf(TSF_INFO), 0);
+  if aMode <> SFM_WRITE then FillChar(aSFInfo, SizeOf(TSF_INFO), 0);
   {$ifdef windows}
   s := UNICODESTRING(aFilename);
   Result := sf_wchar_open(LPCWSTR((s)), aMode, @aSFInfo);
