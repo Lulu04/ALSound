@@ -787,10 +787,15 @@ type
     FThread: TALSThread;
     FThreadIsStarted: boolean;
     FSoundToProcess: TALSSound;
+    procedure StartThread;
+    procedure StopThread;
     procedure DoUpdate(const aElapsedTime: single);
     procedure DoSoundOnStopped;
     procedure EnterCS;
     procedure LeaveCS;
+  private
+    FAutoUpdate: boolean;
+    procedure SetAutoUpdate(AValue: boolean);
   protected
     FExecutingConstructor: boolean;
   private
@@ -956,6 +961,15 @@ type
     // The distance model applyed for processing sound in 3D space.
     // Default value is AL_NONE.
     property DistanceModel: TALSDistanceModel read FDistanceModel write SetDistanceModel;
+
+  public
+    // Update the sounds
+    procedure Update(const aElapsedTime: single);
+    // This property controls how this context manage sounds:
+    // if set to True (default), a thread is started to update sounds.
+    // If sets to False, your application must call periodically Update() to update sounds.
+    property AutoUpdate: boolean read FAutoUpdate write SetAutoUpdate;
+
   end;
 
 
@@ -4310,12 +4324,7 @@ end;
 
 destructor TALSPlaybackContext.Destroy;
 begin
-  if FThread <> NIL then
-  begin
-    FThread.Terminate;
-    FThread.WaitFor;
-    FreeAndNil(FThread);
-  end;
+  StopThread;
 
   DeleteAll;
   FreeParameters;
@@ -4368,6 +4377,27 @@ begin
     LeaveCriticalSection(FCriticalSection);
     UnlockContext;
   end;
+end;
+
+procedure TALSPlaybackContext.StartThread;
+begin
+  if FThread <> NIL then exit;
+  FThreadIsStarted := False;
+  FThread := TALSThread.Create(@DoUpdate, 10, True);
+  FThread.Priority := tpHighest;
+  // waits for the thread to be started to prevent any problems
+  while not FThreadIsStarted do
+    Sleep(1);
+end;
+
+procedure TALSPlaybackContext.StopThread;
+begin
+  if FThread = NIL then exit;
+  FThread.Terminate;
+  FThread.WaitFor;
+  FThread.Free;
+  FThread := NIL;
+  FThreadIsStarted := False;
 end;
 
 procedure TALSPlaybackContext.DoUpdate(const aElapsedTime: single);
@@ -4593,6 +4623,11 @@ begin
   end;
 end;
 
+procedure TALSPlaybackContext.Update(const aElapsedTime: single);
+begin
+  if not FAutoUpdate then DoUpdate(aElapsedTime);
+end;
+
 function TALSPlaybackContext.GetSoundCount: integer;
 begin
   try
@@ -4740,6 +4775,14 @@ begin
 
   TALSSound(FList.Items[AIndex]).Free;
   FList.Delete(AIndex);
+end;
+
+procedure TALSPlaybackContext.SetAutoUpdate(AValue: boolean);
+begin
+  if FAutoUpdate = AValue then Exit;
+  FAutoUpdate := AValue;
+  if AValue then StartThread
+    else StopThread;
 end;
 
 procedure TALSPlaybackContext.SetDistanceModel(AValue: TALSDistanceModel);
@@ -4958,13 +5001,10 @@ begin
 
   CreateParameters;
 
-  InitCriticalSection( FCriticalSection );
-  FThreadIsStarted:=False;
-  FThread := TALSThread.Create(@DoUpdate, 10, True);
-  FThread.Priority := tpHighest;
-  // waits for the thread to be started to prevent any problems
-  while not FThreadIsStarted do
-    Sleep(1);
+  InitCriticalSection(FCriticalSection);
+  FThreadIsStarted := False;
+  FAutoUpdate := True;
+  StartThread;
   FExecutingConstructor := False;
 end;
 
