@@ -1,4 +1,4 @@
-the Linux 64bits libraries have been compiled from sources on a Win10 machine + VirtualBox + Ubuntu Mate 18.4 64b + CMake + CMake-gui
+the Linux 64bits libraries have been compiled from sources on a Win10 machine + VirtualBox + Ubuntu 20.04 64b + CMake + CMake-gui
 
 Source for OpenAL-Soft can be found on https://github.com/kcat/openal-soft
 
