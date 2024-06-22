@@ -1,22 +1,22 @@
 object Form1: TForm1
   Left = 437
-  Height = 280
+  Height = 295
   Top = 156
   Width = 442
   Caption = 'ALSound demo - playing an audio file'
-  ClientHeight = 280
+  ClientHeight = 295
   ClientWidth = 442
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '2.2.6.0'
   object Panel1: TPanel
     Left = 0
-    Height = 280
+    Height = 295
     Top = 0
     Width = 442
     Align = alClient
-    ClientHeight = 280
+    ClientHeight = 295
     ClientWidth = 442
     ParentColor = False
     TabOrder = 0
@@ -182,7 +182,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = Panel1
       AnchorSideBottom.Side = asrBottom
       Left = 24
-      Height = 156
+      Height = 171
       Top = 123
       Width = 28
       Max = 100
@@ -219,7 +219,7 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       Left = 82
       Height = 32
-      Top = 186
+      Top = 214
       Width = 329
       Frequency = 10
       Max = 100
@@ -237,7 +237,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TrackBar2
       Left = 82
       Height = 15
-      Top = 171
+      Top = 199
       Width = 23
       Anchors = [akLeft, akBottom]
       Caption = 'bass'
@@ -250,7 +250,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TrackBar2
       Left = 368
       Height = 15
-      Top = 171
+      Top = 199
       Width = 30
       Anchors = [akBottom]
       Caption = 'treble'
@@ -263,7 +263,7 @@ object Form1: TForm1
       AnchorSideTop.Side = asrBottom
       Left = 231
       Height = 15
-      Top = 171
+      Top = 199
       Width = 31
       BorderSpacing.Top = 5
       Caption = 'TONE'
@@ -278,36 +278,52 @@ object Form1: TForm1
       AnchorSideTop.Side = asrBottom
       Left = 216
       Height = 21
-      Top = 218
+      Top = 246
       Width = 60
       Caption = 'CENTER'
       OnClick = SpeedButton1Click
     end
     object Panel2: TPanel
       AnchorSideLeft.Control = TrackBar2
-      AnchorSideTop.Control = BPause
+      AnchorSideTop.Control = ProgressBar1
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = TrackBar2
       AnchorSideRight.Side = asrBottom
       Left = 82
       Height = 63
+      Top = 131
+      Width = 329
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 10
+      TabOrder = 3
+    end
+    object ProgressBar1: TProgressBar
+      AnchorSideLeft.Control = Panel2
+      AnchorSideTop.Control = BPause
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Panel2
+      AnchorSideRight.Side = asrBottom
+      Cursor = crHandPoint
+      Left = 82
+      Height = 18
       Top = 103
       Width = 329
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 5
-      TabOrder = 3
+      OnMouseDown = ProgressBar1MouseDown
+      TabOrder = 4
     end
   end
   object OD1: TOpenDialog
     Title = 'Open an audio file'
-    Left = 352
-    Top = 224
+    Left = 80
+    Top = 16
   end
   object ImageList1: TImageList
     Height = 32
     Width = 32
-    Left = 104
-    Top = 224
+    Left = 24
+    Top = 16
     Bitmap = {
       4C7A030000002000000020000000BB0100000000000078DAEDD72D8B42411406
       E0AB60B1582C1693E51A2C2E6811168BC562B1582C268BC562D1DDB5582C168B

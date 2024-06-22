@@ -129,7 +129,6 @@ object FrameChannelsLevel: TFrameChannelsLevel
       Anchors = [akTop, akRight]
       Caption = 'dB'
       Font.Height = 15
-      OnChange = CheckBox1Change
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
