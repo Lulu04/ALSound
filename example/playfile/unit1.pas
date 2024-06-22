@@ -30,6 +30,7 @@ type
     OD1: TOpenDialog;
     Panel1: TPanel;
     Panel2: TPanel;
+    ProgressBar1: TProgressBar;
     SpeedButton1: TSpeedButton;
     TrackBar1: TTrackBar;
     TrackBar2: TTrackBar;
@@ -38,6 +39,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure ProgressBar1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure SpeedButton1Click(Sender: TObject);
     procedure TrackBar1Change(Sender: TObject);
     procedure TrackBar2Change(Sender: TObject);
@@ -94,6 +97,13 @@ begin
     ShowMessage(FPlaybackContext.StrError);
 end;
 
+procedure TForm1.ProgressBar1MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if FSound = NIL then exit;
+  FSound.TimePosition := x / ProgressBar1.ClientWidth * FSound.TotalDuration;
+end;
+
 procedure TForm1.SpeedButton1Click(Sender: TObject);
 begin
   // Reposition tone cursor to middle (normal).
@@ -119,8 +129,15 @@ procedure TForm1.ProcessOnIdle(Sender: TObject; var Done: Boolean);
 begin
   if FSound <> NIL then
   begin
-    FrameChannelsLevel1.UpdateProgressBar(FSound.ChannelsLevel[0],
-                                          FSound.ChannelsLevel[1]);
+    if FrameChannelsLevel1.CheckBox1.Checked then
+      FrameChannelsLevel1.UpdateProgressBar(FSound.ChannelsLeveldB[0], FSound.ChannelsLeveldB[1])
+    else FrameChannelsLevel1.UpdateProgressBar(FSound.ChannelsLevel[0], FSound.ChannelsLevel[1]);
+
+    if FSound.TotalDuration > 0 then
+      ProgressBar1.Position := Round(FSound.TimePosition / FSound.TotalDuration * ProgressBar1.Max)
+    else
+      ProgressBar1.Position := 0;
+
     Done := False;
   end;
 end;

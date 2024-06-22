@@ -22,7 +22,6 @@ type
     ProgressBar1: TProgressBar;
     ProgressBar2: TProgressBar;
     Timer1: TTimer;
-    procedure CheckBox1Change(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
     FCurrentLeftLevel,
@@ -38,30 +37,6 @@ uses Graphics;
 {$R *.lfm}
 
 { TFrameChannelsLevel }
-
-procedure TFrameChannelsLevel.CheckBox1Change(Sender: TObject);
-begin
-  // Update the progress bars.
-  if CheckBox1.Checked then
-  begin
-    // In decibel.
-    ProgressBar1.Min:=ALS_DECIBEL_MIN_VALUE;
-    ProgressBar1.Max:=0;
-    ProgressBar2.Min:=ALS_DECIBEL_MIN_VALUE;
-    ProgressBar2.Max:=0;
-    FCurrentLeftLevel := ALS_DECIBEL_MIN_VALUE;
-    FCurrentRightLevel := ALS_DECIBEL_MIN_VALUE;
-  end
-  else begin
-    // In percent.
-    ProgressBar1.Min:=0;
-    ProgressBar1.Max:=100;
-    ProgressBar2.Min:=0;
-    ProgressBar2.Max:=100;
-    FCurrentLeftLevel := 0;
-    FCurrentRightLevel := 0;
-  end;
-end;
 
 procedure TFrameChannelsLevel.Timer1Timer(Sender: TObject);
 begin
@@ -82,7 +57,7 @@ begin
 end;
 
 procedure TFrameChannelsLevel.UpdateProgressBar(const aLeft, aRight: single);
-
+var vl, vr: single;
   procedure MarkAsClipped(aLabel: TLabel);
   begin
     aLabel.Color := RGBToColor(251,141,136);
@@ -92,16 +67,12 @@ procedure TFrameChannelsLevel.UpdateProgressBar(const aLeft, aRight: single);
 begin
   if not CheckBox1.Checked then
   begin
-    // Update progress bar - Percent mode
-    if aLeft >= FCurrentLeftLevel then
-      FCurrentLeftLevel := aLeft
-    else
-      FCurrentLeftLevel := FCurrentLeftLevel-(FCurrentLeftLevel-aLeft)*0.1;
+    // Update progress bar: percent mode
+    if aLeft >= FCurrentLeftLevel then FCurrentLeftLevel := aLeft
+      else FCurrentLeftLevel := FCurrentLeftLevel-(FCurrentLeftLevel-aLeft)*0.1;
 
-    if aRight >= FCurrentRightLevel then
-      FCurrentRightLevel := aRight
-    else
-      FCurrentRightLevel := FCurrentRightLevel-(FCurrentRightLevel-aRight)*0.1;
+    if aRight >= FCurrentRightLevel then FCurrentRightLevel := aRight
+      else FCurrentRightLevel := FCurrentRightLevel-(FCurrentRightLevel-aRight)*0.1;
 
     ProgressBar1.Position := Round(FCurrentLeftLevel*100);
     ProgressBar2.Position := Round(FCurrentRightLevel*100);
@@ -110,25 +81,22 @@ begin
   end
   else
   begin
-    // Update progress bar - Decibel mode
-    if aLeft >= FCurrentLeftLevel then
-      FCurrentLeftLevel := aLeft
-    else
-      FCurrentLeftLevel := FCurrentLeftLevel-(FCurrentLeftLevel-aLeft)*0.1;
+    // Update progress bar: decibel mode
+    vl := (aLeft + Abs(ALS_DECIBEL_MIN_VALUE)) / Abs(ALS_DECIBEL_MIN_VALUE);
+    vr := (aRight + Abs(ALS_DECIBEL_MIN_VALUE)) / Abs(ALS_DECIBEL_MIN_VALUE);
+    if vl >= FCurrentLeftLevel then FCurrentLeftLevel := vl
+      else FCurrentLeftLevel := FCurrentLeftLevel-(FCurrentLeftLevel-vl)*0.1;
 
-    if aRight >= FCurrentRightLevel then
-      FCurrentRightLevel := aRight
-    else
-      FCurrentRightLevel := FCurrentRightLevel-(FCurrentRightLevel-aRight)*0.1;
+    if vr >= FCurrentRightLevel then FCurrentRightLevel := vr
+      else FCurrentRightLevel := FCurrentRightLevel-(FCurrentRightLevel-vr)*0.1;
 
-    ProgressBar1.Position := Round(FCurrentLeftLevel);
-    ProgressBar2.Position := Round(FCurrentRightLevel);
+    ProgressBar1.Position := Round(FCurrentLeftLevel*100);
+    ProgressBar2.Position := Round(FCurrentRightLevel*100);
     Label13.Caption := FormatFloat('0.0', aLeft)+'dB';
     Label14.Caption := FormatFloat('0.0', aRight)+'dB';
   end;
 
-  // if the max amplitude is reach the corresponding label becomes red to signal
-  // the audio can be clipped.
+  // if the max amplitude is reach the corresponding label becomes red to warn the audio can be clipped.
   if aLeft >= 1.0 then
     MarkAsClipped( Label13 );
 
