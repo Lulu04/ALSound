@@ -64,6 +64,9 @@ begin
   // load OpenAL-Soft and LibSndFile libraries
   ALSManager.LoadLibraries;
 
+  // To have better response with volume trackbar
+  ALSManager.VolumeCurve := ALS_VOLUME_CURVE_SQUARED;
+
   // Creates a default playback context with default attributes
   FPlaybackContext := ALSManager.CreateDefaultPlaybackContext;
 

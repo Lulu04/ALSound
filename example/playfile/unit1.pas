@@ -70,7 +70,8 @@ procedure TForm1.FormCreate(Sender: TObject);
 begin
   // load OpenAL-Soft and LibSndFile libraries
   ALSManager.LoadLibraries;
-
+  // To have better response with volume trackbar
+  ALSManager.VolumeCurve := ALS_VOLUME_CURVE_SQUARED;
   // Create a playback context with the default playback device and default attributes.
   FPlaybackContext := ALSManager.CreateDefaultPlaybackContext;
 

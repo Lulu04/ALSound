@@ -77,6 +77,9 @@ type
                 ALS_RECORDING,
                 ALS_MIXING );
 
+  TALSVolumeCurve = ( ALS_VOLUME_CURVE_LINEAR,      // volume values are sent to AL with no change
+                      ALS_VOLUME_CURVE_SQUARED);    // volume values are squared before to be sent to AL
+
   // Playback context output mode.
   TALSPlaybackContextOutputMode = (
               ALC_SURROUND_5_1 = openalsoft.ALC_SURROUND_5_1_SOFT,
@@ -1245,6 +1248,9 @@ type
     FALSoftLogCallback: TALSoft_LogCallback;
     FALSoftLogCallback_UserPtr: pointer;
     FALSoftLogCallbackIsActive: boolean;
+  private
+    function GetVolumeCurve: TALSVolumeCurve;
+    procedure SetVolumeCurve(AValue: TALSVolumeCurve);
   public
     // Don't use ! Only one instance is allowed and it is created at startup.
     constructor Create;
@@ -1364,6 +1370,14 @@ type
     function ListOfPlaybackOutputMode: TStringArray;
     // convert an index to enum TALSPlaybackContextOutputMode
     function PlaybackOutputModeIndexToEnum(aIndex: integer): TALSPlaybackContextOutputMode;
+
+  public
+    // This property allow you to sets the volume curve. Possible values are:
+    //   - ALS_VOLUME_LINEAR   -> volume values are sent to AL with no change
+    //   - ALS_VOLUME_SQUARED  -> volume values are squared before to be sent to AL
+    // Default value is ALS_VOLUME_LINEAR.
+    // Do not confuse with velocity curves.
+    property VolumeCurve: TALSVolumeCurve read GetVolumeCurve write SetVolumeCurve;
   end;
 
 
@@ -1385,6 +1399,16 @@ var
 {$else}
   _CSLockContext: TRTLCriticalSection;
 {$endif}
+
+  GVolumeCurve: TALSVolumeCurve = ALS_VOLUME_CURVE_LINEAR;
+
+function _AdjustVolumeValue(AValue: single): single;
+begin
+  case GVolumeCurve of
+    ALS_VOLUME_CURVE_SQUARED: Result := AValue * AValue;
+    else Result := AValue;
+  end;
+end;
 
 procedure LockContext( aContext: PALCcontext );
 begin
@@ -1456,7 +1480,7 @@ begin
     begin
       FMasterGain.OnElapse( aElapsedTime );
       if not Error then
-        alListenerf( AL_GAIN, FMasterGain.Value );
+        alListenerf( AL_GAIN, _AdjustVolumeValue(FMasterGain.Value) );
     end;
     // Kill or update sounds
     for i := FList.Count - 1 downto 0 do
@@ -2337,6 +2361,16 @@ begin
   end;
 end;
 
+function TALSManager.GetVolumeCurve: TALSVolumeCurve;
+begin
+  Result := GVolumeCurve;
+end;
+
+procedure TALSManager.SetVolumeCurve(AValue: TALSVolumeCurve);
+begin
+  GVolumeCurve := AValue;
+end;
+
 constructor TALSManager.Create;
 begin
   if ALSManager <> NIL then
@@ -3062,7 +3096,7 @@ end;
 
 procedure TALSEffect.InternalSetOutputGain;
 begin
-  alAuxiliaryEffectSlotf(FSlotID, AL_EFFECTSLOT_GAIN, FOutputGain*FMuteCoef);
+  alAuxiliaryEffectSlotf(FSlotID, AL_EFFECTSLOT_GAIN, _AdjustVolumeValue(FOutputGain*FMuteCoef));
   alGetError(); // reset error
 end;
 
@@ -4807,7 +4841,7 @@ begin
 
   LockContext( FContext );
   try
-    alListenerf( AL_GAIN, FMasterGain.Value );
+    alListenerf( AL_GAIN, _AdjustVolumeValue(FMasterGain.Value) );
   finally
     UnlockContext;
   end;
@@ -5427,7 +5461,7 @@ begin
   LockContext( FParentContext.FContext );
   EnterCS;
   try
-    alSourcef(FSource, AL_GAIN, Volume.Value * FMuteMultiplicator * FGlobalVolume);
+    alSourcef(FSource, AL_GAIN, _AdjustVolumeValue(Volume.Value * FMuteMultiplicator * FGlobalVolume));
   finally
     LeaveCS;
     UnlockContext;
