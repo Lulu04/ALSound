@@ -77,8 +77,9 @@ type
                 ALS_RECORDING,
                 ALS_MIXING );
 
-  TALSVolumeCurve = ( ALS_VOLUME_CURVE_LINEAR,      // volume values are sent to AL with no change
-                      ALS_VOLUME_CURVE_SQUARED);    // volume values are squared before to be sent to AL
+  // Available type of volume mode
+  TALSVolumeMode = ( ALS_VOLUME_MODE_LINEAR,      // volume values are sent to AL with no change
+                     ALS_VOLUME_MODE_SQUARED);    // volume values are squared before to be sent to AL
 
   // Playback context output mode.
   TALSPlaybackContextOutputMode = (
@@ -1249,8 +1250,8 @@ type
     FALSoftLogCallback_UserPtr: pointer;
     FALSoftLogCallbackIsActive: boolean;
   private
-    function GetVolumeCurve: TALSVolumeCurve;
-    procedure SetVolumeCurve(AValue: TALSVolumeCurve);
+    function GetVolumeMode: TALSVolumeMode;
+    procedure SetVolumeMode(AValue: TALSVolumeMode);
   public
     // Don't use ! Only one instance is allowed and it is created at startup.
     constructor Create;
@@ -1372,12 +1373,12 @@ type
     function PlaybackOutputModeIndexToEnum(aIndex: integer): TALSPlaybackContextOutputMode;
 
   public
-    // This property allow you to sets the volume curve. Possible values are:
-    //   - ALS_VOLUME_LINEAR   -> volume values are sent to AL with no change
-    //   - ALS_VOLUME_SQUARED  -> volume values are squared before to be sent to AL
-    // Default value is ALS_VOLUME_LINEAR.
+    // This property allow you to sets the mode that ALSound manage the volume. Possible values are:
+    //   - ALS_VOLUME_MODE_LINEAR   -> volume values are sent to AL with no change
+    //   - ALS_VOLUME_MODE_SQUARED  -> volume values are squared before to be sent to AL
+    // Default value is ALS_VOLUME_MODE_LINEAR.
     // Do not confuse with velocity curves.
-    property VolumeCurve: TALSVolumeCurve read GetVolumeCurve write SetVolumeCurve;
+    property VolumeMode: TALSVolumeMode read GetVolumeMode write SetVolumeMode;
   end;
 
 
@@ -1400,12 +1401,12 @@ var
   _CSLockContext: TRTLCriticalSection;
 {$endif}
 
-  GVolumeCurve: TALSVolumeCurve = ALS_VOLUME_CURVE_LINEAR;
+  GVolumeMode: TALSVolumeMode = ALS_VOLUME_MODE_LINEAR;
 
-function _AdjustVolumeValue(AValue: single): single;
+function _AdjustVolumeValue(AValue: single): single; inline;
 begin
-  case GVolumeCurve of
-    ALS_VOLUME_CURVE_SQUARED: Result := AValue * AValue;
+  case GVolumeMode of
+    ALS_VOLUME_MODE_SQUARED: Result := AValue * AValue;
     else Result := AValue;
   end;
 end;
@@ -2361,14 +2362,14 @@ begin
   end;
 end;
 
-function TALSManager.GetVolumeCurve: TALSVolumeCurve;
+function TALSManager.GetVolumeMode: TALSVolumeMode;
 begin
-  Result := GVolumeCurve;
+  Result := GVolumeMode;
 end;
 
-procedure TALSManager.SetVolumeCurve(AValue: TALSVolumeCurve);
+procedure TALSManager.SetVolumeMode(AValue: TALSVolumeMode);
 begin
-  GVolumeCurve := AValue;
+  GVolumeMode := AValue;
 end;
 
 constructor TALSManager.Create;
