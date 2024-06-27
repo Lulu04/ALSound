@@ -79,7 +79,7 @@ type
 
   // Available type of volume mode
   TALSVolumeMode = ( ALS_VOLUME_MODE_LINEAR,      // volume values are sent to AL with no change
-                     ALS_VOLUME_MODE_SQUARED);    // volume values are squared before to be sent to AL
+                     ALS_VOLUME_MODE_SQUARED );   // volume values are squared before to be sent to AL: values better match human hearing
 
   // Playback context output mode.
   TALSPlaybackContextOutputMode = (
@@ -1376,6 +1376,7 @@ type
     // This property allow you to sets the mode that ALSound manage the volume. Possible values are:
     //   - ALS_VOLUME_MODE_LINEAR   -> volume values are sent to AL with no change
     //   - ALS_VOLUME_MODE_SQUARED  -> volume values are squared before to be sent to AL
+    //                                 your trackbar values better match human hearing
     // Default value is ALS_VOLUME_MODE_LINEAR.
     // Do not confuse with velocity curves.
     property VolumeMode: TALSVolumeMode read GetVolumeMode write SetVolumeMode;
