@@ -651,7 +651,7 @@ type
   TALSPlaybackCapturedSound = class(TALSSound)
   private
   const
-    NUM_BUFFERS = 32;
+    NUM_BUFFERS = 4;
   private
     FTempBufID: array[0..NUM_BUFFERS-1] of ALuint;
     procedure SetTimePosition(AValue: single); override;
