@@ -375,7 +375,7 @@ type
     procedure SetBuffersFrameCapacity(aFrameCapacity: longword);
     procedure FreeBuffers;
   protected
-    FFadeOutEnabled, FKillAfterFadeOut, FKillAfterPlay, FKill: boolean;
+    FFadeOutEnabled, FKillAfterFadeOut, FPauseAfterFadeOut, FKillAfterPlay, FKill: boolean;
   private
     procedure SetLoop(AValue: boolean);
     procedure SetALVolume;
@@ -443,6 +443,9 @@ type
 
     // Decrease the volume of the sound and when its volume reach 0 kill it.
     procedure FadeOutThenKill(aDuration: single; aCurveID: TALSCurveID = ALS_Linear);
+
+    // Decrease the volume of the sound and when its volume reach 0 pause it.
+    procedure FadeOutThenPause(aDuration: single; aCurveID: TALSCurveID = ALS_Linear);
 
     // kill the sound (stop it and free all ressources for this sound).
     procedure Kill;
@@ -5738,8 +5741,13 @@ begin
     if (Volume.State = alspsNO_CHANGE) and FFadeOutEnabled then
     begin
       FFadeOutEnabled := False;
-      Stop;
-      FKill := FKill or FKillAfterFadeOut;
+      if FPauseAfterFadeOut then begin
+        FPauseAfterFadeOut := False;
+        alSourcePause(FSource);
+      end else if FKillAfterFadeOut then begin
+        Stop;
+        FKill := True;
+      end;
     end;
 
     flagDoOnStopped := (State = ALS_STOPPED) and
@@ -6153,6 +6161,20 @@ begin
   end
   else
     Kill;
+end;
+
+procedure TALSSound.FadeOutThenPause(aDuration: single; aCurveID: TALSCurveID);
+begin
+  if not Error then
+  begin
+    case State of
+      ALS_STOPPED, ALS_PAUSED: Volume.Value := 0;
+      ALS_PLAYING: begin
+        FPauseAfterFadeOut := True;
+        FadeOut(aDuration, aCurveID);
+      end;
+    end;
+  end;
 end;
 
 procedure TALSSound.Kill;
