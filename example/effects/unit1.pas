@@ -355,7 +355,7 @@ begin
   // Create a playback context with the default playback device and our custom attributes
   FPlaybackContext := ALSManager.CreatePlaybackContext(-1, FAttribs);
 
-  // show the real available auxiliary send
+  // show the obtained auxiliary send
   Label16.Caption := FPlaybackContext.ObtainedAuxiliarySendCount.ToString+' auxiliary send available';
 
   // create an EAX reverb with the preset 'EFX_REVERB_PRESET_UNDERWATER'

@@ -64,7 +64,7 @@ begin
   // load OpenAL-Soft and LibSndFile libraries
   ALSManager.LoadLibraries;
 
-  // To have better response with volume trackbar
+  // Volume trackbar better match human hearing
   ALSManager.VolumeMode := ALS_VOLUME_MODE_SQUARED;
 
   // Creates a default playback context with default attributes
