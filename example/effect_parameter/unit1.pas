@@ -381,7 +381,7 @@ begin
   FCompressorProp.InitDefault;
   FCompressor := FPlaybackContext.CreateEffect( AL_EFFECT_COMPRESSOR, FCompressorProp);
 
-  // Because Linux fonts are higher than Windows
+  // Because Linux GTK2 fonts are higher than Windows
   {$ifdef LINUX}
   ComboBox10.Font.Height:=9;
   ComboBox11.Font.Height:=9;
