@@ -3984,7 +3984,11 @@ begin
 
         if not Error then
         begin
-          FBufferFrameCount := Round(BUFFER_TIME_LENGTH*SampleRate);
+          // this workaround fix the loop issue when
+          // (FrameCount / FBufferFrameCount) / NUM_BUFFERS gives an integer result.
+          if FrameCount mod Round(BUFFER_TIME_LENGTH*SampleRate) = 0 then FBufferFrameCount := Round(BUFFER_TIME_LENGTH*SampleRate)+1
+            else FBufferFrameCount := Round(BUFFER_TIME_LENGTH*SampleRate);
+
           SetBuffersFrameCapacity( FBufferFrameCount );
 
           // prebuf some data
