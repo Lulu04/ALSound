@@ -526,6 +526,8 @@ type
     property Mute: boolean read GetMute write SetMute;
     // The original sample rate.
     property SampleRate: integer read FSampleRate;
+    // The number of sample in the sound. Sample is not byte !
+    property SampleCount: QWord read FFrameCount;
     // Sets to true to loop the sound.
     property Loop: boolean read FLoop write SetLoop;
     // The channel count of the sound.
