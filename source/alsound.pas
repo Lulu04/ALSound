@@ -5756,11 +5756,13 @@ begin
       end;
     end;
 
+    if FKillAfterPlay and (FPreviousState = ALS_PLAYING) and (State = ALS_STOPPED) then FKill := True;
+
     flagDoOnStopped := (State = ALS_STOPPED) and
                        (FPreviousState <> ALS_STOPPED);
     FPreviousState := State;
   finally
-    LeaveCriticalSection(FCriticalSection);;
+    LeaveCriticalSection(FCriticalSection);
   end;
 
   if flagDoOnStopped and (FOnStopped <> NIL) then
