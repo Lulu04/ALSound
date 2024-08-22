@@ -4368,8 +4368,15 @@ end;
 { TALSPlaybackContext }
 
 destructor TALSPlaybackContext.Destroy;
+var i: integer;
+  s: string;
 begin
   StopThread;
+
+  for i:=0 to SoundCount-1 do begin
+    s := ExtractFileName(Sounds[i].Filename) + ' not freed';
+    ALSManager.FALSoftLogCallback(NIL, 'w', PChar(s), Length(s));
+  end;
 
   DeleteAll;
   FreeParameters;
