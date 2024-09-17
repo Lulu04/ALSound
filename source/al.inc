@@ -531,7 +531,7 @@ var
 (* Stop a Source *)
   alSourceStop: procedure(sid: ALuint); cdecl;
 
-(* Rewind a Source (set playback postiton to beginning) *)
+(* Rewind a Source (set playback position to beginning) *)
   alSourceRewind: procedure(sid: ALuint); cdecl;
 
 (* Pause a Source *)
