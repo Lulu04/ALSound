@@ -5460,11 +5460,8 @@ begin
     alGetSourcei(FSource, AL_SOURCE_TYPE, stat{%H-});
     if stat = AL_STATIC then
     begin
-      case AValue of
-       False: v := 0;
-      else
-        v := 1;
-      end;
+      if AValue then v := 0
+        else v := 1;
       alSourcei(FSource, AL_LOOPING, v);
     end;
   finally
