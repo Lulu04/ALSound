@@ -562,6 +562,7 @@ type
     // For more info see  https://openal-soft.org/openal-extensions/SOFT_source_resampler.txt
     property ResamplerIndex: integer read GetResamplerIndex write SetResamplerIndex;
 
+    // Callback fired when the sound is stopped or reach the end.
     property OnStopped: TALSNotifyEvent read FOnStopped write SetOnStopped;
 
     // State of the sound. Possible value are ALS_STOPPED, ALS_PLAYING, ALS_PAUSED
