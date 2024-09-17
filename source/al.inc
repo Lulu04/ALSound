@@ -579,7 +579,7 @@ var
   alBufferfv: procedure(bid: ALuint; param: ALenum; const values: PALfloat); cdecl;
   alBufferi: procedure(bid: ALuint; param: ALenum; value: ALint); cdecl;
   alBuffer3i: procedure(bid: ALuint; param: ALenum; value1, value2, value3: ALint); cdecl;
-  alBufferiv: procedure(bid: ALuint; param: ALenum; const values: ALint); cdecl;
+  alBufferiv: procedure(bid: ALuint; param: ALenum; const values: PALint); cdecl;
 
 (*
  * Get Buffer parameters
