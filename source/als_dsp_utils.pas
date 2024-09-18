@@ -88,6 +88,15 @@ type
 
   procedure dsp_AmplifySample_Smallint(p: PSmallint; aFrameIndex: longword; aChannelCount: Smallint; aGain: single); inline;
   procedure dsp_AmplifySample_Float(p: PSingle; aFrameIndex: longword; aChannelCount: Smallint; aGain: single); inline;
+
+  // Increase or decrease the frame count in the buffer, according to aCoeff value in range [0.5, 2.0]
+  // buffer pointed by 'pOut' must be capable to contain aFrameCount multiplyed by aCoeff!
+  // This effect is like the Pitch
+  procedure dsp_StretchFrame_Smallint(pIn: PSmallint; aInFrameCount: longword; aChannelCount: Smallint;
+                                      aCoeff: single; pOut: PSmallint; out aOutFrameCount: longword);
+  procedure dsp_StretchFrame_Float(pIn: PSingle; aInFrameCount: longword; aChannelCount: Smallint;
+                                      aCoeff: single; pOut: PSingle; out aOutFrameCount: longword);
+
 implementation
 uses Math;
 
@@ -518,6 +527,64 @@ begin
     p^ := p^ * aGain;
     inc(p);
     dec(aChannelCount);
+  end;
+end;
+
+procedure dsp_StretchFrame_Smallint(pIn: PSmallint; aInFrameCount: longword;
+  aChannelCount: Smallint; aCoeff: single; pOut: PSmallint; out aOutFrameCount: longword);
+var ptrOffset, delta: single;
+  i, j: integer;
+begin
+  if aCoeff > 2.0 then aCoeff := 2.0;
+  if aCoeff < 0.5 then aCoeff := 0.5;
+
+  if aCoeff = 1.0 then begin
+    Move(pIn^, pOut^, aInFrameCount*aChannelCount*SizeOf(Smallint));
+    aOutFrameCount := aInFrameCount;
+    exit;
+  end;
+
+  aOutFrameCount := Trunc(aInFrameCount * aCoeff);
+  delta := 1/aCoeff;
+  ptrOffset := 0.0;
+  for i:=0 to aOutFrameCount-1 do begin
+    for j:=0 to aChannelCount-1 do begin
+      pOut^ := PSmallInt(pIn+Trunc(ptrOffset)+j)^;
+      inc(pOut);
+    end;
+    ptrOffset := ptrOffset + delta;
+
+    inc(pIn, Trunc(ptrOffset)*aChannelCount);
+    ptrOffset := Frac(ptrOffset);
+  end;
+end;
+
+procedure dsp_StretchFrame_Float(pIn: PSingle; aInFrameCount: longword;
+  aChannelCount: Smallint; aCoeff: single; pOut: PSingle; out aOutFrameCount: longword);
+var ptrOffset, delta: single;
+  i, j: integer;
+begin
+  if aCoeff > 2.0 then aCoeff := 2.0;
+  if aCoeff < 0.5 then aCoeff := 0.5;
+
+  if aCoeff = 1.0 then begin
+    Move(pIn^, pOut^, aInFrameCount*aChannelCount*SizeOf(Smallint));
+    aOutFrameCount := aInFrameCount;
+    exit;
+  end;
+
+  aOutFrameCount := Trunc(aInFrameCount * aCoeff);
+  delta := 1/aCoeff;
+  ptrOffset := 0.0;
+  for i:=0 to aOutFrameCount-1 do begin
+    for j:=0 to aChannelCount-1 do begin
+      pOut^ := PSingle(pIn+Trunc(ptrOffset)+j)^;
+      inc(pOut);
+    end;
+    ptrOffset := ptrOffset + delta;
+
+    inc(pIn, Trunc(ptrOffset)*aChannelCount);
+    ptrOffset := Frac(ptrOffset);
   end;
 end;
 
