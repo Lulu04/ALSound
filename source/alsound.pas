@@ -311,6 +311,7 @@ type
   {$include als_frame_buffers.inc}
   {$include als_velocity_curve.inc}
   {$include als_deviceitem.inc}
+  {$include als_loop_descriptor.inc}
 
 type
   { TALSErrorHandling }
@@ -367,7 +368,8 @@ type
     procedure DecodeFileInfo( aFileHandle: PSNDFILE; aSFInfo: TSF_INFO );
   protected
     FSource: longword;
-    FLoop, FPaused: boolean;
+    FPaused: boolean;
+    FLoopDescriptor: TALSLoopDescriptor;
     FBuffers: array of TALSPlaybackBuffer;
     FMonitoringEnabled: boolean;
     procedure GenerateALSource;
@@ -377,6 +379,7 @@ type
   protected
     FFadeOutEnabled, FKillAfterFadeOut, FPauseAfterFadeOut, FKillAfterPlay, FKill: boolean;
   private
+    function GetLoop: boolean;
     procedure SetLoop(AValue: boolean);
     procedure SetALVolume;
     procedure SetALPan;
@@ -455,6 +458,11 @@ type
 
     // The playback position expressed in seconds.
     property TimePosition: single read GetTimePosition write SetTimePosition;
+
+    // Use this method to enable the loop mode with specific bounds.
+    // When the sound reach the loop end time, it jump to the loop begin time.
+    // LIMITATION: on stream, the delta time (aEndTime - aBeginTime) must be greater than 0.4s.
+    procedure SetLoopBounds(aLoopBeginTime, aLoopEndTime: single);
   public
     function Byte2Seconds(aPosition: QWord): single;
     function Seconds2Byte(aTimePosition: single): QWord;
@@ -529,7 +537,7 @@ type
     // The number of sample in the sound. Sample is not byte !
     property SampleCount: QWord read FFrameCount;
     // Sets to true to loop the sound.
-    property Loop: boolean read FLoop write SetLoop;
+    property Loop: boolean read GetLoop write SetLoop;
     // The channel count of the sound.
     property ChannelCount: integer read FChannelCount;
     // The level for each channel expressed in percent: 0=silence 1=full
@@ -1452,6 +1460,7 @@ end;
 {$include als_frame_buffers.inc}
 {$include als_velocity_curve.inc}
 {$include als_deviceitem.inc}
+{$include als_loop_descriptor.inc}
 {$undef ALS_IMPLEMENTATION}
 
 function ALSMakeFileFormat(aFileMajorFormat: TALSFileMajorFormat;
@@ -3727,6 +3736,7 @@ begin
   FChannelCount := aBuffer^.ChannelCount;
   FMonitoringEnabled := False;
   FSampleRate := aSampleRate;
+  FLoopDescriptor.InitDefault;
 
   if not Error then
   begin
@@ -3823,10 +3833,10 @@ begin
       begin
         todo := todo - readCount;
         FBuffers[i].FrameCount := FBuffers[i].FrameCount + readCount;
-        if FLoop and (todo <> 0) then
+        if FLoopDescriptor.Loop and (todo <> 0) then
           sf_seek(Fsndfile, 0, SF_SEEK_SET);
       end;
-    until (readCount < 1) or not FLoop or (todo = 0);
+    until (readCount < 1) or not FLoopDescriptor.Loop or (todo = 0);
     if readCount < 1 then
       break;
 
@@ -3878,8 +3888,6 @@ begin
     if processed < 1 then
       exit;
 
-    FFrameReadAccu := FFrameReadAccu + int64(processed * FBufferFrameCount);
-
     // Unqueue and fill each processed buffer
     while (processed > 0) do
     begin
@@ -3901,25 +3909,28 @@ begin
 
       // Read data from opened file
       readCount := FDoReadFromStream(FBuffers[bufferIndex].Data,
-                                     FBuffers[bufferIndex].FrameCapacity);
+                                     FBufferFrameCount);
       FBuffers[bufferIndex].FrameCount := readCount;
 
       if readCount > 0 then
       begin
+        FFrameReadAccu := FFrameReadAccu + readCount;
         // callback custom DSP
         if FOnCustomDSP <> NIL then
           FOnCustomDSP(Self, FBuffers[bufferIndex], FOnCustomDSPUserData);
         // refill the openAL buffer with...
         alBufferData(bufid, ALenum(FFormatForAL), FBuffers[bufferIndex].Data,
-          ALsizei(readCount * FFrameSize), ALsizei(Fsfinfo.SampleRate));
+                     ALsizei(readCount * FFrameSize), ALsizei(Fsfinfo.SampleRate));
         // and queue it back on the source
         alSourceQueueBuffers(FSource, 1, @bufid);
-        // Set the opened file read cursor to the beginning if LOOP mode is enabled,
+
+        // Set the opened file read cursor to the beginning of the loop if LOOP mode is enabled,
         // and the buffer was not completely filled
-        if FLoop and (readCount < FBuffers[bufferIndex].FrameCapacity) then
+        //if FLoopDescriptor.Loop and (readCount < FBuffers[bufferIndex].FrameCapacity) then
+        if FLoopDescriptor.Loop and (readCount < FBufferFrameCount) then
         begin
-          sf_seek(Fsndfile, 0, SF_SEEK_SET);
-          FFrameReadAccu := 0;
+          sf_seek(Fsndfile, FLoopDescriptor.LoopBeginFrame, SF_SEEK_SET);
+          FFrameReadAccu := FLoopDescriptor.LoopBeginFrame;
         end;
 
         // retrieve the channels level
@@ -3959,6 +3970,7 @@ begin
   FMonitoringEnabled := aEnableMonitor;
   FOnCustomDSP := aOnCustomDSP;
   FOnCustomDSPUserData := aCustomDSPUserData;
+  FLoopDescriptor.InitDefault;
 
   FDoReadFromStream := @DoReadStreamFromFile;
 
@@ -4154,6 +4166,7 @@ begin
   FMonitoringEnabled := aEnableMonitor;
   FOnCustomDSP := aOnCustomDSP;
   FOnCustomDSPUserData := aCustomDSPUserData;
+  FLoopDescriptor.InitDefault;
 
   if not Error then
   begin
@@ -4244,12 +4257,14 @@ begin
   FMonitoringEnabled := aEnableMonitor;
   FOnCustomDSP := aOnCustomDSP;
   FOnCustomDSPUserData := aCustomDSPUserData;
+  FLoopDescriptor.InitDefault;
 
   if not Error then
   begin
     FChannelCount := aChannelCount;
     FSampleRate := FParentContext.FObtainedSampleRate;
     FFrameCount := Trunc( FSampleRate * aDuration );
+    FLoopDescriptor.LoopEndFrame := FFrameCount-1;
     FStrFormat := '';
     if FParentContext.FUseBufferOfFloat then
     begin
@@ -5199,6 +5214,11 @@ begin
   end;
 end;
 
+function TALSSound.GetLoop: boolean;
+begin
+  Result := FLoopDescriptor.Loop;
+end;
+
 function TALSSound.GetFormatForAL(aChannelCount: integer; aContextUseFloat,
   aWantBFormatAmbisonic: boolean): DWord;
 begin
@@ -5324,6 +5344,8 @@ begin
   FSampleRate := aSFInfo.Samplerate;
   FChannelCount := aSFInfo.Channels;
   FFrameCount := aSFInfo.frames;
+  FLoopDescriptor.LoopBeginFrame := 0;
+  FLoopDescriptor.LoopEndFrame := FFrameCount-1;
 
   // retrieve the format and sub-format of the audio file and
   // try to translate them to an OpenAL format
@@ -5451,7 +5473,7 @@ var
   v: integer;
   stat: ALint;
 begin
-  FLoop := AValue;
+  FLoopDescriptor.Loop := AValue;
   if Error then
     exit;
   LockContext( FParentContext.FContext );
@@ -5460,8 +5482,8 @@ begin
     alGetSourcei(FSource, AL_SOURCE_TYPE, stat{%H-});
     if stat = AL_STATIC then
     begin
-      if AValue then v := 0
-        else v := 1;
+      if AValue then v := 1
+        else v := 0;
       alSourcei(FSource, AL_LOOPING, v);
     end;
   finally
@@ -6011,6 +6033,55 @@ begin
     Result := 0
   else
     Result := FFrameCount / FSampleRate;
+end;
+
+procedure TALSSound.SetLoopBounds(aLoopBeginTime, aLoopEndTime: single);
+var stat, v: ALint;
+  bounds: array[0..1] of ALint;
+  err: ALenum;
+  flagPlaying: boolean;
+begin
+  if Error then exit;
+  if aLoopEndTime > TotalDuration then aLoopEndTime := TotalDuration;
+  if (aLoopBeginTime < 0) or (aLoopEndTime <= aLoopBeginTime) then exit;
+
+  FLoopDescriptor.LoopBeginFrame := Seconds2Byte(aLoopBeginTime);
+  FLoopDescriptor.LoopEndFrame := Seconds2Byte(aLoopEndTime);
+  FLoopDescriptor.Loop := True;
+
+  // set loop mode on static (only) buffer
+  alGetSourcei(FSource, AL_SOURCE_TYPE, stat{%H-});
+  if stat = AL_STATIC then begin
+    flagPlaying := State in [ALS_PLAYING, ALS_PAUSED];
+    // stop the sound
+    if flagPlaying then Stop;
+    LockContext( FParentContext.FContext );
+    EnterCS;
+    try
+      // detach the buffer from its source: necessary before use AL_SOFT_loop_points extension
+      alSourcei(FSource, AL_BUFFER, 0);
+
+      // try to use AL_SOFT_loop_points extension (only static buffer)
+      bounds[0] := FLoopDescriptor.LoopBeginFrame;
+      bounds[1] := FLoopDescriptor.LoopEndFrame;
+
+      alBufferiv(FBuffers[0].BufferID, AL_LOOP_POINTS_SOFT, @bounds);
+      err := openalsoft.alGetError();
+
+      // re-attach buffer to the source
+      alSourcei(FSource, AL_BUFFER, FBuffers[0].BufferID);
+      CheckALError(als_ALCanNotAttachBufferToSource);
+      // set the buffer in loop mode: necessary to enabled AL_SOFT_loop_points extension
+      // and because in case where the extension is not present, the loop is done on the whole sound
+      v := 1;
+      alSourcei(FSource, AL_LOOPING, v);
+    finally
+      LeaveCS;
+      UnlockContext;
+    end;
+
+    if flagPlaying then Play(True);
+  end;
 end;
 
 procedure TALSSound.Play(aFromBegin: boolean);
