@@ -6039,7 +6039,6 @@ end;
 procedure TALSSound.SetLoopBounds(aLoopBeginTime, aLoopEndTime: single);
 var stat, v: ALint;
   bounds: array[0..1] of ALint;
-  err: ALenum;
   flagPlaying: boolean;
 begin
   if Error then exit;
@@ -6067,7 +6066,7 @@ begin
       bounds[1] := FLoopDescriptor.LoopEndFrame;
 
       alBufferiv(FBuffers[0].BufferID, AL_LOOP_POINTS_SOFT, @bounds);
-      err := openalsoft.alGetError();
+      openalsoft.alGetError();
 
       // re-attach buffer to the source
       alSourcei(FSource, AL_BUFFER, FBuffers[0].BufferID);
