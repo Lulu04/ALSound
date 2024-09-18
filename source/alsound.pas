@@ -461,7 +461,8 @@ type
 
     // Use this method to enable the loop mode with specific bounds.
     // When the sound reach the loop end time, it jump to the loop begin time.
-    // LIMITATION: on stream, the delta time (aEndTime - aBeginTime) must be greater than 0.4s.
+    // aLoopEndTime is truncated to the total sound duration.
+    // LIMITATION: on streamed sound, the delta time (aEndTime - aBeginTime) must be greater than 0.4s.
     procedure SetLoopBounds(aLoopBeginTime, aLoopEndTime: single);
   public
     function Byte2Seconds(aPosition: QWord): single;
