@@ -312,6 +312,8 @@ type
   {$include als_velocity_curve.inc}
   {$include als_deviceitem.inc}
   {$include als_loop_descriptor.inc}
+  {$include als_audiofile_utils.inc}
+  {$undef ALS_INTERFACE}
 
 type
   { TALSErrorHandling }
@@ -1395,6 +1397,9 @@ type
     // Default value is ALS_VOLUME_MODE_LINEAR.
     // Do not confuse with velocity curves.
     property VolumeMode: TALSVolumeMode read GetVolumeMode write SetVolumeMode;
+  public
+    // Includes a set of functions to manipulate audio file.
+    FileUtils: TAudioFileUtils;
   end;
 
 
@@ -1452,7 +1457,6 @@ begin
 {$endif}
 end;
 
-{$undef ALS_INTERFACE}
 {$define ALS_IMPLEMENTATION}
 {$include als_error.inc}
 {$include als_effectpresets.inc}
@@ -1462,6 +1466,7 @@ end;
 {$include als_velocity_curve.inc}
 {$include als_deviceitem.inc}
 {$include als_loop_descriptor.inc}
+{$include als_audiofile_utils.inc}
 {$undef ALS_IMPLEMENTATION}
 
 function ALSMakeFileFormat(aFileMajorFormat: TALSFileMajorFormat;
