@@ -1,0 +1,138 @@
+------------------------------
+ALSound v3.0.4 - , 2025
+------------------------------
+> Added several functions to manipulate audio files.
+> Removed compilation hint.
+> New feature: now we can set the audio range to be looped.
+> Fixed: wrong argument type for alBufferiv() last parameter.
+> corrected some typo and comments.
+
+------------------------------
+ALSound v3.0.3 - Aug 29, 2024
+------------------------------
+> New property SampleCount to TALSSound.
+> Fix: loop issue on streamed sounds. In sound of particular length, the stream process don't allow loop. This is now fixed.
+> Warning this change breaks compatibility with previous release.
+To be more explicit, type TVolumeCurve is renamed to TVolumeMode, ALS_VOLUME_CURVE_LINEAR to ALS_VOLUME_MODE_LINEAR and ALS_VOLUME_CURVE_SQUARED to ALS_VOLUME_MODE_SQUARED.
+Also property ALSManager.VolumeCurve is renamed to ALSManager.VolumeMode.
+> Fix: Added missing code to free the sound when calling TALSSound.PlayThenKill(). Before the fix, PlayThenKill() play the sound but did not free it.
+> Added log warning for each sounds not freed by the app. This is just for information, sounds are always freed automatically when the context is freed.
+
+------------------------------
+ALSound v3.0.2 - Jul 21, 2024
+------------------------------
+> Replaced OpenAL 64b binary by a new one compiled on Ubuntu 20.04.
+> Added the ability to update a playback context by the application instead of the internal thread.
+> ALSManager have now a global volume mode property called VolumeMode. Its value can be:
+  - ALS_VOLUME_MODE_LINEAR: it's the normal mode.
+  - ALS_VOLUME_MODE_SQUARED: the volume values are squared before to be sent to OpenAL-Soft. This is usefull if you want the audio sliders in your application to better match human hearing.
+ Warning: this feature affects the behavior of velocity curves.
+> Some example demo are been updated with VolumeMode sets to ALS_VOLUME_MODE_SQUARED.
+> Reduced the capture to playback latency.
+> Added new method TALSSound.FadeOutThenPause().
+
+------------------------------
+ALSound v3.0.1 - Mar 30, 2024
+------------------------------
+> Fixed a bug in function ALSOpenAudioFile() under Windows.
+> Renamed all classes in als_velocity_curve.inc with prefix TALS.
+> updated examples.
+> Added prefix als to enum TALSParamState.
+> Added a missing initialization when opening a sound file.
+> remove compiler hint.
+> Simplified the code to load the OpenALSoft and LibSndFile libraries.
+
+------------------------------
+ALSound v3.0.0 - Aug 25, 2023
+------------------------------
+> Added the new feature for log messages callback from OpenAL-Soft.
+> Removed some compilation hints.
+> Improved error handling when libraries are not loaded.
+> Removed some potential bugs.
+> Added support for MacOS (x86-64).
+> Better error handling when creating effect on TALSPlaybackContext.
+> Renamed some types and functions in respect of openalsoft.
+> updated example to run on MacOS platform.
+> Added an additional volume control in TALSSound.
+
+------------------------------
+ALSound v2.1.0 - Jun 20, 2023
+------------------------------
+> Added method to manage audio file metadata.
+> Added routine to split/interleaved audio channels.
+> Added bitrate mode constants.
+> Added compression level to TALSLoopbackContext.
+> Simplified the capture to file process.
+> Restructured capturing errors messages.
+> Added SampleRate property to loopback context. 
+
+------------------------------
+ALSound v2.0.0 - Feb 15, 2023
+------------------------------
+> Sound can now jump to another time position.
+> Time position can now be set before playing a sound.
+> Added Pause to capture context.
+> Added method to fill buffer with silence.
+> Added routines for dB <-> Linear conversion with better names.
+> Fixed a bug in routine dsp_Mean_Float.
+> Added a callback when a sound is stopped.
+> Added a way to cancel a mixing.
+> Added dsp_AmplifySample_xxxxx routine for small int and float.
+> Increased the playback context thread priority.
+> Fixed a bug in Loopback context with float sample type.
+
+------------------------------
+ALSound v1.3.0 - Nov 12, 2022
+------------------------------
+> Modified the period update of TALSCaptureContext from 10ms to 2ms to avoid audio's artifacts with live playback.
+> Channel's level: Moved Sqrt() function from dsp_ComputeLinearLevel_xxxx routines to TALSFrameBufferBase.
+> Added callback OnCaptureBuffer to TALSCaptureContext.
+> Update capture examples to use this callback.
+> Increase the number of buffer from 8 to 32 for TALSPlaybackCapturedSound to avoid the playback to stall.
+> Added a read only property EffectType to TALSEffect.
+> Added some code to unchain an effect when it is deleted.
+> Added OnCustomDSP property for TALSSound. This property allow to define a callback to apply a custom user DSP effects on an audio buffer before sending it to OpenAL-Soft.
+> Rewrite TALSPlaybackCapturedSound.QueueBuffer(...): previously, OpenAL-Soft sometime return an error because an attempt to refill a queued buffer occurs. We changed the buffer's management strategy to avoid this problem.
+> Removed unit LCLTranslator from ALSound unit.
+> Removed some fixed string and added a method to rename a TALSPlaybackCapturedSound sound's instance.
+> Rewrite TALSManager.DialogFileFilters: now you have to specify the string associated with Sound File filters and All File filter.
+> Updated all examples that use TALSManager.DialogFileFilters function.
+
+------------------------------
+ALSound v1.2.1 - Oct 24, 2022
+------------------------------
+> Modified the period update of TALSCaptureContext from 10ms to 2ms to avoid audio's artifacts with live playback.
+> Channel's level: Moved Sqrt() function from dsp_ComputeLinearLevel_xxxx routines to TALSFrameBufferBase.
+> Added callback OnCaptureBuffer to TALSCaptureContext.
+> Update capture examples to use this callback.
+> Increase the number of buffer from 8 to 32 for TALSPlaybackCapturedSound to avoid the playback to stall.
+> Added a read only property EffectType to TALSEffect.
+> Added some code to unchain an effect when it is deleted.
+> Added OnCustomDSP property for TALSSound. This property allow to define a callback to apply a custom user DSP effects on an audio buffer before sending it to OpenAL-Soft.
+> Rewrite TALSPlaybackCapturedSound.QueueBuffer(...): previously, OpenAL-Soft sometime return an error because an attempt to refill a queued buffer occurs. We changed the buffer's management strategy to avoid this problem.
+
+------------------------------
+ALSound v1.2.0 - Sep 22, 2022
+------------------------------
+> Removed the unnecessary parameter to TALSCaptureFrameBuffer.RemoveDCBias.
+> Modified ALS_DECIBEL_MAX_VALUE from 18 to 0 to reflects the range returned by ChannelLeveldB[] or ChannelPeakdB[].
+> Renamed internal class name TALSStreamedFileSound to TALSStreamBufferSound.
+> Added TALSStreamBufferSound.CreateFromFile(...).
+> Added new TALSPlaybackCapturedSound class used internaly to playback captured audio in real time.
+> Added method TALSPlaylist.Delete(Index: integer).
+> Added the ability to TALSCaptureContext to playback captured audio in real time.
+> Added property ChannelsPeakdB[Index:integer]: single to TALSCaptureContext.
+> Added dsp amplification
+> Added property PreAmp to TALSCaptureContext to apply an pre-amplification gain to the captured audio.
+> Modified the way to checks if a capture error occurs.
+> Bug fix: capture thread freeze when we activates/deactivates consecutively capture monitoring.
+> Corrected some wrong values in Flanger's presets.
+> Simplified the names of the effect's presets.
+> Improvement of TALSEffect.InitEffect(...)-> Now the routine checks if the OpenAL effect object and OpenAL slot object have not been created yet before creates them.
+> Added new example record_to_playback to show how to apply effects in real time on captured audio.
+
+------------------------------
+ALSound 1.1.1 - Sep 13, 2022
+------------------------------
+> New property 'ALSManager.LibrariesSubFolder' allow to specify a sub-folder name in case of librarie's binaries images are located in a sub-folder of the executable.
+> Because the libraries path is configurable, now application must call ALSManager.LoadLibraries at startup to load OpenAL-Soft and LibSndFile. All examples have been updated.
