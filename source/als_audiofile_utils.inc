@@ -68,7 +68,7 @@ TAudioFileUtils = record
   function CutPart(const aSrcFile, aDstFile: string; aFrameIndexLow, aFrameIndexHigh: int64): boolean;
   // this function insert the content of aFilenameToInsert into aSrcFile at the specified frame index and save
   // the resulting audio into aDstFile.
-  function InsertFile(const aSrcFile, aFilenameToInsert, aDstFile: string; aInsertAtFrameIndex: int64): boolean;
+  function InsertFile(const aSrcFile, aFileToInsert, aDstFile: string; aInsertAtFrameIndex: int64): boolean;
   // copy the audio from aSrcFile to aDstFile and the specified range of frame index is forced to silence.
   // aAttenuationTime controls the duration of the fadeout and fadein.
   // aAttenuationTime can be =0.0, in that case samples are directly sets to 0 (no fadeout/fadein).
@@ -713,7 +713,7 @@ begin
   if not Result and FileExists(aDstFile) then DeleteFile(aDstFile);
 end;
 
-function TAudioFileUtils.InsertFile(const aSrcFile, aFilenameToInsert,
+function TAudioFileUtils.InsertFile(const aSrcFile, aFileToInsert,
   aDstFile: string; aInsertAtFrameIndex: int64): boolean;
 var readerSrc, readerInsert: TAudioFileReader;
     writer: TAudioFileWriter;
@@ -729,12 +729,12 @@ begin
   // if index is out of bound -> append the file
   if aInsertAtFrameIndex >= readerSrc.Frames-1 then begin
     readerSrc.Close;
-    Result := AppendFiles(aSrcFile, [aFilenameToInsert], aDstFile);
+    Result := AppendFiles(aSrcFile, [aFileToInsert], aDstFile);
     exit;
   end;
 
   // open the file to insert in read mode
-  if not readerInsert.OpenRead(aFilenameToInsert) then begin
+  if not readerInsert.OpenRead(aFileToInsert) then begin
     readerSrc.Close;
     exit;
   end;
