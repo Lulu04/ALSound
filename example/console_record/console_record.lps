@@ -9,7 +9,7 @@
         <Filename Value="console_record.lpr"/>
         <IsPartOfProject Value="True"/>
         <TopLine Value="67"/>
-        <CursorPos X="35" Y="72"/>
+        <CursorPos X="24" Y="72"/>
         <UsageCount Value="71"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -26,7 +26,7 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="945"/>
-        <CursorPos X="19" Y="957"/>
+        <CursorPos X="30" Y="958"/>
         <UsageCount Value="36"/>
         <Loaded Value="True"/>
       </Unit2>
@@ -90,7 +90,7 @@
         <Filename Value="..\..\source\openalsoft.pas"/>
         <EditorIndex Value="1"/>
         <TopLine Value="101"/>
-        <CursorPos X="21" Y="115"/>
+        <CursorPos Y="115"/>
         <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit11>

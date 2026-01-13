@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units Count="19">
       <Unit0>
         <Filename Value="playlist.lpr"/>
@@ -151,9 +151,6 @@
         <UsageCount Value="10"/>
       </Unit18>
     </Units>
-    <OtherDefines Count="1">
-      <Define0 Value="ALS_ENABLE_CONTEXT_SWITCHING"/>
-    </OtherDefines>
     <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
         <Filename Value="unit1.pas"/>

@@ -157,6 +157,7 @@ type
     // effect properties
     FVocalMorpherParam: TALSVocalmorpherProperties;
     procedure UncheckAllEffects;
+    procedure DrawVelocityCurveOn(aCurve: TALSDataCurve; aImage: TImage);
   public
 
   end;
@@ -319,7 +320,8 @@ var i: integer;
 begin
   i := ComboBox1.ItemIndex;
   if i = -1 then exit;
-  ALSVelocityCurveList.GetCurveByIndex( i ).DrawOn( Image1 );
+  DrawVelocityCurveOn(ALSVelocityCurveList.GetCurveByIndex(i), Image1);
+  //ALSVelocityCurveList.GetCurveByIndex( i ).DrawOn( Image1 );
 end;
 
 procedure TForm1.ComboBox2Change(Sender: TObject);
@@ -328,7 +330,8 @@ var
 begin
   i := ComboBox2.ItemIndex;
   if i = -1 then exit;
-  ALSVelocityCurveList.GetCurveByIndex( i ).DrawOn( Image2 );
+  DrawVelocityCurveOn(ALSVelocityCurveList.GetCurveByIndex(i), Image2);
+  //ALSVelocityCurveList.GetCurveByIndex( i ).DrawOn( Image2 );
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -544,6 +547,59 @@ begin
   CheckBox5.Checked:=FALSE;
   CheckBox6.Checked:=FALSE;
   CheckBox7.Checked:=FALSE;
+end;
+
+procedure TForm1.DrawVelocityCurveOn(aCurve: TALSDataCurve; aImage: TImage);
+var
+  x1, y1, x2, y2, i: integer;
+  cline, clineinvert: TColor;
+begin
+  with aImage.Canvas, aCurve do
+  begin
+    // background
+    Brush.Color := rgbToColor(50, 20, 20);
+    FillRect(0, 0, Width, Height);
+    cline := rgbToColor(255, 140, 0);
+    clineinvert := rgbToColor(20, 80, 100);
+    // inverted curve
+    Pen.Color := clineinvert;
+    for i := 1 to PointCount - 1 do
+    begin
+      with Points[i - 1] do
+      begin
+        x1 := System.round(x * Width);
+        y1 := System.round(Height - y * Height);
+      end;
+      with Points[i] do
+      begin
+        x2 := System.round(x * Width);
+        y2 := System.round(Height - y * Height);
+      end;
+      Line(x1, y1, x2, y2);
+    end;
+    // axis
+    Pen.Color := rgbToColor(150, 100, 100);
+    Line(0, Height - 1, Width, Height - 1);
+    Line(0, Height - 2, Width, Height - 2);
+    Line(0, 0, 0, Height);
+    Line(1, 0, 1, Height);
+    // normal curve
+    Pen.Color := cline;
+    for i := 1 to PointCount - 1 do
+    begin
+      with Points[i - 1] do
+      begin
+        x1 := System.round(x * Width);
+        y1 := System.round(y * Height);
+      end;
+      with Points[i] do
+      begin
+        x2 := System.round(x * Width);
+        y2 := System.round(y * Height);
+      end;
+      Line(x1, y1, x2, y2);
+    end;
+  end;
 end;
 
 
