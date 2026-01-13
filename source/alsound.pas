@@ -16,7 +16,7 @@
   ALSound offer a simple and easy way to play, capture and mix sounds
   using OpenAL-Soft and LibSndFile libraries under FreePascal/Lazarus.
 
- written by Lulu - 2022 - https://github.com/Lulu04/ALSound
+ written by Lulu - 2022/2026 - https://github.com/Lulu04/ALSound
 }
 
 unit ALSound;
@@ -36,7 +36,7 @@ uses
   als_dsp_utils;
 
 const
-  ALS_VERSION = '3.0.3';
+  ALS_VERSION = '3.1';
 
 
 type
