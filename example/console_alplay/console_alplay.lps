@@ -3,12 +3,13 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units Count="12">
       <Unit0>
         <Filename Value="console_alplay.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="41" Y="28"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="21" Y="28"/>
         <UsageCount Value="39"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -65,39 +66,38 @@
       <Unit8>
         <Filename Value="..\..\source\alsound.pas"/>
         <UnitName Value="ALSound"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="1"/>
         <TopLine Value="7"/>
-        <CursorPos X="2" Y="32"/>
+        <CursorPos X="20" Y="22"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit8>
       <Unit9>
         <Filename Value="..\..\source\als_frame_buffers.inc"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="128"/>
-        <CursorPos X="17" Y="132"/>
+        <CursorPos X="5" Y="132"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit9>
       <Unit10>
         <Filename Value="..\..\source\libsndfile.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="945"/>
         <CursorPos X="49" Y="951"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit10>
       <Unit11>
         <Filename Value="..\..\source\als_deviceitem.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="202"/>
         <CursorPos X="4" Y="212"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit11>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <OtherDefines Count="1">
+      <Define0 Value="ALS_ENABLE_CONTEXT_SWITCHING"/>
+    </OtherDefines>
+    <JumpHistory Count="27" HistoryIndex="26">
       <Position1>
         <Filename Value="console_alplay.lpr"/>
         <Caret Line="39" Column="10" TopLine="29"/>
@@ -151,73 +151,61 @@
         <Caret Line="61" Column="41" TopLine="42"/>
       </Position13>
       <Position14>
-        <Filename Value="..\..\source\als_frame_buffers.inc"/>
-        <Caret Line="132" Column="17" TopLine="128"/>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="52" Column="30" TopLine="37"/>
       </Position14>
       <Position15>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="52" Column="30" TopLine="37"/>
+        <Caret Line="1462" Column="25" TopLine="1447"/>
       </Position15>
       <Position16>
-        <Filename Value="..\..\source\als_deviceitem.inc"/>
-        <Caret Line="89" Column="22" TopLine="70"/>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="1552" Column="35" TopLine="1537"/>
       </Position16>
       <Position17>
-        <Filename Value="..\..\source\als_deviceitem.inc"/>
-        <Caret Line="212" Column="4" TopLine="202"/>
+        <Filename Value="..\..\source\alsound.pas"/>
+        <Caret Line="4532" Column="37" TopLine="4517"/>
       </Position17>
       <Position18>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="1462" Column="25" TopLine="1447"/>
+        <Caret Line="28" Column="12" TopLine="19"/>
       </Position18>
       <Position19>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="1552" Column="35" TopLine="1537"/>
+        <Caret Line="2133" Column="18" TopLine="2109"/>
       </Position19>
       <Position20>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="4532" Column="37" TopLine="4517"/>
+        <Caret Line="2192" Column="17" TopLine="2186"/>
       </Position20>
       <Position21>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="28" Column="12" TopLine="19"/>
+        <Caret Line="2133" Column="18" TopLine="2119"/>
       </Position21>
       <Position22>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="2133" Column="18" TopLine="2109"/>
+        <Caret Line="2192" Column="17" TopLine="2168"/>
       </Position22>
       <Position23>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="2192" Column="17" TopLine="2186"/>
+        <Caret Line="29" Column="17" TopLine="10"/>
       </Position23>
       <Position24>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="2133" Column="18" TopLine="2119"/>
+        <Caret Line="22" Column="19" TopLine="13"/>
       </Position24>
       <Position25>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="2192" Column="17" TopLine="2168"/>
+        <Caret Line="2133" Column="18" TopLine="2109"/>
       </Position25>
       <Position26>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="29" Column="17" TopLine="10"/>
+        <Caret Line="2192" Column="17" TopLine="2168"/>
       </Position26>
       <Position27>
         <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="22" Column="19" TopLine="13"/>
-      </Position27>
-      <Position28>
-        <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="2133" Column="18" TopLine="2109"/>
-      </Position28>
-      <Position29>
-        <Filename Value="..\..\source\alsound.pas"/>
-        <Caret Line="2192" Column="17" TopLine="2168"/>
-      </Position29>
-      <Position30>
-        <Filename Value="..\..\source\alsound.pas"/>
         <Caret Line="12" Column="11"/>
-      </Position30>
+      </Position27>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

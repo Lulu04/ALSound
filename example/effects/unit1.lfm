@@ -8,11 +8,11 @@ object Form1: TForm1
   Caption = 'ALSound demo  -  Effects in parallel on auxiliary send'
   ClientHeight = 685
   ClientWidth = 1039
+  Position = poScreenCenter
+  LCLVersion = '4.5.0.0'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poScreenCenter
-  LCLVersion = '2.2.6.0'
   object Panel4: TPanel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -126,9 +126,9 @@ object Form1: TForm1
         FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00EAC39DFFE6BF96FFE4BB92FFE4BB
         92FFD1A06CF5D09E6DF6CC965FDAC479427EB2673C09FFFFFF00
       }
-      OnClick = BLoadClick
       ParentFont = False
       TabOrder = 0
+      OnClick = BLoadClick
     end
     object Label4: TLabel
       AnchorSideLeft.Control = Label17
@@ -151,16 +151,16 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 12
       Height = 19
-      Top = 90
-      Width = 47
+      Top = 96
+      Width = 45
       Anchors = [akLeft, akBottom]
       Caption = 'Loop'
       Color = 11448755
       Font.Style = [fsBold]
-      OnChange = CheckBox1Change
       ParentColor = False
       ParentFont = False
       TabOrder = 1
+      OnChange = CheckBox1Change
     end
     object BPlay: TSpeedButton
       AnchorSideLeft.Control = CheckBox1
@@ -168,16 +168,16 @@ object Form1: TForm1
       AnchorSideTop.Control = BPause
       AnchorSideTop.Side = asrCenter
       Cursor = crHandPoint
-      Left = 99
-      Height = 36
+      Left = 97
+      Height = 42
       Top = 73
-      Width = 36
+      Width = 42
       AutoSize = True
       BorderSpacing.Left = 40
       Images = ImageList1
       ImageIndex = 1
-      OnClick = BPlayClick
       ParentFont = False
+      OnClick = BPlayClick
     end
     object BPause: TSpeedButton
       AnchorSideLeft.Control = BPlay
@@ -185,17 +185,17 @@ object Form1: TForm1
       AnchorSideTop.Control = Label4
       AnchorSideTop.Side = asrBottom
       Cursor = crHandPoint
-      Left = 155
-      Height = 36
+      Left = 159
+      Height = 42
       Top = 73
-      Width = 36
+      Width = 42
       AutoSize = True
       BorderSpacing.Left = 20
       BorderSpacing.Top = 5
       Images = ImageList1
       ImageIndex = 2
-      OnClick = BPauseClick
       ParentFont = False
+      OnClick = BPauseClick
     end
     object BStop: TSpeedButton
       AnchorSideLeft.Control = BPause
@@ -203,16 +203,16 @@ object Form1: TForm1
       AnchorSideTop.Control = BPause
       AnchorSideTop.Side = asrCenter
       Cursor = crHandPoint
-      Left = 211
-      Height = 36
+      Left = 221
+      Height = 42
       Top = 73
-      Width = 36
+      Width = 42
       AutoSize = True
       BorderSpacing.Left = 20
       Images = ImageList1
       ImageIndex = 0
-      OnClick = BStopClick
       ParentFont = False
+      OnClick = BStopClick
     end
     object TBTone: TTrackBar
       AnchorSideLeft.Control = BMute
@@ -223,13 +223,13 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 416
       Height = 29
-      Top = 309
+      Top = 315
       Width = 198
       Max = 100
-      OnChange = TBToneChange
       Position = 50
       ShowSelRange = False
       TickStyle = tsNone
+      OnChange = TBToneChange
       Anchors = [akTop]
       BorderSpacing.Left = 5
       TabOrder = 2
@@ -240,7 +240,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TBTone
       Left = 500
       Height = 15
-      Top = 294
+      Top = 300
       Width = 31
       Anchors = [akLeft, akBottom]
       Caption = 'TONE'
@@ -254,17 +254,17 @@ object Form1: TForm1
       AnchorSideTop.Control = TBTone
       AnchorSideTop.Side = asrBottom
       Cursor = crHandPoint
-      Left = 448
+      Left = 449
       Height = 19
-      Top = 338
-      Width = 135
+      Top = 344
+      Width = 133
       Caption = 'Apply tone on effect'
       Checked = True
       Font.Style = [fsBold]
-      OnChange = CheckBox8Change
       ParentFont = False
       State = cbChecked
       TabOrder = 3
+      OnChange = CheckBox8Change
     end
     object Label2: TLabel
       AnchorSideLeft.Control = Panel4
@@ -272,7 +272,7 @@ object Form1: TForm1
       AnchorSideTop.Side = asrCenter
       Left = 7
       Height = 15
-      Top = 128
+      Top = 134
       Width = 40
       BorderSpacing.Left = 5
       Caption = 'Volume'
@@ -287,14 +287,14 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       Left = 72
       Height = 49
-      Top = 111
-      Width = 175
+      Top = 117
+      Width = 191
       Frequency = 100
       Max = 100
-      OnChange = TBVolumeChange
       Position = 100
       ShowSelRange = False
       TickStyle = tsNone
+      OnChange = TBVolumeChange
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 2
       TabOrder = 4
@@ -306,9 +306,9 @@ object Form1: TForm1
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Side = asrBottom
       Cursor = crHandPoint
-      Left = 247
+      Left = 263
       Height = 30
-      Top = 120
+      Top = 126
       Width = 55
       BorderSpacing.Right = 10
       Constraints.MaxHeight = 30
@@ -320,8 +320,8 @@ object Form1: TForm1
       Flat = True
       Font.Style = [fsBold]
       Transparent = False
-      OnClick = BMuteClick
       ParentFont = False
+      OnClick = BMuteClick
     end
     object Label12: TLabel
       AnchorSideLeft.Control = Label2
@@ -329,7 +329,7 @@ object Form1: TForm1
       AnchorSideTop.Side = asrCenter
       Left = 7
       Height = 15
-      Top = 198
+      Top = 204
       Width = 20
       Caption = 'Pan'
       Font.Color = clBlack
@@ -341,7 +341,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TBPan
       Left = 72
       Height = 12
-      Top = 169
+      Top = 175
       Width = 20
       Anchors = [akLeft, akBottom]
       Caption = 'LEFT'
@@ -360,12 +360,12 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 150
       Height = 21
-      Top = 160
+      Top = 166
       Width = 62
       Caption = 'CENTER'
       Font.Style = [fsBold]
-      OnClick = BPanCenterClick
       ParentFont = False
+      OnClick = BPanCenterClick
     end
     object Label14: TLabel
       AnchorSideRight.Control = TBPan
@@ -373,7 +373,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TBPan
       Left = 264
       Height = 12
-      Top = 169
+      Top = 175
       Width = 27
       Anchors = [akRight, akBottom]
       BorderSpacing.Left = 10
@@ -391,15 +391,15 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       Left = 72
       Height = 49
-      Top = 181
+      Top = 187
       Width = 219
       Frequency = 100
       Max = 100
       Min = -100
-      OnChange = TBPanChange
       Position = 0
       ShowSelRange = False
       TickStyle = tsNone
+      OnChange = TBPanChange
       BorderSpacing.Right = 10
       TabOrder = 5
     end
@@ -409,7 +409,7 @@ object Form1: TForm1
       AnchorSideTop.Side = asrBottom
       Left = 10
       Height = 15
-      Top = 253
+      Top = 259
       Width = 51
       BorderSpacing.Left = 10
       BorderSpacing.Top = 40
@@ -425,14 +425,14 @@ object Form1: TForm1
       Cursor = crHandPoint
       Left = 128
       Height = 20
-      Top = 230
+      Top = 236
       Width = 33
       Caption = 'reset'
       Font.Height = 12
       Font.Style = [fsBold]
-      OnClick = BResetPitchClick
       ParentFont = False
       TabOrder = 6
+      OnClick = BResetPitchClick
     end
     object TBPitch: TTrackBar
       AnchorSideLeft.Control = TBPan
@@ -442,15 +442,15 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       Left = 72
       Height = 49
-      Top = 250
+      Top = 256
       Width = 219
       Frequency = 1000
       Max = 600
       Min = 1
-      OnChange = TBPitchChange
       Position = 100
       ShowSelRange = False
       TickStyle = tsNone
+      OnChange = TBPitchChange
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 7
     end
@@ -463,7 +463,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = Label1
       Left = 12
       Height = 16
-      Top = 309
+      Top = 315
       Width = 279
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
@@ -478,7 +478,7 @@ object Form1: TForm1
       AnchorSideTop.Side = asrBottom
       Left = 134
       Height = 15
-      Top = 325
+      Top = 331
       Width = 34
       Caption = 'Label1'
       Font.Color = clBlack
@@ -490,7 +490,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TBTone
       Left = 416
       Height = 12
-      Top = 297
+      Top = 303
       Width = 22
       Anchors = [akLeft, akBottom]
       Caption = 'BASS'
@@ -505,7 +505,7 @@ object Form1: TForm1
       AnchorSideBottom.Control = TBTone
       Left = 582
       Height = 12
-      Top = 297
+      Top = 303
       Width = 32
       Anchors = [akRight, akBottom]
       Caption = 'TREBLE'
@@ -521,7 +521,7 @@ object Form1: TForm1
       AnchorSideBottom.Side = asrBottom
       Left = 2
       Height = 15
-      Top = 340
+      Top = 346
       Width = 40
       Caption = 'Label16'
       ParentColor = False
@@ -531,7 +531,7 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = BPlay
       AnchorSideBottom.Side = asrBottom
-      Left = 312
+      Left = 328
       Height = 165
       Top = 73
       Width = 181
@@ -578,10 +578,10 @@ object Form1: TForm1
         BorderSpacing.Right = 1
         Font.Height = 12
         ItemHeight = 12
-        OnChange = ComboBox1Change
         ParentFont = False
         Style = csDropDownList
         TabOrder = 0
+        OnChange = ComboBox1Change
       end
       object Label9: TLabel
         AnchorSideLeft.Control = Panel1
@@ -660,9 +660,9 @@ object Form1: TForm1
         Caption = 'FADE IN'
         Font.Height = 12
         Font.Style = [fsBold]
-        OnClick = BFadeInClick
         ParentFont = False
         TabOrder = 2
+        OnClick = BFadeInClick
       end
     end
     object Panel2: TPanel
@@ -673,7 +673,7 @@ object Form1: TForm1
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = Panel1
       AnchorSideBottom.Side = asrBottom
-      Left = 496
+      Left = 512
       Height = 165
       Top = 73
       Width = 182
@@ -720,10 +720,10 @@ object Form1: TForm1
         BorderSpacing.Right = 1
         Font.Height = 12
         ItemHeight = 12
-        OnChange = ComboBox2Change
         ParentFont = False
         Style = csDropDownList
         TabOrder = 0
+        OnChange = ComboBox2Change
       end
       object Label10: TLabel
         AnchorSideLeft.Control = Panel2
@@ -802,9 +802,9 @@ object Form1: TForm1
         Caption = 'FADE OUT'
         Font.Height = 12
         Font.Style = [fsBold]
-        OnClick = BFadeOutClick
         ParentFont = False
         TabOrder = 2
+        OnClick = BFadeOutClick
       end
     end
     object Label22: TLabel
@@ -836,12 +836,12 @@ object Form1: TForm1
       Top = 192
       Width = 39
       Max = 100
-      OnChange = TrackBar1Change
       Orientation = trVertical
       Position = 100
       Reversed = True
       ShowSelRange = False
       TickStyle = tsNone
+      OnChange = TrackBar1Change
       Anchors = [akTop, akRight]
       TabOrder = 11
     end
@@ -857,11 +857,11 @@ object Form1: TForm1
       Width = 44
       Frequency = 10
       Max = 100
-      OnChange = TB1Change
       Orientation = trVertical
       Position = 100
       Reversed = True
       ShowSelRange = False
+      OnChange = TB1Change
       Anchors = [akBottom]
       ParentShowHint = False
       ShowHint = True
@@ -893,11 +893,11 @@ object Form1: TForm1
       Width = 44
       Frequency = 10
       Max = 100
-      OnChange = TB1Change
       Orientation = trVertical
       Position = 100
       Reversed = True
       ShowSelRange = False
+      OnChange = TB1Change
       Anchors = [akBottom]
       ParentShowHint = False
       ShowHint = True
@@ -943,11 +943,11 @@ object Form1: TForm1
       Width = 44
       Frequency = 10
       Max = 100
-      OnChange = TB1Change
       Orientation = trVertical
       Position = 100
       Reversed = True
       ShowSelRange = False
+      OnChange = TB1Change
       Anchors = [akBottom]
       ParentShowHint = False
       ShowHint = True
@@ -965,11 +965,11 @@ object Form1: TForm1
       Width = 44
       Frequency = 10
       Max = 100
-      OnChange = TB1Change
       Orientation = trVertical
       Position = 100
       Reversed = True
       ShowSelRange = False
+      OnChange = TB1Change
       Anchors = [akBottom]
       ParentShowHint = False
       ShowHint = True
@@ -1001,11 +1001,11 @@ object Form1: TForm1
       Width = 44
       Frequency = 10
       Max = 100
-      OnChange = TB1Change
       Orientation = trVertical
       Position = 100
       Reversed = True
       ShowSelRange = False
+      OnChange = TB1Change
       Anchors = [akBottom]
       ParentShowHint = False
       ShowHint = True
@@ -1037,11 +1037,11 @@ object Form1: TForm1
       Width = 44
       Frequency = 10
       Max = 100
-      OnChange = TB1Change
       Orientation = trVertical
       Position = 100
       Reversed = True
       ShowSelRange = False
+      OnChange = TB1Change
       Anchors = [akBottom]
       ParentShowHint = False
       ShowHint = True
@@ -1082,13 +1082,13 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel5
       Cursor = crHandPoint
-      Left = 29
+      Left = 30
       Height = 19
       Top = 2
-      Width = 59
+      Width = 57
       Caption = 'Flanger'
-      OnChange = CheckBox6Change
       TabOrder = 0
+      OnChange = CheckBox6Change
     end
   end
   object Panel6: TPanel
@@ -1111,13 +1111,13 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel6
       Cursor = crHandPoint
-      Left = 23
+      Left = 24
       Height = 19
       Top = 2
-      Width = 70
+      Width = 68
       Caption = 'AutoWah'
-      OnChange = CheckBox7Change
       TabOrder = 0
+      OnChange = CheckBox7Change
     end
   end
   object Panel7: TPanel
@@ -1140,13 +1140,13 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel7
       Cursor = crHandPoint
-      Left = 22
+      Left = 23
       Height = 19
       Top = 2
-      Width = 73
+      Width = 71
       Caption = 'Distorsion'
-      OnChange = CheckBox4Change
       TabOrder = 0
+      OnChange = CheckBox4Change
     end
   end
   object Panel8: TPanel
@@ -1169,13 +1169,13 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel8
       Cursor = crHandPoint
-      Left = 35
+      Left = 36
       Height = 19
       Top = 2
-      Width = 46
+      Width = 44
       Caption = 'Echo'
-      OnChange = CheckBox5Change
       TabOrder = 0
+      OnChange = CheckBox5Change
     end
   end
   object Panel9: TPanel
@@ -1196,14 +1196,14 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel9
       Cursor = crHandPoint
-      Left = 18
+      Left = 19
       Height = 19
       Top = 2
-      Width = 80
+      Width = 78
       BorderSpacing.Left = 20
       Caption = 'EAX Reverb'
-      OnChange = CheckBox2Change
       TabOrder = 0
+      OnChange = CheckBox2Change
     end
   end
   object Panel10: TPanel
@@ -1226,13 +1226,13 @@ object Form1: TForm1
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = Panel10
       Cursor = crHandPoint
-      Left = 9
+      Left = 10
       Height = 19
       Top = 2
-      Width = 98
+      Width = 96
       Caption = 'Vocal Morpher'
-      OnChange = CheckBox3Change
       TabOrder = 0
+      OnChange = CheckBox3Change
     end
   end
   object Panel11: TPanel

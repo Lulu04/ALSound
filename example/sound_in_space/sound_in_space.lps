@@ -3,13 +3,13 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units Count="3">
       <Unit0>
         <Filename Value="sound_in_space.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <CursorPos X="17" Y="14"/>
+        <CursorPos X="11" Y="14"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -21,8 +21,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="17"/>
-        <CursorPos X="14" Y="212"/>
+        <TopLine Value="183"/>
+        <CursorPos Y="212"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -32,7 +32,7 @@
         <UnitName Value="ALSound"/>
         <EditorIndex Value="1"/>
         <TopLine Value="1233"/>
-        <CursorPos X="36" Y="1239"/>
+        <CursorPos Y="1239"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit2>

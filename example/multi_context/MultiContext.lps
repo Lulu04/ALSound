@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units Count="15">
       <Unit0>
         <Filename Value="MultiContext.lpr"/>
@@ -120,9 +120,6 @@
         <UsageCount Value="11"/>
       </Unit14>
     </Units>
-    <OtherDefines Count="1">
-      <Define0 Value="ALS_ENABLE_CONTEXT_SWITCHING"/>
-    </OtherDefines>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="..\..\source\alsound.pas"/>
