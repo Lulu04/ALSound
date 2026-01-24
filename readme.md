@@ -11,7 +11,7 @@ Tested under Linux, Windows and MacOS (x86-64 only).
 
 'docs' -> In progress. Contains a copy of OpenAL documentation.
 
-'binary' -> contains sub-folder for each actual supported platforms. The compiled binaries of OpenAL-Soft and LibSndFile are provided for Windows and Linux both i386 and x86-64 and can be found in their respective sub-folder. If you prefers to compile these libraries by yourself, please go to their respective github repository and follow the guideline.  
+'binary' -> contains sub-folder for each actual supported platforms. The compiled binaries of OpenAL-Soft and LibSndFile are provided for Windows and Linux both i386 and x86-64 and MacOS Intel 64, and can be found in their respective sub-folder. If you prefers to compile these libraries by yourself, please go to their respective github repository and follow the guideline.  
 # placing libraries in your Lazarus project
 
 ALSound loads dynamically the two libraries at startup:
