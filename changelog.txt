@@ -1,13 +1,19 @@
 ------------------------------
-ALSound v3.1 - Jan 13, 2026
+ALSound v3.2 - Jan 28, 2026
 ------------------------------
-> ALSound is now a package. Download the lib, under Lazarus open the package 'ALSoundPackage.lpk' in source folder, compile. You can now add the package to your project.
-> Updated examples with the package
-> New feature: when a sound is looped, now we can set the start and end position to loop.
-> Added dsp routine
-> Added missing comment for property TALSSound.OnStopped
-> Fixed: wrong argument type for alBufferiv() last parameter
-> Removed compilation hints
+> updated dll binaries for Win 32 and 64
+
+------------------------------
+ALSound v3.1 - Jan 14, 2026
+------------------------------
+> Added package for lazarus IDE.
+> Added several functions to manipulate audio files.
+> Added dsp routines
+> Added routines to manipulate audio files.
+> Removed compilation hint.
+> New feature: now we can set the audio range to be looped.
+> Fixed: wrong argument type for alBufferiv() last parameter.
+> corrected some typo and comments.
 
 ------------------------------
 ALSound v3.0.3 - Aug 29, 2024
