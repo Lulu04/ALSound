@@ -1,7 +1,15 @@
 ------------------------------
-ALSound v3.0.4 - , 2025
+ALSound v3.2 - Jan 28, 2026
 ------------------------------
+> updated dll binaries for Win 32 and 64
+
+------------------------------
+ALSound v3.1 - Jan 14, 2026
+------------------------------
+> Added package for lazarus IDE.
 > Added several functions to manipulate audio files.
+> Added dsp routines
+> Added routines to manipulate audio files.
 > Removed compilation hint.
 > New feature: now we can set the audio range to be looped.
 > Fixed: wrong argument type for alBufferiv() last parameter.
