@@ -8,12 +8,12 @@
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)\"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
     <Description Value="ALSound offer an easy way to play, capture and mix sounds in your FreePascal/Lazarus applications. It use OpenAL-Soft and LibSndFile libraries."/>
     <License Value="GPL 3.0"/>
-    <Version Major="3" Minor="1"/>
+    <Version Major="3" Minor="2"/>
     <Files>
       <Item>
         <Filename Value="alsound.pas"/>
