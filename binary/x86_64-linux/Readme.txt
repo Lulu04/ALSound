@@ -7,3 +7,8 @@ Source for LibSndFile can be found on https://github.com/libsndfile/libsndfile
 If you build them yourself from source, don't forget to rename the obtained binaries to
 	libopenal.so and libsndfile.so
 and put a copy in your application folder executable.
+
+NOTE:
+to simply install openAL and LibSndFile on your linux system, do:
+$ sudo apt-get install libopenal-dev
+$ sudo apt-get install libsndfile-dev
