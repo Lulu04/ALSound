@@ -3889,6 +3889,7 @@ begin
 
   EnterCS;
   try
+    if FKill then exit;
     // Get the number of processed buffer
     alGetSourceiv(FSource, AL_BUFFERS_PROCESSED, @processed);
     if processed < 1 then
@@ -5763,6 +5764,7 @@ begin
 
   EnterCriticalSection(FCriticalSection);
   try
+    if FKill then exit;
     v := Volume.Value;
     Volume.OnElapse(aElapsedTime);
     if v <> Volume.Value then
