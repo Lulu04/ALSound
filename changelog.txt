@@ -1,4 +1,10 @@
 ------------------------------
+ALSound v3.3 - Feb 06, 2026
+------------------------------
+> updated libsndfile.so binary for Linux 64. Previously the lib have a dependency to Flac that cause issue on platform where Flac is not installed.
+> Now, sound update is not executed if its kill flag is set.
+
+------------------------------
 ALSound v3.2 - Jan 28, 2026
 ------------------------------
 > updated dll binaries for Win 32 and 64
