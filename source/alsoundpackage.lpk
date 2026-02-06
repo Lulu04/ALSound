@@ -13,7 +13,7 @@
     </CompilerOptions>
     <Description Value="ALSound offer an easy way to play, capture and mix sounds in your FreePascal/Lazarus applications. It use OpenAL-Soft and LibSndFile libraries."/>
     <License Value="GPL 3.0"/>
-    <Version Major="3" Minor="2"/>
+    <Version Major="3" Minor="3"/>
     <Files>
       <Item>
         <Filename Value="alsound.pas"/>
