@@ -382,8 +382,8 @@ type
   protected
     FFadeOutEnabled, FKillAfterFadeOut, FPauseAfterFadeOut, FKillAfterPlay, FKill: boolean;
   private
-    function GetLoop: boolean;
-    procedure SetLoop(AValue: boolean);
+    function GetLoop: boolean; virtual;
+    procedure SetLoop(AValue: boolean); virtual;
     procedure SetALVolume;
     procedure SetALPan;
     procedure SetALPitch;
@@ -687,6 +687,8 @@ type
     procedure InternalRewind; override;
     function GetTimePosition: single; override;
     procedure SetTimePosition(AValue: single); override;
+    function GetLoop: boolean; override;
+    procedure SetLoop(AValue: boolean); override;
   public
     constructor CreateFromFile(aParent: TALSPlaybackContext;
                                const aModuleFilename: string;
@@ -707,7 +709,7 @@ type
   private
     FTempBufID: array[0..NUM_BUFFERS-1] of ALuint;
     procedure SetTimePosition(AValue: single); override;
-  public
+ public
     constructor CreateFromCapture(aParent: TALSPlaybackContext;
                                   aSampleRate: integer;
                                   aBuffer: PALSCaptureFrameBuffer);
@@ -920,6 +922,7 @@ type
                       aOnCustomDSP: TALSOnCustomDSP=NIL;
                       aCustomDSPUserData: Pointer=NIL): TALSSound;
     // Opens the sound file as stream and return its instance.
+    // The file can be a music module .it or .s3m or any supported format by LibSndFile.
     // Set aEnableMonitoring to True if you need the channel's level of the
     // sound (it take some ram and cpu resources).
     function AddStream(const aFilename: string;
@@ -4294,12 +4297,22 @@ end;
 
 function TALSModuleMusic.GetTimePosition: single;
 begin
-  Result := 0;
+  Result := 0.0;
 end;
 
 procedure TALSModuleMusic.SetTimePosition(AValue: single);
 begin
+  AValue := AValue;
+end;
 
+function TALSModuleMusic.GetLoop: boolean;
+begin
+  Result := True;
+end;
+
+procedure TALSModuleMusic.SetLoop(AValue: boolean);
+begin
+  AValue := AValue;
 end;
 
 constructor TALSModuleMusic.CreateFromFile(aParent: TALSPlaybackContext;
